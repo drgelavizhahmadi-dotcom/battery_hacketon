@@ -62,3 +62,43 @@ undertrained, or because collinear training inputs make edges unidentifiable?
 
 Outputs: `control2.py`, `control2_output.txt`, `control2_results.json`,
 `figs/gauge/control2_recovery.png`, weights in `gauge_weights/control2_*`.
+
+---
+
+## Verdicts (appended after the run; `control2_output.txt`, `control2_results.json`, `figs/gauge/control2_recovery.png`)
+
+The independent inputs did break the collinearity: the largest |corr| between numeric columns
+fell from 0.966 (real) to 0.047.
+
+| Cell | Epochs | Reached 2% tolerance | Final training RMSE / target std (median) | Prediction corr (h) | Delta corr | Unit match \|r\| | Edge \|r\| (active continuous) | invT | molal | Co-solvent descriptors | Gate ≥ 0.99 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| (R,S) | 107 | 0/20 | 0.295 | 0.919 | 0.956 | 0.462 | 0.634 | 0.634 | 0.951 | 0.631 | – |
+| (R,C) | 3000 (cap) | **0/20** | 0.185 | 0.969 | 0.983 | 0.416 | 0.818 | 0.796 | 0.988 | 0.860 | **FAIL** |
+| (I,S) | 107 | 0/20 | 0.479 | 0.858 | 0.878 | 0.367 | 0.811 | 0.730 | 0.898 | 0.882 | – |
+| (I,C) | 3000 (cap) | **0/20** | 0.286 | 0.947 | 0.958 | 0.849 | 0.978 | 0.982 | 0.995 | 0.977 | **FAIL** |
+
+The final-RMSE column was computed after the run from the saved weights; it was not
+pre-registered. M_co had no active teacher edges in any cell, so the co-solvent descriptor
+median pools eps_co and lneta_co only.
+
+| Prediction | Verdict |
+|---|---|
+| **C1** (I,C): edge median ≥ 0.9 and unit match ≥ 0.9 | **inconclusive**: (I,C) failed the sanity gate (prediction corr 0.947 < 0.99) |
+| **C2** (R,C): invT ≥ 0.9, molal ≥ 0.9, co-solvent descriptors < 0.7 | **inconclusive**: (R,C) failed the sanity gate (0.969 < 0.99) |
+| **C3** (I,S) and (R,S): prediction corr < 0.95 | **held**: 0.858 and 0.919 |
+
+Notes (not verdicts):
+- **The converged condition was never reached.** All 40 students hit the 3000-epoch cap, levelling
+  off at 18–29% of target std rather than 2%. With these optimiser settings (lr 3e-3, weight decay,
+  smoothness penalty), a student of the *same architecture* cannot fit the teacher closely.
+  The teacher's random-walk edges may be rougher than the smoothness penalty allows. So C3
+  "held" only in the narrow sense: 107 epochs is worse than 3000. Undertraining is not the whole
+  explanation, because 3000 epochs does not converge either.
+- **Gating on h is weaker than gating on delta.** The target is delta = x_co · h, so h is weakly
+  constrained where x_co is small, and the (I) inputs resample many small x_co values. The gate
+  fails on delta too (0.983 and 0.958), so the verdicts don't change.
+- **Exploratory, not interpretable under the pre-registered gate:** in (I,C), edges recover at
+  median 0.978 and units at 0.849, while (R,C) recovers edges at 0.818 and units at only 0.416.
+  In the same direction as C1: removing collinearity improves recovery a lot at the same
+  training budget. **Against C2** even if its gate had passed: in (R,C) invT reaches only 0.796,
+  and the co-solvent descriptors reach 0.860, well above the predicted < 0.7.

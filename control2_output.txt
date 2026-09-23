@@ -1,0 +1,36 @@
+(I) inputs: max |corr| between numeric columns 0.047 (real: 0.966)
+
+cell (R,S): epochs median 107 [107-107], reached tol 0/20
+  prediction corr median 0.9186 (min 0.8876), delta corr 0.9557
+  unit match |corr| median 0.462; edge recovery |corr| median (active continuous) 0.634
+  per input: x_co 0.613 (n_act 6), eps_co 0.591 (n_act 5), lneta_co 0.697 (n_act 4), M_co n/a (n_act 0), mix_eps 0.552 (n_act 4), mix_lneta 0.632 (n_act 3), invT 0.634 (n_act 5), molal 0.951 (n_act 2)
+
+cell (R,C): epochs median 3000 [3000-3000], reached tol 0/20 (tol 0.0067)
+  prediction corr median 0.9689 (min 0.9620), delta corr 0.9828  gate >= 0.99: FAIL
+  unit match |corr| median 0.416; edge recovery |corr| median (active continuous) 0.818
+  per input: x_co 0.699 (n_act 6), eps_co 0.830 (n_act 5), lneta_co 0.907 (n_act 4), M_co n/a (n_act 0), mix_eps 0.601 (n_act 4), mix_lneta 0.870 (n_act 3), invT 0.796 (n_act 5), molal 0.988 (n_act 2)
+
+cell (I,S): epochs median 107 [107-107], reached tol 0/20
+  prediction corr median 0.8580 (min 0.8248), delta corr 0.8782
+  unit match |corr| median 0.367; edge recovery |corr| median (active continuous) 0.811
+  per input: x_co 0.710 (n_act 6), eps_co 0.891 (n_act 5), lneta_co 0.876 (n_act 4), M_co n/a (n_act 0), mix_eps 0.723 (n_act 4), mix_lneta 0.905 (n_act 3), invT 0.730 (n_act 5), molal 0.898 (n_act 2)
+
+cell (I,C): epochs median 3000 [3000-3000], reached tol 0/20 (tol 0.0062)
+  prediction corr median 0.9473 (min 0.9180), delta corr 0.9583  gate >= 0.99: FAIL
+  unit match |corr| median 0.849; edge recovery |corr| median (active continuous) 0.978
+  per input: x_co 0.975 (n_act 6), eps_co 0.975 (n_act 5), lneta_co 0.978 (n_act 4), M_co n/a (n_act 0), mix_eps 0.910 (n_act 4), mix_lneta 0.964 (n_act 3), invT 0.982 (n_act 5), molal 0.995 (n_act 2)
+
+2x2 summary (medians):
+cell    epochs  reached  pred r  unit |r|  edge |r|   invT  molal  co-desc gate
+(R,S)      107     0/20  0.9186     0.462     0.634  0.634  0.951    0.631 
+(R,C)     3000     0/20  0.9689     0.416     0.818  0.796  0.988    0.860 FAIL
+(I,S)      107     0/20  0.8580     0.367     0.811  0.730  0.898    0.882 
+(I,C)     3000     0/20  0.9473     0.849     0.978  0.982  0.995    0.977 FAIL
+
+verdicts: C1: inconclusive (gate failed); C2: inconclusive (gate failed); C3: held
+
+[post-hoc diagnostic, from saved weights] final training RMSE / target std (tolerance was 0.02):
+  (R,S): median 0.295, range [0.243, 0.347]
+  (R,C): median 0.185, range [0.171, 0.201]
+  (I,S): median 0.479, range [0.412, 0.536]
+  (I,C): median 0.286, range [0.190, 0.341]
