@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.pyc
+# competition data: not redistributed
+ca-li-sol-23-challenge/
+ca-li-sol-23-challenge.zip

@@ -1,0 +1,370 @@
+  print("\nrows with DEC: train", tr.solvents.str.contains(r"(^|;)DEC(;|$)").sum(),
+  "test", te.solvents.str.contains(r"(^|;)DEC(;|$)").sum(), "of", len(te))
+  pk = g.groupby(["salt_name", "solvent_fracs_mol"]).apply(lambda x: x.loc[x.k.idxmax(), "conc_molL_est"] if len(x) >= 4 else np.nan).dropna()
+  pk = g.groupby(["salt_name", "solvent_fracs_mol"]).apply(lambda x: x.loc[x.k.idxmax(), "conc_molL_est"] if len(x) >= 4 else np.nan).dropna()
+
+================================================================================
+1. Shapes / dtypes / missing / metaData
+================================================================================
+
+--- train: (6759, 17)
+                         dtype  n_missing  n_unique
+id                       int64          0      6759
+salt_name               object          0        12
+salt_smiles             object          0        12
+solvents                object          0        87
+solvent_smiles          object          0        87
+solvent_fracs           object          0        49
+solvent_fracs_mol       object          0       158
+frac_basis              object          0         3
+mixture_density_g_cm3  float64          0       173
+conc_native            float64          0      2708
+conc_unit               object          0         2
+conc_molL_est          float64          0      2753
+temperature_K          float64          0      1019
+source_doi              object          0        24
+subset                  object          0         2
+k                      float64          0      5910
+log_k                  float64          0      5910
+
+--- test: (5959, 13)
+                         dtype  n_missing  n_unique
+id                       int64          0      5959
+salt_name               object          0         3
+salt_smiles             object          0         3
+solvents                object          0         3
+solvent_smiles          object          0         3
+solvent_fracs           object          0         8
+solvent_fracs_mol       object          0         9
+frac_basis              object          0         1
+mixture_density_g_cm3  float64          0         9
+conc_native            float64          0      3093
+conc_unit               object          0         2
+conc_molL_est          float64          0      3103
+temperature_K          float64          0        35
+
+--- sample_sub: (5959, 2)
+         dtype  n_missing  n_unique
+id       int64          0      5959
+log_k  float64          0         1
+
+--- solvent_props: (38, 4)
+                dtype  n_missing  n_unique
+name           object          0        38
+full_name      object          0        38
+smiles         object          0        38
+solvent_class  object          0        12
+
+--- metaData.csv (full)
+
+[id] file=train,test,sample_submission dtype=int units=-
+  Unique row identifier, stable across the whole CALiSol-23 benchmark. Join key between test.csv and your submission.
+
+[log_k] file=train,sample_submission dtype=float units=log10(mS/cm)
+  THE TARGET. Predict this column and submit this column. log10 of k. Scored as RMSE on this scale. Train values run roughly -16 to 1.1, mean 0.432344. No logarithm is taken anywhere in the pipeline: you train on log_k and you submit log_k.
+
+[k] file=train dtype=float units=mS/cm
+  Ionic conductivity on the linear scale, i.e. 10**log_k. NOT the target and NOT scored; shipped so the numbers are readable to a chemist. Absent from test.csv.
+
+[salt_name] file=train,test dtype=str units=-
+  Lithium salt, one of 12 chemically distinct salts. Note LiN(CF3SO2)2 is LiTFSI and ' LiBPFPB' has a leading space upstream; both are normalised here.
+
+[salt_smiles] file=train,test dtype=str units=-
+  SMILES for the salt, Li included. Computed with RDKit, not taken from the authors' notebook (which omits Li for LiPDI and writes a covalent N-Li bond for LiTFSI).
+
+[solvents] file=train,test dtype=str units=-
+  Semicolon-separated solvent short names making up the mixture, e.g. 'EC;DMC;DEC'.
+
+[solvent_smiles] file=train,test dtype=str units=-
+  Semicolon-separated SMILES, aligned index-wise with `solvents`.
+
+[solvent_fracs] file=train,test dtype=float; units=fraction
+  Semicolon-separated solvent fractions on the basis given by `frac_basis`, aligned with `solvents`. Sums to 1.
+
+[solvent_fracs_mol] file=train,test dtype=float; units=mole fraction
+  Same mixture expressed as mole fractions, derived via RDKit molecular weights and component densities.
+
+[frac_basis] file=train,test dtype=str units=-
+  Basis of `solvent_fracs` as reported by the source: 'w' (weight), 'v' (volume) or 'mol'.
+
+[mixture_density_g_cm3] file=train,test dtype=float units=g/cm^3
+  Ideal additive-volume mixture density at 25 C of the pure solvents.
+
+[conc_native] file=train,test dtype=float units=see conc_unit
+  Salt concentration exactly as reported by the source publication. Unconverted and exact.
+
+[conc_unit] file=train,test dtype=str units=-
+  Unit of `conc_native`: 'mol/L' or 'mol/kg'. Every source publication uses exactly one unit, so this column is partly a proxy for provenance. train is 64.8% mol/kg, test is 99.7% mol/kg.
+
+[conc_molL_est] file=train,test dtype=float units=mol/L
+  Estimated molarity, a CONVENIENCE column carrying no extra information: it equals conc_native * mixture_density_g_cm3 for mol/kg rows and conc_native otherwise (exact to 1e-8). APPROXIMATE - neglects salt volume (biases high at high molality) and applies 25 C densities across the full temperature range, a median 9.9% shift on this test set. Prefer conc_native + conc_unit if your model can use them.
+
+[temperature_K] file=train,test dtype=float units=K
+  Measurement temperature. This release is restricted to 213-343 K.
+
+[source_doi] file=train dtype=str units=-
+  DOI of the publication the row was digitised from. Withheld from test.csv: 95.4% of test rows share a source with training, so conditioning on it is a shortcut unavailable for a genuinely new electrolyte.
+
+[subset] file=train dtype=str units=-
+  'train' or 'val'. The benchmark's own validation division, grouped by formulation so tuning on it does not reintroduce formulation leakage. Both are yours to train on.
+
+[__task__] file=- dtype=- units=-
+  Leave-one-solvent-out: every row containing diethyl carbonate (DEC) is in test, none is in train. 6759 train / 5959 test rows. Metric: RMSE on log_k.
+
+[__sample_submission__] file=- dtype=- units=-
+  A constant 0.432344 (the training mean of log_k), which is numerically the b1_mean baseline: RMSE 0.7228, medAE 0.3279. It is a format example, not a baseline worth matching.
+
+[__low_conductivity_tail__] file=- dtype=- units=-
+  The test set retains 25 rows (0.42%) below 1e-3 mS/cm, down to log_k = -15.95, from log-axis figure digitisation in the sources. They are real dataset content and are NOT filtered. They carry a large share of squared error: excluding them lowers RMSE by roughly 0.14 for a typical model. Report full and trimmed RMSE together.
+
+sample_submission ids == test ids (same order): True
+train/test id overlap: 0
+
+================================================================================
+2. frac_basis and conc_unit counts
+================================================================================
+            train  test
+frac_basis             
+w            4584  5959
+v            1249     0
+mol           926     0
+           train  test
+conc_unit             
+mol/kg      4383  5944
+mol/L       2376    15
+
+frac_basis x conc_unit (train):
+ conc_unit   mol/L  mol/kg
+frac_basis               
+mol           926       0
+v            1249       0
+w             201    4383
+
+frac_basis x conc_unit (test):
+ conc_unit   mol/L  mol/kg
+frac_basis               
+w              15    5944
+train: frac sum range [1.000000,1.000000], mol-frac sum range [1.000000,1.000000], max |conc_molL_est - formula| = 1.07e-08
+  rows with basis=mol but fracs != fracs_mol: 0
+test: frac sum range [1.000000,1.000000], mol-frac sum range [1.000000,1.000000], max |conc_molL_est - formula| = 9.67e-09
+  rows with basis=mol but fracs != fracs_mol: 0
+
+================================================================================
+3. Salts train vs test
+================================================================================
+           train  test
+salt_name             
+LiBF4        575  2360
+LiPF6       2200  2307
+LiBOB       2325  1292
+LiAsF6       944     0
+LiBPFPB      208     0
+LiTFSI       195     0
+LiClO4       138     0
+LiCF3SO3     101     0
+LiBMB         28     0
+LiFSI         19     0
+LiTDI         13     0
+LiPDI         13     0
+test salts unseen in train: none
+
+================================================================================
+4. Solvent usage
+================================================================================
+                      train_rows  test_rows
+DEC                            0       5959
+PC                          4615       5921
+EC                          3546         38
+DMC                          396         23
+EMC                         1309          0
+EA                           710          0
+DME                          541          0
+TFP                          540          0
+Sulfolane                    334          0
+2-MeTHF                      272          0
+3-Glyme                      217          0
+Methylene chloride           164          0
+2-Glyme                      145          0
+MA                           120          0
+THF                           89          0
+DMSO                          76          0
+Toluene                       50          0
+Ethylmonoglyme                48          0
+FEC                           42          0
+4-Glyme                       36          0
+g-Butyrolactone               35          0
+3-MeSulfolane                 29          0
+DMM                           25          0
+AN                            24          0
+MOEMC                         24          0
+DOL                           18          0
+Ethylbenzene                  16          0
+Freon 11                      15          0
+Ethyldiglyme                  14          0
+Benzene                        7          0
+Cumene                         7          0
+m-Xylene                       7          0
+o-Xylene                       7          0
+DMF                            6          0
+TEOS                           6          0
+Pseudocumeme                   5          0
+3-Me-2-Oxazolidinone           4          0
+Propylsulfone                  4          0
+
+rows with DEC: train 0 test 5959 of 5959
+test solvents unseen in train: ['DEC']
+
+n solvents per row:
+         train  test
+n_solv             
+2        3557  5936
+1        1949     0
+4         681     0
+3         572    23
+
+Top test combos (+ salts):
+            rows                                          salts
+combo                                                          
+DEC+PC      5921  {'LiBF4': 2349, 'LiPF6': 2280, 'LiBOB': 1292}
+DEC+DMC+EC    23                     {'LiPF6': 12, 'LiBF4': 11}
+DEC+EC        15                                  {'LiPF6': 15}
+
+Analogue coverage: test combo with DEC swapped for DMC/EMC (or DEC simply dropped) -> train rows
+test_combo  test_rows  train_rows[DMC]  salt-matched[DMC]  train_rows[EMC]  salt-matched[EMC]  train_rows[<drop>]  salt-matched[<drop>]
+    DEC+PC       5921                0                  0                0                  0                1364                  1143
+DEC+DMC+EC         23              279                187                9                  9                 279                   187
+    DEC+EC         15              279                187              528                477                   4                     0
+test rows whose combo has ANY analogue in train: 5959 / 5959
+test rows whose non-DEC partners all co-occur in some train row: 5959 / 5959
+pure DEC rows in test: 0
+
+DEC mole fraction in test:
+ count    5959.000000
+mean        0.361722
+std         0.188150
+min         0.087609
+25%         0.177664
+50%         0.365534
+75%         0.564515
+max         0.668485
+dtype: float64
+
+================================================================================
+5. Distributions
+================================================================================
+train k:
+ count    6.759000e+03
+mean     4.962363e+00
+std      4.333550e+00
+min      1.780000e-15
+25%      1.434807e+00
+50%      3.950000e+00
+75%      7.396857e+00
+max      3.677200e+01
+Name: k, dtype: float64
+train log_k:
+ count    6759.000000
+mean        0.432344
+std         0.657612
+min       -14.749580
+25%         0.156794
+50%         0.596597
+75%         0.869047
+max         1.565517
+Name: log_k, dtype: float64
+k<=0: 0  | k<1e-3 mS/cm: 13  | log_k NaN: 0
+max |log10(k) - log_k|: 8.881784197001252e-16
+
+lowest log_k rows:
+      salt_name solvents  conc_native conc_unit  temperature_K      log_k         source_doi
+4013     LiBOB       PC     1.044118    mol/kg     233.750000 -14.749580  10.1149/1.1833611
+531      LiPF6       PC     2.125600    mol/kg     223.850000  -4.525784  10.1021/JE020219O
+544      LiPF6       PC     1.912300    mol/kg     213.950000  -4.241845  10.1021/JE020219O
+545      LiPF6       PC     1.682700    mol/kg     213.950000  -4.137272  10.1021/JE020219O
+517      LiPF6       PC     2.324100    mol/kg     233.750000  -3.795337  10.1021/JE020219O
+532      LiPF6       PC     1.912300    mol/kg     223.850000  -3.689732  10.1021/JE020219O
+546      LiPF6       PC     1.445000    mol/kg     213.950000  -3.288361  10.1021/JE020219O
+2256   LiBPFPB       PC     1.600000     mol/L     262.411939  -3.260898  10.1149/1.1527939
+
+temperature_K:
+              train         test
+count  6759.000000  5959.000000
+mean    285.382607   280.882578
+std      31.174093    32.788163
+min     213.027764   213.950000
+25%     263.150000   253.350000
+50%     288.150000   282.850000
+75%     312.450000   312.450000
+max     342.938728   333.235034
+
+conc_native:
+              train         test
+count  6759.000000  5959.000000
+mean      0.853240     0.862532
+std       0.504284     0.585069
+min       0.059016     0.028571
+25%       0.500000     0.389114
+50%       0.824153     0.689655
+75%       1.000000     1.248080
+max       4.000000     2.372800
+
+conc_molL_est:
+              train         test
+count  6759.000000  5959.000000
+mean      0.940014     0.950416
+std       0.554125     0.644256
+min       0.070820     0.030739
+25%       0.528760     0.442816
+50%       0.967869     0.773497
+75%       1.056380     1.399216
+max       4.000000     2.732242
+
+mixture_density_g_cm3:
+              train         test
+count  6759.000000  5959.000000
+mean      1.140505     1.102668
+std       0.107711     0.045474
+min       0.785700     1.033113
+25%       1.083511     1.054054
+50%       1.178039     1.098592
+75%       1.211093     1.147059
+max       1.321000     1.172932
+
+subset: {'train': 6070, 'val': 689}
+distinct T values: train 960 test 35
+
+================================================================================
+6. Plots
+================================================================================
+EC+DMC rows near 298K: 18  EC+EMC: 12
+DMC+EC: peak c (mol/L) per series with >=4 pts: n=0, median=nan, range=[nan,nan]
+EC+EMC: peak c (mol/L) per series with >=4 pts: n=1, median=1.00, range=[1.00,1.00]
+saved: ['distributions.png', 'k_vs_c_298K_EC_DMC_EMC.png', 'logk_vs_invT_by_salt.png', 'test_coverage.png']
+
+================================================================================
+7. solvent_properties.csv vs solvent names used in data
+================================================================================
+used in data but missing from solvent_properties: []
+in solvent_properties but unused: []
+SMILES mismatches data vs props: none
+columns available in solvent_properties: ['name', 'full_name', 'smiles', 'solvent_class']
+
+================================================================================
+8. DOI overlap
+================================================================================
+source_doi in test.csv: False
+train unique DOIs: 24
+rows per conc_unit per DOI consistent: True
+train DOIs by #rows (top 10):
+ source_doi
+10.1149/1.1833611               1149
+10.1016/0378-7753(91)80004-H    1045
+10.1149/1.1914757                810
+10.1149/1.1513556                650
+10.1149/1.1527939                473
+10.1149/1.1566019                376
+10.1149/1.1630593                333
+10.1149/1.1403730                325
+10.1149/1.1344281                313
+10.1021/je0498863                188
+Name: count, dtype: int64

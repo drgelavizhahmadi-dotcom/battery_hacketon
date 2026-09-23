@@ -1,0 +1,14 @@
+rebuild vs existing submission_final.csv: max|diff| 2.22e-16, mean|diff| 2.22e-17 (anchored 2.17e-17, fallback 2.66e-17)
+
+validation:
+  OK  submission_final.csv           range [-2.0000, +1.2374]  md5 3f878ff5ba
+  OK  submission_final_plus01.csv    range [-1.9000, +1.3374]  md5 b224c716b4
+  OK  submission_anchor.csv          range [-2.0000, +1.4067]  md5 9a79d03ed9
+
+rows per model (final): KAN-delta 5313, Phase 2 GBM 646, total 5959
+per-salt mean log_k:
+        final  final_plus01  anchor
+LiBF4  0.1864        0.2864  0.2570
+LiBOB  0.2259        0.3259  0.2787
+LiPF6  0.2571        0.3571  0.3698
+ALL    0.2223        0.3223  0.3054

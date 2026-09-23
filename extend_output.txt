@@ -1,0 +1,46 @@
+extension validation (hold out outermost point, extrapolate; log10 RMSE):
+  c_lo    n=  34 rmse=0.2798 -> DO NOT USE
+  c_hi    n=  65 rmse=0.1607 -> DO NOT USE
+  T_cold  n=  64 rmse=0.1358 -> USE
+series: 13; per-T c-fits: 68; per-c VTF fits: 71
+train mixture anchors: 2069 -> 2079  by kind: {'interp': 2069, 'T_ext': 10}
+
+test anchored: 5313 -> 5466; fallback rows gaining an anchor: 153 / 646
+PRE-REG (>= 400 of 646 gain an anchor): FAILED
+gained by salt x kind:
+ col_0      T_ext
+salt_name       
+LiBF4         32
+LiPF6        121
+still unanchored by salt x combo:
+ combo      DEC+DMC+EC  DEC+EC  DEC+PC
+salt_name                            
+LiBF4              11       0     210
+LiBOB               0       0      77
+LiPF6              12      15     168
+A: PC+EA: held-out 710, anchored 635 (was 635)
+B: EC+PC: held-out 1438, anchored 1190 (was 1181)
+
+Anchored held-out rows, new anchors (log10 RMSE / bias; KAN-delta 15 seeds, fixed epochs):
+    fold      subset    n  GBM_rmse  GBM_bias  KANd_rmse  KANd_bias  KANd_seedstd
+A: PC+EA         all  635    0.2419   -0.1518     0.1499     0.0021        0.0958
+A: PC+EA old anchors  635    0.2419   -0.1518     0.1499     0.0021        0.0958
+A: PC+EA       T<250   85    0.2185   -0.1625     0.0797    -0.0007        0.0881
+A: PC+EA       LiBOB  635    0.2419   -0.1518     0.1499     0.0021        0.0958
+B: EC+PC         all 1190    0.2016    0.0823     0.1473     0.0017        0.1039
+B: EC+PC old anchors 1181    0.1979    0.0859     0.1388     0.0056        0.1040
+B: EC+PC  new: T_ext    9    0.4847   -0.3967     0.5832    -0.5027        0.0833
+B: EC+PC       T<250  159    0.2359    0.0355     0.2553    -0.0271        0.0973
+B: EC+PC       LiBF4  170    0.1547   -0.1250     0.0570     0.0083        0.1171
+B: EC+PC       LiPF6  175    0.0537    0.0234     0.0575     0.0351        0.0980
+B: EC+PC       LiBOB  807    0.2315    0.1401     0.1738    -0.0061        0.1031
+
+wrote submission_final_v2.csv: KAN-delta 5466, GBM 493; log_k range [-2.0000, 1.2029]
+rows moved GBM -> KAN-delta: 153; mean change -0.5708, mean|change| 0.6378, max|change| 1.6441
+previously anchored rows (5→15 seeds, retrained on larger delta set): mean|change| 0.0194, max 0.1284
+mean change on moved rows by salt x kind:
+         mean  size
+kind   T_ext T_ext
+salt              
+LiBF4  0.160    32
+LiPF6 -0.764   121

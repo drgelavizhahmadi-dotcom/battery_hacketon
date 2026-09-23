@@ -1,0 +1,81 @@
+pure-PC series in train: 13
+mixture rows with a same-source pure-PC series: 2399, anchored (no extrapolation): 2069
+anchored rows by (doi, salt, combo):
+ source_doi                    salt_name  combo                           
+10.1016/0378-7753(91)80004-H  LiAsF6     2-Glyme+EC+PC                         5
+                                         2-MeTHF+DME+EC+PC                    30
+                                         2-MeTHF+EC+Methylene chloride+PC     24
+                                         2-MeTHF+EC+PC                        34
+                                         2-MeTHF+EC+PC+THF                    30
+                                         2-MeTHF+EC+PC+Toluene                 8
+                                         3-Glyme+EC+PC                         9
+                                         3-Glyme+PC+Sulfolane                  6
+                                         DME+EC+PC                            10
+                                         DME+PC                                7
+                                         EC+Methylene chloride+PC             24
+                                         EC+Methylene chloride+PC+THF         24
+                                         EC+PC                                37
+                                         EC+PC+Toluene                         6
+                                         Methylene chloride+PC                24
+                                         PC+Sulfolane                          6
+                                         PC+Toluene                            6
+10.1149/1.1566019             LiPF6      EC+PC                               175
+10.1149/1.1630593             LiBF4      EC+PC                               170
+10.1149/1.1833611             LiBOB      EC+PC                               799
+10.1149/1.1914757             LiBOB      EA+PC                               635
+
+delta by combo (mean, sd):
+                                   size   mean    std
+combo                                               
+2-Glyme+EC+PC                        5  0.212  0.059
+2-MeTHF+DME+EC+PC                   30  0.813  0.478
+2-MeTHF+EC+Methylene chloride+PC    24  0.964  0.599
+2-MeTHF+EC+PC                       34  0.557  0.450
+2-MeTHF+EC+PC+THF                   30  0.950  0.631
+2-MeTHF+EC+PC+Toluene                8  0.636  0.423
+3-Glyme+EC+PC                        9  0.008  0.121
+3-Glyme+PC+Sulfolane                 6 -0.252  0.074
+DME+EC+PC                           10  0.689  0.334
+DME+PC                               7  0.503  0.182
+EA+PC                              635  0.295  0.222
+EC+Methylene chloride+PC            24  0.742  0.468
+EC+Methylene chloride+PC+THF        24  1.130  0.631
+EC+PC                             1181  0.049  0.141
+EC+PC+Toluene                        6  0.117  0.052
+Methylene chloride+PC               24  0.777  0.533
+PC+Sulfolane                         6 -0.192  0.043
+PC+Toluene                           6  0.125  0.094
+A: PC+EA: 710 held-out rows, 635 anchored (GBM on all held-out: 0.2422)
+B: EC+PC: 1438 held-out rows, 1181 anchored (GBM on all held-out: 0.2113)
+
+Validation on anchored held-out rows (log10):
+     fold subset    n  GBM_rmse  GBM_bias  anchor_rmse  anchor_bias  blend_rmse  blend_bias
+A: PC+EA    all  635    0.2419   -0.1518       0.1747      -0.0198      0.1881     -0.0858
+A: PC+EA  T<250   85    0.2185   -0.1625       0.1915       0.0294      0.1627     -0.0666
+A: PC+EA  LiBOB  635    0.2419   -0.1518       0.1747      -0.0198      0.1881     -0.0858
+B: EC+PC    all 1181    0.1979    0.0859       0.1950      -0.0637      0.1652      0.0111
+B: EC+PC  T<250  150    0.2119    0.0614       0.3284      -0.2043      0.2152     -0.0714
+B: EC+PC  LiBF4  170    0.1547   -0.1250       0.1585      -0.1284      0.1456     -0.1267
+B: EC+PC  LiPF6  175    0.0537    0.0234       0.1295      -0.1087      0.0655     -0.0426
+B: EC+PC  LiBOB  799    0.2269    0.1459       0.2073      -0.0398      0.1819      0.0530
+
+wrote submission_anchor.csv, submission_blend.csv (id,log_k, clipped at -2.0)
+
+test rows without usable anchor: 646 / 5959 -> fall back to Phase 2 GBM
+col_0                 T below anchor grid  c outside anchor range  no PC in mixture
+salt_name combo                                                                    
+LiBF4     DEC+DMC+EC                    0                       0                11
+          DEC+PC                        0                     242                 0
+LiBOB     DEC+PC                        0                      77                 0
+LiPF6     DEC+DMC+EC                    0                       0                12
+          DEC+EC                        0                       0                15
+          DEC+PC                       91                     198                 0
+
+anchored rows: mean(anchor - GBM) by salt: {'LiBF4': -0.016, 'LiBOB': 0.052, 'LiPF6': 0.071}
+by PC:DEC w-ratio: {'0.3;0.7': 0.17, '0.4;0.6': 0.062, '0.5;0.5': 0.048, '0.6;0.4': 0.069, '0.7;0.3': -0.092, '0.8;0.2': -0.027, '0.9;0.1': 0.034}
+
+low-T check (233.75 K, ~1 mol/kg), median anchor-model k by DEC w:
+ dec_w        0.1    0.2    0.3    0.4    0.5    0.6    0.7
+salt_name                                                 
+LiBF4      0.356  0.290  0.286  0.427  0.589  0.942  1.214
+LiPF6      0.245  0.171  0.198  0.281  0.342  0.487  0.821

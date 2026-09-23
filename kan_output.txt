@@ -1,0 +1,45 @@
+pre-registered: KAN-delta fold A RMSE <= 0.175 (HGB-delta); |bias| on fold B T<250 < 0.204 (HGB-delta)
+
+A: PC+EA done (KAN-delta best epochs [103, 111, 138, 73, 129], VTF-KAN best epochs [21, 20, 43, 26, 22])
+B: EC+PC done (KAN-delta best epochs [4, 116, 85, 31, 111], VTF-KAN best epochs [400, 145, 399, 400, 400])
+median best epochs: KAN-delta 107, VTF-KAN 94
+
+Anchored held-out rows (log10 RMSE / bias). KANd = fixed-epoch (honest); KANd_es = early-stopped on the fold (optimistic);
+KANd_seedstd = mean per-row std over 5 seeds; blendHK uses fixed-epoch KANd
+    fold subset    n  GBM_rmse  GBM_bias  HGBd_rmse  HGBd_bias  KANd_es_rmse  KANd_es_bias  KANd_rmse  KANd_bias  blendHK_rmse  blendHK_bias  KANd_seedstd
+A: PC+EA    all  635    0.2419   -0.1518     0.1747    -0.0198        0.1417        0.0066     0.1420     0.0067        0.1520       -0.0065        0.0610
+A: PC+EA  T<250   85    0.2185   -0.1625     0.1915     0.0294        0.0771        0.0128     0.0765     0.0113        0.1271        0.0203        0.0522
+A: PC+EA  LiBOB  635    0.2419   -0.1518     0.1747    -0.0198        0.1417        0.0066     0.1420     0.0067        0.1520       -0.0065        0.0610
+B: EC+PC    all 1181    0.1979    0.0859     0.1950    -0.0637        0.1395        0.0100     0.1397    -0.0011        0.1568       -0.0324        0.0675
+B: EC+PC  T<250  150    0.2119    0.0614     0.3284    -0.2043        0.2225       -0.0285     0.2194    -0.0214        0.2523       -0.1128        0.0571
+B: EC+PC  LiBF4  170    0.1547   -0.1250     0.1585    -0.1284        0.0474       -0.0194     0.0623    -0.0312        0.1014       -0.0798        0.0788
+B: EC+PC  LiPF6  175    0.0537    0.0234     0.1295    -0.1087        0.0380        0.0082     0.0392     0.0110        0.0609       -0.0488        0.0693
+B: EC+PC  LiBOB  799    0.2269    0.1459     0.2073    -0.0398        0.1663        0.0180     0.1652     0.0028        0.1783       -0.0185        0.0655
+
+All held-out rows, fallback models (GBM vs VTF-KAN; VTFKAN = fixed-epoch, VTF_es = early-stopped):
+    fold subset    n  GBM_rmse  GBM_bias  VTF_es_rmse  VTF_es_bias  VTFKAN_rmse  VTFKAN_bias  VTFKAN_seedstd
+A: PC+EA    all  710    0.2422   -0.1557       0.1612      -0.0213       0.2050      -0.0459          0.1319
+A: PC+EA  T<250   95    0.2227   -0.1664       0.2051      -0.0412       0.2743      -0.1179          0.1808
+A: PC+EA  LiBOB  710    0.2422   -0.1557       0.1612      -0.0213       0.2050      -0.0459          0.1319
+B: EC+PC    all 1438    0.2113    0.0814       0.1832       0.0106       0.2162       0.0073          0.1777
+B: EC+PC  T<250  194    0.2906    0.0669       0.2667       0.0144       0.3137       0.0502          0.2354
+B: EC+PC  LiBF4  221    0.1771   -0.1214       0.2428      -0.2092       0.2415      -0.2204          0.2696
+B: EC+PC  LiPF6  297    0.1349    0.0399       0.1082       0.0207       0.1768      -0.0074          0.1938
+B: EC+PC  LiBOB  826    0.2327    0.1419       0.1830       0.0631       0.2035       0.0708          0.1485
+
+PRE-REG 1 (KAN-delta fold A <= HGB-delta 0.1747): KAN 0.1420 -> HELD
+PRE-REG 2 (|bias| fold B T<250 < HGB-delta 0.2043): KAN 0.0214 -> HELD
+fallback choice (mean fold A/B RMSE): GBM 0.2267 vs VTF-KAN 0.2106 -> VTF-KAN
+wrote submission_kan.csv
+wrote submission_kanblend.csv
+test anchored rows: 5313, fallback rows: 646 (VTF-KAN)
+mean(KAN-delta - HGB-delta) on anchored test rows by salt: {'LiBF4': -0.079, 'LiBOB': -0.056, 'LiPF6': -0.131}
+fallback rows: mean(VTF-KAN - GBM) = 0.130, rmse between them = 0.310
+
+VTF identifiability: median seed-to-seed std, narrow vs wide-T series:
+        T0_sd       B_sd
+narrow                  
+wide      6.1  70.599998
+narrow    7.7  78.099998
+narrow-T rows: 139 of 6520
+T0 by salt (mean over rows): {'LiAsF6': 127.0999984741211, 'LiBF4': 133.5, 'LiBMB': 129.0, 'LiBOB': 132.1999969482422, 'LiBPFPB': 127.9000015258789, 'LiCF3SO3': 126.4000015258789, 'LiClO4': 128.89999389648438, 'LiFSI': 116.4000015258789, 'LiPDI': 121.19999694824219, 'LiPF6': 128.60000610351562, 'LiTDI': 121.5999984741211, 'LiTFSI': 125.0}

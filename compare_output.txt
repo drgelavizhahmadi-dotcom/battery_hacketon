@@ -1,0 +1,54 @@
+pre-registered: GP within 0.01 of KAN-delta on fold A; MLP within 0.02
+
+MLP best epochs [56, 105, 53, 127, 158, 400, 11, 1, 2, 348] -> fixed 80; KAN fixed 107
+A: PC+EA done; GP kernel: 1.3**2 * RBF(length_scale=[0.29, 400, 15.1, 1e+03, 1e+03, 1e+03, 1.21, 0.0173, 0.134, 0.01, 1, 6.46, 1, 1, 1, 1, 1, 1e+03, 1, 1]) + WhiteKernel(noise_level=0.00903)
+B: EC+PC done; GP kernel: 1.82**2 * RBF(length_scale=[0.759, 353, 4.14, 8.02, 1e+03, 1e+03, 1.48, 1.63, 2.12, 1, 1, 2.12, 1, 1, 1, 1, 1, 1, 1, 1]) + WhiteKernel(noise_level=0.136)
+
+Anchored held-out rows (log10 RMSE / bias):
+     fold subset    n  KANd_rmse  KANd_bias  GP_rmse  GP_bias  MLP_rmse  MLP_bias
+A: PC+EA    all  635     0.1420     0.0067   0.2856  -0.2006    0.1502   -0.0651
+A: PC+EA  T<250   85     0.0765     0.0113   0.4511  -0.3775    0.0847    0.0083
+A: PC+EA  LiBOB  635     0.1420     0.0067   0.2856  -0.2006    0.1502   -0.0651
+B: EC+PC    all 1181     0.1397    -0.0011   0.2807   0.2121    0.1764    0.0607
+B: EC+PC  T<250  150     0.2194    -0.0214   0.3055   0.1420    0.2812    0.1362
+B: EC+PC  LiBF4  170     0.0623    -0.0312   0.2578   0.2407    0.1350    0.0604
+B: EC+PC  LiPF6  175     0.0392     0.0110   0.2940   0.2672    0.1389    0.0517
+B: EC+PC  LiBOB  799     0.1652     0.0028   0.2877   0.2039    0.1915    0.0632
+
+Uncertainty (mean per row): GP predictive std, MLP/KAN seed std:
+     fold subset  GP_predstd  MLP_seedstd  KANd_seedstd
+A: PC+EA    all      0.5038       0.0392        0.0610
+A: PC+EA  T<250      0.4813       0.0498        0.0522
+A: PC+EA  LiBOB      0.5038       0.0392        0.0610
+B: EC+PC    all      0.3129       0.0423        0.0675
+B: EC+PC  T<250      0.2721       0.0365        0.0571
+B: EC+PC  LiBF4      0.3907       0.0489        0.0788
+B: EC+PC  LiPF6      0.3974       0.0552        0.0693
+B: EC+PC  LiBOB      0.2825       0.0387        0.0655
+
+PRE-REG GP within 0.01 of KAN on fold A: GP 0.2856 vs KAN 0.1420 (diff +0.1435) -> FAILED
+PRE-REG MLP within 0.02 of KAN on fold A: MLP 0.1502 (diff +0.0081) -> HELD
+
+GP fit on all anchored rows (2069 with x_co > 0.05): 0.942**2 * RBF(length_scale=[0.72, 1e+03, 1, 1e+03, 1e+03, 1e+03, 1.66, 2.48, 1e+03, 0.038, 1, 1.1, 1, 1, 1, 1, 1, 1e+03, 1, 1]) + WhiteKernel(noise_level=0.535)
+length scales (standardized inputs; short = relevant, >~1e2 = ignored):
+  salt=LiBF4         0.038
+  x_co               0.720
+  salt=LiBMB         1.000
+  salt=LiBPFPB       1.000
+  salt=LiCF3SO3      1.000
+  salt=LiClO4        1.000
+  salt=LiFSI         1.000
+  salt=LiPDI         1.000
+  salt=LiTDI         1.000
+  salt=LiTFSI        1.000
+  lneta_co           1.002
+  salt=LiBOB         1.103
+  invT               1.656
+  molal              2.477
+  eps_co          1000.000
+  M_co            1000.000
+  mix_eps         1000.000
+  mix_lneta       1000.000
+  salt=LiAsF6     1000.000
+  salt=LiPF6      1000.000
+GP did not beat KAN-delta on fold A -> submission_gp.csv not written
