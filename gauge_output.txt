@@ -1,0 +1,25 @@
+training / loading models
+  delta: 20 models (20 trained, 0 loaded)
+  full: 20 models (20 trained, 0 loaded)
+  reproducibility: seeds 0-4 vs submission_final.csv anchored rows, max|diff| = 2.22e-16
+
+==================== CONTROL: teacher-student recovery ====================
+  noise std (real KAN-delta in-sample residual, 20 seeds) = 0.1301; teacher delta std = 0.3358; SNR (var) = 6.66
+  student: 20 models (20 trained, 0 loaded)
+  active teacher edges: 35 of 54
+  student-teacher unit match |corr| (contributions): median 0.469, min 0.062; per unit (median over seeds): [0.5260000228881836, 0.2930000126361847, 0.5910000205039978, 0.23199999332427979, 0.6740000247955322, 0.37299999594688416]
+  prediction recovery corr(h_student, h_teacher): median 0.9131, min 0.8775 -> sanity FAILED (training, not gauge)
+  gauge-fixed edge recovery corr, active edges x 20 seeds: median all 0.488, dense 0.301, sparse 0.429; fraction >= 0.9 (dense) 0.33
+  per-input median dense recovery over active edges:
+    x_co       n_active=6  median corr 0.522
+    eps_co     n_active=5  median corr 1.000
+    lneta_co   n_active=4  median corr 1.000
+    M_co       n_active=0  median corr nan
+    mix_eps    n_active=4  median corr 0.396
+    mix_lneta  n_active=3  median corr 0.681
+    invT       n_active=5  median corr 0.894
+    molal      n_active=2  median corr 0.809
+    salt       n_active=6  median corr 0.000
+  CONTROL FAILED (criterion: median dense recovery >= 0.8)
+
+STOP: control failed -> Part A/B on real data are not interpretable with this procedure. Not run.

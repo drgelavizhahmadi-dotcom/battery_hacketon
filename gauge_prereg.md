@@ -83,3 +83,44 @@ change if ψ̂ were re-fitted into the same fixed RBF basis (least squares on th
 - **Sanity check:** median student–teacher correlation of h on training rows ≥ 0.95. If this
   fails, it is a training failure, not a gauge failure.
 - **If the control fails:** stop, report, and do not interpret Part A–B on real data.
+
+---
+
+## Verdicts (appended after the run; `gauge_output.txt`, `gauge_results.json`)
+
+**Control: FAILED. Part A and Part B on real data were not run, as pre-registered.**
+
+| Check | Criterion | Result | Verdict |
+|---|---|---|---|
+| Edge recovery (dense rows, active edges × 20 seeds) | median corr ≥ 0.8 | **0.301** (all rows 0.488, sparse 0.429; 33% of edge-seed pairs ≥ 0.9) | **failed** |
+| Prediction recovery (sanity) | median corr(h_student, h_teacher) ≥ 0.95 | **0.913** (min 0.878) | **failed** |
+| Student-to-teacher unit match (not a criterion) | – | median \|corr\| of contributions 0.469, min 0.062 | – |
+
+Setup: noise std 0.130 (real in-sample residual), teacher delta std 0.336, variance SNR 6.7;
+35 of 54 teacher edges active. Reproducibility: seeds 0–4 reproduce `submission_final.csv` to 2e-16.
+
+Findings about the control itself:
+- **The sanity check failed as well.** With 107 epochs, the students match the teacher's output
+  only to corr 0.91. By the pre-registered rule, that makes this at least partly a training
+  failure (the students underfit), not only a gauge failure. The edge-level result cannot
+  separate "the procedure is wrong" from "the students never learned the teacher function".
+- **The dense-row correlation criterion is degenerate for discrete inputs** (checked after the run).
+  The dense quartile is 518 rows, **all LiBOB**, and in those rows eps_co, lneta_co and M_co take
+  only **2 distinct values**. Per-edge correlations there are therefore exactly ±1, or 0 for the
+  constant salt edge. The histogram in `figs/gauge/control_recovery.png` piles up at −1, 0 and +1.
+  The reported eps_co / lneta_co "median 1.000" and salt "0.000" are artifacts, not evidence
+  either way. This is a flaw in my pre-registered criterion: kNN density within salt puts the
+  densest rows in the largest single series. Across all rows these inputs take 30 distinct
+  values, so the all-rows median (0.488) is much less affected. That number and the grid plots
+  also show no recovery.
+- **The continuous inputs, where the criterion is meaningful, still fall short:** median dense
+  corr invT 0.894, molality 0.809, mix ln η 0.681, x_co 0.522, mix ε 0.396.
+
+| Prediction | Verdict |
+|---|---|
+| P1 gauge fixing removes ≥ 50% of edge variance | **inconclusive** (not run: control failed) |
+| P2 sparse ≥ 2× dense, test highest | **inconclusive** (not run) |
+| P3 (e) < (d) < (c) < (a) | **inconclusive** (not run) |
+| P4 every seed has a unit with \|corr\| < 0.8 | **inconclusive** on real data (not run). In the control, student-to-teacher matches had median \|corr\| 0.47, which is consistent with P4 but not a test of it |
+| P5 KAN-full > KAN-delta residual edge variance | **inconclusive** (not run) |
+| P6 seed spread flags errors | **inconclusive** (not run: gated by the control as pre-registered, although Part B does not use the gauge procedure) |

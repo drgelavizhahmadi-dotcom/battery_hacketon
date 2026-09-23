@@ -4,3 +4,5 @@ __pycache__/
 # competition data: not redistributed
 ca-li-sol-23-challenge/
 ca-li-sol-23-challenge.zip
+# trained model weights (identifiability study)
+gauge_weights/
