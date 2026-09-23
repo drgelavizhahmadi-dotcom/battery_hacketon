@@ -533,12 +533,20 @@ def figures(D, Dres, Fm, Fres):
     fig.savefig(FIG / "unit_matching.png", dpi=110); plt.close(fig)
 
 
+def save_results():
+    """Merge into the existing results file so a partial stage never drops earlier results."""
+    p = ROOT / "gauge_results.json"
+    merged = json.loads(p.read_text()) if p.exists() else {}
+    merged.update(RESULTS)
+    p.write_text(json.dumps(merged, indent=1))
+
+
 def main():
     tr, te, te_anc, D, Fm = setup()
     stage = sys.argv[1] if len(sys.argv) > 1 else "all"
     if stage == "partb":
         part_b(D, tr)
-        (ROOT / "gauge_results.json").write_text(json.dumps(RESULTS, indent=1))
+        save_results()
         return
     log("training / loading models")
     Dnets = get_models("delta", D, D["batch"], D["train"])
@@ -550,7 +558,7 @@ def main():
     log(f"  reproducibility: seeds 0-4 vs submission_final.csv anchored rows, max|diff| = {np.abs(np.clip(k5, -2, None) - fin[D['test']]).max():.2e}")
 
     ok = run_control(D, Dnets, tr)
-    (ROOT / "gauge_results.json").write_text(json.dumps(RESULTS, indent=1))
+    save_results()
     if not ok:
         log("\nSTOP: control failed -> Part A/B on real data are not interpretable with this procedure. Not run.")
         sys.exit(2)
@@ -559,7 +567,7 @@ def main():
     p5_shared(D, Dres, Fm, Fres)
     figures(D, Dres, Fm, Fres)
     part_b(D, tr)
-    (ROOT / "gauge_results.json").write_text(json.dumps(RESULTS, indent=1))
+    save_results()
     log("\nsaved gauge_results.json, figures in figs/gauge/")
 
 

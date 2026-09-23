@@ -23,3 +23,22 @@ training / loading models
   CONTROL FAILED (criterion: median dense recovery >= 0.8)
 
 STOP: control failed -> Part A/B on real data are not interpretable with this procedure. Not run.
+
+
+########## python3 gauge.py partb ##########
+
+==================== PART B: does seed spread flag errors? (KAN-delta) ====================
+  partbA: 20 models (20 trained, 0 loaded)
+  fold A (EA+PC, n=635): Spearman(seed std, |err|) = +0.169
+    coverage 100%: RMSE std-abstain 0.1513 | random mean 0.1513 [5-95%: 0.1513-0.1513]
+    coverage 90%: RMSE std-abstain 0.1569 | random mean 0.1509 [5-95%: 0.1438-0.1566]
+    coverage 80%: RMSE std-abstain 0.1467 | random mean 0.1514 [5-95%: 0.1423-0.1601]
+    coverage 70%: RMSE std-abstain 0.1418 | random mean 0.1510 [5-95%: 0.1392-0.1631]
+    coverage 50%: RMSE std-abstain 0.0491 | random mean 0.1500 [5-95%: 0.1298-0.1710]
+  partbB: 20 models (20 trained, 0 loaded)
+  fold B (EC+PC, n=1181): Spearman(seed std, |err|) = +0.213
+    coverage 100%: RMSE std-abstain 0.1386 | random mean 0.1386 [5-95%: 0.1386-0.1386]
+    coverage 90%: RMSE std-abstain 0.1453 | random mean 0.1387 [5-95%: 0.1292-0.1437]
+    coverage 80%: RMSE std-abstain 0.1527 | random mean 0.1374 [5-95%: 0.1247-0.1475]
+    coverage 70%: RMSE std-abstain 0.1590 | random mean 0.1377 [5-95%: 0.1196-0.1521]
+    coverage 50%: RMSE std-abstain 0.1667 | random mean 0.1400 [5-95%: 0.1147-0.1579]

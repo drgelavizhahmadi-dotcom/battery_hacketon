@@ -124,3 +124,19 @@ Findings about the control itself:
 | P4 every seed has a unit with \|corr\| < 0.8 | **inconclusive** on real data (not run). In the control, student-to-teacher matches had median \|corr\| 0.47, which is consistent with P4 but not a test of it |
 | P5 KAN-full > KAN-delta residual edge variance | **inconclusive** (not run) |
 | P6 seed spread flags errors | **inconclusive** (not run: gated by the control as pre-registered, although Part B does not use the gauge procedure) |
+
+### P6 verdict (appended after `python3 gauge.py partb`; run separately after the control result, as a test of a prediction registered before any run)
+
+**P6: FAILED.** It needed both conditions on both folds; two of the four checks failed.
+
+| Fold | n | Spearman(seed std, \|err\|) (> 0.2?) | RMSE at 80% coverage: abstain on highest std | random mean [5–95%] | better than random? |
+|---|---|---|---|---|---|
+| A (PC+EA) | 635 | **+0.169, no** | 0.1467 | 0.1514 [0.1423–0.1601] | yes, but inside the random band |
+| B (EC+PC) | 1181 | +0.213, yes | **0.1527** | 0.1374 [0.1247–0.1475] | **no: worse than random, outside the band** |
+
+Full retention curves (`figs/gauge/retention.png`):
+- **Fold A:** RMSE is 0.1569 at 90% coverage (worse than random), 0.1418 at 70% and 0.0491 at 50%.
+- **Fold B:** RMSE rises as coverage falls (0.1453, 0.1527, 0.1590, 0.1667 at 90/80/70/50%), so the
+  high-spread rows are *easier* than average in RMSE terms. The weak positive rank correlation on
+  fold B does not carry over to squared error: the largest errors sit on low-spread rows.
+- **Conclusion:** seed spread is not a usable abstention signal for KAN-delta on these folds.
