@@ -1,0 +1,32 @@
+{
+ "step0": {
+  "distinct": {
+   "x_co": 49,
+   "eps_co": 30,
+   "lneta_co": 30,
+   "M_co": 30,
+   "mix_eps": 49,
+   "mix_lneta": 49,
+   "invT": 20,
+   "molal": 1140
+  },
+  "n_co": 30,
+  "group": [
+   "eps_co",
+   "lneta_co",
+   "M_co"
+  ],
+  "group_cols": 27,
+  "group_rank": 14,
+  "K": 8,
+  "removed": 0,
+  "gate": false
+ },
+ "verdicts": {
+  "I1": "inconclusive (gate stopped: rule does not change the model)",
+  "I2": "inconclusive (gate stopped: rule does not change the model)",
+  "I3": "inconclusive (gate stopped: rule does not change the model)",
+  "I4": "inconclusive (gate stopped: rule does not change the model)",
+  "I5": "inconclusive (gate stopped: rule does not change the model)"
+ }
+}

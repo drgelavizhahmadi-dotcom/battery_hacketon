@@ -90,3 +90,29 @@ If the gate stops, all five are **inconclusive (not run)**.
 Append an "Intervention" section to `electrolyte_case_study_summary.md`, with the I1–I5 table
 (verdict, key number, commit) and one paragraph on what the intervention does and does not
 establish. Commit it.
+
+---
+
+## Verdicts (appended after the run; `rule_output.txt`, `rule_results.json`)
+
+**Step 0: the gate STOPPED, as anticipated.**
+
+| Quantity | Value |
+|---|---|
+| Distinct values | x_co 49, eps_co 30, lneta_co 30, M_co 30, mix_eps 49, mix_lneta 49, invT 20, molal 1140 |
+| Group (constant within each co-solvent combination) | eps_co, lneta_co, M_co. No other input qualifies: their within-combination ranges are 0.86–2.0 in scaled units |
+| n_co | 30 |
+| Rule | 3 × (K + 1) ≤ 29, so **K = 8**, the same as final.py |
+| Columns removed | **0** (gate needs ≥ 6) |
+| Group block of M | 27 columns, **numerical rank 14** (full M: rank 36 of 72) |
+
+| Prediction | Verdict |
+|---|---|
+| I1–I5 | **inconclusive**: the gate stopped because the rule does not change this model. Steps 1–4 were not run, no models were trained, and no new weights were created, so there is no third tarball |
+
+Note (not a verdict): the redundancy the rule targets is real. The group block is only rank 14 of
+27. But the rule's count uses n_co − 1 = 29, which is above the block's 27 columns. The rank
+deficit comes from the three group inputs sharing the same 30 points *and* being strongly correlated
+with each other (eps_co and lneta_co: 0.966). The number of distinct combinations doesn't capture
+that. A rule based on the block's numerical rank (keep ≤ 14 group columns) would remove 13 columns.
+That would be a different intervention and would need its own pre-registration.

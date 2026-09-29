@@ -1,0 +1,20 @@
+DISCREPANCIES / choices (files win; see rule_prereg.md):
+  R1 'layer-1' = kan.py layers.0 (input->hidden)
+  R2 co-solvent combination = distinct (eps_co, lneta_co, M_co) triple; eps_co etc. are mole-weighted over non-PC solvents
+  anticipated before running (from support_output.txt): 30 distinct values each -> K = 8 = final.py -> gate stops
+
+==================== STEP 0: feasibility gate (no training) ====================
+  distinct values per continuous input: x_co 49, eps_co 30, lneta_co 30, M_co 30, mix_eps 49, mix_lneta 49, invT 20, molal 1140
+  n_co (distinct co-solvent triples) = 30
+  inputs constant within every co-solvent combination (the group): ['eps_co', 'lneta_co', 'M_co']
+    not in group: x_co       max within-combination range 1.49 (scaled units)
+    not in group: mix_eps    max within-combination range 1.11 (scaled units)
+    not in group: mix_lneta  max within-combination range 0.951 (scaled units)
+    not in group: invT       max within-combination range 2 (scaled units)
+    not in group: molal      max within-combination range 0.857 (scaled units)
+  group block of M: 27 columns, numerical rank 14 (rel tol 0.01); full M rank 36 of 72
+  rule: largest K with 3 x (K + 1) <= n_co - 1 = 29  ->  K = 8 RBF centres (final.py: 8)
+  columns per group input: final.py 9, modified 9; columns removed = 0
+  GATE (>= 6 columns removed): STOP
+
+STOP: the rule does not change this model. Steps 1-4 not run; I1-I5 inconclusive.

@@ -125,3 +125,30 @@ to 0.594.
 **Reproducibility.** Code and logs are in this repository. Weights are archived outside git
 (`gauge_weights_2026-09-29.tar.gz` and `…29b.tar.gz`) and listed with SHA-256 checksums and producing
 commits in `weights_manifest.txt`.
+
+## Intervention: basis-size rule for co-solvent-determined inputs (`rule_prereg.md`)
+
+The rule gives each co-solvent-determined input K RBF centres, with K the largest integer such
+that (number of such inputs) × (K + 1) ≤ n_co − 1, where n_co is the number of distinct
+co-solvent combinations.
+
+| Prediction | Verdict | Key number | Prereg → results |
+|---|---|---|---|
+| Gate: ≥ 6 columns removed | **stopped** | n_co = 30, K = 8 = final.py's, so 0 columns removed | 6c93bf4 → see the commit that adds this section |
+| I1: max\|grad\| ≤ 0.1 × baseline | inconclusive (not run) | – | 6c93bf4 |
+| I2: d_AB ≤ 0.5 × baseline | inconclusive (not run) | – | 6c93bf4 |
+| I3: final loss ≤ 1.10 × baseline | inconclusive (not run) | – | 6c93bf4 |
+| I4: fold A RMSE ≤ 0.150 | inconclusive (not run) | – | 6c93bf4 |
+| I5: outside-group edge corr ≥ baseline + 0.1 | inconclusive (not run) | – | 6c93bf4 |
+
+**What the intervention does and does not establish.** It establishes only that this rule, applied
+to this data, leaves the model unchanged. The 30 distinct co-solvent combinations allow up to 9
+columns for each of the 3 co-solvent inputs, which is exactly final.py's SiLU + 8 RBF basis. The
+outcome was anticipated from committed files before any code ran, and was confirmed by Step 0.
+
+It establishes nothing about whether excess basis on these inputs causes the flat directions, the
+seed disagreement or the slow convergence: nothing was trained. The redundancy it targeted does
+exist (the co-solvent block of the first-layer design has numerical rank 14 of 27), but counting
+distinct values cannot detect it. That rank deficit comes from strong correlation among inputs
+that share the same 30 points. Testing the causal claim needs a rule tied to the block's
+numerical rank, which would remove 13 columns, under a new pre-registration.
