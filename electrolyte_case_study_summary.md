@@ -134,12 +134,12 @@ co-solvent combinations.
 
 | Prediction | Verdict | Key number | Prereg → results |
 |---|---|---|---|
-| Gate: ≥ 6 columns removed | **stopped** | n_co = 30, K = 8 = final.py's, so 0 columns removed | 6c93bf4 → see the commit that adds this section |
-| I1: max\|grad\| ≤ 0.1 × baseline | inconclusive (not run) | – | 6c93bf4 |
-| I2: d_AB ≤ 0.5 × baseline | inconclusive (not run) | – | 6c93bf4 |
-| I3: final loss ≤ 1.10 × baseline | inconclusive (not run) | – | 6c93bf4 |
-| I4: fold A RMSE ≤ 0.150 | inconclusive (not run) | – | 6c93bf4 |
-| I5: outside-group edge corr ≥ baseline + 0.1 | inconclusive (not run) | – | 6c93bf4 |
+| Gate: ≥ 6 columns removed | **stopped** | n_co = 30, K = 8 = final.py's, so 0 columns removed | 6c93bf4 → a53cc2a |
+| I1: max\|grad\| ≤ 0.1 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
+| I2: d_AB ≤ 0.5 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
+| I3: final loss ≤ 1.10 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
+| I4: fold A RMSE ≤ 0.150 | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
+| I5: outside-group edge corr ≥ baseline + 0.1 | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
 
 **What the intervention does and does not establish.** It establishes only that this rule, applied
 to this data, leaves the model unchanged. The 30 distinct co-solvent combinations allow up to 9
