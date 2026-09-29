@@ -251,3 +251,35 @@ gauge_weights/student_s6.pt  f2109245f4369d9b3c563eea89f3726cd1a83110fffae4ac03b
 gauge_weights/student_s7.pt  841856f8ab24e5e5b221cc4d7bc997ba35e5a94319642de5e81d8dbb43f1dc7e  gauge.py  e68e2eb
 gauge_weights/student_s8.pt  48774905e3e95281bbdcfd6929eee183ceb72d19513b113169130a8bfa7241ce  gauge.py  e68e2eb
 gauge_weights/student_s9.pt  30428890032f76699bf05d4d6a02d38707c89c93bc98c5b16c63add3f8a36a78  gauge.py  e68e2eb
+
+# --- second archive (appended; first archive unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-09-29b.tar.gz
+# archive sha256: 84550006fc15c4fc99bccec588fb820333dcb5d14614a945bbe4a0b672a98465
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/fiber2_ind_0.pt  058a9a5f116a7231f0e8996bb9c7f0a068028823bc71dbd89e44263a0041d97d  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_1.pt  de6f8726ecb1854a47b69db20c82cb12aac5518f8081794755f973aa3cbf6614  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_2.pt  bcc37613356e31474a808cd01ca8d2e34ea8d2f57afc56e92b7a3ce0daf376ee  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_3.pt  0ccac0b33aa3b6736bba95983f7a6fa41f8e1587477f3a14046e5b92aebc241c  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_4.pt  38ae633cebb1cd2d0ae45179b632fae96f0c887b7e6cfc348159684447e406d4  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_5.pt  b2208b146ffae710833d8e907c098f7daea1f5167b3d3c8d5cc2f651f9f0a967  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_ind_meta.json  16f5ea530c4be9576d450ceae878256a964a1b2151ddd8fea5f13d6c41316da8  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_100.pt  8dd49f315e31e7573ae41cfb6a082ebe88ea5dd604647c3a438557fdd31b73d4  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_101.pt  590bd298a9912cbe73fcea562676c8d7a46716c5771223d556e2cee7b960a909  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_102.pt  abceb6716b5ef9233c482a109df784965b759c8f8c183a3b01799dc0f848852a  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_103.pt  d03f1ed0331ef564c954b7afbffa50bfebdf4845467f4c4c8553da4527ba718b  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_104.pt  51496169e15e20816c894af0a04548ecca9e6388c31a30619e0ffd3486ad8b85  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_105.pt  de5cd2d1924f07d7df49039103574995827c58397b4a778ba371de6333adba26  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_106.pt  abd4f584e4fffb9363d8b28f3414db118e8fec86cadbe26627e509bc37d377c2  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_107.pt  0dc3d1bff12438f84583e5c0531e90768a42b19f4d48b7ef6717a8b23510dcd8  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_108.pt  8df234aac0c6c11a815609e19e89204ab2cdee13fc671b5111329f66476348a9  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_109.pt  21123d881fdcb0ce703cf4652a4f6bbba27ec4d70cd49b07a7dd0de6a042923a  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_110.pt  a51a0ddf9e87b5fe0dc4d8400b3644f92c58ca2c234011634305438ff097817e  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_111.pt  fe833cf12746f73561587e7081f7b2f22490e67c27b8d3afadbeac7099b620b1  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_112.pt  9bc3f4aaf076e5ef7804a07bac01fdc9e232e7821ce6f233b8429ee1e93ef925  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_113.pt  7fdb8700349b6ff17aec89e7da70a6da003265e62566ac6c00fcc0bd51ebe30b  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_114.pt  dd59b691058cd980cb69c218cf933ac384d10c6baa1813d4f806e3276c74d2e0  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_115.pt  b0e61d74a091452d39fe17d2a0fa58057eec5b446ff6a1e044dce38af3bf1074  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_116.pt  f88c2b20aa59659b8a154176316b91f8e03f1ec6ed31b03322c5141e83c3ece5  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_117.pt  feca4be97f3e016b40868f8c5a0c224f732e5e1570be0a114826d2b97b0e9c73  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_118.pt  876d5c1cf2b52d9b36679ab31a84c2a710180b084ebc8592739b41bb9a3f579c  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_119.pt  b5822d2fe099e1cd990503bef35887467e489afb9d789c4dd7a5cba2cfd47814  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+gauge_weights/fiber2_stu_meta.json  167d8d519d007de69a698c756f0fc7e06b931c5f69f8f1de652108e691b9efcf  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
