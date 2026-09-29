@@ -77,3 +77,44 @@ C2' and C4 describe the data's limits; they don't bear on whether the procedure 
 
 Outputs: `control3.py`, `control3_output.txt`, `control3_results.json`,
 `figs/gauge/control3_recovery.png`. Weights go in `gauge_weights/control3_*` and are not committed.
+
+---
+
+## Verdicts (appended after the run; `control3_output.txt`, `control3_results.json`, `figs/gauge/control3_recovery.png`)
+
+| Cell | AdamW epochs (median [range]) | L-BFGS iters | Met stop condition | Train RMSE / std | Delta corr (median [min]) | Gate | Unit match \|r\| | Edge \|r\| |
+|---|---|---|---|---|---|---|---|---|
+| (R) | 1355 [530–2680] | 0 | 20/20 | 0.0500 | 0.99875 [0.99875] | **PASS** | 0.659 | 0.852 |
+| (I) | 3000 [cap] | 500 [cap] | **0/20** | **0.1276** | 0.99184 [0.98845] | **FAIL** (RMSE) | 0.648 | 0.960 |
+
+Per-input edge |r| (median over active edges × 20 students):
+
+| Input | x_co | eps_co | lneta_co | M_co | mix_eps | mix_lneta | invT | molal |
+|---|---|---|---|---|---|---|---|---|
+| (R) | 0.767 | 0.659 | 0.743 | 0.927 | 0.578 | 0.908 | 0.962 | 0.900 |
+| (I), not interpretable | 0.970 | 0.900 | 0.801 | 0.947 | 0.958 | 0.983 | 0.986 | 0.946 |
+
+Active continuous teacher edges (the same 38 of 48 in both cells): all 6 units for x_co, eps_co,
+mix_eps and invT; units 0, 1, 3, 4, 5 for mix_lneta; units 0, 2, 3, 5 for molal; units 3, 4, 5 for
+M_co; units 1 and 5 for lneta_co.
+
+| Prediction | Verdict |
+|---|---|
+| **C1'** (I) passes the gate, edge ≥ 0.9, unit ≥ 0.9 | **failed**: (I) failed the gate (RMSE/std 0.128 > 0.05, although delta corr 0.992 passes); unit match 0.648 < 0.9 in any case |
+| **C2'** (R) passes and edge(R) ≤ edge(I) − 0.10 | **inconclusive**: (I) failed the gate. (R) passed |
+| **C4** every continuous input ≥ 0.9 in (I) | **inconclusive**: (I) failed the gate |
+
+**Gauge-fixing procedure validated: NO** (C1' did not hold).
+
+Notes (not verdicts):
+- **(R) is the informative cell.** The students reproduce the teacher's function (delta corr
+  0.99875 overall; in the dense quartile median 0.9918, min 0.9907, computed after the run), yet
+  unit matching is only 0.659 and edge recovery 0.852. The mixture/co-solvent descriptor edges are
+  the worst (mix_eps 0.578, eps_co 0.659). **The same function is realised by different units,**
+  so steps 1–4 do not remove all of the seed-to-seed freedom on real inputs.
+- **(R) students stop as soon as they meet the condition,** so "converged" here means exactly at
+  the 5% RMSE threshold, not beyond it.
+- **(I) failed because the teacher is hard to fit there,** not because training was cut short:
+  L-BFGS hit its 500-iteration cap at 12.8% RMSE. A teacher trained on real, collinear rows is
+  being evaluated on independent combinations it never saw, which is likely where its function
+  is least smooth. That is a limitation of this design, not evidence about the gauge.

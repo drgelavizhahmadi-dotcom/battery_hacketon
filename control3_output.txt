@@ -1,0 +1,23 @@
+
+cell (R): AdamW epochs median 1355 [530-2680], L-BFGS iters median 0 [0-0], students meeting stop condition 20/20
+  train RMSE/std median 0.0500; delta corr median 0.99875 (min 0.99875); gate PASS
+  active continuous teacher edges (38): x_co->u0, x_co->u1, x_co->u2, x_co->u3, x_co->u4, x_co->u5, eps_co->u0, eps_co->u1, eps_co->u2, eps_co->u3, eps_co->u4, eps_co->u5, lneta_co->u1, lneta_co->u5, M_co->u3, M_co->u4, M_co->u5, mix_eps->u0, mix_eps->u1, mix_eps->u2, mix_eps->u3, mix_eps->u4, mix_eps->u5, mix_lneta->u0, mix_lneta->u1, mix_lneta->u3, mix_lneta->u4, mix_lneta->u5, invT->u0, invT->u1, invT->u2, invT->u3, invT->u4, invT->u5, molal->u0, molal->u2, molal->u3, molal->u5
+  unit match |r| median 0.659; edge |r| median 0.852
+
+cell (I): AdamW epochs median 3000 [3000-3000], L-BFGS iters median 500 [500-500], students meeting stop condition 0/20
+  train RMSE/std median 0.1276; delta corr median 0.99184 (min 0.98845); gate FAIL
+  active continuous teacher edges (38): x_co->u0, x_co->u1, x_co->u2, x_co->u3, x_co->u4, x_co->u5, eps_co->u0, eps_co->u1, eps_co->u2, eps_co->u3, eps_co->u4, eps_co->u5, lneta_co->u1, lneta_co->u5, M_co->u3, M_co->u4, M_co->u5, mix_eps->u0, mix_eps->u1, mix_eps->u2, mix_eps->u3, mix_eps->u4, mix_eps->u5, mix_lneta->u0, mix_lneta->u1, mix_lneta->u3, mix_lneta->u4, mix_lneta->u5, invT->u0, invT->u1, invT->u2, invT->u3, invT->u4, invT->u5, molal->u0, molal->u2, molal->u3, molal->u5
+  unit match |r| median 0.648; edge |r| median 0.960
+
+control 3 table (medians):
+cell   epochs  L-BFGS  RMSE/std  delta r  gate  unit|r|  edge|r|  per-input edge |r|
+(R)      1355       0    0.0500  0.99875  PASS    0.659    0.852  x_co 0.767, eps_co 0.659, lneta_co 0.743, M_co 0.927, mix_eps 0.578, mix_lneta 0.908, invT 0.962, molal 0.900
+(I)      3000     500    0.1276  0.99184  FAIL    0.648    0.960  x_co 0.970, eps_co 0.900, lneta_co 0.801, M_co 0.947, mix_eps 0.958, mix_lneta 0.983, invT 0.986, molal 0.946
+
+verdicts: C1': failed; C2': inconclusive ((I) failed gate); C4: inconclusive ((I) failed gate)
+procedure validated (iff C1' holds): NO
+
+[fiber gate, post-hoc from saved weights] (R) student-vs-teacher delta corr by region (median [min]):
+  all    0.99875 [0.99875]
+  dense  0.99176 [0.99070]
+  sparse 0.99904 [0.99896]
