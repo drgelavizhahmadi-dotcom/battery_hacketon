@@ -119,3 +119,53 @@ above it is edited afterwards. Thresholds are the brief's, unchanged.
 The document is committed.
 
 Outputs: `support.py`, `support_output.txt`, `support_results.json`, `figs/support/`.
+
+---
+
+## Verdicts (appended after the run; `support_output.txt`, `support_results.json`, `figs/support/`)
+
+**Run notes.**
+- The first run crashed in Step 3 on an indexing bug: the end offset of each unit's RBF-coefficient
+  slice was missing. After the fix, the script was re-run in full; it is deterministic. Steps 1–2
+  were identical in both runs.
+- Two consistency checks passed:
+  - M·θ_j reproduces the summed continuous layer-1 edges to 2.5e-7.
+  - Each Hessian loss function matches the model's directly computed loss to about 1e-9.
+
+| Prediction | Verdict | Key numbers |
+|---|---|---|
+| **H1** dim(N) ≥ 5 | **held** | dim(N) = **36** of 72 (relative singular value < 1e-2); the random expectation is 0.500 |
+| **H2** ≥ 50% of N is REDISTRIBUTION within the correlated group | **held, exactly at the threshold** | 18/36 REDISTRIBUTION (all 18 in the group), 2 WITHIN-EDGE, 16 OTHER |
+| **H3** set A: median ≥ 0.5 and ≥ 3× random | **inconclusive (untestable, D5)** | 3 × 0.5 = 1.5 > 1. The median fraction in N is 0.942 |
+| **H4** set B, capped: same criterion | **inconclusive (untestable, D5)** | median 0.949 |
+| **H5** median overlap of the 10 flattest directions with N ≥ 0.5 | **held** (see caveat 2) | median pooled overlap **0.885** over 90 eigenvectors |
+| **H6** set B: fraction in N higher when capped for ≥ 15/20 | **held** | **20/20**; median over unit pairs 0.713 → 0.949 |
+
+**Interpretation, applying the pre-registered rules.** H3 and H4 are untestable, so neither the
+"H2–H5 hold" rule nor the "WITHIN-EDGE" rule applies. By the catch-all rule this combination is
+reported as found, without choosing an explanation. N is also not mostly WITHIN-EDGE (2/36).
+**H6 holds, so its pre-registered reading applies:** fitting improves along constrained directions
+while the differences persist along near-null ones, as the approximate-symmetry mechanism predicts.
+
+**Caveats (facts, not verdicts):**
+1. **N is half the space.** With dim(N) = 36, a random difference already puts 50% of its energy
+   in N. The observed 0.94–0.95 is an enrichment of about 1.9×, not the ≥ 3× the brief
+   anticipated. That design limit is why H3 and H4 are untestable.
+2. **H5's metric is normalised within the layer-1 block, and most flat directions barely use that
+   block.**
+   - The 10 algebraically smallest eigenvalues are all **negative**: 23–39 negative eigenvalues per
+     model, down to −1.5e-4 (F-b). They are negative-curvature directions of non-stationary points,
+     not the flattest directions.
+   - Their median layer-1 block share of ‖v‖² is only **0.08**. Post hoc: for the 27/90 with a block
+     share ≥ 0.5, the overlap is still 0.925.
+   - Post hoc: the eigenvalues **closest to zero** (median |λ| 7.5e-16) have a layer-1 block share of
+     about 0. They are an exact null space **outside** the continuous layer-1 block, most likely in the
+     salt-embedding edges, which see only 4 distinct inputs. This was not investigated further.
+3. **The loss ratio is not 5–7× (D4).** The control-3 state's own training loss divided by the capped
+   loss is median **9.6×**, range **7.2–13.9×**, for all 20 students.
+4. **The unit mismatch grew as the fit improved.** From the control-3 state to the capped state, the
+   median unit-match |corr| to the teacher fell from **0.659 to 0.594**, while the loss fell about 10×.
+   The fraction of the difference in N rose for every student.
+5. **Constant shifts are not the explanation.** The per-unit bias represents constants exactly.
+   Within a single edge, a constant is only approximately representable: the relative residual of
+   fitting a constant is 6e-6 – 1.5e-2 across edges. Centring M changes dim(N) only from 36 to 34.

@@ -1,0 +1,135 @@
+DISCREPANCIES / choices (files win; see support_prereg.md):
+  D1 brief 'layer-1 edges' = kan.py layers.0 (input->hidden)
+  D2 16 embedding params of 8 salts absent from training rows have zero gradient/Hessian -> excluded; Hessian over 609 params
+  D3 committed names: control 2 = C1-C3 (no C4); control 3 = C1', C2', C4 (no C3'/C4')
+  D4 the '5-7x' loss ratio is measured below, not assumed
+
+==================== STEP 1: near-null space of M (NO trained weights loaded) ====================
+  M shape (2069, 72) (expected (2069, 72))
+  relative singular values (sorted): 1.0e+00 5.7e-01 3.2e-01 2.7e-01 2.5e-01 2.3e-01 2.0e-01 1.9e-01 1.7e-01 1.5e-01 1.4e-01 1.3e-01 1.2e-01 1.0e-01 9.4e-02 8.3e-02 7.7e-02 7.2e-02 6.3e-02 6.3e-02 5.8e-02 5.1e-02 4.9e-02 4.5e-02 4.2e-02 3.5e-02 3.4e-02 3.0e-02 2.6e-02 2.5e-02 2.3e-02 1.9e-02 1.7e-02 1.5e-02 1.3e-02 1.0e-02 8.6e-03 7.5e-03 7.4e-03 4.4e-03 3.1e-03 3.1e-03 2.5e-03 2.2e-03 2.1e-03 1.9e-03 1.6e-03 1.2e-03 8.6e-04 7.8e-04 4.8e-04 2.6e-04 2.4e-04 1.2e-04 8.7e-05 7.5e-05 1.7e-05 1.0e-05 3.5e-06 3.4e-06 1.3e-06 5.4e-07 3.5e-07 3.4e-07 7.3e-08 1.2e-08 1.7e-10 9.7e-16 4.4e-16 7.3e-17 7.3e-17 7.3e-17
+  dim(N) = 36 (rel sv < 0.01); random expectation dim(N)/72 = 0.500
+   N00 rel sv 8.6e-03  OTHER           inputs>=20%: ['mix_lneta']  mix_lneta:0.46 x_co:0.17 mix_eps:0.16
+   N01 rel sv 7.5e-03  OTHER           inputs>=20%: ['eps_co']  eps_co:0.50 mix_lneta:0.16 mix_eps:0.14
+   N02 rel sv 7.4e-03  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'M_co']  M_co:0.36 lneta_co:0.30 eps_co:0.17
+   N03 rel sv 4.4e-03  OTHER           inputs>=20%: ['invT']  invT:0.89 molal:0.02 mix_eps:0.02
+   N04 rel sv 3.1e-03  OTHER           inputs>=20%: ['eps_co']  eps_co:0.30 lneta_co:0.18 mix_lneta:0.17
+   N05 rel sv 3.1e-03  OTHER           inputs>=20%: ['lneta_co']  lneta_co:0.24 eps_co:0.17 mix_lneta:0.17
+   N06 rel sv 2.5e-03  OTHER           inputs>=20%: ['molal']  molal:0.40 M_co:0.14 lneta_co:0.14
+   N07 rel sv 2.2e-03  REDISTRIBUTION  inputs>=20%: ['x_co', 'mix_lneta', 'molal']  x_co:0.24 mix_lneta:0.23 molal:0.21
+   N08 rel sv 2.1e-03  OTHER           inputs>=20%: ['x_co']  x_co:0.20 mix_eps:0.17 lneta_co:0.15
+   N09 rel sv 1.9e-03  OTHER           inputs>=20%: ['x_co']  x_co:0.23 mix_eps:0.19 lneta_co:0.17
+   N10 rel sv 1.6e-03  WITHIN-EDGE     inputs>=20%: ['invT']  invT:0.95 lneta_co:0.02 eps_co:0.01
+   N11 rel sv 1.2e-03  REDISTRIBUTION  inputs>=20%: ['eps_co', 'M_co', 'mix_eps']  M_co:0.32 mix_eps:0.23 eps_co:0.21
+   N12 rel sv 8.6e-04  REDISTRIBUTION  inputs>=20%: ['eps_co', 'mix_eps']  mix_eps:0.34 eps_co:0.25 mix_lneta:0.16
+   N13 rel sv 7.8e-04  REDISTRIBUTION  inputs>=20%: ['M_co', 'mix_eps']  mix_eps:0.36 M_co:0.23 x_co:0.16
+   N14 rel sv 4.8e-04  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'mix_eps']  lneta_co:0.27 mix_eps:0.24 x_co:0.17
+   N15 rel sv 2.6e-04  OTHER           inputs>=20%: ['M_co']  M_co:0.29 lneta_co:0.15 mix_lneta:0.15
+   N16 rel sv 2.4e-04  OTHER           inputs>=20%: ['molal']  molal:0.87 M_co:0.03 mix_eps:0.03
+   N17 rel sv 1.2e-04  REDISTRIBUTION  inputs>=20%: ['eps_co', 'mix_eps']  eps_co:0.43 mix_eps:0.32 lneta_co:0.08
+   N18 rel sv 8.7e-05  OTHER           inputs>=20%: ['x_co']  x_co:0.51 eps_co:0.19 mix_eps:0.14
+   N19 rel sv 7.5e-05  OTHER           inputs>=20%: ['M_co']  M_co:0.60 mix_eps:0.15 mix_lneta:0.09
+   N20 rel sv 1.7e-05  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'mix_lneta']  mix_lneta:0.37 lneta_co:0.25 eps_co:0.15
+   N21 rel sv 1.0e-05  REDISTRIBUTION  inputs>=20%: ['eps_co', 'mix_eps']  eps_co:0.43 mix_eps:0.23 lneta_co:0.15
+   N22 rel sv 3.5e-06  REDISTRIBUTION  inputs>=20%: ['eps_co', 'mix_lneta']  eps_co:0.36 mix_lneta:0.20 x_co:0.15
+   N23 rel sv 3.4e-06  OTHER           inputs>=20%: ['molal']  molal:0.88 x_co:0.03 mix_eps:0.03
+   N24 rel sv 1.3e-06  OTHER           inputs>=20%: ['lneta_co']  lneta_co:0.32 mix_lneta:0.20 eps_co:0.19
+   N25 rel sv 5.4e-07  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'mix_lneta']  mix_lneta:0.53 lneta_co:0.23 eps_co:0.14
+   N26 rel sv 3.5e-07  OTHER           inputs>=20%: ['molal']  molal:0.84 mix_lneta:0.05 mix_eps:0.04
+   N27 rel sv 3.4e-07  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'mix_eps']  lneta_co:0.22 mix_eps:0.21 mix_lneta:0.20
+   N28 rel sv 7.3e-08  REDISTRIBUTION  inputs>=20%: ['M_co', 'mix_lneta']  M_co:0.56 mix_lneta:0.23 lneta_co:0.20
+   N29 rel sv 1.2e-08  OTHER           inputs>=20%: ['mix_lneta']  mix_lneta:0.53 M_co:0.20 lneta_co:0.18
+   N30 rel sv 1.7e-10  WITHIN-EDGE     inputs>=20%: ['molal']  molal:1.00 mix_lneta:0.00 M_co:0.00
+   N31 rel sv 9.7e-16  REDISTRIBUTION  inputs>=20%: ['eps_co', 'lneta_co']  eps_co:0.67 lneta_co:0.21 M_co:0.11
+   N32 rel sv 4.4e-16  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'mix_lneta']  mix_lneta:0.44 lneta_co:0.40 M_co:0.15
+   N33 rel sv 7.3e-17  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'M_co']  lneta_co:0.65 M_co:0.30 mix_lneta:0.04
+   N34 rel sv 7.3e-17  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'M_co']  lneta_co:0.55 M_co:0.38 mix_lneta:0.07
+   N35 rel sv 7.3e-17  REDISTRIBUTION  inputs>=20%: ['lneta_co', 'M_co']  lneta_co:0.63 M_co:0.37 mix_lneta:0.00
+  classes: {'REDISTRIBUTION': 18, 'WITHIN-EDGE': 2, 'OTHER': 16}; REDISTRIBUTION involving the correlated group: 18/36
+  input correlation matrix:
+        x_co   eps_co lneta_co     M_co  mix_eps mix_lnet     invT    molal
+    x_co        1.000   -0.203   -0.177   -0.006   -0.351   -0.618    0.079    0.238
+    eps_co     -0.203    1.000    0.966    0.020    0.894    0.773   -0.060    0.043
+    lneta_co   -0.177    0.966    1.000    0.233    0.860    0.806   -0.061    0.071
+    M_co       -0.006    0.020    0.233    1.000    0.051    0.280   -0.056    0.032
+    mix_eps    -0.351    0.894    0.860    0.051    1.000    0.907   -0.119   -0.056
+    mix_lnet   -0.618    0.773    0.806    0.280    0.907    1.000   -0.127   -0.102
+    invT        0.079   -0.060   -0.061   -0.056   -0.119   -0.127    1.000    0.048
+    molal       0.238    0.043    0.071    0.032   -0.056   -0.102    0.048    1.000
+  constant shifts: the per-unit layer-0 bias represents a constant EXACTLY (absorbed by c in Step 2).
+    edge x_co      : relative residual of fitting the constant 1 with its 9 columns = 6.95e-03  (distinct values on training rows: 49)
+    edge eps_co    : relative residual of fitting the constant 1 with its 9 columns = 3.68e-05  (distinct values on training rows: 30)
+    edge lneta_co  : relative residual of fitting the constant 1 with its 9 columns = 1.03e-05  (distinct values on training rows: 30)
+    edge M_co      : relative residual of fitting the constant 1 with its 9 columns = 6.10e-06  (distinct values on training rows: 30)
+    edge mix_eps   : relative residual of fitting the constant 1 with its 9 columns = 1.06e-02  (distinct values on training rows: 49)
+    edge mix_lneta : relative residual of fitting the constant 1 with its 9 columns = 7.20e-03  (distinct values on training rows: 49)
+    edge invT      : relative residual of fitting the constant 1 with its 9 columns = 1.51e-02  (distinct values on training rows: 20)
+    edge molal     : relative residual of fitting the constant 1 with its 9 columns = 1.76e-05  (distinct values on training rows: 1139)
+  sensitivity (no verdict): dim(N) of column-centred M = 34
+  --- N is now fixed; trained weights are loaded from here on ---
+
+==================== STEP 2: where do models differ? ====================
+  check: max |M theta_j - sum of continuous layer-1 edges| on the teacher = 2.53e-07
+  set A (independent, capped): 90 unit pairs; median fraction in N 0.942 (random 0.500); |r|>=0.8: 0.930 (n=14), |r|<0.8: 0.945 (n=76); param-space scale (sensitivity) 0.929; match |r| median 0.485
+  set B, control-3 state: 120 unit pairs; median fraction in N 0.713 (random 0.500); |r|>=0.8: 0.814 (n=26), |r|<0.8: 0.657 (n=94); param-space scale (sensitivity) 0.578; match |r| median 0.659
+  set B, capped state   : 120 unit pairs; median fraction in N 0.949 (random 0.500); |r|>=0.8: 0.954 (n=17), |r|<0.8: 0.946 (n=103); param-space scale (sensitivity) 0.942; match |r| median 0.594
+  per-student unit match |corr| to the teacher (teacher units 0-5), control-3 -> capped:
+    100: [0.6878, 0.7109, 0.3437, 0.7276, 0.2804, 0.4768] -> [0.2746, 0.7305, 0.1482, 0.8345, 0.4976, 0.5926]   median frac in N 0.769 -> 0.958
+    101: [0.4107, 0.9214, 0.3451, 0.8304, 0.547, 0.6384] -> [0.5248, 0.6488, 0.1002, 0.7796, 0.5221, 0.7332]   median frac in N 0.774 -> 0.943
+    102: [0.7478, 0.6704, 0.1057, 0.6877, 0.3904, 0.659] -> [0.8153, 0.7497, 0.2369, 0.7656, 0.4255, 0.4724]   median frac in N 0.597 -> 0.956
+    103: [0.6733, 0.6469, 0.2724, 0.8209, 0.5989, 0.6253] -> [0.4449, 0.0698, 0.2573, 0.8403, 0.6329, 0.6269]   median frac in N 0.522 -> 0.954
+    104: [0.4648, 0.9545, 0.2783, 0.8807, 0.5097, 0.4788] -> [0.5815, 0.8611, 0.4952, 0.7324, 0.205, 0.5142]   median frac in N 0.716 -> 0.929
+    105: [0.7765, 0.9098, 0.5605, 0.5029, 0.4426, 0.5356] -> [0.8293, 0.6524, 0.2564, 0.7731, 0.7148, 0.4653]   median frac in N 0.771 -> 0.930
+    106: [0.928, 0.8733, 0.4187, 0.8164, 0.753, 0.3499] -> [0.7331, 0.7752, 0.1962, 0.9043, 0.3347, 0.5306]   median frac in N 0.754 -> 0.892
+    107: [0.617, 0.9144, 0.3753, 0.7624, 0.632, 0.5903] -> [0.4928, 0.2854, 0.6351, 0.89, 0.3504, 0.4139]   median frac in N 0.727 -> 0.946
+    108: [0.5713, 0.6706, 0.5807, 0.7621, 0.4049, 0.9217] -> [0.5373, 0.6441, 0.4934, 0.7017, 0.2668, 0.6744]   median frac in N 0.804 -> 0.965
+    109: [0.7926, 0.7855, 0.2819, 0.6982, 0.5088, 0.6594] -> [0.6273, 0.9063, 0.4044, 0.8486, 0.4591, 0.7402]   median frac in N 0.739 -> 0.957
+    110: [0.2097, 0.7892, 0.6248, 0.1959, 0.6032, 0.6919] -> [0.4653, 0.8466, 0.2868, 0.7774, 0.4972, 0.6191]   median frac in N 0.620 -> 0.947
+    111: [0.3016, 0.9035, 0.4908, 0.9063, 0.7043, 0.7097] -> [0.7816, 0.7887, 0.3195, 0.5432, 0.5829, 0.3164]   median frac in N 0.689 -> 0.967
+    112: [0.7643, 0.3481, 0.3036, 0.8421, 0.3151, 0.7517] -> [0.4067, 0.6453, 0.201, 0.5619, 0.2812, 0.6022]   median frac in N 0.692 -> 0.938
+    113: [0.784, 0.7718, 0.8063, 0.8529, 0.1689, 0.5935] -> [0.7396, 0.3237, 0.5423, 0.1935, 0.4455, 0.6926]   median frac in N 0.740 -> 0.964
+    114: [0.656, 0.9201, 0.1892, 0.877, 0.3598, 0.603] -> [0.5947, 0.8405, 0.6333, 0.6703, 0.112, 0.6817]   median frac in N 0.693 -> 0.962
+    115: [0.636, 0.7894, 0.4669, 0.8744, 0.2938, 0.6974] -> [0.661, 0.8412, 0.4986, 0.7052, 0.263, 0.2052]   median frac in N 0.746 -> 0.971
+    116: [0.8193, 0.772, 0.2316, 0.7766, 0.3049, 0.5025] -> [0.7684, 0.8722, 0.6813, 0.8986, 0.3489, 0.4343]   median frac in N 0.608 -> 0.906
+    117: [0.3948, 0.8339, 0.4737, 0.8894, 0.7225, 0.8196] -> [0.4081, 0.6594, 0.204, 0.8259, 0.7781, 0.441]   median frac in N 0.707 -> 0.927
+    118: [0.8483, 0.478, 0.7085, 0.6687, 0.6134, 0.7248] -> [0.6458, 0.5484, 0.4778, 0.8864, 0.2857, 0.4068]   median frac in N 0.672 -> 0.946
+    119: [0.6256, 0.8984, 0.2134, 0.8325, 0.7562, 0.7795] -> [0.6379, 0.8928, 0.5443, 0.6593, 0.6529, 0.6991]   median frac in N 0.734 -> 0.933
+  loss ratio control-3 state / capped state (own training loss): median 9.61, range [7.21, 13.86]
+  H6 count: students with higher median fraction in N when capped: 20/20
+
+==================== STEP 3: full Hessian (float64, 609 params) ====================
+  students by final max|grad|: lowest 115 (1.13e-06), 10th 104 (2.28e-06), highest 114 (3.73e-05)
+  ind 0: loss via Hessian fn 8.5214775582e-03 (direct 8.5214779148e-03); eigenvalues: 25 negative, min -3.64e-06, max 3.95e+02; 10 smallest: -3.6e-06 -1.0e-06 -7.8e-07 -5.5e-07 -4.3e-07 -3.0e-07 -1.8e-07 -1.0e-07 -8.3e-08 -7.4e-08
+      flattest-10 pooled overlap with N: 0.61 0.60 0.67 0.74 0.75 0.76 0.68 0.92 0.85 0.89; layer-1 block share of ||v||^2: 0.02 0.01 0.00 0.00 0.00 0.03 0.04 0.92 0.59 0.26
+      classes: OTHER(eps_co), REDIS(eps_co/mix_ln), OTHER(eps_co), REDIS(eps_co/lneta_), OTHER(eps_co), OTHER(eps_co), REDIS(x_co/eps_co/M_co), REDIS(lneta_/M_co), REDIS(x_co/M_co), REDIS(x_co/M_co/mix_ln)
+  ind 1: loss via Hessian fn 8.7839252485e-03 (direct 8.7839234433e-03); eigenvalues: 39 negative, min -1.72e-06, max 1.85e+03; 10 smallest: -1.7e-06 -1.3e-06 -5.1e-07 -4.2e-07 -4.1e-07 -3.0e-07 -2.2e-07 -1.9e-07 -1.4e-07 -1.2e-07
+      flattest-10 pooled overlap with N: 0.87 0.68 0.94 0.49 0.85 0.94 0.93 0.93 0.95 0.98; layer-1 block share of ||v||^2: 0.70 0.07 0.78 0.02 0.01 0.32 0.85 0.00 0.22 0.34
+      classes: OTHER(eps_co), OTHER(mix_ln), OTHER(x_co), OTHER(lneta_), REDIS(lneta_/M_co), REDIS(eps_co/lneta_), REDIS(eps_co/lneta_), OTHER(lneta_), REDIS(lneta_/mix_ep), REDIS(lneta_/mix_ep)
+  ind 2: loss via Hessian fn 9.4532809301e-03 (direct 9.4532817190e-03); eigenvalues: 25 negative, min -1.12e-05, max 3.05e+03; 10 smallest: -1.1e-05 -7.1e-06 -4.2e-06 -3.3e-06 -2.0e-06 -1.5e-06 -1.3e-06 -1.1e-06 -8.8e-07 -4.4e-07
+      flattest-10 pooled overlap with N: 0.59 0.49 0.56 0.88 0.83 0.92 0.85 0.69 0.79 0.92; layer-1 block share of ||v||^2: 0.01 0.07 0.01 0.78 0.82 0.85 0.09 0.92 0.01 0.27
+      classes: OTHER(x_co), OTHER, OTHER(eps_co), REDIS(x_co/mix_ln), REDIS(lneta_/mix_ep), OTHER(invT), REDIS(mix_ln/invT), REDIS(lneta_/mix_ln), REDIS(lneta_/mix_ln), OTHER(mix_ln)
+  ind 3: loss via Hessian fn 9.3786890383e-03 (direct 9.3786897972e-03); eigenvalues: 34 negative, min -9.00e-06, max 4.67e+03; 10 smallest: -9.0e-06 -6.0e-06 -5.6e-06 -5.0e-06 -2.6e-06 -7.4e-07 -6.7e-07 -6.4e-07 -4.8e-07 -4.2e-07
+      flattest-10 pooled overlap with N: 0.48 0.43 0.67 0.36 0.53 0.92 0.94 0.91 0.96 0.89; layer-1 block share of ||v||^2: 0.00 0.01 0.04 0.04 0.04 0.53 0.73 0.16 0.18 0.15
+      classes: REDIS(eps_co/M_co), REDIS(eps_co/M_co), OTHER(eps_co), OTHER(eps_co), OTHER(eps_co), OTHER(mix_ln), REDIS(x_co/mix_ep/mix_ln), REDIS(mix_ep/mix_ln), OTHER(mix_ep), REDIS(eps_co/mix_ep)
+  ind 4: loss via Hessian fn 8.9444334231e-03 (direct 8.9444330988e-03); eigenvalues: 26 negative, min -1.92e-06, max 3.47e+02; 10 smallest: -1.9e-06 -1.5e-06 -7.4e-07 -3.9e-07 -2.4e-07 -2.3e-07 -1.9e-07 -1.0e-07 -4.4e-08 -2.5e-08
+      flattest-10 pooled overlap with N: 0.93 0.83 0.88 0.89 0.79 0.85 0.93 0.94 0.78 0.86; layer-1 block share of ||v||^2: 0.03 0.00 0.01 0.69 0.02 0.01 0.95 0.98 0.01 0.61
+      classes: REDIS(eps_co/mix_ep), OTHER(eps_co), OTHER(eps_co), REDIS(x_co/eps_co/mix_ln), REDIS(lneta_/M_co), REDIS(eps_co/M_co), OTHER(M_co), REDIS(eps_co/lneta_), OTHER(eps_co), REDIS(lneta_/mix_ln)
+  ind 5: loss via Hessian fn 9.8999957320e-03 (direct 9.8999952465e-03); eigenvalues: 25 negative, min -1.51e-04, max 3.12e+03; 10 smallest: -1.5e-04 -1.4e-05 -7.7e-06 -3.2e-06 -2.4e-06 -1.7e-06 -1.2e-06 -1.1e-06 -5.2e-07 -3.6e-07
+      flattest-10 pooled overlap with N: 0.18 0.57 0.49 0.89 0.62 0.69 0.94 0.91 0.94 0.88; layer-1 block share of ||v||^2: 0.01 0.00 0.02 0.38 0.03 0.02 0.86 0.01 0.73 0.66
+      classes: OTHER, OTHER(eps_co), REDIS(eps_co/mix_ln), OTHER(eps_co), REDIS(eps_co/mix_ln), OTHER(eps_co), REDIS(M_co/mix_ln), REDIS(M_co/mix_ln), REDIS(eps_co/mix_ln), REDIS(mix_ep/mix_ln)
+  stu 115: loss via Hessian fn 4.3825048965e-05 (direct 4.3825042067e-05); eigenvalues: 25 negative, min -8.76e-07, max 2.64e+02; 10 smallest: -8.8e-07 -2.8e-07 -1.5e-07 -1.3e-07 -1.2e-07 -1.0e-07 -6.9e-08 -6.6e-08 -4.1e-08 -3.2e-08
+      flattest-10 pooled overlap with N: 0.42 0.94 0.90 0.94 0.80 0.88 0.91 0.91 0.93 0.98; layer-1 block share of ||v||^2: 0.01 0.80 0.16 0.55 0.01 0.02 0.08 0.79 0.56 0.67
+      classes: REDIS(x_co/eps_co), REDIS(M_co/invT), OTHER(lneta_), OTHER(lneta_), REDIS(eps_co/M_co), REDIS(eps_co/M_co), REDIS(lneta_/M_co), OTHER(lneta_), REDIS(eps_co/lneta_), REDIS(eps_co/lneta_)
+  stu 104: loss via Hessian fn 4.0329957680e-05 (direct 4.0329955180e-05); eigenvalues: 23 negative, min -2.40e-07, max 3.82e+02; 10 smallest: -2.4e-07 -1.4e-07 -9.7e-08 -8.1e-08 -7.1e-08 -6.7e-08 -4.6e-08 -3.0e-08 -2.5e-08 -2.4e-08
+      flattest-10 pooled overlap with N: 0.60 0.93 0.61 0.86 0.89 0.89 0.97 0.96 0.94 0.96; layer-1 block share of ||v||^2: 0.01 0.19 0.02 0.03 0.69 0.04 0.94 0.81 0.01 0.02
+      classes: OTHER(eps_co), REDIS(x_co/eps_co), REDIS(eps_co/mix_ln), OTHER(mix_ln), OTHER(mix_ln), OTHER(mix_ln), OTHER(M_co), REDIS(x_co/M_co), REDIS(eps_co/lneta_), OTHER(eps_co)
+  stu 114: loss via Hessian fn 3.9138070154e-05 (direct 3.9138092491e-05); eigenvalues: 24 negative, min -4.04e-06, max 5.91e+02; 10 smallest: -4.0e-06 -2.2e-06 -1.7e-06 -1.4e-06 -1.3e-06 -1.1e-06 -4.1e-07 -2.9e-07 -2.7e-07 -1.0e-07
+      flattest-10 pooled overlap with N: 0.80 0.85 0.89 0.88 0.90 0.90 0.92 0.93 0.92 0.95; layer-1 block share of ||v||^2: 0.01 0.04 0.11 0.07 0.09 0.07 0.43 0.30 0.35 0.64
+      classes: OTHER, OTHER(mix_ep), OTHER(molal), OTHER(molal), REDIS(lneta_/molal), REDIS(eps_co/molal), OTHER(mix_ln), OTHER(mix_ln), OTHER(mix_ln), REDIS(lneta_/mix_ln)
+  median pooled overlap over 90 flattest directions: 0.885
+
+VERDICTS: H1: held (dim N = 36); H2: held (18/36 group REDISTRIBUTION); H3: inconclusive (3 x random = 1.50 > 1, untestable; median 0.942); H4: inconclusive (3 x random = 1.50 > 1, untestable; median 0.949); H5: held (median pooled overlap 0.885); H6: held (20/20)
+
+==================== POST-HOC EXPLORATORY (not pre-registered; no verdicts) ====================
+  (a) 90 algebraically-smallest eigenvectors: layer-1 block share median 0.08; share >= 0.5 in 27/90; median pooled overlap for those 0.925, for share < 0.5 0.850; share-weighted overlap 0.903
+  (b) 10 eigenvalues closest to zero per model (90 vectors): |eig| median 7.5e-16; layer-1 block share median 0.00; median pooled overlap 0.949; for block share >= 0.5 (1): 0.913
+  random expectation for any overlap with N: dim(N)/72 = 0.500
