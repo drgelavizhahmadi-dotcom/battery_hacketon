@@ -1,0 +1,31 @@
+DISCREPANCIES (files win; see fiber_prereg.md):
+  1. brief says 3 salt points; KAN-delta training rows contain 4 salts ['LiAsF6', 'LiBF4', 'LiBOB', 'LiPF6'] -> salt edges at all 4, 3-test-salt subset reported too
+  2. brief defines on-fiber on h; model is fitted on delta = x_co*h -> primary on h (as specified), delta also reported
+  3. b_jk = sum of fitted constants + salt constant + layer-0 bias terms (needed for s_k^B = a s_j^A + b_jk)
+
+==================== STEP 1: polish the 20 saved seeds ====================
+  seed  loss before   loss after   mse after   penalty  iters  stop reason
+     0 2.257599e-02 9.277179e-03  8.9963e-03  2.81e-04   2000  iteration cap (2000)
+     1 2.124377e-02 9.475843e-03  9.1739e-03  3.02e-04   2000  iteration cap (2000)
+     2 2.440742e-02 1.013930e-02  9.6641e-03  4.75e-04   2000  iteration cap (2000)
+     3 1.756650e-02 1.011023e-02  9.8013e-03  3.09e-04   2000  iteration cap (2000)
+     4 2.237344e-02 9.497897e-03  9.2727e-03  2.25e-04   2000  iteration cap (2000)
+     5 2.277428e-02 1.053557e-02  1.0217e-02  3.18e-04   2000  iteration cap (2000)
+     6 1.892621e-02 9.877457e-03  9.3195e-03  5.58e-04   2000  iteration cap (2000)
+     7 2.103334e-02 1.014982e-02  9.6348e-03  5.15e-04   2000  iteration cap (2000)
+     8 1.946571e-02 9.783254e-03  9.5862e-03  1.97e-04   2000  iteration cap (2000)
+     9 1.964127e-02 1.035030e-02  9.9550e-03  3.95e-04   2000  iteration cap (2000)
+    10 1.868967e-02 9.964240e-03  9.5983e-03  3.66e-04   2000  iteration cap (2000)
+    11 2.152487e-02 9.281432e-03  9.0328e-03  2.49e-04   2000  iteration cap (2000)
+    12 3.331724e-02 9.980985e-03  9.5769e-03  4.04e-04   2000  iteration cap (2000)
+    13 1.912718e-02 1.045606e-02  1.0164e-02  2.92e-04   2000  iteration cap (2000)
+    14 2.764154e-02 1.009346e-02  9.6751e-03  4.18e-04   2000  iteration cap (2000)
+    15 2.348921e-02 1.012472e-02  9.8115e-03  3.13e-04   2000  iteration cap (2000)
+    16 2.244311e-02 9.859509e-03  9.5152e-03  3.44e-04   2000  iteration cap (2000)
+    17 1.932217e-02 9.382724e-03  9.1180e-03  2.65e-04   2000  iteration cap (2000)
+    18 1.838601e-02 9.883633e-03  9.4297e-03  4.54e-04   2000  iteration cap (2000)
+    19 1.863301e-02 1.031633e-02  9.8544e-03  4.62e-04   2000  iteration cap (2000)
+  d_AB(h): median 0.2216, range [0.1458, 0.2824]; on-fiber (d<0.05): 0/190 = 0.0%
+  d_AB(delta): median 0.1097; on-fiber: 0/190 = 0.0%
+
+No on-fiber pairs -> Steps 2-4 not run; F2-F5 inconclusive.

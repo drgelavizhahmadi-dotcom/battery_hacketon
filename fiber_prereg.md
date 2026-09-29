@@ -90,3 +90,43 @@ and (b) the multiple correlation of a two-unit linear regression. This tests whe
 
 Outputs: `fiber.py`, `fiber_output.txt`, `fiber_results.json`, figures in `figs/fiber/`
 (on_fiber_pairs, residual_ladder, edge_overlay_T, outgoing_crosscheck, unit_match).
+
+---
+
+## Verdicts (appended after the run; `fiber_output.txt`, `fiber_results.json`, `figs/fiber/on_fiber_pairs.png`)
+
+**Step 1: polishing.** All 20 seeds hit the **2000-iteration cap**; none met the relative-change
+criterion (< 1e-8), so none is certified as converged.
+- **Loss:** fell from 1.76–3.33e-2 to **9.28e-3 – 1.05e-2**. The MSE part is 9.0–10.2e-3, and the
+  smoothness penalty 2.0–5.6e-4.
+- **After polishing, the seeds agree with each other better than with the data.** The median
+  pairwise difference is 0.11 × std(delta), about 0.037 in delta, against a residual RMS of about
+  0.097. But no pair reaches the 0.05 threshold.
+
+| Quantity | Median | Range | On-fiber (< 0.05) |
+|---|---|---|---|
+| d_AB on h (primary) | 0.2216 | 0.1458–0.2824 | **0/190** |
+| d_AB on delta | 0.1097 | – | 0/190 |
+
+| Prediction | Verdict |
+|---|---|
+| **F1** ≥ 50% of pairs on-fiber | **failed**: 0/190 (0.0%). The closest pair is at d = 0.146, about 3× the threshold |
+| **F2** shared affine removes ≥ 80% of the centred residual (dense) | **inconclusive**: no on-fiber pairs, so Steps 2–4 were not run |
+| **F3** (ii) ≤ 1.5 × (iii) (dense) | **inconclusive** (not run) |
+| **F4** cross-check ≤ 2 × direct fit | **inconclusive** (not run) |
+| **F5** (ii) sparse ≥ 2 × dense, test largest | **inconclusive** (not run) |
+
+- **Explained fraction:** the fraction of seed-to-seed edge variation explained by the affine group
+  was **not measured**. It is only defined on on-fiber pairs, and there are none.
+- **Unit splitting (exploratory):** not run, for the same reason.
+
+**What the remaining variation points to:** the precondition for a symmetry test was not met. The
+20 polished seeds realise *different functions*, differing by 15–28% of std(h) and about 11% of
+std(delta), at nearly equal loss (the spread in final loss is about 13%). They are not one function
+written in 20 gauges. That points to **optimisation and data**: the loss has several nearly
+equivalent basins, or the seeds are still drifting along flat directions after 2000 iterations
+(every seed hit the cap). It does not point to a hidden symmetry, which this run cannot test.
+The closest evidence of "same function, different units" is control 3's (R) cell: there students
+matched a trained teacher to delta corr 0.9988 at 5% RMSE, yet units matched at only 0.659. That
+was produced by fitting a teacher, not by independent seeds on the data loss, and at a tolerance
+equal to the 5% threshold here.
