@@ -1,0 +1,69 @@
+DISCREPANCIES (files win; see fiber2_prereg.md):
+  1. control-3 R students have no polished weights (0 L-BFGS iters) -> start from control3_R_s*.pt
+  2. d_AB normalised by std of the DATA target delta (fiber.py used the ensemble mean)
+  3. 'h weighted by x_co' = delta literally; reported instead: x_co-weighted RMS of (h_A - h_B)
+  4. teacher = delta_s0.pt unpolished, as in control 3
+
+==================== STEP 0: certified convergence (float64) ====================
+    ind 0: cap (20000) after 20000 iters, loss 8.5214778125e-03, max|grad| 7.43e-05, rel 6.0e-05 (67.3 s)
+    ind 1: cap (20000) after 20000 iters, loss 8.7839233200e-03, max|grad| 5.63e-05, rel 5.5e-05 (65.9 s)
+    ind 2: cap (20000) after 20000 iters, loss 9.4532815780e-03, max|grad| 1.29e-04, rel 6.0e-05 (66.3 s)
+    ind 3: cap (20000) after 20000 iters, loss 9.3786896659e-03, max|grad| 2.42e-04, rel 7.1e-05 (66.9 s)
+    ind 4: cap (20000) after 20000 iters, loss 8.9444329494e-03, max|grad| 4.78e-05, rel 3.8e-05 (69.0 s)
+    ind 5: cap (20000) after 20000 iters, loss 9.8999950692e-03, max|grad| 1.19e-04, rel 2.3e-05 (67.9 s)
+    stu 100: cap (20000) after 20000 iters, loss 4.7718759903e-05, max|grad| 2.10e-05, rel 7.2e-04 (67.2 s)
+    stu 101: cap (20000) after 20000 iters, loss 4.2981756865e-05, max|grad| 8.13e-06, rel 4.6e-04 (68.3 s)
+    stu 102: cap (20000) after 20000 iters, loss 4.3289317381e-05, max|grad| 2.16e-06, rel 9.8e-07 (69.8 s)
+    stu 103: cap (20000) after 20000 iters, loss 4.9778685135e-05, max|grad| 4.28e-06, rel 1.4e-06 (78.2 s)
+    stu 104: cap (20000) after 20000 iters, loss 4.0329955063e-05, max|grad| 2.28e-06, rel 6.1e-07 (71.7 s)
+    stu 105: cap (20000) after 20000 iters, loss 4.4666294816e-05, max|grad| 9.53e-06, rel 1.1e-06 (71.1 s)
+    stu 106: cap (20000) after 20000 iters, loss 6.0388552694e-05, max|grad| 3.34e-06, rel 7.4e-07 (88.1 s)
+    stu 107: cap (20000) after 20000 iters, loss 5.1580635593e-05, max|grad| 1.66e-06, rel 8.5e-07 (79.4 s)
+    stu 108: cap (20000) after 20000 iters, loss 5.6490856197e-05, max|grad| 1.85e-06, rel 1.9e-07 (81.8 s)
+    stu 109: cap (20000) after 20000 iters, loss 3.9660222577e-05, max|grad| 1.75e-06, rel 2.7e-06 (70.7 s)
+    stu 110: cap (20000) after 20000 iters, loss 5.7867620527e-05, max|grad| 3.11e-05, rel 5.2e-04 (68.0 s)
+    stu 111: cap (20000) after 20000 iters, loss 5.1407599573e-05, max|grad| 1.78e-06, rel 8.3e-08 (72.3 s)
+    stu 112: cap (20000) after 20000 iters, loss 5.6027191971e-05, max|grad| 1.19e-06, rel 1.4e-07 (75.0 s)
+    stu 113: cap (20000) after 20000 iters, loss 5.2547095321e-05, max|grad| 1.23e-06, rel 3.7e-07 (87.1 s)
+    stu 114: cap (20000) after 20000 iters, loss 3.9138088877e-05, max|grad| 3.73e-05, rel 8.6e-04 (68.0 s)
+    stu 115: cap (20000) after 20000 iters, loss 4.3825041943e-05, max|grad| 1.13e-06, rel 3.7e-07 (76.0 s)
+    stu 116: cap (20000) after 20000 iters, loss 4.5247761201e-05, max|grad| 4.09e-06, rel 2.8e-07 (76.3 s)
+    stu 117: cap (20000) after 20000 iters, loss 4.8257367422e-05, max|grad| 1.66e-06, rel 2.9e-07 (85.9 s)
+    stu 118: cap (20000) after 20000 iters, loss 4.0216760879e-05, max|grad| 2.86e-06, rel 1.1e-06 (74.9 s)
+    stu 119: cap (20000) after 20000 iters, loss 3.7077181463e-05, max|grad| 1.37e-05, rel 7.7e-06 (68.0 s)
+
+         model       status  iters         final loss  max|grad|  rel(50 it)
+         ind 0  cap (20000)  20000 8.521477812460e-03   7.43e-05     6.0e-05
+         ind 1  cap (20000)  20000 8.783923319999e-03   5.63e-05     5.5e-05
+         ind 2  cap (20000)  20000 9.453281578005e-03   1.29e-04     6.0e-05
+         ind 3  cap (20000)  20000 9.378689665853e-03   2.42e-04     7.1e-05
+         ind 4  cap (20000)  20000 8.944432949400e-03   4.78e-05     3.8e-05
+         ind 5  cap (20000)  20000 9.899995069193e-03   1.19e-04     2.3e-05
+       stu 100  cap (20000)  20000 4.771875990282e-05   2.10e-05     7.2e-04
+       stu 101  cap (20000)  20000 4.298175686455e-05   8.13e-06     4.6e-04
+       stu 102  cap (20000)  20000 4.328931738131e-05   2.16e-06     9.8e-07
+       stu 103  cap (20000)  20000 4.977868513463e-05   4.28e-06     1.4e-06
+       stu 104  cap (20000)  20000 4.032995506291e-05   2.28e-06     6.1e-07
+       stu 105  cap (20000)  20000 4.466629481566e-05   9.53e-06     1.1e-06
+       stu 106  cap (20000)  20000 6.038855269434e-05   3.34e-06     7.4e-07
+       stu 107  cap (20000)  20000 5.158063559258e-05   1.66e-06     8.5e-07
+       stu 108  cap (20000)  20000 5.649085619733e-05   1.85e-06     1.9e-07
+       stu 109  cap (20000)  20000 3.966022257744e-05   1.75e-06     2.7e-06
+       stu 110  cap (20000)  20000 5.786762052677e-05   3.11e-05     5.2e-04
+       stu 111  cap (20000)  20000 5.140759957309e-05   1.78e-06     8.3e-08
+       stu 112  cap (20000)  20000 5.602719197117e-05   1.19e-06     1.4e-07
+       stu 113  cap (20000)  20000 5.254709532100e-05   1.23e-06     3.7e-07
+       stu 114  cap (20000)  20000 3.913808887702e-05   3.73e-05     8.6e-04
+       stu 115  cap (20000)  20000 4.382504194269e-05   1.13e-06     3.7e-07
+       stu 116  cap (20000)  20000 4.524776120101e-05   4.09e-06     2.8e-07
+       stu 117  cap (20000)  20000 4.825736742234e-05   1.66e-06     2.9e-07
+       stu 118  cap (20000)  20000 4.021676087913e-05   2.86e-06     1.1e-06
+       stu 119  cap (20000)  20000 3.707718146256e-05   1.37e-05     7.7e-06
+
+  converged: independent 0/6 []; R students 0/20 []
+
+==================== STEP 1: on-fiber test on delta (converged independent seeds) ====================
+
+==================== STEP 2: converged R students vs teacher ====================
+
+VERDICTS: G1: failed (independent 0/6, students 0/20); G2: inconclusive (only 0 independent seed(s) converged); G3: inconclusive (only 0 independent seed(s) converged); G4: inconclusive (no converged students or no unit pairs with |corr| >= 0.9); G5: inconclusive (no converged students or no unit pairs with |corr| >= 0.9)

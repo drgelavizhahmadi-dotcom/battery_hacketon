@@ -67,3 +67,41 @@ in G1–G5 are the ones in the brief, unchanged.
 
 Outputs: `fiber2.py`, `fiber2_output.txt`, `fiber2_results.json`, `figs/fiber2/`
 (convergence, on_fiber, residual_ladder, unit_match, outgoing_crosscheck).
+
+---
+
+## Verdicts (appended after the run; `fiber2_output.txt`, `fiber2_results.json`, `figs/fiber2/convergence.png`)
+
+**Step 0: no model certified convergence.** All 26 hit the 20000-iteration cap; none stalled.
+
+| Group | Converged | Final loss | max \|grad\| at the cap (threshold 1e-7) | Relative change over the last 50 iterations (threshold 1e-12) |
+|---|---|---|---|---|
+| Independent seeds 0–5 | **0/6** | 8.52e-3 – 9.90e-3 (from 9.28e-3 – 1.05e-2 after `fiber.py`) | 4.8e-5 – 2.4e-4 | 2.3e-5 – 7.1e-5 |
+| Control-3 R students 100–119 | **0/20** | 3.7e-5 – 6.0e-5 | 1.1e-6 – 3.7e-5 (median ≈ 2.2e-6) | 8.3e-8 – 8.6e-4 |
+
+For scale, the students' loss at the 5% RMSE gate was about (0.05 × 0.336)² ≈ 2.8e-4. So 20000
+iterations cut it by roughly 5–7×, and it was still falling.
+
+| Prediction | Verdict |
+|---|---|
+| **G1** ≥ 4/6 independent and ≥ 50% of R students converge | **failed**: 0/6 and 0/20 |
+| **G2** ≥ 1 independent pair on-fiber (Definition A) | **inconclusive**: 0 converged seeds, so Step 1 was not run |
+| **G3** ≥ 50% of independent pairs on-fiber (Definition B) | **inconclusive** (not run) |
+| **G4** shared affine removes ≥ 80% of the centred residual (dense) | **inconclusive**: 0 converged students, so Step 2 was not run |
+| **G5** (ii) ≤ 1.5 × (iii) (dense) | **inconclusive** (not run) |
+
+Notes (not verdicts):
+- **The criterion is far from reach, not narrowly missed.** The independent seeds are 2–3 orders of
+  magnitude from the gradient threshold and 7 orders from the relative-change threshold, and their
+  loss is still falling at about 5e-5 per 50 iterations. The students are about 1 order from the
+  gradient threshold but 5–9 orders from the relative-change threshold.
+  - Both groups are **still descending along very flat directions** after 20000 L-BFGS iterations
+    in float64.
+  - For these models, "certified convergence" as defined (|grad| < 1e-7 and 1e-12 per 50 iterations)
+    is not achievable within this budget. It may not be achievable at all under L-BFGS on this
+    penalised loss.
+- **Whether control 3's unit mismatch (0.659) survives convergence remains untested.** No model
+  reached the pre-registered state. Running Step 2 on the capped students would be an exploratory
+  analysis outside this pre-registration.
+- The new `gauge_weights/fiber2_*` files (26 models plus 2 meta files) postdate the archive
+  `gauge_weights_2026-09-29.tar.gz` and are **not** in `weights_manifest.txt`.
