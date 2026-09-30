@@ -108,3 +108,60 @@ interventions:
 Commit it.
 
 Outputs: `rank.py`, `rank_output.txt`, `rank_results.json`, `figs/rank/`.
+
+---
+
+## Verdicts (appended after the run; `rank_output.txt`, `rank_results.json`, `figs/rank/rank_comparison.png`)
+
+**Checks.**
+- **Step 0:** arm G keeps 14 of 27 directions and arm F keeps 36 of 72, as expected. On fold A's
+  training rows, arm G keeps 14 and arm F keeps **33**.
+- **Reparametrisation:** RankKAN with P = I reproduces `kan.train` seed 0 exactly (difference 0.0).
+- **Equivalence check: FAILED at its pre-registered tolerance, in float32.** The 1e-5 limit was
+  exceeded for G2 (1.1e-5), G5 (2.0e-5) and all arm F seeds (1.0–2.7e-4).
+  - Post hoc, in float64, the converted KAN and the constrained model agree **exactly** (0.0) for
+    all 12 models. The float32 failure is rounding in the two float32 evaluation paths, not a
+    conversion error.
+  - Gradient, loss and Hessian metrics use the float64 constrained models directly. d_AB and edge
+    correlations use the float32 conversions, whose error (≤ 2.7e-4 in delta) is about 1% of the
+    d_AB differences (about 0.03).
+- **Convergence:** no constrained model certified convergence (arm G 0/6, arm F 0/6; all at the
+  20000-iteration cap).
+- **KAN-delta fold A reference,** recomputed: 0.1420 (the brief says 0.142).
+
+| Model | Median max\|grad\| (ratio) | Median d_AB (ratio) | Median final loss (ratio) | Edge corr, 1000/T & molality | Fold A RMSE / bias |
+|---|---|---|---|---|---|
+| Baseline (fiber2 capped) | 8.66e-5 (1) | 0.1041 (1) | 9.162e-3 (1) | 0.102 | 0.1420 / +0.0067 (KAN-delta) |
+| Arm G (co-solvent, 14/27) | 3.47e-4 (**4.00**) | 0.0984 (**0.945**) | 9.195e-3 (1.004) | **0.927** | **0.1499** / −0.0439 |
+| Arm F (full M, 36/72) | 2.52e-3 (**29.1**) | 0.0842 (**0.808**) | 1.007e-2 (1.099) | 0.338 | 0.1587 / −0.0582 |
+
+| Prediction | Arm G | Arm F |
+|---|---|---|
+| I1: max\|grad\| ratio ≤ 0.1 | **failed** (4.00) | **failed** (29.1) |
+| I2: d_AB ratio ≤ 0.5 | **failed** (0.945) | **failed** (0.808) |
+| I3 (sanity): loss ratio ≤ 1.10 | passed (1.004) | passed, narrowly (1.099) |
+| I4: fold A RMSE ≤ 0.150 | **held**, narrowly (0.1499) | **failed** (0.1587) |
+| I5: edge corr ≥ baseline + 0.1 (0.202) | **held** (0.927) | **held** (0.338; see X1: arm F constrains these edges) |
+| **I6:** arm F's ratios ≤ arm G's for both max\|grad\| and d_AB | **failed**: max\|grad\| ratio F 29.1 vs G 4.00. The d_AB ratio does favour F (0.808 vs 0.945) | |
+
+**Interpretation, by the pre-registered rules.** I3 passed for both arms, so I1 and I2 are
+interpretable. **I1 and I2 fail for both arms, so removing the data-invisible directions does not
+fix the landscape, and the cause lies elsewhere (layer 2, saddle regions).** The rule "I6 fails
+while arm G passes I1 and I2" does not apply, because arm G failed them. I5 is secondary: constraining
+the co-solvent block made the unconstrained 1000/T and molality edges far more consistent across
+seeds (0.102 → 0.927).
+
+Notes (post hoc, not verdicts):
+- **The constraint worsens the landscape's conditioning.** The largest Hessian eigenvalue rises from
+  3.5e2–4.7e3 (baseline) to 5.5e2–6.3e3 (arm G) and **1.3e5–2.0e6** (arm F). All 18 models keep
+  21–39 negative eigenvalues, and every model still has an exact null space (|λ| median about
+  1e-14 – 1e-17). The directions P retains are defined in raw coefficient coordinates without
+  rescaling, which is a likely reason the constrained models stall with larger gradients.
+- **The removed directions are not quite free for accuracy.** The fit barely changes (loss +0.4% for
+  G, +9.9% for F), but held-out accuracy degrades (fold A 0.142 → 0.150 for G and 0.159 for F).
+  That is consistent with the loss ratio: the retained-subspace tolerance also removes directions
+  the data weakly see.
+- **d_AB falls only modestly** (−5.5% for G, −19% for F), far from the ≤ 0.5× predicted.
+- **The baseline edge correlation (0.102)** is taken over all 6 matched units × 2 inputs, including
+  units whose 1000/T or molality edge is nearly flat. It is not comparable to control 3's
+  active-edge recovery (0.962 for 1000/T).

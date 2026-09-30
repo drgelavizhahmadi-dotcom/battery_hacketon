@@ -126,29 +126,68 @@ to 0.594.
 (`gauge_weights_2026-09-29.tar.gz` and `…29b.tar.gz`) and listed with SHA-256 checksums and producing
 commits in `weights_manifest.txt`.
 
-## Intervention: basis-size rule for co-solvent-determined inputs (`rule_prereg.md`)
+## Interventions
 
-The rule gives each co-solvent-determined input K RBF centres, with K the largest integer such
-that (number of such inputs) × (K + 1) ≤ n_co − 1, where n_co is the number of distinct
-co-solvent combinations.
+Two interventions tested whether removing layer-1 coefficient directions that the data cannot see
+fixes the slow convergence and seed disagreement.
 
-| Prediction | Verdict | Key number | Prereg → results |
-|---|---|---|---|
-| Gate: ≥ 6 columns removed | **stopped** | n_co = 30, K = 8 = final.py's, so 0 columns removed | 6c93bf4 → a53cc2a |
-| I1: max\|grad\| ≤ 0.1 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
-| I2: d_AB ≤ 0.5 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
-| I3: final loss ≤ 1.10 × baseline | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
-| I4: fold A RMSE ≤ 0.150 | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
-| I5: outside-group edge corr ≥ baseline + 0.1 | inconclusive (not run) | – | 6c93bf4 → a53cc2a |
+### 1. Basis-size rule (`rule_prereg.md`): gate stopped, a no-op
 
-**What the intervention does and does not establish.** It establishes only that this rule, applied
-to this data, leaves the model unchanged. The 30 distinct co-solvent combinations allow up to 9
-columns for each of the 3 co-solvent inputs, which is exactly final.py's SiLU + 8 RBF basis. The
-outcome was anticipated from committed files before any code ran, and was confirmed by Step 0.
+The rule gives each co-solvent-determined input (eps_co, lneta_co, M_co) K RBF centres, with
+3 × (K + 1) ≤ n_co − 1. There are n_co = 30 distinct co-solvent combinations, so K = 8, which is
+exactly final.py's basis. **0 columns were removed and the gate stopped;** I1–I5 are inconclusive
+(prereg 6c93bf4 → results a53cc2a). The outcome was anticipated from committed files before any code
+ran.
 
-It establishes nothing about whether excess basis on these inputs causes the flat directions, the
-seed disagreement or the slow convergence: nothing was trained. The redundancy it targeted does
-exist (the co-solvent block of the first-layer design has numerical rank 14 of 27), but counting
-distinct values cannot detect it. That rank deficit comes from strong correlation among inputs
-that share the same 30 points. Testing the causal claim needs a rule tied to the block's
-numerical rank, which would remove 13 columns, under a new pre-registration.
+The redundancy it targeted is real (the co-solvent block has numerical rank 14 of 27), but counting
+distinct values cannot detect it. The rank deficit comes from strong correlation among inputs that
+share the same 30 points.
+
+### 2. Rank constraint (`rank_prereg.md`)
+
+Each unit's layer-1 coefficients on the affected columns are restricted to the retained right
+singular vectors of the design matrix (θ = Pz, relative singular value ≥ 1e-2):
+- **Arm G:** the co-solvent block, 14 of 27 directions kept.
+- **Arm F:** all of M, 36 of 72 kept.
+
+Training and float64 L-BFGS polishing were done exactly as for the baseline (the fiber2 capped
+independent seeds). Prereg df44ead → results aeb6f87; weights in `gauge_weights_2026-09-29c.tar.gz`
+(manifest 148fb3c).
+
+| Prediction | Arm G | Arm F |
+|---|---|---|
+| I1: median max\|grad\| ≤ 0.1 × baseline | **failed** (4.00×) | **failed** (29.1×) |
+| I2: median d_AB ≤ 0.5 × baseline | **failed** (0.945×) | **failed** (0.808×) |
+| I3 (sanity): median loss ≤ 1.10 × baseline | passed (1.004×) | passed, narrowly (1.099×) |
+| I4: fold A RMSE ≤ 0.150 (KAN-delta 0.1420) | **held**, narrowly (0.1499) | **failed** (0.1587) |
+| I5: edge corr on 1000/T and molality ≥ baseline + 0.1 (baseline 0.102) | **held** (0.927) | **held** (0.338) |
+| I6: arm F's improvement ≥ arm G's in both I1 and I2 | **failed** (max\|grad\| 29.1× vs 4.00×; d_AB does favour F, 0.808 vs 0.945) | |
+
+No constrained model certified convergence (0/12). The pre-registered float32 equivalence check
+exceeded its 1e-5 tolerance (up to 2.7e-4). In float64 the conversion is exact, so this is rounding,
+not a modelling error.
+
+**What is and is not established.**
+
+*Established:*
+- **Removing the near-null directions of the layer-1 design does not cure the optimisation problem.**
+  In both arms the gradients at the iteration cap got *larger* (4× and 29×) and seed disagreement
+  fell only slightly (−5% and −19%), with no model converging.
+- By the pre-registered interpretation, that places the cause of the slow convergence and the seed
+  disagreement **outside the data-invisible layer-1 directions**. Candidates are layer 2, the
+  saddle-rich landscape (every model has 21–39 negative Hessian eigenvalues), and the conditioning,
+  which the constraint made worse (largest eigenvalue up to 2e6 in arm F).
+- This **weakens the causal reading of the support study.** There, the seed differences sat mostly
+  in N and moved further into N as the fit improved (H6). This intervention shows that those
+  differences are a symptom rather than the driver: taking N away does not make seeds agree on the
+  function or converge.
+- **One effect that does hold:** constraining the co-solvent block made the *other* edges (1000/T,
+  molality) far more consistent across seeds (0.102 → 0.927). So identifiability of edges outside
+  the correlated block can be improved without changing the fit (loss +0.4%). Accuracy moves to
+  fold A 0.150, at the pre-registered limit.
+
+*Not established:*
+- that any basis or rank rule fixes convergence;
+- that the improved edge consistency reflects the *true* edge shapes (there is no teacher here);
+- whether a rescaled or better-conditioned version of the constraint would behave differently
+  (it was not tested).
