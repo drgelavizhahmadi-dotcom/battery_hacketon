@@ -55,8 +55,8 @@ def run_exact(tag, flat):
     hist = dict(loss=[L0], grad=[float(np.abs(g0).max())], step=[0.0], t=[0.0])
     st = dict(prev=x0.copy(), t0=time.time(), stop="scipy termination", eig_checks=[])
 
-    def callback(r):
-        x = r.x
+    def callback(intermediate_result):  # this exact name makes scipy pass the OptimizeResult, not bare x
+        x = intermediate_result.x
         L, g = flat.fun(x)
         hist["loss"].append(L); hist["grad"].append(float(np.abs(g).max()))
         hist["step"].append(float(np.linalg.norm(x - st["prev"]))); hist["t"].append(time.time() - st["t0"])
