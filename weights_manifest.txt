@@ -283,3 +283,21 @@ gauge_weights/fiber2_stu_117.pt  feca4be97f3e016b40868f8c5a0c224f732e5e1570be0a1
 gauge_weights/fiber2_stu_118.pt  876d5c1cf2b52d9b36679ab31a84c2a710180b084ebc8592739b41bb9a3f579c  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
 gauge_weights/fiber2_stu_119.pt  b5822d2fe099e1cd990503bef35887467e489afb9d789c4dd7a5cba2cfd47814  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
 gauge_weights/fiber2_stu_meta.json  167d8d519d007de69a698c756f0fc7e06b931c5f69f8f1de652108e691b9efcf  fiber2.py  98eca9d  gauge_weights_2026-09-29b.tar.gz
+
+# --- third archive (appended; first and second archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-09-29c.tar.gz
+# archive sha256: 843d44cac0e4fc08c5714bfe302483859f52f2c818ff956f0495bdd922f5d911
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/rank_F_meta.json  ce7a507547cb58f5418d5c51d6f6c1246c0f230c16e5cb185581ea13adbeee66  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s0.pt  5712c94f18e5085777e64815d4e1e60b3108e015c061a49ee0b7ed68523d9d51  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s1.pt  6826e2525f82eddda6f66d40d9597d2ea38f0ddd3a1fb5eadc9719de0747a9fd  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s2.pt  242fa1291fdbdac049a407a8b63ded7da330b99c3c5841f6544916eee146938f  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s3.pt  cda327ed19df44d5a0d833c18f67f2c76df679eca47f2013b8e481605886113a  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s4.pt  d6b8cb7705f93abb4b06c2c5d3dcdfd0384c6ab1c41fd5b929b8aa3b8ec8dee2  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_F_s5.pt  252052c9bc5234ec58074b73b25a921d3a1e7cf7648803bc3107dc4de401c3a3  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_meta.json  a56bbbb5fef55c9f9d9f4e859e3189362cf3833f75ac122c7637cf0c93bf4236  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s0.pt  2b2b07cd8b1e1bcb0beed56c74ec57762722346b05ab3feab906ceb8573c369b  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s1.pt  c6b783b6d43e7fe42707b919a5367bb8837d26f13c4b534c2dcff6cb4bb2442b  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s2.pt  82ed1e5a429a842e3519a21046154f1fc12035d496f4a702104a2f2482fe64d1  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s3.pt  9b5b375add588e6528be6d70bba6a332b759c06ab2104a5a5408dcb291b63604  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s4.pt  c913594ef49c80231c337f471ee2ad3dc2b9d1ca7ff9f9349c4424a2e9a4b7d6  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+gauge_weights/rank_G_s5.pt  ea200b626f4d8d395ed90a993b88115ff8c481d6a9132874478424cec4f6ac61  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
