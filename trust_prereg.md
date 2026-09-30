@@ -95,3 +95,53 @@ and end; final loss vs capped loss; wall-clock time; the stop reason; the Q6 cla
 - **Any other combination:** reported as found.
 
 Outputs: `trust.py`, `trust_output.txt`, `trust_results.json`, `figs/trust/`.
+
+---
+
+## Verdicts (appended after the run; `trust_output.txt`, `trust_results.json`, `figs/trust/trust_curves.png`)
+
+**Deviation from Q6 (flagged at the top of the log).** scipy 1.13's trust-region callback receives
+only (x, fun), not the trust radius. So COLLAPSED used the closest observable proxy: the largest step
+length ‖x_k − x_{k−1}‖ over the last 50 iterations < 1e-10.
+
+**Inputs.** All 10 files matched their manifest SHA-256 values. Every capped loss recomputed here
+matches its fiber2 record to ≤ 1e-7 (relative).
+
+**Hessian accuracy (Q5).** hessp agrees with the full autograd Hessian to 2e-15 – 9e-15, and with a
+central finite difference of the gradient to 5e-10 – 2e-7, for all 9 models. **The Hessian is accurate.**
+
+| Model | Iterations (stop) | Loss ratio (final / capped) | max\|grad\| start → end | Negative eigenvalues* start → end | Class |
+|---|---|---|---|---|---|
+| ind 0 | 9 (scipy) | 0.99691 | 6.4e-5 → 1.5e-4 | 0 → 0 | OTHER |
+| ind 1 | 26 (scipy) | 0.99445 | 5.9e-5 → 3.0e-5 | 0 → 0 | OTHER |
+| ind 2 | 62 (scipy) | 0.99431 | 1.3e-4 → 7.3e-5 | 0 → 0 | OTHER |
+| ind 3 | 8 (scipy) | 0.99661 | 2.1e-4 → 1.4e-3 | 0 → **4** | DESCENDING-SADDLE |
+| ind 4 | 11 (scipy) | 0.99792 | 5.5e-5 → 3.8e-5 | 0 → 0 | OTHER |
+| ind 5 | 1 (scipy) | 1.00000 | 1.1e-4 → 1.1e-4 | **1** → 1 | COLLAPSED (one iteration, no step) |
+| stu 115 | 3 (scipy) | 0.98207 | 1.2e-6 → 2.2e-5 | 0 → **1** | DESCENDING-SADDLE |
+| stu 104 | 5 (scipy) | 0.97870 | 1.7e-6 → 2.8e-6 | 0 → 0 | OTHER |
+| stu 114 | 1 (scipy) | 1.00000 | 4.0e-5 → 4.0e-5 | 0 → 0 | COLLAPSED (one iteration, no step) |
+
+\*Eigenvalues < −1e-8 × the largest (criterion c).
+
+- **Every model stopped on scipy's own termination,** "A bad approximation caused failure to predict
+  improvement", after 1–62 iterations. None reached the 500-iteration or 6 h caps; the total wall
+  clock was about 7 min.
+- **Criterion (c) (no significant negative curvature) held at the final point for 6 of 9 models.**
+  All 9 failed (a) (max|grad| < 1e-7; the best was 2.8e-6) and (b).
+- **Models that moved took large steps** (parameter-space step lengths up to 4.0) for loss decreases
+  of only 0.2–2.1%.
+
+| Prediction | Verdict |
+|---|---|
+| **T1** ≥ 4/6 baseline seeds converge | **failed**: 0/6 |
+| **T2** ≥ 2/3 students converge | **failed**: 0/3 |
+| **T3** converged seeds' loss ≤ 0.95 × capped | **inconclusive**: no seed converged. The best achieved ratio was 0.9943 |
+| **T4** converged pairs' median d_AB ≤ 0.5 × capped | **inconclusive**: no seed converged |
+| **T5** converged students' unit match ≥ 0.8 | **inconclusive**: no student converged |
+
+**Interpretation, by the pre-registered rules.** T1 failed. Of the 6 non-converged baseline seeds,
+4 are OTHER, 1 DESCENDING-SADDLE and 1 COLLAPSED, so neither the saddle rule nor the numerical rule
+has a majority. **By the catch-all rule, this is reported as found, without choosing an explanation.**
+Q5 shows the float64 Hessian is accurate, which rules out Hessian error as the reason for the
+early terminations.

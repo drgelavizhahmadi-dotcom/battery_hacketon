@@ -1,0 +1,52 @@
+DISCREPANCIES / deviations (files win; see trust_prereg.md):
+  Q6 DEVIATION: scipy 1.13 trust-krylov exposes only (x, fun) to the callback, not the trust radius ->
+     COLLAPSED uses the max step length ||x_k - x_{k-1}|| over the last 50 iterations < 1e-10 as a proxy
+  Q2 609 parameters; unused salt embeddings fixed
+
+==================== inputs: extract from archives and verify SHA-256 ====================
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/fiber2_stu_115.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b0e61d74a091
+  verified gauge_weights/fiber2_stu_104.pt (gauge_weights_2026-09-29b.tar.gz) sha256 51496169e15e
+  verified gauge_weights/fiber2_stu_114.pt (gauge_weights_2026-09-29b.tar.gz) sha256 dd59b691058c
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+
+==================== trust-region Newton ====================
+  ind 0: 609 parameters; capped loss recomputed 8.5214777919e-03 vs fiber2 record 8.5214778125e-03
+  ind 0: scipy termination after 9 iters (39.6 s); loss 8.5214777919e-03 -> 8.4951230676e-03 (ratio 0.996907); max|grad| 6.39e-05 -> 1.49e-04; rel10 3.1e-03, rel50 3.1e-03, max step (last 50) 4.0e+00; neg eigs 0 -> 0 (min -2.16e-06, max 3.68e+02); class OTHER
+      hessp rel error vs full Hessian 2.1e-15, vs finite-difference gradient 2.3e-08; scipy: A bad approximation caused failure to predict improvement.
+  ind 1: 609 parameters; capped loss recomputed 8.7839233125e-03 vs fiber2 record 8.7839233200e-03
+  ind 1: scipy termination after 26 iters (69.8 s); loss 8.7839233125e-03 -> 8.7352120435e-03 (ratio 0.994454); max|grad| 5.85e-05 -> 3.04e-05; rel10 2.0e-03, rel50 5.5e-03, max step (last 50) 2.0e+00; neg eigs 0 -> 0 (min -7.47e-07, max 1.85e+03); class OTHER
+      hessp rel error vs full Hessian 2.2e-15, vs finite-difference gradient 3.6e-09; scipy: A bad approximation caused failure to predict improvement.
+  ind 2: 609 parameters; capped loss recomputed 9.4532815552e-03 vs fiber2 record 9.4532815780e-03
+  ind 2: scipy termination after 62 iters (175.9 s); loss 9.4532815552e-03 -> 9.3995161447e-03 (ratio 0.994313); max|grad| 1.27e-04 -> 7.26e-05; rel10 8.8e-04, rel50 3.3e-03, max step (last 50) 1.0e+00; neg eigs 0 -> 0 (min -7.66e-06, max 3.34e+03); class OTHER
+      hessp rel error vs full Hessian 2.1e-15, vs finite-difference gradient 2.3e-09; scipy: A bad approximation caused failure to predict improvement.
+  ind 3: 609 parameters; capped loss recomputed 9.3786896430e-03 vs fiber2 record 9.3786896659e-03
+  ind 3: scipy termination after 8 iters (29.9 s); loss 9.3786896430e-03 -> 9.3468765408e-03 (ratio 0.996608); max|grad| 2.13e-04 -> 1.39e-03; rel10 3.4e-03, rel50 3.4e-03, max step (last 50) 1.0e+00; neg eigs 0 -> 4 (min -1.43e-04, max 4.64e+03); class DESCENDING-SADDLE
+      hessp rel error vs full Hessian 7.2e-15, vs finite-difference gradient 7.5e-09; scipy: A bad approximation caused failure to predict improvement.
+  ind 4: 609 parameters; capped loss recomputed 8.9444329728e-03 vs fiber2 record 8.9444329494e-03
+  ind 4: scipy termination after 11 iters (36.8 s); loss 8.9444329728e-03 -> 8.9257920753e-03 (ratio 0.997916); max|grad| 5.50e-05 -> 3.77e-05; rel10 1.3e-03, rel50 2.1e-03, max step (last 50) 2.0e+00; neg eigs 0 -> 0 (min -8.70e-07, max 3.58e+02); class OTHER
+      hessp rel error vs full Hessian 8.9e-15, vs finite-difference gradient 2.1e-07; scipy: A bad approximation caused failure to predict improvement.
+  ind 5: 609 parameters; capped loss recomputed 9.8999950796e-03 vs fiber2 record 9.8999950692e-03
+  ind 5: scipy termination after 1 iters (8.1 s); loss 9.8999950796e-03 -> 9.8999950796e-03 (ratio 1.000000); max|grad| 1.09e-04 -> 1.09e-04; rel10 0.0e+00, rel50 0.0e+00, max step (last 50) 0.0e+00; neg eigs 1 -> 1 (min -1.54e-04, max 3.12e+03); class COLLAPSED
+      hessp rel error vs full Hessian 4.3e-15, vs finite-difference gradient 1.1e-08; scipy: A bad approximation caused failure to predict improvement.
+  stu 115: 609 parameters; capped loss recomputed 4.3825042067e-05 vs fiber2 record 4.3825041943e-05
+  stu 115: scipy termination after 3 iters (16.3 s); loss 4.3825042067e-05 -> 4.3039216308e-05 (ratio 0.982069); max|grad| 1.22e-06 -> 2.19e-05; rel10 1.8e-02, rel50 1.8e-02, max step (last 50) 1.0e+00; neg eigs 0 -> 1 (min -7.95e-06, max 2.59e+02); class DESCENDING-SADDLE
+      hessp rel error vs full Hessian 2.6e-15, vs finite-difference gradient 5.5e-10; scipy: A bad approximation caused failure to predict improvement.
+  stu 104: 609 parameters; capped loss recomputed 4.0329955180e-05 vs fiber2 record 4.0329955063e-05
+  stu 104: scipy termination after 5 iters (24.3 s); loss 4.0329955180e-05 -> 3.9470890663e-05 (ratio 0.978699); max|grad| 1.68e-06 -> 2.78e-06; rel10 2.1e-02, rel50 2.1e-02, max step (last 50) 8.3e-01; neg eigs 0 -> 0 (min -2.08e-07, max 3.78e+02); class OTHER
+      hessp rel error vs full Hessian 2.7e-15, vs finite-difference gradient 6.0e-10; scipy: A bad approximation caused failure to predict improvement.
+  stu 114: 609 parameters; capped loss recomputed 3.9138092491e-05 vs fiber2 record 3.9138088877e-05
+  stu 114: scipy termination after 1 iters (8.3 s); loss 3.9138092491e-05 -> 3.9138092491e-05 (ratio 1.000000); max|grad| 3.96e-05 -> 3.96e-05; rel10 0.0e+00, rel50 0.0e+00, max step (last 50) 0.0e+00; neg eigs 0 -> 0 (min -4.03e-06, max 5.91e+02); class COLLAPSED
+      hessp rel error vs full Hessian 2.7e-15, vs finite-difference gradient 1.9e-09; scipy: A bad approximation caused failure to predict improvement.
+
+  converged: baseline 0/6 []; students 0/3 []
+  classes: ind 0 OTHER, ind 1 OTHER, ind 2 OTHER, ind 3 DESCENDING-SADDLE, ind 4 OTHER, ind 5 COLLAPSED, stu 115 DESCENDING-SADDLE, stu 104 OTHER, stu 114 COLLAPSED
+
+==================== after convergence (converged models only) ====================
+
+VERDICTS: T1: failed (0/6); T2: failed (0/3); T3: inconclusive (no baseline seed converged); T4: inconclusive (0 baseline seed(s) converged); T5: inconclusive (no student converged)

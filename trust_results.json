@@ -1,0 +1,358 @@
+{
+ "models": {
+  "ind 0": {
+   "tag": "ind 0",
+   "iters": 9,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 39.6,
+   "loss0": 0.00852147779189504,
+   "loss": 0.008495123067583182,
+   "loss_ratio": 0.9969072589337821,
+   "grad0": 6.394434910113618e-05,
+   "grad": 0.00014865611360425276,
+   "rel10": 0.003092741066217947,
+   "rel50": 0.003092741066217947,
+   "maxstep50": 3.999999997269867,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -3.6297143980588862e-06,
+   "maxeig0": 394.58245492362107,
+   "mineig": -2.1570967990672608e-06,
+   "maxeig": 367.62289166857033,
+   "converged": false,
+   "cls": "OTHER",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     1.188242910359571e-15,
+     3.1631470940307707e-09
+    ],
+    [
+     2.1481016845206515e-15,
+     2.2620244811720678e-08
+    ],
+    [
+     8.127705569345864e-16,
+     4.593397912425566e-09
+    ]
+   ]
+  },
+  "ind 1": {
+   "tag": "ind 1",
+   "iters": 26,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 69.8,
+   "loss0": 0.008783923312514024,
+   "loss": 0.008735212043525705,
+   "loss_ratio": 0.9944544974659646,
+   "grad0": 5.847580100333752e-05,
+   "grad": 3.0365790522780606e-05,
+   "rel10": 0.001960290272629292,
+   "rel50": 0.005545502534035424,
+   "maxstep50": 2.000000001909888,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -1.7620562626695238e-06,
+   "maxeig0": 1850.0640723068486,
+   "mineig": -7.470734863474929e-07,
+   "maxeig": 1847.908412417551,
+   "converged": false,
+   "cls": "OTHER",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     2.246890960488942e-15,
+     3.0859134146283996e-09
+    ],
+    [
+     1.205127742870948e-15,
+     3.580895289149833e-09
+    ],
+    [
+     9.133369502377636e-16,
+     2.3178733421356728e-09
+    ]
+   ]
+  },
+  "ind 2": {
+   "tag": "ind 2",
+   "iters": 62,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 175.9,
+   "loss0": 0.009453281555167725,
+   "loss": 0.009399516144712693,
+   "loss_ratio": 0.9943125135815255,
+   "grad0": 0.00012670346747037955,
+   "grad": 7.26291405723233e-05,
+   "rel10": 0.0008778315238606641,
+   "rel50": 0.003269412441401401,
+   "maxstep50": 0.9999999998076619,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -1.1578385548305694e-05,
+   "maxeig0": 3049.3991943899227,
+   "mineig": -7.657872120971355e-06,
+   "maxeig": 3339.7454201846676,
+   "converged": false,
+   "cls": "OTHER",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     8.35664780384542e-16,
+     1.4565641601124408e-09
+    ],
+    [
+     2.07426427345073e-15,
+     1.0653723647332821e-09
+    ],
+    [
+     1.0016673308264232e-15,
+     2.2682791995308634e-09
+    ]
+   ]
+  },
+  "ind 3": {
+   "tag": "ind 3",
+   "iters": 8,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 29.9,
+   "loss0": 0.00937868964296512,
+   "loss": 0.009346876540774691,
+   "loss_ratio": 0.9966079374196702,
+   "grad0": 0.00021318260368338948,
+   "grad": 0.0013858646177539247,
+   "rel10": 0.003392062580329767,
+   "rel50": 0.003392062580329767,
+   "maxstep50": 1.0000000418620774,
+   "neg0": 0,
+   "neg": 4,
+   "mineig0": -9.002295677630439e-06,
+   "maxeig0": 4672.277316813101,
+   "mineig": -0.0001426552187331383,
+   "maxeig": 4639.664605151831,
+   "converged": false,
+   "cls": "DESCENDING-SADDLE",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     2.6896926602754087e-15,
+     4.5274382950809245e-09
+    ],
+    [
+     1.859107040106659e-15,
+     1.0952186858278636e-09
+    ],
+    [
+     7.248101299058438e-15,
+     7.47971180803672e-09
+    ]
+   ]
+  },
+  "ind 4": {
+   "tag": "ind 4",
+   "iters": 11,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 36.8,
+   "loss0": 0.008944432972815075,
+   "loss": 0.0089257920752885,
+   "loss_ratio": 0.9979159218272157,
+   "grad0": 5.504597873687143e-05,
+   "grad": 3.769748482406252e-05,
+   "rel10": 0.0012918891247862305,
+   "rel50": 0.002084078172784285,
+   "maxstep50": 1.9999999989962927,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -1.923027399216641e-06,
+   "maxeig0": 346.76676808806576,
+   "mineig": -8.695562554343827e-07,
+   "maxeig": 357.8177257160296,
+   "converged": false,
+   "cls": "OTHER",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     1.1970101841392909e-15,
+     6.979480526698559e-09
+    ],
+    [
+     1.6061739585164923e-15,
+     1.2033004739085975e-08
+    ],
+    [
+     8.881037003407444e-15,
+     2.0678184211380797e-07
+    ]
+   ]
+  },
+  "ind 5": {
+   "tag": "ind 5",
+   "iters": 1,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 8.1,
+   "loss0": 0.009899995079578857,
+   "loss": 0.009899995079578857,
+   "loss_ratio": 1.0,
+   "grad0": 0.00010921055918820843,
+   "grad": 0.00010921055918820843,
+   "rel10": 0.0,
+   "rel50": 0.0,
+   "maxstep50": 0.0,
+   "neg0": 1,
+   "neg": 1,
+   "mineig0": -0.00015377548611349425,
+   "maxeig0": 3118.438991801806,
+   "mineig": -0.00015377548611349425,
+   "maxeig": 3118.438991801806,
+   "converged": false,
+   "cls": "COLLAPSED",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     1.382779799620362e-15,
+     3.602991005408719e-10
+    ],
+    [
+     4.292244050362896e-15,
+     1.0961673128486907e-08
+    ],
+    [
+     2.6834118528747255e-15,
+     2.497714376501214e-09
+    ]
+   ]
+  },
+  "stu 115": {
+   "tag": "stu 115",
+   "iters": 3,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 16.3,
+   "loss0": 4.382504206660444e-05,
+   "loss": 4.303921630800772e-05,
+   "loss_ratio": 0.9820690244312272,
+   "grad0": 1.2202221358915472e-06,
+   "grad": 2.1858416117916566e-05,
+   "rel10": 0.01793097556877272,
+   "rel50": 0.01793097556877272,
+   "maxstep50": 1.0000000046665274,
+   "neg0": 0,
+   "neg": 1,
+   "mineig0": -8.741959080010816e-07,
+   "maxeig0": 263.6973920402253,
+   "mineig": -7.952421631033997e-06,
+   "maxeig": 259.36019574968395,
+   "converged": false,
+   "cls": "DESCENDING-SADDLE",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     1.9305981065346636e-15,
+     4.863646294945246e-10
+    ],
+    [
+     2.5735276402557466e-15,
+     4.185160374009453e-10
+    ],
+    [
+     1.8221245588563715e-15,
+     5.501310168362684e-10
+    ]
+   ]
+  },
+  "stu 104": {
+   "tag": "stu 104",
+   "iters": 5,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 24.3,
+   "loss0": 4.032995517961877e-05,
+   "loss": 3.9470890663268385e-05,
+   "loss_ratio": 0.9786990956839813,
+   "grad0": 1.6778056423982488e-06,
+   "grad": 2.7817713571280607e-06,
+   "rel10": 0.02130090431601877,
+   "rel50": 0.02130090431601877,
+   "maxstep50": 0.8332377141665644,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -2.3964626577211554e-07,
+   "maxeig0": 382.45448448626837,
+   "mineig": -2.0849955864850222e-07,
+   "maxeig": 377.9707049050136,
+   "converged": false,
+   "cls": "OTHER",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     2.738884178196451e-15,
+     5.987365236192723e-10
+    ],
+    [
+     1.2028997340000643e-15,
+     3.5827387997383913e-10
+    ],
+    [
+     1.0701012350224381e-15,
+     1.3061111519002885e-10
+    ]
+   ]
+  },
+  "stu 114": {
+   "tag": "stu 114",
+   "iters": 1,
+   "stop": "scipy termination",
+   "scipy_message": "A bad approximation caused failure to predict improvement.",
+   "wall_s": 8.3,
+   "loss0": 3.913809249079487e-05,
+   "loss": 3.913809249079487e-05,
+   "loss_ratio": 1.0,
+   "grad0": 3.959420907396788e-05,
+   "grad": 3.959420907396788e-05,
+   "rel10": 0.0,
+   "rel50": 0.0,
+   "maxstep50": 0.0,
+   "neg0": 0,
+   "neg": 0,
+   "mineig0": -4.034634493481427e-06,
+   "maxeig0": 590.7947340229359,
+   "mineig": -4.034634493481427e-06,
+   "maxeig": 590.7947340229359,
+   "converged": false,
+   "cls": "COLLAPSED",
+   "eig_checks": [],
+   "hessp_err": [
+    [
+     8.318613682268203e-16,
+     8.496451046611221e-10
+    ],
+    [
+     1.3830841962851737e-15,
+     9.631039541552038e-10
+    ],
+    [
+     2.688458696044964e-15,
+     1.9306115540940203e-09
+    ]
+   ]
+  }
+ },
+ "after": {
+  "zero_modes": {}
+ },
+ "verdicts": {
+  "T1": "failed (0/6)",
+  "T2": "failed (0/3)",
+  "T3": "inconclusive (no baseline seed converged)",
+  "T4": "inconclusive (0 baseline seed(s) converged)",
+  "T5": "inconclusive (no student converged)"
+ },
+ "conv_ind": [],
+ "conv_stu": []
+}
