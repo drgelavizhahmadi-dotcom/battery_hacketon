@@ -301,3 +301,16 @@ gauge_weights/rank_G_s2.pt  82ed1e5a429a842e3519a21046154f1fc12035d496f4a702104a
 gauge_weights/rank_G_s3.pt  9b5b375add588e6528be6d70bba6a332b759c06ab2104a5a5408dcb291b63604  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
 gauge_weights/rank_G_s4.pt  c913594ef49c80231c337f471ee2ad3dc2b9d1ca7ff9f9349c4424a2e9a4b7d6  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
 gauge_weights/rank_G_s5.pt  ea200b626f4d8d395ed90a993b88115ff8c481d6a9132874478424cec4f6ac61  rank.py  aeb6f87  gauge_weights_2026-09-29c.tar.gz
+
+# --- fourth archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-09-30d.tar.gz
+# archive sha256: d43608dbc30907926d28a3fb2d696b140f1b37685466eb1883d81e0060eca9f7
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/trust_ind_0.pt  a6f128e0af5334bd892f1cc44dc0b6eb7bb5020d211716c862e2264a95ee18c0  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_ind_1.pt  d72bf53e808dafea836f0fa1f41938613c9af717ff09a39cd18b12a04b859a8f  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_ind_2.pt  be4b8b1afcee50ad947581c2ca4811382aba808dda1078a4202d25028e32a624  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_ind_3.pt  f9cc63516c9c5fbe933f1ed5261147b6aa271e609f551fdacd99527f3b60ac81  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_ind_4.pt  60cf2452da0de35bf20b87875fba834db1ef64bff0854e455a8997d3c1e03f1b  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_ind_5.pt  8cfd518f07639018dbb13338cb3dc376f5399813127d73e22e0a0313e07f4605  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_stu_104.pt  3cc67944856032cfd4240d376109bdbb39a2cdc4c5fb7bdb09a99a9fa23ca76a  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_stu_114.pt  5ec343791383a4a10e715f3022d81e60f01ba495954dc91a2ccbceebb5eea227  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+gauge_weights/trust_stu_115.pt  84aded1c63451f5bcd1bc2f012d794dba80c32d847fad4ffe919ec7bc7008f85  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
