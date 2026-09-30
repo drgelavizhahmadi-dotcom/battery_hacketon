@@ -1,0 +1,85 @@
+DISCREPANCIES / choices (files win; see rank_prereg.md):
+  X1 arm F constrains ALL 72 columns incl. invT and molal -> I5's 'outside the affected blocks' holds for arm G only
+  X3 arms' max|grad| is w.r.t. their own parameters (z + others); full theta-space gradient also reported
+  X5 init = projection of final.py's init onto P (removed components start at 0)
+  X6 Hessian excludes the 16 embedding params of salts absent from training rows
+
+==================== STEP 0: subspaces (no training) ====================
+  arm G: co-solvent block 27 columns -> retained 14 (expected 14)
+  arm F: full M 72 columns -> retained 36 (expected 36)
+  check: RankKAN with P = I reproduces kan.train seed 0: max |delta diff| = 0.00e+00
+
+==================== STEP 1: constrained models (train 107 epochs, then certify) ====================
+    arm G seed 0: cap (20000) after 20000 iters, loss 9.05595599e-03, max|grad| 7.67e-04, rel 9.3e-05
+    arm G seed 1: cap (20000) after 20000 iters, loss 8.81342959e-03, max|grad| 9.43e-05, rel 4.2e-05
+    arm G seed 2: cap (20000) after 20000 iters, loss 9.52294978e-03, max|grad| 6.30e-04, rel 7.1e-05
+    arm G seed 3: cap (20000) after 20000 iters, loss 9.24522139e-03, max|grad| 2.38e-04, rel 6.0e-05
+    arm G seed 4: cap (20000) after 20000 iters, loss 9.20965052e-03, max|grad| 4.55e-04, rel 9.4e-05
+    arm G seed 5: cap (20000) after 20000 iters, loss 9.18044639e-03, max|grad| 2.21e-04, rel 5.6e-05
+    arm F seed 0: cap (20000) after 20000 iters, loss 1.01407052e-02, max|grad| 1.04e-02, rel 2.0e-05
+    arm F seed 1: cap (20000) after 20000 iters, loss 1.04415545e-02, max|grad| 9.46e-04, rel 2.2e-05
+    arm F seed 2: cap (20000) after 20000 iters, loss 9.68940695e-03, max|grad| 1.68e-03, rel 3.3e-05
+    arm F seed 3: cap (20000) after 20000 iters, loss 9.99650726e-03, max|grad| 3.49e-03, rel 2.2e-04
+    arm F seed 4: cap (20000) after 20000 iters, loss 9.69495101e-03, max|grad| 3.36e-03, rel 5.8e-07
+    arm F seed 5: cap (20000) after 20000 iters, loss 1.05074478e-02, max|grad| 1.59e-03, rel 3.5e-05
+  equivalence (constrained vs converted KAN), max |delta diff|: G0 7.6e-06, G1 9.7e-06, G2 1.1e-05, G3 7.5e-06, G4 5.2e-06, G5 2.0e-05, F0 1.1e-04, F1 1.0e-04, F2 1.5e-04, F3 2.0e-04, F4 1.7e-04, F5 2.7e-04
+
+==================== STEP 2: comparison (baseline = fiber2 capped independent seeds) ====================
+  model  seed       status  iters     final loss  max|grad|         z     other theta-space rel(50 it)
+  base      0     (fiber2)        8.52147779e-03   6.39e-05                        6.39e-05
+  base      1     (fiber2)        8.78392331e-03   5.85e-05                        5.85e-05
+  base      2     (fiber2)        9.45328156e-03   1.27e-04                        1.27e-04
+  base      3     (fiber2)        9.37868964e-03   2.13e-04                        2.13e-04
+  base      4     (fiber2)        8.94443297e-03   5.50e-05                        5.50e-05
+  base      5     (fiber2)        9.89999508e-03   1.09e-04                        1.09e-04
+  arm G     0  cap (20000)  20000 9.05595599e-03   7.67e-04  5.72e-04  7.67e-04    8.15e-04    9.3e-05
+  arm G     1  cap (20000)  20000 8.81342959e-03   9.43e-05  9.43e-05  7.83e-05    2.12e-04    4.2e-05
+  arm G     2  cap (20000)  20000 9.52294978e-03   6.30e-04  6.30e-04  4.84e-04    6.95e-04    7.1e-05
+  arm G     3  cap (20000)  20000 9.24522139e-03   2.38e-04  1.01e-04  2.38e-04    5.16e-04    6.0e-05
+  arm G     4  cap (20000)  20000 9.20965052e-03   4.55e-04  3.03e-04  4.55e-04    4.48e-04    9.4e-05
+  arm G     5  cap (20000)  20000 9.18044639e-03   2.21e-04  2.21e-04  2.11e-04    4.08e-04    5.6e-05
+  arm F     0  cap (20000)  20000 1.01407052e-02   1.04e-02  1.33e-03  1.04e-02    4.84e-02    2.0e-05
+  arm F     1  cap (20000)  20000 1.04415545e-02   9.46e-04  7.25e-04  9.46e-04    3.80e-03    2.2e-05
+  arm F     2  cap (20000)  20000 9.68940695e-03   1.68e-03  1.68e-03  1.53e-03    3.47e-03    3.3e-05
+  arm F     3  cap (20000)  20000 9.99650726e-03   3.49e-03  3.49e-03  1.93e-03    6.86e-03    2.2e-04
+  arm F     4  cap (20000)  20000 9.69495101e-03   3.36e-03  1.10e-03  3.36e-03    1.40e-03    5.8e-07
+  arm F     5  cap (20000)  20000 1.05074478e-02   1.59e-03  8.01e-04  1.59e-03    1.64e-02    3.5e-05
+  converged: arm G 0/6, arm F 0/6
+
+          median max|grad|   ratio  median d_AB   ratio   median loss   ratio  edge corr (invT, molal)
+  base            8.66e-05   1.000       0.1041   1.000  9.161561e-03   1.000                    0.102
+  G               3.47e-04   4.004       0.0984   0.945  9.195048e-03   1.004                    0.927
+  F               2.52e-03  29.116       0.0842   0.808  1.006861e-02   1.099                    0.338
+
+  Hessian (float64, own parameters; unused salt embeddings excluded):
+    base seed 0: 609 params, 26 negative, max 3.95e+02; 10 smallest: -3.6e-06 -1.0e-06 -7.7e-07 -5.5e-07 -4.3e-07 -3.0e-07 -1.8e-07 -1.0e-07 -8.3e-08 -7.4e-08 | 10 nearest 0 (|eig| median 1.2e-15)
+    base seed 1: 609 params, 39 negative, max 1.85e+03; 10 smallest: -1.8e-06 -1.4e-06 -5.2e-07 -4.2e-07 -4.2e-07 -3.1e-07 -2.2e-07 -1.9e-07 -1.4e-07 -1.2e-07 | 10 nearest 0 (|eig| median 1.8e-15)
+    base seed 2: 609 params, 26 negative, max 3.05e+03; 10 smallest: -1.2e-05 -7.1e-06 -4.1e-06 -3.3e-06 -2.0e-06 -1.5e-06 -1.3e-06 -1.1e-06 -9.0e-07 -4.4e-07 | 10 nearest 0 (|eig| median 5.8e-15)
+    base seed 3: 609 params, 33 negative, max 4.67e+03; 10 smallest: -9.0e-06 -5.9e-06 -5.5e-06 -4.9e-06 -2.5e-06 -7.4e-07 -6.7e-07 -6.5e-07 -4.8e-07 -4.2e-07 | 10 nearest 0 (|eig| median 5.3e-15)
+    base seed 4: 609 params, 26 negative, max 3.47e+02; 10 smallest: -1.9e-06 -1.5e-06 -7.3e-07 -3.9e-07 -2.4e-07 -2.3e-07 -1.9e-07 -1.0e-07 -4.5e-08 -2.5e-08 | 10 nearest 0 (|eig| median 3.8e-16)
+    base seed 5: 609 params, 24 negative, max 3.12e+03; 10 smallest: -1.5e-04 -1.4e-05 -7.8e-06 -3.2e-06 -2.4e-06 -1.8e-06 -1.2e-06 -1.1e-06 -5.2e-07 -3.6e-07 | 10 nearest 0 (|eig| median 1.6e-15)
+    G    seed 0: 531 params, 26 negative, max 4.77e+03; 10 smallest: -1.0e-04 -6.9e-06 -4.5e-06 -3.2e-06 -2.7e-06 -1.5e-06 -1.1e-06 -7.1e-07 -3.9e-07 -3.9e-07 | 10 nearest 0 (|eig| median 5.8e-15)
+    G    seed 1: 531 params, 22 negative, max 5.49e+02; 10 smallest: -9.5e-07 -2.6e-07 -8.7e-08 -1.6e-08 -1.2e-08 -2.3e-09 -2.1e-09 -7.5e-10 -1.7e-10 -4.5e-11 | 10 nearest 0 (|eig| median 5.1e-17)
+    G    seed 2: 531 params, 22 negative, max 6.32e+03; 10 smallest: -1.7e-04 -2.7e-05 -5.6e-06 -3.7e-06 -2.4e-06 -2.3e-06 -1.0e-06 -2.6e-07 -1.7e-07 -1.2e-07 | 10 nearest 0 (|eig| median 6.4e-15)
+    G    seed 3: 531 params, 21 negative, max 1.92e+03; 10 smallest: -2.0e-05 -4.3e-06 -3.5e-06 -2.0e-06 -1.8e-06 -1.3e-06 -4.4e-07 -2.6e-07 -1.4e-07 -1.1e-07 | 10 nearest 0 (|eig| median 3.4e-15)
+    G    seed 4: 531 params, 21 negative, max 4.77e+03; 10 smallest: -4.6e-05 -3.8e-05 -5.3e-06 -1.6e-06 -9.7e-07 -6.7e-07 -6.2e-07 -3.9e-07 -3.5e-07 -8.4e-08 | 10 nearest 0 (|eig| median 4.2e-15)
+    G    seed 5: 531 params, 23 negative, max 5.53e+03; 10 smallest: -3.3e-05 -2.1e-05 -6.0e-06 -3.4e-06 -2.1e-06 -1.0e-06 -7.8e-07 -5.0e-07 -2.9e-07 -1.9e-07 | 10 nearest 0 (|eig| median 1.8e-14)
+    F    seed 0: 393 params, 27 negative, max 1.98e+06; 10 smallest: -5.2e-04 -6.5e-06 -5.5e-06 -7.1e-07 -1.4e-07 -3.1e-08 -1.3e-08 -8.3e-09 -2.7e-09 -3.5e-10 | 10 nearest 0 (|eig| median 4.2e-15)
+    F    seed 1: 393 params, 24 negative, max 2.01e+05; 10 smallest: -1.0e-03 -6.3e-06 -6.2e-06 -4.4e-06 -1.9e-06 -1.1e-06 -7.6e-07 -1.6e-07 -5.4e-08 -1.3e-08 | 10 nearest 0 (|eig| median 2.3e-14)
+    F    seed 2: 393 params, 23 negative, max 1.31e+05; 10 smallest: -5.1e-04 -2.4e-05 -4.3e-06 -3.9e-06 -1.8e-06 -1.0e-07 -5.1e-08 -6.2e-09 -2.6e-09 -1.2e-09 | 10 nearest 0 (|eig| median 3.7e-14)
+    F    seed 3: 393 params, 26 negative, max 1.47e+05; 10 smallest: -6.5e-05 -1.9e-05 -4.4e-06 -4.2e-06 -2.3e-06 -5.5e-07 -2.9e-07 -2.0e-07 -1.8e-07 -2.4e-08 | 10 nearest 0 (|eig| median 9.0e-14)
+    F    seed 4: 393 params, 24 negative, max 3.49e+05; 10 smallest: -4.8e-05 -1.2e-05 -6.3e-06 -1.4e-06 -3.6e-07 -6.3e-08 -1.1e-08 -7.0e-09 -4.6e-09 -1.2e-09 | 10 nearest 0 (|eig| median 8.4e-15)
+    F    seed 5: 393 params, 25 negative, max 1.90e+05; 10 smallest: -4.3e-04 -2.1e-06 -1.3e-06 -8.0e-07 -5.2e-07 -3.1e-07 -1.9e-07 -9.5e-08 -2.3e-08 -1.4e-08 | 10 nearest 0 (|eig| median 7.3e-14)
+
+==================== STEP 3: fold A accuracy ====================
+  fold A training rows 1434; P recomputed: arm G 14 dims, arm F 33 dims
+  KAN-delta  fold A RMSE 0.1420, bias +0.0067
+  G          fold A RMSE 0.1499, bias -0.0439
+  F          fold A RMSE 0.1587, bias -0.0582
+  (KAN-delta reference in the brief: 0.142; recomputed here: 0.1420)
+
+VERDICTS: I1-G: failed (ratio 4.004); I2-G: failed (ratio 0.945); I3-G: passed (ratio 1.004); I4-G: held (RMSE 0.1499); I5-G: held (0.927 vs baseline 0.102 + 0.1); I1-F: failed (ratio 29.116); I2-F: failed (ratio 0.808); I3-F: passed (ratio 1.099); I4-F: failed (RMSE 0.1587); I5-F: held (0.338 vs baseline 0.102 + 0.1); I6: failed (grad ratio F 29.116 vs G 4.004; d_AB ratio F 0.808 vs G 0.945)
+
+==================== POST-HOC (not pre-registered): equivalence check in float64 ====================
+  arm G: float64 max |delta diff| per seed: 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00; max |z| (last seed) 0.7
+  arm F: float64 max |delta diff| per seed: 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00; max |z| (last seed) 0.7
