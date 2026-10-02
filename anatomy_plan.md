@@ -92,12 +92,12 @@ Notes:
 - **Plan ambiguity:** Q2's null-space criterion did not name a block. It was evaluated on the layer-1
   continuous block, matching the cancellation criterion. The share is ≥ 0.999 in every block, so the
   choice makes no difference.
-- **Penalty vs data:** at the 107-epoch point the penalty is 9–26% of the training loss. At the capped
-  state it is 0.5–2% for the seeds and 8–14% for the students. From 107 epochs to capped, ‖θ‖² grows
-  about 250–1550× (seeds) while the penalty falls about 25–90×.
+- **Penalty vs data:** the penalty is 9–23% of the training loss at the seeds' 107-epoch point and
+  46–58% at the students' AdamW stage. At the capped state it is 0.6–2.0% for the seeds and 9–12% for
+  the students. From 107 epochs to capped, ‖θ‖² grows 150–1550× (seeds) while the penalty falls 8–88×.
 - **The RBF coefficients are almost pure null-space patterns** from the fiber point onward. The median
   null-space share is 0.994–1.000, against 0.50–0.72 at 107 epochs (seeds) and 0.88–0.94 at the
-  students' AdamW stage. 98.6–100% of every coefficient change along the unregularised path lies in
+  students' AdamW stage. 97–100% of every coefficient change along the unregularised path lies in
   the 2-dimensional null space, in all three blocks.
 - **Post hoc** (not in this plan, descriptive): the growth cancels **across** the 10 edges entering
   each hidden unit, not within an edge.
