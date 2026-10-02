@@ -1,7 +1,10 @@
 """stage2: trust-exact optimiser check (A), runaway diagnostic (B), coercivity intervention (C). See stage2_prereg.md.
 Run: python3 stage2.py    Weights: gauge_weights/stage2_* (not committed)   Figures: figs/stage2/"""
+import hashlib
+import io
 import itertools
 import json
+import shutil
 import time
 import warnings
 from pathlib import Path
@@ -46,6 +49,23 @@ class FlatL2(Flat):
     def base_loss(self, x):
         with torch.no_grad():
             return float(Flat.loss_t(self, torch.tensor(x)))
+
+
+def in_memory(paths):
+    """Read verified inputs into memory, re-check SHA-256 against the manifest, delete the extraction dir.
+    Nothing is re-read from $TMPDIR later (macOS's nightly cleanup deleted lazily re-read files: restart 2)."""
+    man = {l.split()[0].split("/")[-1]: l.split()[1] for l in (ROOT / "weights_manifest.txt").read_text().splitlines()
+           if l.startswith("gauge_weights/")}
+    blobs = {}
+    for n, p in paths.items():
+        data = p.read_bytes()
+        if hashlib.sha256(data).hexdigest() != man[n]:
+            raise SystemExit(f"SHA-256 MISMATCH (in-memory re-check) for {n}")
+        blobs[n] = data
+    for root in {p.parents[1] for p in paths.values()}:
+        shutil.rmtree(root)
+    log(f"  {len(blobs)} inputs held in memory (SHA-256 re-checked from memory); extraction directory removed")
+    return blobs
 
 
 def run_exact(tag, flat):
@@ -111,11 +131,11 @@ def main():
     names = ([f"delta_s{i}.pt" for i in IND] + [f"fiber_polished_s{i}.pt" for i in IND] + [f"fiber2_ind_{i}.pt" for i in IND] +
              [f"trust_ind_{i}.pt" for i in IND] + [f"control3_R_s{s}.pt" for s in STU] + [f"fiber2_stu_{s}.pt" for s in STU] +
              [f"trust_stu_{s}.pt" for s in STU])
-    files = extract_verified(names)
+    files = in_memory(extract_verified(names))
 
     def load(p):
         k = KAN(d, [6, 1], D["n_salt"])
-        miss, unexp = k.load_state_dict({n: t.float() for n, t in torch.load(p).items()}, strict=False)
+        miss, unexp = k.load_state_dict({n: t.float() for n, t in torch.load(io.BytesIO(p)).items()}, strict=False)
         assert not unexp and all(x.endswith(".grid") for x in miss), (miss, unexp)
         return k.eval()
 
@@ -142,7 +162,8 @@ def main():
             flat = FlatL2(load(files[fname]), bb, used, lam)
             cache = W_DIR / f"stage2_{part}_{tag.replace(' ', '_')}.pt"
             meta_p = W_DIR / f"stage2_{part}_{tag.replace(' ', '_')}.json"
-            if cache.exists() and meta_p.exists():
+            cached = cache.exists() and meta_p.exists()
+            if cached:
                 x = torch.load(cache).numpy(); info, hist = json.loads(meta_p.read_text()).values()
             else:
                 x, info, hist = run_exact(tag, flat)
@@ -151,7 +172,7 @@ def main():
                 torch.save(torch.tensor(x), cache)
                 meta_p.write_text(json.dumps(dict(info=info, hist=hist), default=float))
             finals[key], infos[key], hists[key] = (flat, x), info, hist
-            log(f"  {tag}: {info['stop']} after {info['iters']} iters ({info['wall_s']} s) | scipy: {info['message']}")
+            log(f"  {tag}: {info['stop']} after {info['iters']} iters ({info['wall_s']} s) | scipy: {info['message']}" + ("  [cached]" if cached else ""))
             log(f"      loss ratio {info['loss_ratio']:.6f}" + ("" if part == "A" else f", without L2 {info['base_ratio']:.6f}") +
                 f"; max|grad| {info['grad0']:.2e} -> {info['grad']:.2e}; neg eigs {info['neg0']} -> {info['neg']} "
                 f"(min {info['mineig']:.2e}, max {info['maxeig']:.2e}); steps median {info['step_median']:.2e}, max {info['step_max']:.2e}, "
