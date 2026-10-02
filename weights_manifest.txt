@@ -314,3 +314,62 @@ gauge_weights/trust_ind_5.pt  8cfd518f07639018dbb13338cb3dc376f5399813127d73e22e
 gauge_weights/trust_stu_104.pt  3cc67944856032cfd4240d376109bdbb39a2cdc4c5fb7bdb09a99a9fa23ca76a  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
 gauge_weights/trust_stu_114.pt  5ec343791383a4a10e715f3022d81e60f01ba495954dc91a2ccbceebb5eea227  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
 gauge_weights/trust_stu_115.pt  84aded1c63451f5bcd1bc2f012d794dba80c32d847fad4ffe919ec7bc7008f85  trust.py  67586d6  gauge_weights_2026-09-30d.tar.gz
+
+# --- fifth archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-10-02e.tar.gz
+# archive sha256: d5bc672c4e112da915450d5824db0f09d9f5f0c70487092adc156d63a69a75eb
+# producing commit 78bcaba = stage2.py version that ran all 27 optimisations; the resume (60621c6) only loaded these from cache
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/stage2_A_ind_0.json  d6c778366e11244bb25e76e2ee5fcf80b603b594c18f968dbc0896f464c7018e  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_0.pt  1c37023144783c14e9eb2c8136a499a9bdca6f42ef90f9141f0e16c534b59d95  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_1.json  ff4297bb74d154497a1f7a1146d552f4a143405f5e7f57383f2e7c9af7d5054c  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_1.pt  9213b25e2115dd60db507de3f6bcf703a999dfac2ac8f51cf6a4397767c19274  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_2.json  74619999c097a1f6e3c9937191e1bf2312e58d0f97a59b324e7af9b52144dcfa  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_2.pt  2c320503ce07134cf99127fd0ab7542c7a8d5a463cad8157630b8a9dbc100406  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_3.json  ee76730c1f1685c6712e7c2cb8a6264b68cfdf410685d30dfa25ec1a05594558  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_3.pt  35960ba573a0083dcfcd3ddc902e9704ca2a394635f7b7381436266aa8ac5b77  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_4.json  ec6e008843f13af9dfd746d4f863de692affc00ff5b7f9f999be9be53275f64a  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_4.pt  5b5dc1d81a98906eb8d308ed3572bbb07de8e17322c51a57426d630f6989ec75  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_5.json  0fc5a37e54d7cf55bc4010b901f3ab48d45f71730ebe512cd93328d2b044ab7a  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_ind_5.pt  584afaa0c36a58c468c0cf4024b9cd883e56c2a34ae367b5127762528b3fb1a5  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_104.json  52a647a378fe03574743adc3d671f44ab1ae5c2b70dd56bd8920a47a8bf90b59  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_104.pt  32427931f5c3a7f5d99ab733d0f4da9678be27f8e5a5be245630636a41d096d6  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_114.json  37be7234755d02d9040cdc8a96a654ef35e1c9ea9993c6541b3f070da94d5f50  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_114.pt  e6d1dbf474ce54c05a3d20f7fceda8097d135e44c232a959fd2aad5b23730744  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_115.json  cb431607dc76c84f9804900146a45163f3d22fafddae216dc5445e8cc9962d7e  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_A_stu_115.pt  ba99dc928464821895b148cd0728d9e636e00413a5640b75b6765b73469d930e  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_0.json  f0d97f10463782b60c8af36b79de0601b78e52f74b7229f716a74f23d35fb911  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_0.pt  c04f139cd21a65623dd54f4c41630c263d87e79224ab0dc210c637890c0f2a3d  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_1.json  1a2a2b9ed33924df9054cb59145404f7aaa2b3a410119d460a32c8207b7a4600  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_1.pt  2bf38fbd7cbce53ee6fd4c94de050961fff3927eb52f8d9e624d9a2e0a223d96  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_2.json  f545cf6f60934a009d2899edd376994cf1342632f30df50c3cf5aad44bbdc505  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_2.pt  ff26bea516d1a590b6350695204e7bef2968daca2549c26262268049588e1261  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_3.json  e7c85d1df6518c7c8f146e5d7570ca35c91f6ca7dcbfb25603d0fb4a3cacb87b  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_3.pt  0e55e8fada98655a2abf4dcaa0e2f572ef110b05629cf63cffdfe5cd683e2867  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_4.json  a340b7f152d60cc57b9facdb7123c37a0b431f5efd59d25dcc34d85d38cb4b70  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_4.pt  01270dcd0fdde699c9e7dc144c9fae6ced4dd32f2a14b6d2dd7a96082a60ccd0  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_5.json  adb21f309fe57bca1e7c4b6211389017eb0c65121d985244df3c8396ab0d7417  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_ind_5.pt  433ea96a42a44b4bf4d8ac66092821f0134958b3b2239d5837973884012918cc  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_104.json  a033788350031682a25ec3442017863b585a7c5ae28b595ceefaf2cd07ff4e2e  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_104.pt  966e2820e23972fca75a2c41a00c3f1de3ecb22e9684edbcc5b80fd04385994e  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_114.json  c6479eef5abdfe75b35daa662be0bc4a0a59219cb21d9c133df4b8081444307c  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_114.pt  d711400c5bf30e78efc188dd4825a0c87d0622aba516b2315f3f72936c155ddf  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_115.json  28f6bb290d34fe091246aa269f23f58d9c2006d63d8c039c3a26b44a93b4726b  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-05_stu_115.pt  764d44474210903acca438b518c0ba58aca7509e956bacb56d50b7d6ca893d83  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_0.json  2104358fd4599f44c41d878fe72b72ee848efc4ef7dec25be6b31f37bbe73e3f  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_0.pt  e32c6b309216e719ef0f14dac57bc52e9b05d3370fc6684bd26fc383430ee00d  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_1.json  d850497edc8addf7b22e005b1fef32811c3ae588c061a897cf6e76c886b26450  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_1.pt  b59bc26aa8440e6331f9d7d78e3952833f6c6a227a94016cd866cbe3a4eddf1f  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_2.json  ab2e374f6e82f13e0b321d211f1ac9e9628a2b26bb2e81d5ebdad3bf5d2af33d  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_2.pt  4ad60f3ee58daf9efe69569ea9ec873bafc1810e828d25941929edf09943bc2f  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_3.json  4e25dd743818ad07a13f9011a77f290e8b9938d0f1b406f51b72e95919a7d2fa  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_3.pt  1a63927f162e4bd283f3447d4f89480d09e7fa7de0daddac3054d83e2b306b59  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_4.json  f288049bf76170e300073695b4edc93d7f57e71d8e3e4acbb847358f4733f397  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_4.pt  a64551727266b6c824360dbe1d0f919a1915b814b848f8fe52b7048cc4bae7d0  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_5.json  ff52f3b7dd1c5c61b1f6843051a779a40eed9069b3667da5c0898bdd9b9745b2  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_ind_5.pt  a6e98b889c0ddf5854facf954c779b3b3ee15cfa324c459c4ac70fab2dd52923  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_104.json  2a087f47f2f4053a9e93bf897e544e984b73d9d12740be1bb297945f7d096022  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_104.pt  bab9f68bad529e0cab3e5615d1106d63d4c758751b72d82b5879cb70d7f70b65  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_114.json  313b4ed50b43ee5a26330d33a9f80da527af58359d463042c9cc55947e9488af  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_114.pt  9139c724b6ff2cf6c408e68c2d4efae2e3c023ed5dee122450404c4908f5fb9b  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_115.json  083b3c8cb2cb3f86e594611e9b1bc7b7c226a7a48e25d71782268f7df2728cfe  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
+gauge_weights/stage2_C1e-06_stu_115.pt  a98ab3fc47ac499c30ebc286d7bcf0b414fd64994211b0b3adbea9a5a48f9aea  stage2.py  78bcaba  gauge_weights_2026-10-02e.tar.gz
