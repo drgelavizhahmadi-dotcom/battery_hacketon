@@ -1,0 +1,515 @@
+DISCREPANCIES / choices (files win; see stage2_prereg.md):
+  S2 students' AdamW-stage weights (control3_R) were trained 530-2680 epochs, not 107; students have no 'fiber' state
+  S4 smoothness penalty acts on layers.0.coef and layers.1.coef only; no weight decay in any loss (AdamW's was decoupled)
+  S5 scipy trust-exact callback exposes only (x, fun): step length = ||x_k - x_{k-1}||, 0 on rejected steps
+  S6 Part C convergence criteria apply to the coercive loss (incl. the L2 term)
+
+==================== RESTART NOTES (merged from stage2_restart_note.md after the run; the separate file is kept) ====================
+## Restart (crash record)
+
+- **First run:** started at about 19:43:3x on 2026-09-30 (its archive-extraction directory was created
+  at 19:43:37). It crashed at the first trust-exact iteration of Part A, model `ind 0`, before any
+  optimisation run finished.
+  - **Error:** `AttributeError: 'numpy.ndarray' object has no attribute 'x'`
+  - **Where:** `stage2.py`, `run_exact()` → nested `callback(r)`, on the line `x = r.x`. It was called
+    from `scipy/optimize/_trustregion.py` (`_minimize_trust_region`) via
+    `scipy/_lib/_util.py:_call_callback_maybe_halt` and
+    `scipy/optimize/_optimize.py:wrapped_callback`.
+  - **Cause:** scipy passes the `OptimizeResult` only to a callback whose single parameter is named
+    `intermediate_result`. Any other name gets the legacy signature `callback(xk)`, the bare x array.
+    `trust.py` used the correct name; `stage2.py` did not.
+- **Fix:** the callback parameter was renamed `r` → `intermediate_result`. The diff is 2 lines changed
+  (`def callback(...)` and `x = ....x`), with no other changes. Commits: crashed version `a1c7842`,
+  fix `78bcaba` ("stage2: fix AttributeError (implementation only, post-prereg)").
+- Commit a1c7842 contains a reconstruction of the crashed stage2.py, made after the crash; it is not
+  a snapshot taken at run time. The reconstruction differs from the running version only by the
+  callback parameter name (r vs intermediate_result), as shown in 78bcaba.
+- **The fix was made after** the pre-registration commit `c6a9e83`.
+  - It changes implementation only.
+  - No prediction (U1–U5), threshold, convergence criterion (S6), cap, λ, model set or
+    interpretation rule in `stage2_prereg.md` changes.
+  - S5 already specified that the callback receives (x, fun).
+- **Restart:** process started Wed Sep 30 19:44:40 2026 (its extraction directory was created at
+  19:44:42).
+- **What the crashed run left behind, and what happened to it:**
+  - **Deleted (pure cache):** `$TMPDIR/trust_weights_npq00sik/`, which held verified copies of the 33
+    archived weight files this script extracts. It was outside the repo and is re-extractable from
+    the pinned archives.
+  - **No move needed:** `figs/stage2/` was created by the crashed run but was empty; no figure was
+    written.
+  - **Nothing written:** no `gauge_weights/stage2_*` weights or caches (the crash came before the
+    first run finished), and no `stage2_results.json`.
+  - **Overwritten:** the first run's `stage2_output.txt` was truncated at the restart. Its content up
+    to the crash was the discrepancy flags, the SHA-256 lines, the S4 check and the Part A header;
+    the error is recorded above.
+  - So there is nothing to put in `figs/stage2/_crashed_run/` or `gauge_weights/_crashed_run/`.
+  - Not the crashed run's: `$TMPDIR/trust_weights_fcwazm9s/` (19:31:16) is `trust.py`'s extraction
+    cache from its earlier run, and is left untouched.
+- **Everything reported in this log,** every figure in `figs/stage2/` and every
+  `gauge_weights/stage2_*` file comes from the complete restarted run.
+- **The restarted run re-did all checks from scratch:** it extracted all 33 input files from the
+  archives into a new directory and verified every SHA-256 against `weights_manifest.txt` (33
+  `verified` lines above). It also recomputed the S4 penalty check (flat penalty
+  5.1923312198e-02 = `kan.smoothness()` 5.1923312198e-02).
+
+## Restart 2 (crash record #2): Part B FileNotFoundError
+
+- **Crash:** 2026-10-01 10:16:32, immediately after the 27th optimisation run (`C1e-05 stu 114`) was
+  cached. The run had started 2026-09-30 19:44:40.
+  - **Error:** `FileNotFoundError: [Errno 2] No such file or directory:
+    '/var/folders/v7/dfmfb6916j367hw5xjv131bw0000gn/T/trust_weights_yx54d0j4/gauge_weights/delta_s0.pt'`
+  - **Where:** `stage2.py`, `main()`, Part B (the `rows = [...]` line) → `load(files[f])` → `torch.load`.
+- **Root cause:** three things together.
+  1. `trust.extract_verified` extracts the inputs into `$TMPDIR`.
+  2. `tarfile` restores each member's **archived** timestamps, so the `delta_s*` files carried their
+     original 2026-09-23 20:17 mtime.
+  3. `stage2.py` re-read the files from disk **lazily**, about 14.5 h after extracting and verifying them.
+  - macOS's nightly `$TMPDIR` cleanup ran at **2026-10-01 03:35:04** (the extraction directory's
+    modification time) and deleted the files that looked older than 3 days.
+  - The extraction directory was not deleted by hand. The only directory removed by hand was the
+    first crashed run's `trust_weights_npq00sik` (restart 1).
+- **The 6 deleted files:** `delta_s0.pt`, `delta_s1.pt`, `delta_s2.pt`, `delta_s3.pt`, `delta_s4.pt`,
+  `delta_s5.pt` (archived mtime 2026-09-23 20:17, first archive). The other 27 extracted files (archived
+  2026-09-29/30) survived.
+- **Not affected:** all 27 optimisation runs had completed and been cached before the crash. Part A
+  and Part C only read the fiber2 capped weights and the teacher, and those reads happened while the
+  files still existed.
+  - The teacher `delta_s0.pt` was loaded into memory at start-up.
+  - The per-model inputs, `fiber2_*` (archived 2026-09-29), survived throughout.
+- **Lost:** Part B, the after-convergence section, the scripted verdicts, `stage2_results.json` and
+  `figs/stage2/stage2_grad.png` were never produced.
+- **Fix (implementation only, made after the pre-registration):** each input is read into memory and
+  its SHA-256 re-checked against the manifest immediately after extraction. The extraction directory is
+  then deleted, and every later load is from memory. The fix commit is listed in the resume section of
+  `stage2_output.txt`.
+- **Rule for future scripts:** keep extracted inputs in memory or in a git-ignored folder inside the
+  repo, never in `$TMPDIR`.
+- **Resume** (pre-registered cache resume, S9): re-extract and re-verify all 33 inputs, then load the 27
+  cached runs without re-optimising. The log is appended under a "RESUME" header.
+- **SHA-256 of the 54 cached `gauge_weights/stage2_*` files, recorded before the resume:**
+
+```
+d6c778366e11244bb25e76e2ee5fcf80b603b594c18f968dbc0896f464c7018e  gauge_weights/stage2_A_ind_0.json
+1c37023144783c14e9eb2c8136a499a9bdca6f42ef90f9141f0e16c534b59d95  gauge_weights/stage2_A_ind_0.pt
+ff4297bb74d154497a1f7a1146d552f4a143405f5e7f57383f2e7c9af7d5054c  gauge_weights/stage2_A_ind_1.json
+9213b25e2115dd60db507de3f6bcf703a999dfac2ac8f51cf6a4397767c19274  gauge_weights/stage2_A_ind_1.pt
+74619999c097a1f6e3c9937191e1bf2312e58d0f97a59b324e7af9b52144dcfa  gauge_weights/stage2_A_ind_2.json
+2c320503ce07134cf99127fd0ab7542c7a8d5a463cad8157630b8a9dbc100406  gauge_weights/stage2_A_ind_2.pt
+ee76730c1f1685c6712e7c2cb8a6264b68cfdf410685d30dfa25ec1a05594558  gauge_weights/stage2_A_ind_3.json
+35960ba573a0083dcfcd3ddc902e9704ca2a394635f7b7381436266aa8ac5b77  gauge_weights/stage2_A_ind_3.pt
+ec6e008843f13af9dfd746d4f863de692affc00ff5b7f9f999be9be53275f64a  gauge_weights/stage2_A_ind_4.json
+5b5dc1d81a98906eb8d308ed3572bbb07de8e17322c51a57426d630f6989ec75  gauge_weights/stage2_A_ind_4.pt
+0fc5a37e54d7cf55bc4010b901f3ab48d45f71730ebe512cd93328d2b044ab7a  gauge_weights/stage2_A_ind_5.json
+584afaa0c36a58c468c0cf4024b9cd883e56c2a34ae367b5127762528b3fb1a5  gauge_weights/stage2_A_ind_5.pt
+52a647a378fe03574743adc3d671f44ab1ae5c2b70dd56bd8920a47a8bf90b59  gauge_weights/stage2_A_stu_104.json
+32427931f5c3a7f5d99ab733d0f4da9678be27f8e5a5be245630636a41d096d6  gauge_weights/stage2_A_stu_104.pt
+37be7234755d02d9040cdc8a96a654ef35e1c9ea9993c6541b3f070da94d5f50  gauge_weights/stage2_A_stu_114.json
+e6d1dbf474ce54c05a3d20f7fceda8097d135e44c232a959fd2aad5b23730744  gauge_weights/stage2_A_stu_114.pt
+cb431607dc76c84f9804900146a45163f3d22fafddae216dc5445e8cc9962d7e  gauge_weights/stage2_A_stu_115.json
+ba99dc928464821895b148cd0728d9e636e00413a5640b75b6765b73469d930e  gauge_weights/stage2_A_stu_115.pt
+f0d97f10463782b60c8af36b79de0601b78e52f74b7229f716a74f23d35fb911  gauge_weights/stage2_C1e-05_ind_0.json
+c04f139cd21a65623dd54f4c41630c263d87e79224ab0dc210c637890c0f2a3d  gauge_weights/stage2_C1e-05_ind_0.pt
+1a2a2b9ed33924df9054cb59145404f7aaa2b3a410119d460a32c8207b7a4600  gauge_weights/stage2_C1e-05_ind_1.json
+2bf38fbd7cbce53ee6fd4c94de050961fff3927eb52f8d9e624d9a2e0a223d96  gauge_weights/stage2_C1e-05_ind_1.pt
+f545cf6f60934a009d2899edd376994cf1342632f30df50c3cf5aad44bbdc505  gauge_weights/stage2_C1e-05_ind_2.json
+ff26bea516d1a590b6350695204e7bef2968daca2549c26262268049588e1261  gauge_weights/stage2_C1e-05_ind_2.pt
+e7c85d1df6518c7c8f146e5d7570ca35c91f6ca7dcbfb25603d0fb4a3cacb87b  gauge_weights/stage2_C1e-05_ind_3.json
+0e55e8fada98655a2abf4dcaa0e2f572ef110b05629cf63cffdfe5cd683e2867  gauge_weights/stage2_C1e-05_ind_3.pt
+a340b7f152d60cc57b9facdb7123c37a0b431f5efd59d25dcc34d85d38cb4b70  gauge_weights/stage2_C1e-05_ind_4.json
+01270dcd0fdde699c9e7dc144c9fae6ced4dd32f2a14b6d2dd7a96082a60ccd0  gauge_weights/stage2_C1e-05_ind_4.pt
+adb21f309fe57bca1e7c4b6211389017eb0c65121d985244df3c8396ab0d7417  gauge_weights/stage2_C1e-05_ind_5.json
+433ea96a42a44b4bf4d8ac66092821f0134958b3b2239d5837973884012918cc  gauge_weights/stage2_C1e-05_ind_5.pt
+a033788350031682a25ec3442017863b585a7c5ae28b595ceefaf2cd07ff4e2e  gauge_weights/stage2_C1e-05_stu_104.json
+966e2820e23972fca75a2c41a00c3f1de3ecb22e9684edbcc5b80fd04385994e  gauge_weights/stage2_C1e-05_stu_104.pt
+c6479eef5abdfe75b35daa662be0bc4a0a59219cb21d9c133df4b8081444307c  gauge_weights/stage2_C1e-05_stu_114.json
+d711400c5bf30e78efc188dd4825a0c87d0622aba516b2315f3f72936c155ddf  gauge_weights/stage2_C1e-05_stu_114.pt
+28f6bb290d34fe091246aa269f23f58d9c2006d63d8c039c3a26b44a93b4726b  gauge_weights/stage2_C1e-05_stu_115.json
+764d44474210903acca438b518c0ba58aca7509e956bacb56d50b7d6ca893d83  gauge_weights/stage2_C1e-05_stu_115.pt
+2104358fd4599f44c41d878fe72b72ee848efc4ef7dec25be6b31f37bbe73e3f  gauge_weights/stage2_C1e-06_ind_0.json
+e32c6b309216e719ef0f14dac57bc52e9b05d3370fc6684bd26fc383430ee00d  gauge_weights/stage2_C1e-06_ind_0.pt
+d850497edc8addf7b22e005b1fef32811c3ae588c061a897cf6e76c886b26450  gauge_weights/stage2_C1e-06_ind_1.json
+b59bc26aa8440e6331f9d7d78e3952833f6c6a227a94016cd866cbe3a4eddf1f  gauge_weights/stage2_C1e-06_ind_1.pt
+ab2e374f6e82f13e0b321d211f1ac9e9628a2b26bb2e81d5ebdad3bf5d2af33d  gauge_weights/stage2_C1e-06_ind_2.json
+4ad60f3ee58daf9efe69569ea9ec873bafc1810e828d25941929edf09943bc2f  gauge_weights/stage2_C1e-06_ind_2.pt
+4e25dd743818ad07a13f9011a77f290e8b9938d0f1b406f51b72e95919a7d2fa  gauge_weights/stage2_C1e-06_ind_3.json
+1a63927f162e4bd283f3447d4f89480d09e7fa7de0daddac3054d83e2b306b59  gauge_weights/stage2_C1e-06_ind_3.pt
+f288049bf76170e300073695b4edc93d7f57e71d8e3e4acbb847358f4733f397  gauge_weights/stage2_C1e-06_ind_4.json
+a64551727266b6c824360dbe1d0f919a1915b814b848f8fe52b7048cc4bae7d0  gauge_weights/stage2_C1e-06_ind_4.pt
+ff52f3b7dd1c5c61b1f6843051a779a40eed9069b3667da5c0898bdd9b9745b2  gauge_weights/stage2_C1e-06_ind_5.json
+a6e98b889c0ddf5854facf954c779b3b3ee15cfa324c459c4ac70fab2dd52923  gauge_weights/stage2_C1e-06_ind_5.pt
+2a087f47f2f4053a9e93bf897e544e984b73d9d12740be1bb297945f7d096022  gauge_weights/stage2_C1e-06_stu_104.json
+bab9f68bad529e0cab3e5615d1106d63d4c758751b72d82b5879cb70d7f70b65  gauge_weights/stage2_C1e-06_stu_104.pt
+313b4ed50b43ee5a26330d33a9f80da527af58359d463042c9cc55947e9488af  gauge_weights/stage2_C1e-06_stu_114.json
+9139c724b6ff2cf6c408e68c2d4efae2e3c023ed5dee122450404c4908f5fb9b  gauge_weights/stage2_C1e-06_stu_114.pt
+083b3c8cb2cb3f86e594611e9b1bc7b7c226a7a48e25d71782268f7df2728cfe  gauge_weights/stage2_C1e-06_stu_115.json
+a98ab3fc47ac499c30ebc286d7bcf0b414fd64994211b0b3adbea9a5a48f9aea  gauge_weights/stage2_C1e-06_stu_115.pt
+```
+==================== end of restart notes ====================
+
+==================== inputs (SHA-256 verified) ====================
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  verified gauge_weights/fiber_polished_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 4af837528055
+  verified gauge_weights/fiber_polished_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 a7452cc3f034
+  verified gauge_weights/fiber_polished_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 1658494b4eef
+  verified gauge_weights/fiber_polished_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 262f50529146
+  verified gauge_weights/fiber_polished_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 c14d66b8e825
+  verified gauge_weights/fiber_polished_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 c303f51c0564
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/trust_ind_0.pt (gauge_weights_2026-09-30d.tar.gz) sha256 a6f128e0af53
+  verified gauge_weights/trust_ind_1.pt (gauge_weights_2026-09-30d.tar.gz) sha256 d72bf53e808d
+  verified gauge_weights/trust_ind_2.pt (gauge_weights_2026-09-30d.tar.gz) sha256 be4b8b1afcee
+  verified gauge_weights/trust_ind_3.pt (gauge_weights_2026-09-30d.tar.gz) sha256 f9cc63516c9c
+  verified gauge_weights/trust_ind_4.pt (gauge_weights_2026-09-30d.tar.gz) sha256 60cf2452da0d
+  verified gauge_weights/trust_ind_5.pt (gauge_weights_2026-09-30d.tar.gz) sha256 8cfd518f0763
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/fiber2_stu_115.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b0e61d74a091
+  verified gauge_weights/fiber2_stu_104.pt (gauge_weights_2026-09-29b.tar.gz) sha256 51496169e15e
+  verified gauge_weights/fiber2_stu_114.pt (gauge_weights_2026-09-29b.tar.gz) sha256 dd59b691058c
+  verified gauge_weights/trust_stu_115.pt (gauge_weights_2026-09-30d.tar.gz) sha256 84aded1c6345
+  verified gauge_weights/trust_stu_104.pt (gauge_weights_2026-09-30d.tar.gz) sha256 3cc679448560
+  verified gauge_weights/trust_stu_114.pt (gauge_weights_2026-09-30d.tar.gz) sha256 5ec343791383
+  S4 check: flat penalty 5.1923312198e-02 vs kan.smoothness() 5.1923312198e-02
+
+==================== PART A: trust-exact ====================
+  ind 0: iteration cap (500) after 500 iters (1813.6 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.957972; max|grad| 6.39e-05 -> 1.65e-04; neg eigs 0 -> 2 (min -1.55e-05, max 4.57e+02); steps median 6.25e-02, max 1.09e+00, rejected 158; converged False
+  ind 1: iteration cap (500) after 500 iters (2013.9 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.978724; max|grad| 5.85e-05 -> 1.32e-03; neg eigs 0 -> 0 (min -1.76e-05, max 2.61e+03); steps median 3.13e-02, max 1.09e+00, rejected 164; converged False
+  ind 2: iteration cap (500) after 500 iters (2129.3 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.984879; max|grad| 1.27e-04 -> 2.44e-05; neg eigs 0 -> 0 (min -1.07e-06, max 4.12e+03); steps median 3.16e-02, max 2.71e-01, rejected 162; converged False
+  ind 3: iteration cap (500) after 500 iters (2172.7 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.946312; max|grad| 2.13e-04 -> 1.06e-05; neg eigs 0 -> 0 (min -4.60e-06, max 5.71e+03); steps median 3.13e-02, max 1.00e+00, rejected 158; converged False
+  ind 4: iteration cap (500) after 500 iters (2113.7 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.971966; max|grad| 5.50e-05 -> 4.36e-05; neg eigs 0 -> 0 (min -6.55e-07, max 5.70e+02); steps median 1.31e-01, max 2.15e+00, rejected 162; converged False
+  ind 5: iteration cap (500) after 500 iters (2038.4 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.979792; max|grad| 1.09e-04 -> 3.79e-04; neg eigs 1 -> 1 (min -6.17e-05, max 3.67e+03); steps median 1.56e-02, max 1.34e-01, rejected 159; converged False
+  stu 115: iteration cap (500) after 500 iters (2160.1 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.812036; max|grad| 1.22e-06 -> 1.05e-06; neg eigs 0 -> 0 (min -5.46e-08, max 3.80e+02); steps median 1.57e-02, max 2.68e-01, rejected 162; converged False
+  stu 104: iteration cap (500) after 500 iters (2219.2 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.851590; max|grad| 1.68e-06 -> 5.49e-04; neg eigs 0 -> 3 (min -9.98e-05, max 3.25e+02); steps median 3.13e-02, max 1.01e+00, rejected 160; converged False
+  stu 114: iteration cap (500) after 500 iters (2174.0 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.713452; max|grad| 3.96e-05 -> 3.52e-05; neg eigs 0 -> 0 (min -2.11e-06, max 1.23e+03); steps median 3.13e-02, max 1.37e-01, rejected 163; converged False
+
+==================== PART C (lambda = 1e-06): trust-exact ====================
+  ind 0: iteration cap (500) after 500 iters (2052.7 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.522392, without L2 1.082551; max|grad| 6.54e-05 -> 1.22e-04; neg eigs 0 -> 3 (min -8.44e-05, max 1.37e+02); steps median 6.25e-02, max 2.02e+00, rejected 162; converged False
+  ind 1: iteration cap (500) after 500 iters (2039.5 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.604614, without L2 1.061470; max|grad| 5.83e-05 -> 1.25e-03; neg eigs 0 -> 5 (min -2.96e-03, max 2.35e+02); steps median 3.14e-02, max 2.02e+00, rejected 165; converged False
+  ind 2: iteration cap (500) after 500 iters (2045.6 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.731491, without L2 1.043319; max|grad| 1.27e-04 -> 2.62e-03; neg eigs 0 -> 3 (min -2.07e-03, max 4.11e+02); steps median 3.16e-02, max 1.02e+00, rejected 163; converged False
+  ind 3: iteration cap (500) after 500 iters (2043.1 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.643283, without L2 1.047768; max|grad| 2.13e-04 -> 2.83e-04; neg eigs 0 -> 2 (min -1.77e-04, max 5.42e+02); steps median 3.26e-02, max 1.06e+00, rejected 164; converged False
+  ind 4: iteration cap (500) after 500 iters (2018.3 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.256664, without L2 1.068901; max|grad| 8.33e-05 -> 8.26e-05; neg eigs 0 -> 2 (min -2.79e-05, max 6.46e+01); steps median 6.52e-02, max 8.23e+00, rejected 162; converged False
+  ind 5: iteration cap (500) after 500 iters (2097.5 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.803925, without L2 1.019801; max|grad| 1.08e-04 -> 1.45e-04; neg eigs 1 -> 2 (min -7.15e-05, max 4.96e+02); steps median 3.13e-02, max 5.01e-01, rejected 164; converged False
+  stu 115: iteration cap (500) after 500 iters (2046.2 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.137476, without L2 2.259364; max|grad| 2.38e-05 -> 2.39e-06; neg eigs 0 -> 0 (min 2.76e-07, max 2.63e+01); steps median 3.13e-02, max 1.03e+00, rejected 158; converged False
+  stu 104: scipy termination after 495 iters (2006.4 s) | scipy: A bad approximation caused failure to predict improvement.
+      loss ratio 0.131219, without L2 2.055660; max|grad| 1.97e-05 -> 2.63e-15; neg eigs 0 -> 0 (min 3.97e-07, max 3.71e+01); steps median 3.14e-02, max 1.02e+00, rejected 152; converged False
+  stu 114: iteration cap (500) after 500 iters (2009.9 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.143974, without L2 2.273547; max|grad| 3.80e-05 -> 6.37e-05; neg eigs 0 -> 6 (min -3.05e-05, max 2.81e+01); steps median 3.13e-02, max 1.01e+00, rejected 154; converged False
+
+==================== PART C (lambda = 1e-05): trust-exact ====================
+  ind 0: converged after 373 iters (1390.7 s) | scipy: `callback` raised `StopIteration`.
+      loss ratio 0.104352, without L2 1.254502; max|grad| 5.82e-04 -> 1.20e-09; neg eigs 0 -> 0 (min 2.17e-06, max 3.15e+01); steps median 3.15e-02, max 4.15e+00, rejected 124; converged True
+  ind 1: iteration cap (500) after 500 iters (1928.5 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.131165, without L2 1.196696; max|grad| 4.66e-04 -> 1.58e-04; neg eigs 0 -> 2 (min -1.48e-04, max 4.36e+01); steps median 6.25e-02, max 4.01e+00, rejected 164; converged False
+  ind 2: iteration cap (500) after 500 iters (2000.0 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.198007, without L2 1.184472; max|grad| 4.77e-04 -> 1.77e-04; neg eigs 0 -> 3 (min -9.37e-05, max 4.07e+01); steps median 6.49e-02, max 1.05e+00, rejected 162; converged False
+  ind 3: iteration cap (500) after 500 iters (1967.0 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.144326, without L2 1.162083; max|grad| 5.01e-04 -> 2.17e-04; neg eigs 0 -> 2 (min -9.33e-05, max 6.33e+01); steps median 6.25e-02, max 2.01e+00, rejected 164; converged False
+  ind 4: iteration cap (500) after 500 iters (1983.8 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.036935, without L2 1.196915; max|grad| 8.15e-04 -> 8.38e-05; neg eigs 0 -> 2 (min -6.22e-05, max 4.67e+01); steps median 6.26e-02, max 1.60e+01, rejected 160; converged False
+  ind 5: iteration cap (500) after 500 iters (1996.7 s) | scipy: Maximum number of iterations has been exceeded.
+      loss ratio 0.265939, without L2 1.135638; max|grad| 4.09e-04 -> 1.74e-04; neg eigs 1 -> 4 (min -3.03e-04, max 7.81e+01); steps median 6.25e-02, max 1.10e+00, rejected 164; converged False
+  stu 115: scipy termination after 328 iters (1287.6 s) | scipy: A bad approximation caused failure to predict improvement.
+      loss ratio 0.031541, without L2 4.821491; max|grad| 2.39e-04 -> 1.15e-13; neg eigs 0 -> 0 (min 2.02e-06, max 1.31e+01); steps median 3.13e-02, max 2.00e+00, rejected 97; converged False
+  stu 104: scipy termination after 283 iters (1075.8 s) | scipy: A bad approximation caused failure to predict improvement.
+      loss ratio 0.034003, without L2 4.210242; max|grad| 1.96e-04 -> 1.34e-13; neg eigs 0 -> 0 (min 1.22e-05, max 1.51e+01); steps median 3.34e-02, max 1.09e+00, rejected 92; converged False
+  stu 114: scipy termination after 338 iters (1324.5 s) | scipy: A bad approximation caused failure to predict improvement.
+      loss ratio 0.034711, without L2 4.397487; max|grad| 1.77e-04 -> 3.52e-14; neg eigs 0 -> 0 (min 9.59e-06, max 1.47e+01); steps median 3.17e-02, max 1.07e+00, rejected 104; converged False
+
+  converged: A: 0/9 []; C1e-06: 0/9 []; C1e-05: 1/9 ['ind 0']
+
+==================== PART B: runaway diagnostic (block norms) ====================
+  model    state                          layer-1 RBF     layer-2 RBF       SiLU base          biases  salt embedding
+Traceback (most recent call last):
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/stage2.py", line 267, in <module>
+    main()
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/stage2.py", line 187, in main
+    rows = [(st, load(files[f]) if f else None) for st, f in state_files[tag]] + [("Part A final", flat_a.to_kan(xa, d, D["n_salt"]).float())]
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/stage2.py", line 187, in <listcomp>
+    rows = [(st, load(files[f]) if f else None) for st, f in state_files[tag]] + [("Part A final", flat_a.to_kan(xa, d, D["n_salt"]).float())]
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/stage2.py", line 118, in load
+    miss, unexp = k.load_state_dict({n: t.float() for n, t in torch.load(p).items()}, strict=False)
+  File "/Users/gelavizhahmadi/Library/Python/3.9/lib/python/site-packages/torch/serialization.py", line 1484, in load
+    with _open_file_like(f, "rb") as opened_file:
+  File "/Users/gelavizhahmadi/Library/Python/3.9/lib/python/site-packages/torch/serialization.py", line 759, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/Users/gelavizhahmadi/Library/Python/3.9/lib/python/site-packages/torch/serialization.py", line 740, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/v7/dfmfb6916j367hw5xjv131bw0000gn/T/trust_weights_yx54d0j4/gauge_weights/delta_s0.pt'
+
+
+########## RESUME 2026-10-02 08:38:33 ##########
+Resuming after crash #2 (Part B FileNotFoundError; see stage2_restart_note.md, 'Restart 2').
+Fix commit: 60621c6 (inputs held in memory after verification). Pre-registered cache resume (S9):
+all 33 inputs are re-extracted and re-verified; the 27 optimisation runs are loaded from cache, not re-optimised.
+SHA-256 of the 54 cached gauge_weights/stage2_* files, recorded before resuming:
+  d6c778366e11244bb25e76e2ee5fcf80b603b594c18f968dbc0896f464c7018e  gauge_weights/stage2_A_ind_0.json
+  1c37023144783c14e9eb2c8136a499a9bdca6f42ef90f9141f0e16c534b59d95  gauge_weights/stage2_A_ind_0.pt
+  ff4297bb74d154497a1f7a1146d552f4a143405f5e7f57383f2e7c9af7d5054c  gauge_weights/stage2_A_ind_1.json
+  9213b25e2115dd60db507de3f6bcf703a999dfac2ac8f51cf6a4397767c19274  gauge_weights/stage2_A_ind_1.pt
+  74619999c097a1f6e3c9937191e1bf2312e58d0f97a59b324e7af9b52144dcfa  gauge_weights/stage2_A_ind_2.json
+  2c320503ce07134cf99127fd0ab7542c7a8d5a463cad8157630b8a9dbc100406  gauge_weights/stage2_A_ind_2.pt
+  ee76730c1f1685c6712e7c2cb8a6264b68cfdf410685d30dfa25ec1a05594558  gauge_weights/stage2_A_ind_3.json
+  35960ba573a0083dcfcd3ddc902e9704ca2a394635f7b7381436266aa8ac5b77  gauge_weights/stage2_A_ind_3.pt
+  ec6e008843f13af9dfd746d4f863de692affc00ff5b7f9f999be9be53275f64a  gauge_weights/stage2_A_ind_4.json
+  5b5dc1d81a98906eb8d308ed3572bbb07de8e17322c51a57426d630f6989ec75  gauge_weights/stage2_A_ind_4.pt
+  0fc5a37e54d7cf55bc4010b901f3ab48d45f71730ebe512cd93328d2b044ab7a  gauge_weights/stage2_A_ind_5.json
+  584afaa0c36a58c468c0cf4024b9cd883e56c2a34ae367b5127762528b3fb1a5  gauge_weights/stage2_A_ind_5.pt
+  52a647a378fe03574743adc3d671f44ab1ae5c2b70dd56bd8920a47a8bf90b59  gauge_weights/stage2_A_stu_104.json
+  32427931f5c3a7f5d99ab733d0f4da9678be27f8e5a5be245630636a41d096d6  gauge_weights/stage2_A_stu_104.pt
+  37be7234755d02d9040cdc8a96a654ef35e1c9ea9993c6541b3f070da94d5f50  gauge_weights/stage2_A_stu_114.json
+  e6d1dbf474ce54c05a3d20f7fceda8097d135e44c232a959fd2aad5b23730744  gauge_weights/stage2_A_stu_114.pt
+  cb431607dc76c84f9804900146a45163f3d22fafddae216dc5445e8cc9962d7e  gauge_weights/stage2_A_stu_115.json
+  ba99dc928464821895b148cd0728d9e636e00413a5640b75b6765b73469d930e  gauge_weights/stage2_A_stu_115.pt
+  f0d97f10463782b60c8af36b79de0601b78e52f74b7229f716a74f23d35fb911  gauge_weights/stage2_C1e-05_ind_0.json
+  c04f139cd21a65623dd54f4c41630c263d87e79224ab0dc210c637890c0f2a3d  gauge_weights/stage2_C1e-05_ind_0.pt
+  1a2a2b9ed33924df9054cb59145404f7aaa2b3a410119d460a32c8207b7a4600  gauge_weights/stage2_C1e-05_ind_1.json
+  2bf38fbd7cbce53ee6fd4c94de050961fff3927eb52f8d9e624d9a2e0a223d96  gauge_weights/stage2_C1e-05_ind_1.pt
+  f545cf6f60934a009d2899edd376994cf1342632f30df50c3cf5aad44bbdc505  gauge_weights/stage2_C1e-05_ind_2.json
+  ff26bea516d1a590b6350695204e7bef2968daca2549c26262268049588e1261  gauge_weights/stage2_C1e-05_ind_2.pt
+  e7c85d1df6518c7c8f146e5d7570ca35c91f6ca7dcbfb25603d0fb4a3cacb87b  gauge_weights/stage2_C1e-05_ind_3.json
+  0e55e8fada98655a2abf4dcaa0e2f572ef110b05629cf63cffdfe5cd683e2867  gauge_weights/stage2_C1e-05_ind_3.pt
+  a340b7f152d60cc57b9facdb7123c37a0b431f5efd59d25dcc34d85d38cb4b70  gauge_weights/stage2_C1e-05_ind_4.json
+  01270dcd0fdde699c9e7dc144c9fae6ced4dd32f2a14b6d2dd7a96082a60ccd0  gauge_weights/stage2_C1e-05_ind_4.pt
+  adb21f309fe57bca1e7c4b6211389017eb0c65121d985244df3c8396ab0d7417  gauge_weights/stage2_C1e-05_ind_5.json
+  433ea96a42a44b4bf4d8ac66092821f0134958b3b2239d5837973884012918cc  gauge_weights/stage2_C1e-05_ind_5.pt
+  a033788350031682a25ec3442017863b585a7c5ae28b595ceefaf2cd07ff4e2e  gauge_weights/stage2_C1e-05_stu_104.json
+  966e2820e23972fca75a2c41a00c3f1de3ecb22e9684edbcc5b80fd04385994e  gauge_weights/stage2_C1e-05_stu_104.pt
+  c6479eef5abdfe75b35daa662be0bc4a0a59219cb21d9c133df4b8081444307c  gauge_weights/stage2_C1e-05_stu_114.json
+  d711400c5bf30e78efc188dd4825a0c87d0622aba516b2315f3f72936c155ddf  gauge_weights/stage2_C1e-05_stu_114.pt
+  28f6bb290d34fe091246aa269f23f58d9c2006d63d8c039c3a26b44a93b4726b  gauge_weights/stage2_C1e-05_stu_115.json
+  764d44474210903acca438b518c0ba58aca7509e956bacb56d50b7d6ca893d83  gauge_weights/stage2_C1e-05_stu_115.pt
+  2104358fd4599f44c41d878fe72b72ee848efc4ef7dec25be6b31f37bbe73e3f  gauge_weights/stage2_C1e-06_ind_0.json
+  e32c6b309216e719ef0f14dac57bc52e9b05d3370fc6684bd26fc383430ee00d  gauge_weights/stage2_C1e-06_ind_0.pt
+  d850497edc8addf7b22e005b1fef32811c3ae588c061a897cf6e76c886b26450  gauge_weights/stage2_C1e-06_ind_1.json
+  b59bc26aa8440e6331f9d7d78e3952833f6c6a227a94016cd866cbe3a4eddf1f  gauge_weights/stage2_C1e-06_ind_1.pt
+  ab2e374f6e82f13e0b321d211f1ac9e9628a2b26bb2e81d5ebdad3bf5d2af33d  gauge_weights/stage2_C1e-06_ind_2.json
+  4ad60f3ee58daf9efe69569ea9ec873bafc1810e828d25941929edf09943bc2f  gauge_weights/stage2_C1e-06_ind_2.pt
+  4e25dd743818ad07a13f9011a77f290e8b9938d0f1b406f51b72e95919a7d2fa  gauge_weights/stage2_C1e-06_ind_3.json
+  1a63927f162e4bd283f3447d4f89480d09e7fa7de0daddac3054d83e2b306b59  gauge_weights/stage2_C1e-06_ind_3.pt
+  f288049bf76170e300073695b4edc93d7f57e71d8e3e4acbb847358f4733f397  gauge_weights/stage2_C1e-06_ind_4.json
+  a64551727266b6c824360dbe1d0f919a1915b814b848f8fe52b7048cc4bae7d0  gauge_weights/stage2_C1e-06_ind_4.pt
+  ff52f3b7dd1c5c61b1f6843051a779a40eed9069b3667da5c0898bdd9b9745b2  gauge_weights/stage2_C1e-06_ind_5.json
+  a6e98b889c0ddf5854facf954c779b3b3ee15cfa324c459c4ac70fab2dd52923  gauge_weights/stage2_C1e-06_ind_5.pt
+  2a087f47f2f4053a9e93bf897e544e984b73d9d12740be1bb297945f7d096022  gauge_weights/stage2_C1e-06_stu_104.json
+  bab9f68bad529e0cab3e5615d1106d63d4c758751b72d82b5879cb70d7f70b65  gauge_weights/stage2_C1e-06_stu_104.pt
+  313b4ed50b43ee5a26330d33a9f80da527af58359d463042c9cc55947e9488af  gauge_weights/stage2_C1e-06_stu_114.json
+  9139c724b6ff2cf6c408e68c2d4efae2e3c023ed5dee122450404c4908f5fb9b  gauge_weights/stage2_C1e-06_stu_114.pt
+  083b3c8cb2cb3f86e594611e9b1bc7b7c226a7a48e25d71782268f7df2728cfe  gauge_weights/stage2_C1e-06_stu_115.json
+  a98ab3fc47ac499c30ebc286d7bcf0b414fd64994211b0b3adbea9a5a48f9aea  gauge_weights/stage2_C1e-06_stu_115.pt
+
+DISCREPANCIES / choices (files win; see stage2_prereg.md):
+  S2 students' AdamW-stage weights (control3_R) were trained 530-2680 epochs, not 107; students have no 'fiber' state
+  S4 smoothness penalty acts on layers.0.coef and layers.1.coef only; no weight decay in any loss (AdamW's was decoupled)
+  S5 scipy trust-exact callback exposes only (x, fun): step length = ||x_k - x_{k-1}||, 0 on rejected steps
+  S6 Part C convergence criteria apply to the coercive loss (incl. the L2 term)
+
+==================== inputs (SHA-256 verified) ====================
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  verified gauge_weights/fiber_polished_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 4af837528055
+  verified gauge_weights/fiber_polished_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 a7452cc3f034
+  verified gauge_weights/fiber_polished_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 1658494b4eef
+  verified gauge_weights/fiber_polished_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 262f50529146
+  verified gauge_weights/fiber_polished_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 c14d66b8e825
+  verified gauge_weights/fiber_polished_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 c303f51c0564
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/trust_ind_0.pt (gauge_weights_2026-09-30d.tar.gz) sha256 a6f128e0af53
+  verified gauge_weights/trust_ind_1.pt (gauge_weights_2026-09-30d.tar.gz) sha256 d72bf53e808d
+  verified gauge_weights/trust_ind_2.pt (gauge_weights_2026-09-30d.tar.gz) sha256 be4b8b1afcee
+  verified gauge_weights/trust_ind_3.pt (gauge_weights_2026-09-30d.tar.gz) sha256 f9cc63516c9c
+  verified gauge_weights/trust_ind_4.pt (gauge_weights_2026-09-30d.tar.gz) sha256 60cf2452da0d
+  verified gauge_weights/trust_ind_5.pt (gauge_weights_2026-09-30d.tar.gz) sha256 8cfd518f0763
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/fiber2_stu_115.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b0e61d74a091
+  verified gauge_weights/fiber2_stu_104.pt (gauge_weights_2026-09-29b.tar.gz) sha256 51496169e15e
+  verified gauge_weights/fiber2_stu_114.pt (gauge_weights_2026-09-29b.tar.gz) sha256 dd59b691058c
+  verified gauge_weights/trust_stu_115.pt (gauge_weights_2026-09-30d.tar.gz) sha256 84aded1c6345
+  verified gauge_weights/trust_stu_104.pt (gauge_weights_2026-09-30d.tar.gz) sha256 3cc679448560
+  verified gauge_weights/trust_stu_114.pt (gauge_weights_2026-09-30d.tar.gz) sha256 5ec343791383
+  33 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+  S4 check: flat penalty 5.1923312198e-02 vs kan.smoothness() 5.1923312198e-02
+
+==================== PART A: trust-exact ====================
+  ind 0: iteration cap (500) after 500 iters (1813.6 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.957972; max|grad| 6.39e-05 -> 1.65e-04; neg eigs 0 -> 2 (min -1.55e-05, max 4.57e+02); steps median 6.25e-02, max 1.09e+00, rejected 158; converged False
+  ind 1: iteration cap (500) after 500 iters (2013.9 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.978724; max|grad| 5.85e-05 -> 1.32e-03; neg eigs 0 -> 0 (min -1.76e-05, max 2.61e+03); steps median 3.13e-02, max 1.09e+00, rejected 164; converged False
+  ind 2: iteration cap (500) after 500 iters (2129.3 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.984879; max|grad| 1.27e-04 -> 2.44e-05; neg eigs 0 -> 0 (min -1.07e-06, max 4.12e+03); steps median 3.16e-02, max 2.71e-01, rejected 162; converged False
+  ind 3: iteration cap (500) after 500 iters (2172.7 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.946312; max|grad| 2.13e-04 -> 1.06e-05; neg eigs 0 -> 0 (min -4.60e-06, max 5.71e+03); steps median 3.13e-02, max 1.00e+00, rejected 158; converged False
+  ind 4: iteration cap (500) after 500 iters (2113.7 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.971966; max|grad| 5.50e-05 -> 4.36e-05; neg eigs 0 -> 0 (min -6.55e-07, max 5.70e+02); steps median 1.31e-01, max 2.15e+00, rejected 162; converged False
+  ind 5: iteration cap (500) after 500 iters (2038.4 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.979792; max|grad| 1.09e-04 -> 3.79e-04; neg eigs 1 -> 1 (min -6.17e-05, max 3.67e+03); steps median 1.56e-02, max 1.34e-01, rejected 159; converged False
+  stu 115: iteration cap (500) after 500 iters (2160.1 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.812036; max|grad| 1.22e-06 -> 1.05e-06; neg eigs 0 -> 0 (min -5.46e-08, max 3.80e+02); steps median 1.57e-02, max 2.68e-01, rejected 162; converged False
+  stu 104: iteration cap (500) after 500 iters (2219.2 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.851590; max|grad| 1.68e-06 -> 5.49e-04; neg eigs 0 -> 3 (min -9.98e-05, max 3.25e+02); steps median 3.13e-02, max 1.01e+00, rejected 160; converged False
+  stu 114: iteration cap (500) after 500 iters (2174.0 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.713452; max|grad| 3.96e-05 -> 3.52e-05; neg eigs 0 -> 0 (min -2.11e-06, max 1.23e+03); steps median 3.13e-02, max 1.37e-01, rejected 163; converged False
+
+==================== PART C (lambda = 1e-06): trust-exact ====================
+  ind 0: iteration cap (500) after 500 iters (2052.7 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.522392, without L2 1.082551; max|grad| 6.54e-05 -> 1.22e-04; neg eigs 0 -> 3 (min -8.44e-05, max 1.37e+02); steps median 6.25e-02, max 2.02e+00, rejected 162; converged False
+  ind 1: iteration cap (500) after 500 iters (2039.5 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.604614, without L2 1.061470; max|grad| 5.83e-05 -> 1.25e-03; neg eigs 0 -> 5 (min -2.96e-03, max 2.35e+02); steps median 3.14e-02, max 2.02e+00, rejected 165; converged False
+  ind 2: iteration cap (500) after 500 iters (2045.6 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.731491, without L2 1.043319; max|grad| 1.27e-04 -> 2.62e-03; neg eigs 0 -> 3 (min -2.07e-03, max 4.11e+02); steps median 3.16e-02, max 1.02e+00, rejected 163; converged False
+  ind 3: iteration cap (500) after 500 iters (2043.1 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.643283, without L2 1.047768; max|grad| 2.13e-04 -> 2.83e-04; neg eigs 0 -> 2 (min -1.77e-04, max 5.42e+02); steps median 3.26e-02, max 1.06e+00, rejected 164; converged False
+  ind 4: iteration cap (500) after 500 iters (2018.3 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.256664, without L2 1.068901; max|grad| 8.33e-05 -> 8.26e-05; neg eigs 0 -> 2 (min -2.79e-05, max 6.46e+01); steps median 6.52e-02, max 8.23e+00, rejected 162; converged False
+  ind 5: iteration cap (500) after 500 iters (2097.5 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.803925, without L2 1.019801; max|grad| 1.08e-04 -> 1.45e-04; neg eigs 1 -> 2 (min -7.15e-05, max 4.96e+02); steps median 3.13e-02, max 5.01e-01, rejected 164; converged False
+  stu 115: iteration cap (500) after 500 iters (2046.2 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.137476, without L2 2.259364; max|grad| 2.38e-05 -> 2.39e-06; neg eigs 0 -> 0 (min 2.76e-07, max 2.63e+01); steps median 3.13e-02, max 1.03e+00, rejected 158; converged False
+  stu 104: scipy termination after 495 iters (2006.4 s) | scipy: A bad approximation caused failure to predict improvement.  [cached]
+      loss ratio 0.131219, without L2 2.055660; max|grad| 1.97e-05 -> 2.63e-15; neg eigs 0 -> 0 (min 3.97e-07, max 3.71e+01); steps median 3.14e-02, max 1.02e+00, rejected 152; converged False
+  stu 114: iteration cap (500) after 500 iters (2009.9 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.143974, without L2 2.273547; max|grad| 3.80e-05 -> 6.37e-05; neg eigs 0 -> 6 (min -3.05e-05, max 2.81e+01); steps median 3.13e-02, max 1.01e+00, rejected 154; converged False
+
+==================== PART C (lambda = 1e-05): trust-exact ====================
+  ind 0: converged after 373 iters (1390.7 s) | scipy: `callback` raised `StopIteration`.  [cached]
+      loss ratio 0.104352, without L2 1.254502; max|grad| 5.82e-04 -> 1.20e-09; neg eigs 0 -> 0 (min 2.17e-06, max 3.15e+01); steps median 3.15e-02, max 4.15e+00, rejected 124; converged True
+  ind 1: iteration cap (500) after 500 iters (1928.5 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.131165, without L2 1.196696; max|grad| 4.66e-04 -> 1.58e-04; neg eigs 0 -> 2 (min -1.48e-04, max 4.36e+01); steps median 6.25e-02, max 4.01e+00, rejected 164; converged False
+  ind 2: iteration cap (500) after 500 iters (2000.0 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.198007, without L2 1.184472; max|grad| 4.77e-04 -> 1.77e-04; neg eigs 0 -> 3 (min -9.37e-05, max 4.07e+01); steps median 6.49e-02, max 1.05e+00, rejected 162; converged False
+  ind 3: iteration cap (500) after 500 iters (1967.0 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.144326, without L2 1.162083; max|grad| 5.01e-04 -> 2.17e-04; neg eigs 0 -> 2 (min -9.33e-05, max 6.33e+01); steps median 6.25e-02, max 2.01e+00, rejected 164; converged False
+  ind 4: iteration cap (500) after 500 iters (1983.8 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.036935, without L2 1.196915; max|grad| 8.15e-04 -> 8.38e-05; neg eigs 0 -> 2 (min -6.22e-05, max 4.67e+01); steps median 6.26e-02, max 1.60e+01, rejected 160; converged False
+  ind 5: iteration cap (500) after 500 iters (1996.7 s) | scipy: Maximum number of iterations has been exceeded.  [cached]
+      loss ratio 0.265939, without L2 1.135638; max|grad| 4.09e-04 -> 1.74e-04; neg eigs 1 -> 4 (min -3.03e-04, max 7.81e+01); steps median 6.25e-02, max 1.10e+00, rejected 164; converged False
+  stu 115: scipy termination after 328 iters (1287.6 s) | scipy: A bad approximation caused failure to predict improvement.  [cached]
+      loss ratio 0.031541, without L2 4.821491; max|grad| 2.39e-04 -> 1.15e-13; neg eigs 0 -> 0 (min 2.02e-06, max 1.31e+01); steps median 3.13e-02, max 2.00e+00, rejected 97; converged False
+  stu 104: scipy termination after 283 iters (1075.8 s) | scipy: A bad approximation caused failure to predict improvement.  [cached]
+      loss ratio 0.034003, without L2 4.210242; max|grad| 1.96e-04 -> 1.34e-13; neg eigs 0 -> 0 (min 1.22e-05, max 1.51e+01); steps median 3.34e-02, max 1.09e+00, rejected 92; converged False
+  stu 114: scipy termination after 338 iters (1324.5 s) | scipy: A bad approximation caused failure to predict improvement.  [cached]
+      loss ratio 0.034711, without L2 4.397487; max|grad| 1.77e-04 -> 3.52e-14; neg eigs 0 -> 0 (min 9.59e-06, max 1.47e+01); steps median 3.17e-02, max 1.07e+00, rejected 104; converged False
+
+  converged: A: 0/9 []; C1e-06: 0/9 []; C1e-05: 1/9 ['ind 0']
+
+==================== PART B: runaway diagnostic (block norms) ====================
+  model    state                          layer-1 RBF     layer-2 RBF       SiLU base          biases  salt embedding
+  ind 0    AdamW-107                           2.0643          0.9792          1.7319          0.5491          3.3528
+  ind 0    fiber                              27.0069         13.4606         32.4503          3.6815          5.6217
+  ind 0    fiber2 capped                      68.6298         23.5308         67.9881         18.3228          6.6564
+  ind 0    trust final                        70.9132         23.3777         69.0644         19.6293          6.6722
+  ind 0    Part A final                       87.2332         24.6754         94.9237         23.5259          6.5885
+  ind 0    share of ||A - capped||^2            0.323           0.063           0.590           0.024           0.000   (||delta|| = 5.876e+01)
+  ind 1    AdamW-107                           2.2024          1.2025          1.5860          0.5505          3.5973
+  ind 1    fiber                              17.9381         19.0748         18.3234          3.9670          6.6118
+  ind 1    fiber2 capped                      58.9212         37.1449         54.7772          5.6161          8.1295
+  ind 1    trust final                        59.9953         36.8491         54.6882          6.4263          8.1257
+  ind 1    Part A final                       76.9303         46.5360         75.4610         14.4949          7.9633
+  ind 1    share of ||A - capped||^2            0.342           0.233           0.386           0.038           0.001   (||delta|| = 5.597e+01)
+  ind 2    AdamW-107                           1.9222          1.0044          1.5392          0.5002          2.5516
+  ind 2    fiber                              14.0980         18.7132         16.0815          6.0600          6.0795
+  ind 2    fiber2 capped                      24.4567         51.6875         41.6730         10.0713          6.4165
+  ind 2    trust final                        25.1174         54.1554         43.0024         10.5646          6.3836
+  ind 2    Part A final                       28.0831         65.3771         50.2647         10.9193          6.3067
+  ind 2    share of ||A - capped||^2            0.301           0.277           0.400           0.021           0.000   (||delta|| = 2.752e+01)
+  ind 3    AdamW-107                           1.8039          0.9692          1.6560          0.4790          2.7267
+  ind 3    fiber                              14.1828         16.5554         14.6796          2.3361          3.9853
+  ind 3    fiber2 capped                      36.3598         60.3853         46.3334          9.5320          4.4257
+  ind 3    trust final                        36.3034         60.7679         46.4459          9.5653          4.4664
+  ind 3    Part A final                       45.9286         69.6707         61.0729         11.4867          4.5538
+  ind 3    share of ||A - capped||^2            0.282           0.204           0.503           0.011           0.000   (||delta|| = 3.361e+01)
+  ind 4    AdamW-107                           1.9440          0.9964          1.7164          0.5243          3.4505
+  ind 4    fiber                              29.9315         21.3050         32.1204          8.9621          5.2718
+  ind 4    fiber2 capped                     116.3037         83.6894         95.6094         32.1791          7.2584
+  ind 4    trust final                       116.4417         84.5586         95.3031         32.9282          7.2762
+  ind 4    Part A final                      205.7504        153.2742        116.0642         55.9918          7.7834
+  ind 4    share of ||A - capped||^2            0.653           0.231           0.080           0.036           0.000   (||delta|| = 1.479e+02)
+  ind 5    AdamW-107                           2.0784          0.8603          1.6819          0.6183          3.8660
+  ind 5    fiber                              12.5234         14.4420         17.8174          2.3444          4.2387
+  ind 5    fiber2 capped                      23.7161         36.1182         39.7810          8.2157          5.1712
+  ind 5    trust final                        23.7161         36.1182         39.7810          8.2157          5.1712
+  ind 5    Part A final                       26.0937         38.9744         40.6274          8.3570          5.1090
+  ind 5    share of ||A - capped||^2            0.511           0.135           0.343           0.010           0.000   (||delta|| = 1.307e+01)
+  stu 115  AdamW-stage (530-2680 ep)           2.3550          1.2994          1.4320          0.5071          2.0698
+  stu 115  fiber                                  N/A             N/A             N/A             N/A             N/A
+  stu 115  fiber2 capped                      17.6735         13.1120         23.2972          3.6883          3.5455
+  stu 115  trust final                        17.6465         13.1802         23.2226          3.7230          3.5373
+  stu 115  Part A final                       22.7896         16.9404         30.4920          3.9655          2.9253
+  stu 115  share of ||A - capped||^2            0.435           0.121           0.431           0.009           0.004   (||delta|| = 1.783e+01)
+  stu 104  AdamW-stage (530-2680 ep)           2.6941          1.1035          1.9433          0.2895          4.0279
+  stu 104  fiber                                  N/A             N/A             N/A             N/A             N/A
+  stu 104  fiber2 capped                      17.3033         13.7625         20.0690          3.6171          5.8888
+  stu 104  trust final                        17.4347         14.0727         19.9514          3.6569          5.8719
+  stu 104  Part A final                       22.0131         23.2264         22.4285          4.5707          5.7214
+  stu 104  share of ||A - capped||^2            0.401           0.393           0.195           0.011           0.000   (||delta|| = 1.686e+01)
+  stu 114  AdamW-stage (530-2680 ep)           2.2768          1.1605          1.6021          0.3830          2.6442
+  stu 114  fiber                                  N/A             N/A             N/A             N/A             N/A
+  stu 114  fiber2 capped                      13.6662         19.3007         17.0720          4.3996          4.6108
+  stu 114  trust final                        13.6662         19.3007         17.0720          4.3996          4.6108
+  stu 114  Part A final                       13.4707         24.4093         19.8797          3.1939          4.7330
+  stu 114  share of ||A - capped||^2            0.295           0.304           0.366           0.033           0.002   (||delta|| = 1.485e+01)
+
+==================== Part C converged models ====================
+  C1e-06: no converged models
+
+VERDICTS: U1: failed (0/6 baseline); U2: failed (1/6 baseline, 0/3 students); U3: held (1 at 1e-5 vs 0 at 1e-6); U4: failed (C1e-05 ind 0: 1.2545); U5: inconclusive (1 baseline seed(s) converged at 1e-5)
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/fiber2_stu_115.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b0e61d74a091
+  verified gauge_weights/fiber2_stu_104.pt (gauge_weights_2026-09-29b.tar.gz) sha256 51496169e15e
+  verified gauge_weights/fiber2_stu_114.pt (gauge_weights_2026-09-29b.tar.gz) sha256 dd59b691058c
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+
+==================== POST-HOC (requested in review; descriptive, no verdict): total ||theta||^2 ====================
+  ||theta||^2 over the 609 optimised parameters; L_data = MSE + smoothness penalty (the original training loss).
+  model    capped ||th||^2 L_data capped |  A ||th||^2 | C1e-6 ||th||^2 1e-6*||th||^2     L_data | C1e-5 ||th||^2 1e-5*||th||^2     L_data
+  ind 0            10266.2    8.5215e-03 |     17825.9 |          589.6    5.8957e-04 9.2249e-03 |           91.2    9.1194e-04 1.0690e-02
+  ind 1             7949.6    8.7839e-03 |     14051.7 |          793.5    7.9347e-04 9.3239e-03 |          106.8    1.0676e-03 1.0512e-02
+  ind 2             5149.0    9.4533e-03 |      7748.4 |          818.6    8.1862e-04 9.8628e-03 |           87.0    8.6998e-04 1.1197e-02
+  ind 3             7225.7    9.3787e-03 |     10846.0 |          854.6    8.5460e-04 9.8267e-03 |           88.3    8.8323e-04 1.0899e-02
+  ind 4            30759.8    8.9444e-03 |     82492.8 |          629.9    6.2994e-04 9.5607e-03 |           98.6    9.8573e-04 1.0706e-02
+  ind 5             3543.7    9.9000e-03 |      3946.4 |          711.7    7.1173e-04 1.0096e-02 |           81.4    8.1418e-04 1.1243e-02
+  stu 115           1053.2    4.3825e-05 |      1760.4 |           51.8    5.1800e-05 9.9017e-05 |           12.2    1.2228e-04 2.1130e-04
+  stu 104            939.3    4.0330e-05 |      1580.7 |           45.6    4.5646e-05 8.2905e-05 |           15.1    1.5097e-04 1.6980e-04
+  stu 114            891.4    3.9138e-05 |      1205.1 |           45.0    4.4984e-05 8.8982e-05 |           13.9    1.3865e-04 1.7211e-04

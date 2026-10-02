@@ -191,3 +191,37 @@ not a modelling error.
 - that the improved edge consistency reflects the *true* edge shapes (there is no teacher here);
 - whether a rescaled or better-conditioned version of the constraint would behave differently
   (it was not tested).
+
+## Optimisation checks: trust-region Newton and stage 2 (`trust_prereg.md`, `stage2_prereg.md`)
+
+| Prediction | Verdict | Key number |
+|---|---|---|
+| T1 / T2: trust-krylov certifies ≥ 4/6 seeds / ≥ 2/3 students | **failed** | 0/6, 0/3. All 9 stopped on scipy's "bad approximation" after 1–62 iterations; the Hessian was accurate to ≤ 2e-7 |
+| T3–T5 | inconclusive | nothing converged |
+| U1: trust-exact (exact Hessian, 500 iterations) certifies ≥ 4/6 seeds | **failed** | 0/6. All 9 hit the iteration cap |
+| U2: with L2 λ = 1e-5, ≥ 4/6 seeds and ≥ 2/3 students | **failed** | 1/6 seeds, 0/3 students |
+| U3: more converge at 1e-5 than at 1e-6 | **held** | 1 vs 0 |
+| U4: converged L2 models' loss without L2 ≤ 1.05 × capped | **failed** | 1.2545 |
+| U5: converged seeds' disagreement ≤ 0.5 × capped | inconclusive | only 1 converged |
+
+Commits: trust a77e8b4 → 67586d6. Stage 2: c6a9e83 → fixes 78bcaba, 60621c6 → results
+(the commit that adds this section).
+
+**By the pre-registered rules, the landscape itself is the cause.** Even an exact second-order
+optimiser on a coercive loss could not certify minima. The L2 term at λ = 1e-5 was not mild: at the
+capped states it was 4–34 × the data loss, so it changed the solution materially (U4).
+
+**Close-out note: the capped states are not minima and are not near-optimal.** Without any L2 term,
+trust-exact lowered the loss of every fiber2 capped state within 500 iterations. Final / capped
+loss ratios for the six seeds:
+
+| ind 0 | ind 1 | ind 2 | ind 3 | ind 4 | ind 5 |
+|---|---|---|---|---|---|
+| 0.9580 | 0.9787 | 0.9849 | 0.9463 | 0.9720 | 0.9798 |
+
+- For the three students: 0.8120, 0.8516 and 0.7135.
+- Along every trajectory the parameter norm kept growing (‖θ‖² rose 1.1–2.7 × in Part A).
+- The growth was mostly in the SiLU base weights and the RBF coefficients. The smoothness penalty
+  does not touch the SiLU base weights, and it doesn't touch constant or linear RBF patterns.
+- **All comparisons between "capped" models in this case study** (fiber2, support, rank, trust) are
+  therefore between points on unfinished, norm-growing trajectories, not between minima.
