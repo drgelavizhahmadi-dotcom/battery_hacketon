@@ -73,3 +73,36 @@ against the "as expected if" criterion fixed here. Nothing above that heading is
 
 Outputs: `anatomy.py`, `anatomy_output.txt`, `anatomy_results.json`, `figs/anatomy/`.
 No interventions follow.
+
+---
+
+## Outcomes (appended after the run; `anatomy_output.txt`, `anatomy_results.json`, `figs/anatomy/`)
+
+All 60 inputs were extracted, SHA-256-verified, held in memory and re-checked from memory; the
+extraction directory was deleted at once. The teacher equals seed 0's 107-epoch point (identical
+numbers).
+
+| Hypothesis | Outcome | Key numbers |
+|---|---|---|
+| **Q1** data term ≈ constant (students especially) while the penalty keeps falling | **not as expected** | Capped → A final: the data term changed −1.2% to −5.1% for the seeds (6/6 < 10%), but **−15% to −28% for the students** (0/3). The penalty fell for 7/9 (ind 0 ×1.20 and ind 5 ×1.06 rose). The hypothesis fails on the students |
+| **Q2** cancellation ratios far above 1 and growing; growth concentrated in the penalty's null space | **not as expected** | Median layer-1 within-edge cancellation ratio at A final: **1.13–1.33** (0/9 > 5). It is higher than at the AdamW stage for 7/9. The null-space share of the capped → A change is **≥ 0.999 for 9/9** (random 0.25). The null-space part holds strongly; the within-edge cancellation part fails |
+| **Q3** students reach a lower penalty than the teacher, at a much larger norm | **as expected** | At capped and A final, the student penalty is 3.2e-6 – 5.4e-6, about 850–1400× below the teacher's 4.58e-3, at ‖θ‖² **45–89×** the teacher's 19.8 (6/6) |
+
+Notes:
+- **Plan ambiguity:** Q2's null-space criterion did not name a block. It was evaluated on the layer-1
+  continuous block, matching the cancellation criterion. The share is ≥ 0.999 in every block, so the
+  choice makes no difference.
+- **Penalty vs data:** at the 107-epoch point the penalty is 9–26% of the training loss. At the capped
+  state it is 0.5–2% for the seeds and 8–14% for the students. From 107 epochs to capped, ‖θ‖² grows
+  about 250–1550× (seeds) while the penalty falls about 25–90×.
+- **The RBF coefficients are almost pure null-space patterns** from the fiber point onward. The median
+  null-space share is 0.994–1.000, against 0.50–0.72 at 107 epochs (seeds) and 0.88–0.94 at the
+  students' AdamW stage. 98.6–100% of every coefficient change along the unregularised path lies in
+  the 2-dimensional null space, in all three blocks.
+- **Post hoc** (not in this plan, descriptive): the growth cancels **across** the 10 edges entering
+  each hidden unit, not within an edge.
+  - The median per-unit cross-edge ratio (Σ_i RMS(edge_ij) / RMS(Σ_i edge_ij)) is 1.7–2.9 at the
+    start and **4.0–10.4** at capped and A final.
+  - The pre-activation RMS stays at 0.9–3.8, so edges of RMS up to about 5 largely offset one another.
+  - tanh saturation (|s_j| > 3) is 12–39% of (row, unit) pairs for the seeds at capped and A final,
+    but only 1–3% for the students.

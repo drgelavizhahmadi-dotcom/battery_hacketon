@@ -1,0 +1,274 @@
+NOTES (files win; see anatomy_plan.md):
+  students' first point is the control-3 AdamW stage (530-2680 epochs, not 107); students have no fiber point
+  trust, A, C1e-6, C1e-5 all branch from the capped state; unregularised path = AdamW -> (fiber) -> capped -> A
+  C points were optimised with an extra L2 term lambda*||theta||^2, reported separately; 'total' = data + penalty only
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  verified gauge_weights/fiber_polished_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 4af837528055
+  verified gauge_weights/fiber_polished_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 a7452cc3f034
+  verified gauge_weights/fiber_polished_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 1658494b4eef
+  verified gauge_weights/fiber_polished_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 262f50529146
+  verified gauge_weights/fiber_polished_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 c14d66b8e825
+  verified gauge_weights/fiber_polished_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 c303f51c0564
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/trust_ind_0.pt (gauge_weights_2026-09-30d.tar.gz) sha256 a6f128e0af53
+  verified gauge_weights/trust_ind_1.pt (gauge_weights_2026-09-30d.tar.gz) sha256 d72bf53e808d
+  verified gauge_weights/trust_ind_2.pt (gauge_weights_2026-09-30d.tar.gz) sha256 be4b8b1afcee
+  verified gauge_weights/trust_ind_3.pt (gauge_weights_2026-09-30d.tar.gz) sha256 f9cc63516c9c
+  verified gauge_weights/trust_ind_4.pt (gauge_weights_2026-09-30d.tar.gz) sha256 60cf2452da0d
+  verified gauge_weights/trust_ind_5.pt (gauge_weights_2026-09-30d.tar.gz) sha256 8cfd518f0763
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/fiber2_stu_115.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b0e61d74a091
+  verified gauge_weights/fiber2_stu_104.pt (gauge_weights_2026-09-29b.tar.gz) sha256 51496169e15e
+  verified gauge_weights/fiber2_stu_114.pt (gauge_weights_2026-09-29b.tar.gz) sha256 dd59b691058c
+  verified gauge_weights/trust_stu_115.pt (gauge_weights_2026-09-30d.tar.gz) sha256 84aded1c6345
+  verified gauge_weights/trust_stu_104.pt (gauge_weights_2026-09-30d.tar.gz) sha256 3cc679448560
+  verified gauge_weights/trust_stu_114.pt (gauge_weights_2026-09-30d.tar.gz) sha256 5ec343791383
+  verified gauge_weights/stage2_A_ind_0.pt (gauge_weights_2026-10-02e.tar.gz) sha256 1c3702314478
+  verified gauge_weights/stage2_A_ind_1.pt (gauge_weights_2026-10-02e.tar.gz) sha256 9213b25e2115
+  verified gauge_weights/stage2_A_ind_2.pt (gauge_weights_2026-10-02e.tar.gz) sha256 2c320503ce07
+  verified gauge_weights/stage2_A_ind_3.pt (gauge_weights_2026-10-02e.tar.gz) sha256 35960ba573a0
+  verified gauge_weights/stage2_A_ind_4.pt (gauge_weights_2026-10-02e.tar.gz) sha256 5b5dc1d81a98
+  verified gauge_weights/stage2_A_ind_5.pt (gauge_weights_2026-10-02e.tar.gz) sha256 584afaa0c36a
+  verified gauge_weights/stage2_A_stu_115.pt (gauge_weights_2026-10-02e.tar.gz) sha256 ba99dc928464
+  verified gauge_weights/stage2_A_stu_104.pt (gauge_weights_2026-10-02e.tar.gz) sha256 32427931f5c3
+  verified gauge_weights/stage2_A_stu_114.pt (gauge_weights_2026-10-02e.tar.gz) sha256 e6d1dbf474ce
+  verified gauge_weights/stage2_C1e-06_ind_0.pt (gauge_weights_2026-10-02e.tar.gz) sha256 e32c6b309216
+  verified gauge_weights/stage2_C1e-06_ind_1.pt (gauge_weights_2026-10-02e.tar.gz) sha256 b59bc26aa844
+  verified gauge_weights/stage2_C1e-06_ind_2.pt (gauge_weights_2026-10-02e.tar.gz) sha256 4ad60f3ee58d
+  verified gauge_weights/stage2_C1e-06_ind_3.pt (gauge_weights_2026-10-02e.tar.gz) sha256 1a63927f162e
+  verified gauge_weights/stage2_C1e-06_ind_4.pt (gauge_weights_2026-10-02e.tar.gz) sha256 a64551727266
+  verified gauge_weights/stage2_C1e-06_ind_5.pt (gauge_weights_2026-10-02e.tar.gz) sha256 a6e98b889c0d
+  verified gauge_weights/stage2_C1e-06_stu_115.pt (gauge_weights_2026-10-02e.tar.gz) sha256 a98ab3fc47ac
+  verified gauge_weights/stage2_C1e-06_stu_104.pt (gauge_weights_2026-10-02e.tar.gz) sha256 bab9f68bad52
+  verified gauge_weights/stage2_C1e-06_stu_114.pt (gauge_weights_2026-10-02e.tar.gz) sha256 9139c724b6ff
+  verified gauge_weights/stage2_C1e-05_ind_0.pt (gauge_weights_2026-10-02e.tar.gz) sha256 c04f139cd21a
+  verified gauge_weights/stage2_C1e-05_ind_1.pt (gauge_weights_2026-10-02e.tar.gz) sha256 2bf38fbd7cbc
+  verified gauge_weights/stage2_C1e-05_ind_2.pt (gauge_weights_2026-10-02e.tar.gz) sha256 ff26bea516d1
+  verified gauge_weights/stage2_C1e-05_ind_3.pt (gauge_weights_2026-10-02e.tar.gz) sha256 0e55e8fada98
+  verified gauge_weights/stage2_C1e-05_ind_4.pt (gauge_weights_2026-10-02e.tar.gz) sha256 01270dcd0fdd
+  verified gauge_weights/stage2_C1e-05_ind_5.pt (gauge_weights_2026-10-02e.tar.gz) sha256 433ea96a42a4
+  verified gauge_weights/stage2_C1e-05_stu_115.pt (gauge_weights_2026-10-02e.tar.gz) sha256 764d44474210
+  verified gauge_weights/stage2_C1e-05_stu_104.pt (gauge_weights_2026-10-02e.tar.gz) sha256 966e2820e239
+  verified gauge_weights/stage2_C1e-05_stu_114.pt (gauge_weights_2026-10-02e.tar.gz) sha256 d711400c5bf3
+  60 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== Q1: loss decomposition ====================
+  model    point               data     penalty       total   ||th||^2   layer-1 RB  layer-2 RB   SiLU base      biases  salt embed
+  ind 0    107-epoch     1.7993e-02  4.5829e-03  2.2576e-02       19.8          4.3         1.0         3.0         0.3        11.2
+  ind 0    fiber         8.9963e-03  2.8086e-04  9.2772e-03     2008.7        729.4       181.2      1053.0        13.6        31.6
+  ind 0    capped        8.4696e-03  5.1923e-05  8.5215e-03    10266.2       4710.0       553.7      4622.4       335.7        44.3
+  ind 0    trust         8.4465e-03  4.8636e-05  8.4951e-03    10774.9       5028.7       546.5      4769.9       385.3        44.5
+  ind 0    A             8.1012e-03  6.2108e-05  8.1633e-03    17825.9       7609.6       608.9      9010.5       553.5        43.4
+  ind 0    C1e-06        8.9762e-03  2.4872e-04  9.2249e-03      589.6        205.2       114.9       259.1         3.4         6.9
+  ind 0    C1e-05        9.9414e-03  7.4881e-04  1.0690e-02       91.2         38.5        15.7        32.3         0.5         4.2
+  ind 1    107-epoch     1.7491e-02  3.7531e-03  2.1244e-02       22.1          4.9         1.4         2.5         0.3        12.9
+  ind 1    fiber         9.1739e-03  3.0199e-04  9.4758e-03     1080.8        321.8       363.8       335.7        15.7        43.7
+  ind 1    capped        8.6855e-03  9.8440e-05  8.7839e-03     7949.6       3471.7      1379.7      3000.5        31.5        66.1
+  ind 1    trust         8.6472e-03  8.8055e-05  8.7352e-03     8055.4       3599.4      1357.9      2990.8        41.3        66.0
+  ind 1    A             8.5272e-03  6.9877e-05  8.5970e-03    14051.7       5918.3      2165.6      5694.4       210.1        63.4
+  ind 1    C1e-06        9.0138e-03  3.1011e-04  9.3239e-03      793.5        318.6       188.5       273.0         5.7         7.8
+  ind 1    C1e-05        9.8301e-03  6.8158e-04  1.0512e-02      106.8         33.8        42.1        26.4         1.8         2.6
+  ind 2    107-epoch     1.8843e-02  5.5642e-03  2.4407e-02       13.8          3.7         1.0         2.4         0.3         6.5
+  ind 2    fiber         9.6641e-03  4.7522e-04  1.0139e-02      881.2        198.8       350.2       258.6        36.7        37.0
+  ind 2    capped        9.2622e-03  1.9111e-04  9.4533e-03     5149.0        598.1      2671.6      1736.6       101.4        41.2
+  ind 2    trust         9.2159e-03  1.8359e-04  9.3995e-03     5565.3        630.9      2932.8      1849.2       111.6        40.8
+  ind 2    A             9.1478e-03  1.6253e-04  9.3103e-03     7748.4        788.7      4274.2      2526.5       119.2        39.8
+  ind 2    C1e-06        9.5024e-03  3.6042e-04  9.8628e-03      818.6        162.3       362.8       269.4        16.3         7.8
+  ind 2    C1e-05        1.0389e-02  8.0824e-04  1.1197e-02       87.0         32.0        33.8        15.9         1.3         4.0
+  ind 3    107-epoch     1.5996e-02  1.5703e-03  1.7566e-02       14.6          3.3         0.9         2.7         0.2         7.4
+  ind 3    fiber         9.8013e-03  3.0898e-04  1.0110e-02      712.1        201.2       274.1       215.5         5.5        15.9
+  ind 3    capped        9.1865e-03  1.9222e-04  9.3787e-03     7225.7       1322.0      3646.4      2146.8        90.9        19.6
+  ind 3    trust         9.1728e-03  1.7406e-04  9.3469e-03     7279.3       1317.9      3692.7      2157.2        91.5        19.9
+  ind 3    A             8.7143e-03  1.6086e-04  8.8752e-03    10846.0       2109.4      4854.0      3729.9       131.9        20.7
+  ind 3    C1e-06        9.5653e-03  2.6144e-04  9.8267e-03      854.6        198.3       383.9       258.5         7.2         6.7
+  ind 3    C1e-05        1.0200e-02  6.9879e-04  1.0899e-02       88.3         30.6        29.1        23.1         0.8         4.7
+  ind 4    107-epoch     1.7860e-02  4.5139e-03  2.2373e-02       19.9          3.8         1.0         2.9         0.3        11.9
+  ind 4    fiber         9.2727e-03  2.2515e-04  9.4979e-03     2489.6        895.9       453.9      1031.7        80.3        27.8
+  ind 4    capped        8.8406e-03  1.0385e-04  8.9444e-03    30759.8      13526.6      7003.9      9141.2      1035.5        52.7
+  ind 4    trust         8.8254e-03  1.0037e-04  8.9258e-03    30928.7      13558.7      7150.2      9082.7      1084.3        52.9
+  ind 4    A             8.6059e-03  8.7754e-05  8.6937e-03    82492.8      42333.2     23493.0     13470.9      3135.1        60.6
+  ind 4    C1e-06        9.2565e-03  3.0418e-04  9.5607e-03      629.9        271.2        96.0       250.2         7.1         5.4
+  ind 4    C1e-05        1.0107e-02  5.9901e-04  1.0706e-02       98.6         32.9        39.6        21.4         1.8         2.8
+  ind 5    107-epoch     1.8568e-02  4.2063e-03  2.2774e-02       23.2          4.3         0.7         2.8         0.4        14.9
+  ind 5    fiber         1.0217e-02  3.1811e-04  1.0536e-02      706.3        156.8       208.6       317.5         5.5        18.0
+  ind 5    capped        9.7479e-03  1.5205e-04  9.9000e-03     3543.7        562.5      1304.5      1582.5        67.5        26.7
+  ind 5    trust         9.7479e-03  1.5205e-04  9.9000e-03     3543.7        562.5      1304.5      1582.5        67.5        26.7
+  ind 5    A             9.5383e-03  1.6167e-04  9.6999e-03     3946.4        680.9      1519.0      1650.6        69.8        26.1
+  ind 5    C1e-06        9.8285e-03  2.6748e-04  1.0096e-02      711.7        144.4       229.9       319.6        12.3         5.6
+  ind 5    C1e-05        1.0618e-02  6.2455e-04  1.1243e-02       81.4         25.7        29.8        23.3         0.5         2.1
+  stu 115  AdamW-stage   2.1601e-04  2.6623e-04  4.8224e-04       13.8          5.5         1.7         2.1         0.3         4.3
+  stu 115  capped        3.8458e-05  5.3672e-06  4.3825e-05     1053.2        312.4       171.9       542.8        13.6        12.6
+  stu 115  trust         3.7458e-05  5.5812e-06  4.3039e-05     1050.8        311.4       173.7       539.3        13.9        12.5
+  stu 115  A             3.1389e-05  4.1982e-06  3.5587e-05     1760.4        519.4       287.0       929.8        15.7         8.6
+  stu 115  C1e-06        6.7179e-05  3.1838e-05  9.9017e-05       51.8         19.8         8.8        18.4         0.7         4.1
+  stu 115  C1e-05        1.0538e-04  1.0592e-04  2.1130e-04       12.2          5.2         2.5         2.9         0.1         1.5
+  stu 104  AdamW-stage   2.1734e-04  1.8578e-04  4.0312e-04       28.6          7.3         1.2         3.8         0.1        16.2
+  stu 104  capped        3.6638e-05  3.6922e-06  4.0330e-05      939.3        299.4       189.4       402.8        13.1        34.7
+  stu 104  trust         3.6021e-05  3.4497e-06  3.9471e-05      947.9        304.0       198.0       398.1        13.4        34.5
+  stu 104  A             3.1139e-05  3.2052e-06  3.4345e-05     1580.7        484.6       539.5       503.0        20.9        32.7
+  stu 104  C1e-06        6.3660e-05  1.9244e-05  8.2905e-05       45.6         17.3         9.8        13.9         0.2         4.4
+  stu 104  C1e-05        1.0237e-04  6.7424e-05  1.6980e-04       15.1          6.6         3.6         3.0         0.0         1.9
+  stu 114  AdamW-stage   2.1742e-04  3.0622e-04  5.2364e-04       16.2          5.2         1.3         2.6         0.1         7.0
+  stu 114  capped        3.4348e-05  4.7897e-06  3.9138e-05      891.4        186.8       372.5       291.5        19.4        21.3
+  stu 114  trust         3.4348e-05  4.7897e-06  3.9138e-05      891.4        186.8       372.5       291.5        19.4        21.3
+  stu 114  A             2.4664e-05  3.2588e-06  2.7923e-05     1205.1        181.5       595.8       395.2        10.2        22.4
+  stu 114  C1e-06        6.5684e-05  2.3298e-05  8.8982e-05       45.0         17.8         6.5        16.8         0.4         3.6
+  stu 114  C1e-05        8.9129e-05  8.2980e-05  1.7211e-04       13.9          6.2         2.8         3.1         0.1         1.6
+
+  capped -> A final (unregularised continuation):
+    ind 0    ||th||^2 x1.74; data term change -4.35%; penalty x1.196
+    ind 1    ||th||^2 x1.77; data term change -1.82%; penalty x0.710
+    ind 2    ||th||^2 x1.50; data term change -1.23%; penalty x0.850
+    ind 3    ||th||^2 x1.50; data term change -5.14%; penalty x0.837
+    ind 4    ||th||^2 x2.68; data term change -2.65%; penalty x0.845
+    ind 5    ||th||^2 x1.11; data term change -2.15%; penalty x1.063
+    stu 115  ||th||^2 x1.67; data term change -18.38%; penalty x0.782
+    stu 104  ||th||^2 x1.68; data term change -15.01%; penalty x0.868
+    stu 114  ||th||^2 x1.35; data term change -28.19%; penalty x0.680
+  criterion: data change < 10% for students 0/3, seeds 6/6; penalty falls for 7/9 -> NOT AS EXPECTED
+
+==================== Q2: cancellation and the penalty's null space ====================
+  median cancellation ratio (RMS SiLU + RMS RBF) / RMS sum, and median null-space share of RBF vectors (random 0.25)
+  model    point        L1-cont canc L1-salt canc   L2 canc | L1-cont ns L1-salt ns   L2 ns | L1-cont median RMS (SiLU, RBF, sum)
+  ind 0    107-epoch            1.20         1.11      1.37 |      0.722      0.583   0.123 | 0.0451, 0.106, 0.111
+  ind 0    fiber                1.14         1.05      1.15 |      0.999      1.000   0.999 | 0.381, 1.37, 1.31
+  ind 0    capped               1.17         1.10      1.16 |      1.000      1.000   1.000 | 0.625, 2.54, 2.51
+  ind 0    trust                1.17         1.16      1.20 |      1.000      1.000   1.000 | 0.639, 2.47, 2.51
+  ind 0    A                    1.33         1.21      1.26 |      1.000      1.000   1.000 | 1.34, 3.05, 2.19
+  ind 0    C1e-06               1.16         1.03      1.02 |      0.999      1.000   0.999 | 0.235, 0.664, 0.758
+  ind 0    C1e-05               1.06         1.01      1.01 |      0.969      0.998   0.868 | 0.0611, 0.338, 0.398
+  ind 1    107-epoch            1.20         1.52      1.15 |      0.583      0.585   0.500 | 0.0367, 0.117, 0.112
+  ind 1    fiber                1.08         1.03      1.01 |      0.998      1.000   1.000 | 0.201, 0.835, 0.87
+  ind 1    capped               1.17         1.08      1.01 |      1.000      1.000   1.000 | 0.847, 2.08, 2.33
+  ind 1    trust                1.16         1.05      1.01 |      1.000      1.000   1.000 | 0.842, 1.8, 2.3
+  ind 1    A                    1.18         1.01      1.01 |      1.000      1.000   1.000 | 0.918, 2.35, 2.18
+  ind 1    C1e-06               1.13         1.03      1.00 |      0.999      1.000   1.000 | 0.236, 0.874, 0.877
+  ind 1    C1e-05               1.05         1.01      1.00 |      0.966      0.985   0.985 | 0.0617, 0.32, 0.364
+  ind 2    107-epoch            1.11         1.26      1.23 |      0.562      0.338   0.316 | 0.0335, 0.0935, 0.119
+  ind 2    fiber                1.15         1.23      1.38 |      0.994      1.000   1.000 | 0.185, 0.677, 0.724
+  ind 2    capped               1.10         1.12      1.16 |      1.000      1.000   1.000 | 0.35, 1.09, 1.23
+  ind 2    trust                1.12         1.16      1.17 |      1.000      1.000   1.000 | 0.339, 0.803, 1.13
+  ind 2    A                    1.18         1.09      1.22 |      1.000      1.000   1.000 | 0.425, 1.04, 1.03
+  ind 2    C1e-06               1.10         1.06      1.16 |      0.997      1.000   0.999 | 0.208, 0.709, 0.769
+  ind 2    C1e-05               1.05         1.02      1.02 |      0.960      0.993   0.971 | 0.0498, 0.312, 0.387
+  ind 3    107-epoch            1.16         1.20      1.09 |      0.662      0.210   0.149 | 0.0388, 0.0916, 0.104
+  ind 3    fiber                1.18         1.01      1.02 |      0.996      0.998   1.000 | 0.315, 0.743, 0.732
+  ind 3    capped               1.22         1.06      1.03 |      1.000      1.000   1.000 | 0.526, 1.19, 1.76
+  ind 3    trust                1.18         1.05      1.03 |      1.000      1.000   1.000 | 0.551, 1.2, 1.78
+  ind 3    A                    1.21         1.08      1.09 |      1.000      1.000   1.000 | 0.449, 1.35, 1.72
+  ind 3    C1e-06               1.23         1.03      1.01 |      0.998      1.000   1.000 | 0.279, 0.63, 0.694
+  ind 3    C1e-05               1.06         1.01      1.02 |      0.966      0.998   0.961 | 0.0543, 0.285, 0.311
+  ind 4    107-epoch            1.22         1.04      1.03 |      0.497      0.546   0.388 | 0.04, 0.101, 0.125
+  ind 4    fiber                1.21         1.14      1.30 |      1.000      1.000   1.000 | 0.481, 1.54, 1.74
+  ind 4    capped               1.11         1.21      1.54 |      1.000      1.000   1.000 | 0.899, 4.47, 5.31
+  ind 4    trust                1.12         1.19      1.49 |      1.000      1.000   1.000 | 0.788, 4.59, 5.2
+  ind 4    A                    1.13         1.05      1.23 |      1.000      1.000   1.000 | 0.967, 5.17, 5.43
+  ind 4    C1e-06               1.07         1.03      1.02 |      0.999      1.000   0.997 | 0.193, 0.911, 0.912
+  ind 4    C1e-05               1.07         1.01      1.00 |      0.962      0.998   0.997 | 0.0513, 0.321, 0.37
+  ind 5    107-epoch            1.18         1.15      1.02 |      0.544      0.519   0.407 | 0.0316, 0.12, 0.135
+  ind 5    fiber                1.12         1.04      1.12 |      0.995      0.997   0.994 | 0.15, 0.589, 0.645
+  ind 5    capped               1.24         1.08      1.36 |      1.000      1.000   1.000 | 0.346, 1.45, 1.61
+  ind 5    trust                1.24         1.08      1.36 |      1.000      1.000   1.000 | 0.346, 1.45, 1.61
+  ind 5    A                    1.19         1.09      1.68 |      1.000      1.000   1.000 | 0.4, 1.21, 1.44
+  ind 5    C1e-06               1.14         1.02      1.67 |      0.996      1.000   1.000 | 0.131, 0.827, 0.869
+  ind 5    C1e-05               1.09         1.02      1.00 |      0.953      1.000   0.991 | 0.0435, 0.295, 0.312
+  stu 115  AdamW-stage          1.19         1.14      1.06 |      0.892      0.934   0.702 | 0.0332, 0.111, 0.103
+  stu 115  capped               1.42         1.07      2.73 |      1.000      1.000   1.000 | 0.343, 0.787, 0.699
+  stu 115  trust                1.38         1.07      2.69 |      1.000      1.000   1.000 | 0.346, 0.827, 0.734
+  stu 115  A                    1.29         1.05      1.64 |      1.000      1.000   1.000 | 0.346, 1.02, 0.921
+  stu 115  C1e-06               1.10         1.09      1.21 |      0.998      0.998   0.991 | 0.0541, 0.232, 0.279
+  stu 115  C1e-05               1.02         1.01      1.11 |      0.969      0.991   0.847 | 0.0204, 0.111, 0.13
+  stu 104  AdamW-stage          1.10         1.09      1.05 |      0.943      0.985   0.696 | 0.0397, 0.108, 0.125
+  stu 104  capped               1.23         1.18      1.09 |      1.000      1.000   1.000 | 0.191, 0.68, 0.665
+  stu 104  trust                1.23         1.20      1.09 |      1.000      1.000   1.000 | 0.174, 0.67, 0.661
+  stu 104  A                    1.30         1.26      1.04 |      1.000      1.000   1.000 | 0.234, 0.715, 0.78
+  stu 104  C1e-06               1.05         1.72      1.01 |      0.997      0.996   0.995 | 0.0491, 0.235, 0.236
+  stu 104  C1e-05               1.01         1.01      1.00 |      0.985      0.947   0.979 | 0.0223, 0.127, 0.14
+  stu 114  AdamW-stage          1.13         1.23      1.05 |      0.884      0.881   0.777 | 0.0384, 0.0909, 0.1
+  stu 114  capped               1.28         1.36      1.00 |      1.000      1.000   1.000 | 0.225, 0.468, 0.608
+  stu 114  trust                1.28         1.36      1.00 |      1.000      1.000   1.000 | 0.225, 0.468, 0.608
+  stu 114  A                    1.23         1.21      1.00 |      1.000      1.000   1.000 | 0.265, 0.582, 0.638
+  stu 114  C1e-06               1.15         1.02      1.01 |      0.997      0.999   0.999 | 0.0533, 0.232, 0.219
+  stu 114  C1e-05               1.02         1.05      1.01 |      0.985      0.966   0.956 | 0.0212, 0.131, 0.144
+
+  pooled null-space share of the RBF-coefficient CHANGE between consecutive unregularised-path points (random 0.25):
+    ind 0    107-epoch->fiber: L1c 0.997, L1s 0.995, L2 0.995; fiber->capped: L1c 1.000, L1s 1.000, L2 0.999; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    ind 1    107-epoch->fiber: L1c 0.992, L1s 0.993, L2 0.998; fiber->capped: L1c 1.000, L1s 0.999, L2 1.000; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    ind 2    107-epoch->fiber: L1c 0.989, L1s 0.994, L2 0.998; fiber->capped: L1c 0.998, L1s 0.999, L2 1.000; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    ind 3    107-epoch->fiber: L1c 0.993, L1s 0.972, L2 0.997; fiber->capped: L1c 0.999, L1s 1.000, L2 1.000; capped->A: L1c 0.999, L1s 1.000, L2 1.000
+    ind 4    107-epoch->fiber: L1c 0.998, L1s 0.997, L2 0.998; fiber->capped: L1c 1.000, L1s 1.000, L2 1.000; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    ind 5    107-epoch->fiber: L1c 0.986, L1s 0.978, L2 0.995; fiber->capped: L1c 0.999, L1s 1.000, L2 0.999; capped->A: L1c 0.999, L1s 1.000, L2 0.999
+    stu 115  AdamW-stage->capped: L1c 0.997, L1s 0.995, L2 0.997; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    stu 104  AdamW-stage->capped: L1c 0.998, L1s 0.998, L2 0.998; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+    stu 114  AdamW-stage->capped: L1c 0.996, L1s 0.994, L2 0.999; capped->A: L1c 1.000, L1s 1.000, L2 1.000
+  criterion (layer-1 continuous): cancellation > 5 at A final 0/9; higher at A than at the AdamW stage 7/9; null-space share of the capped->A change > 0.5 9/9 -> NOT AS EXPECTED
+
+==================== Q3: teacher vs students ====================
+  teacher: data on its own targets 0.000e+00 (0 by construction); data on the real data 1.7993e-02; penalty 4.5829e-03; ||theta||^2 19.8; L1-cont cancellation 1.20; L1-cont null-space share 0.722
+  stu 115  AdamW-stage  data 2.160e-04; penalty 2.6623e-04 (0.06 x teacher); ||theta||^2 13.8 (0.7 x teacher)
+  stu 115  capped       data 3.846e-05; penalty 5.3672e-06 (0.00 x teacher); ||theta||^2 1053.2 (53.3 x teacher)
+  stu 115  trust        data 3.746e-05; penalty 5.5812e-06 (0.00 x teacher); ||theta||^2 1050.8 (53.2 x teacher)
+  stu 115  A            data 3.139e-05; penalty 4.1982e-06 (0.00 x teacher); ||theta||^2 1760.4 (89.1 x teacher)
+  stu 115  C1e-06       data 6.718e-05; penalty 3.1838e-05 (0.01 x teacher); ||theta||^2 51.8 (2.6 x teacher)
+  stu 115  C1e-05       data 1.054e-04; penalty 1.0592e-04 (0.02 x teacher); ||theta||^2 12.2 (0.6 x teacher)
+  stu 104  AdamW-stage  data 2.173e-04; penalty 1.8578e-04 (0.04 x teacher); ||theta||^2 28.6 (1.4 x teacher)
+  stu 104  capped       data 3.664e-05; penalty 3.6922e-06 (0.00 x teacher); ||theta||^2 939.3 (47.5 x teacher)
+  stu 104  trust        data 3.602e-05; penalty 3.4497e-06 (0.00 x teacher); ||theta||^2 947.9 (48.0 x teacher)
+  stu 104  A            data 3.114e-05; penalty 3.2052e-06 (0.00 x teacher); ||theta||^2 1580.7 (80.0 x teacher)
+  stu 104  C1e-06       data 6.366e-05; penalty 1.9244e-05 (0.00 x teacher); ||theta||^2 45.6 (2.3 x teacher)
+  stu 104  C1e-05       data 1.024e-04; penalty 6.7424e-05 (0.01 x teacher); ||theta||^2 15.1 (0.8 x teacher)
+  stu 114  AdamW-stage  data 2.174e-04; penalty 3.0622e-04 (0.07 x teacher); ||theta||^2 16.2 (0.8 x teacher)
+  stu 114  capped       data 3.435e-05; penalty 4.7897e-06 (0.00 x teacher); ||theta||^2 891.4 (45.1 x teacher)
+  stu 114  trust        data 3.435e-05; penalty 4.7897e-06 (0.00 x teacher); ||theta||^2 891.4 (45.1 x teacher)
+  stu 114  A            data 2.466e-05; penalty 3.2588e-06 (0.00 x teacher); ||theta||^2 1205.1 (61.0 x teacher)
+  stu 114  C1e-06       data 6.568e-05; penalty 2.3298e-05 (0.01 x teacher); ||theta||^2 45.0 (2.3 x teacher)
+  stu 114  C1e-05       data 8.913e-05; penalty 8.2980e-05 (0.02 x teacher); ||theta||^2 13.9 (0.7 x teacher)
+  criterion: lower penalty AND >= 10x teacher ||theta||^2 at capped and A for every student: 6/6 -> AS EXPECTED
+
+OUTCOMES: Q1: not as expected; Q2: not as expected; Q3: as expected
+
+==================== POST-HOC (not in anatomy_plan.md; descriptive): where the growth cancels ====================
+  per hidden unit j: cross-edge ratio = sum_i RMS(edge_ij) / RMS(sum_i edge_ij) over the 10 layer-1 edges (median over units);
+  RMS of the pre-activation s_j (median over units); tanh saturation = share of (row, unit) with |s_j| > 3
+  model    point        cross-edge  RMS s_j  sat |s|>3
+  ind 0    107-epoch          2.49     0.51      0.000
+  ind 0    capped             6.42     3.80      0.375
+  ind 0    A                  6.58     3.62      0.394
+  ind 1    107-epoch          2.36     0.53      0.000
+  ind 1    capped             9.35     3.12      0.274
+  ind 1    A                  9.37     2.98      0.290
+  ind 2    107-epoch          1.74     0.67      0.000
+  ind 2    capped             6.40     2.10      0.116
+  ind 2    A                  3.97     2.38      0.169
+  ind 3    107-epoch          2.53     0.47      0.000
+  ind 3    capped             6.29     2.34      0.152
+  ind 3    A                  6.75     2.67      0.191
+  ind 4    107-epoch          2.87     0.35      0.000
+  ind 4    capped             5.74     2.65      0.342
+  ind 4    A                  7.77     2.31      0.350
+  ind 5    107-epoch          1.71     0.82      0.000
+  ind 5    capped             6.11     2.41      0.140
+  ind 5    A                  7.94     2.26      0.133
+  stu 115  AdamW              2.89     0.43      0.000
+  stu 115  capped             5.49     0.93      0.031
+  stu 115  A                 10.36     1.00      0.029
+  stu 104  AdamW              2.44     0.71      0.000
+  stu 104  capped             6.46     1.25      0.035
+  stu 104  A                  6.71     1.19      0.030
+  stu 114  AdamW              2.52     0.51      0.000
+  stu 114  capped             8.65     0.88      0.017
+  stu 114  A                  9.16     0.96      0.012
