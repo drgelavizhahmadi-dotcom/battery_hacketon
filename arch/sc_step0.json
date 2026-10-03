@@ -1,0 +1,208 @@
+{
+ "prereg": "0053d01",
+ "shas": {
+  "train.csv": "6c0e899617e60107cd0ccc3e54ef7aa709389b5395f558f8f70485881f2994e1",
+  "test.csv": "0760be3df704fd5ac873ea8d5fb8075f4c38fc6a0f95c2800f27f50521b88566",
+  "sample_submission.csv": "dd7a75173eeac35b4b3f503172082167c51fda275b660cb5a1b3014230bc1321"
+ },
+ "unit_tests": {
+  "fd_max_rel": 4.732147587618837e-10,
+  "n_params": 169,
+  "conv_err": 1.3877787807814457e-16,
+  "ok": true
+ },
+ "loco": [
+  {
+   "fold": "A",
+   "train": 1434,
+   "test": 635,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "2-Glyme",
+   "train": 2064,
+   "test": 5,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": false
+  },
+  {
+   "fold": "2-MeTHF",
+   "train": 1943,
+   "test": 126,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "3-Glyme",
+   "train": 2054,
+   "test": 15,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": false
+  },
+  {
+   "fold": "DME",
+   "train": 2022,
+   "test": 47,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "EA",
+   "train": 1434,
+   "test": 635,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "EC",
+   "train": 684,
+   "test": 1385,
+   "salts_train": 2,
+   "salts_test": 4,
+   "unseen_test_salts": [
+    "LiBF4",
+    "LiPF6"
+   ],
+   "ge20": true
+  },
+  {
+   "fold": "Methylene chloride",
+   "train": 1973,
+   "test": 96,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "Sulfolane",
+   "train": 2057,
+   "test": 12,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": false
+  },
+  {
+   "fold": "THF",
+   "train": 2015,
+   "test": 54,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  },
+  {
+   "fold": "Toluene",
+   "train": 2049,
+   "test": 20,
+   "salts_train": 4,
+   "salts_test": 1,
+   "unseen_test_salts": [],
+   "ge20": true
+  }
+ ],
+ "foldA_equals_EA": true,
+ "beta_calibration": [
+  {
+   "beta": 1e-05,
+   "ratios": [
+    8.9299129895813,
+    5.230912185392262,
+    7.654587323619683
+   ],
+   "median": 7.654587323619683,
+   "passed": false
+  },
+  {
+   "beta": 0.0001,
+   "ratios": [
+    1.47588580464943,
+    1.323952285936074,
+    2.1951216162306166
+   ],
+   "median": 1.47588580464943,
+   "passed": true
+  }
+ ],
+ "beta": 0.0001,
+ "gauge": {
+  "points": [
+   {
+    "seed": 100,
+    "state": "early",
+    "n_hess_null": 0,
+    "min_eig": -0.043985092706719804,
+    "max_eig": 1.088650992002489,
+    "n_data_null": 31,
+    "curve_scale_data_change": 6.538721605018301e-17,
+    "curve_scale_min_curv": -0.001115700331250861
+   },
+   {
+    "seed": 100,
+    "state": "polished",
+    "n_hess_null": 0,
+    "min_eig": 8.317225180478334e-06,
+    "max_eig": 7.329383578434161,
+    "n_data_null": 31,
+    "curve_scale_data_change": 3.0569889426471835e-17,
+    "curve_scale_min_curv": 1.0435817965895503e-05
+   },
+   {
+    "seed": 101,
+    "state": "early",
+    "n_hess_null": 0,
+    "min_eig": -0.031772539380635116,
+    "max_eig": 1.08030080158679,
+    "n_data_null": 32,
+    "curve_scale_data_change": 3.4287147651925065e-17,
+    "curve_scale_min_curv": -0.0006623838016416087
+   },
+   {
+    "seed": 101,
+    "state": "polished",
+    "n_hess_null": 0,
+    "min_eig": 1.430175086380953e-05,
+    "max_eig": 5.318986542295361,
+    "n_data_null": 31,
+    "curve_scale_data_change": 3.744778316769062e-17,
+    "curve_scale_min_curv": 1.5591565795651575e-05
+   },
+   {
+    "seed": 102,
+    "state": "early",
+    "n_hess_null": 0,
+    "min_eig": -0.03900578713944142,
+    "max_eig": 0.8555477783202494,
+    "n_data_null": 31,
+    "curve_scale_data_change": 3.56708420675971e-17,
+    "curve_scale_min_curv": -0.0006257120579160041
+   },
+   {
+    "seed": 102,
+    "state": "polished",
+    "n_hess_null": 0,
+    "min_eig": 1.4301752359200182e-05,
+    "max_eig": 5.318986539277638,
+    "n_data_null": 31,
+    "curve_scale_data_change": 3.6794652952113555e-17,
+    "curve_scale_min_curv": 1.559156884611235e-05
+   }
+  ],
+  "frozen_set": [],
+  "note": "data-term symmetries (curve scale, unused salts) are broken by the lambda/mu/beta terms"
+ }
+}

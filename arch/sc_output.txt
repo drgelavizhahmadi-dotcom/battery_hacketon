@@ -1,0 +1,63 @@
+##############################################################################################################
+arch/sc_run STEP 0 2026-10-03 21:15:48 (prereg arch/sc_prereg.md, commit 0053d01). Nothing in Step 0 is a result.
+##############################################################################################################
+DISCREPANCIES / choices (files win; flags 1-11 are in the prereg):
+  D1 polishing uses stage2.run_exact unchanged: trust-exact, float64, exact Hessian, cap 500 iterations AND stage2's 2 h wall-clock cap
+  D2 certification = certify.py's certify_point unchanged (its null set is spectral: |eig| < 1e-8 x max); the frozen gauge set from
+     Step 0 is used as a diagnostic: spectral-null eigenvalues outside the frozen set are reported next to every certificate
+  D3 the LOCO EA fold has exactly fold A's training and test rows; the same 10 models (same rows, seeds, protocol) serve both
+  D4 anchor temperature slope: anchor.anchor_value is constant in T within T_TOL = 0.3 K of a series level, so a finite difference of the
+     anchor gives 0 on most rows; d anchor/d(1000/T) is taken from the pure-PC series' piecewise-linear-in-1/T interpolant between
+     adjacent T levels (central at a level, else the bracketing pair); rows without two valid levels are excluded from S8/S9 (counted)
+  D5 d log k / d(ln eta_mix) is the partial derivative in the mix_lneta feature (other features, incl. lneta_co, held fixed); anchor-free
+  D6 SC initialisation: alpha ~ U(-1,1), c ~ 0.1 N(0,1) (as kan.KANLayer), nn.Linear defaults for A/b, W, head; nn.Embedding default for e
+  D7 ||e||^2 includes all 12 salt rows (unused salts are pulled to 0 by beta); RMSEs unclipped, on delta (= log k, the anchor is fixed)
+  D8 d_AB uses std of the fold A training-row delta targets (as certify.py)
+  D9 the beta pilot evaluates the grid in ascending order and stops at the first passing value (= the smallest passing beta)
+
+inputs (read once by anchor.prepare, held in memory): train.csv sha256 6c0e899617e6, test.csv sha256 0760be3df704, sample_submission.csv sha256 dd7a75173eea
+
+==================== STEP 0a: unit tests ====================
+  finite-difference gradient check (full loss incl. centring, 5 random directions, h = 1e-6): max rel error 4.73e-10 -> ok
+  parameter count 169 (expected 169) -> ok
+  conventions (curve sign, unit variance, hidden-unit sign; 2 units flipped): max |delta pred| over 2069 anchored rows 1.39e-16 -> ok
+
+==================== STEP 0b: LOCO split (fold c test = anchored rows containing c; train = anchored rows without c) ====================
+  A                    train  1434  test   635  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  2-Glyme              train  2064  test     5  salts train/test  4/ 1  <20   test salts unseen in train: -
+  2-MeTHF              train  1943  test   126  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  3-Glyme              train  2054  test    15  salts train/test  4/ 1  <20   test salts unseen in train: -
+  DME                  train  2022  test    47  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  EA                   train  1434  test   635  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  EC                   train   684  test  1385  salts train/test  2/ 4  >=20  test salts unseen in train: ['LiBF4', 'LiPF6']
+  Methylene chloride   train  1973  test    96  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  Sulfolane            train  2057  test    12  salts train/test  4/ 1  <20   test salts unseen in train: -
+  THF                  train  2015  test    54  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  Toluene              train  2049  test    20  salts train/test  4/ 1  >=20  test salts unseen in train: -
+  fold A == LOCO EA fold (train and test masks identical): True
+  folds with >= 20 test rows: 7 of 10
+
+==================== STEP 0c: beta rule (pilot on fold A TRAINING rows, seeds 100-102; calibration only) ====================
+  beta 1e-05 seed 100: beta-norm 17.818 -> 159.111 (x8.930); ||theta||^2 x8.953; scipy termination after 322 iters; certified True (grad 2.2e-12, min eig 4.5e-06, null 0, Newton 1.8e-21)
+  beta 1e-05 seed 101: beta-norm 23.658 -> 123.750 (x5.231); ||theta||^2 x6.316; scipy termination after 457 iters; certified True (grad 2.6e-13, min eig 8.2e-06, null 0, Newton 1.7e-22)
+  beta 1e-05 seed 102: beta-norm 13.143 -> 100.608 (x7.655); ||theta||^2 x10.406; scipy termination after 238 iters; certified True (grad 9.9e-11, min eig 4.6e-06, null 0, Newton 3.8e-20)
+  beta 1e-05: median (||A||^2+||w||^2+||W||^2+||e||^2) polished/early 7.655 -> fail
+  beta 0.0001 seed 100: beta-norm 15.719 -> 23.199 (x1.476); ||theta||^2 x3.534; scipy termination after 257 iters; certified True (grad 8.4e-12, min eig 8.3e-06, null 0, Newton 7.7e-22)
+  beta 0.0001 seed 101: beta-norm 21.258 -> 28.145 (x1.324); ||theta||^2 x3.979; scipy termination after 213 iters; certified True (grad 6.2e-11, min eig 1.4e-05, null 0, Newton 9.0e-21)
+  beta 0.0001 seed 102: beta-norm 12.822 -> 28.145 (x2.195); ||theta||^2 x5.909; scipy termination after 150 iters; certified True (grad 7.2e-14, min eig 1.4e-05, null 0, Newton 7.9e-26)
+  beta 0.0001: median (||A||^2+||w||^2+||W||^2+||e||^2) polished/early 1.476 -> PASS
+  FROZEN: beta = 0.0001
+
+==================== STEP 0d: gauge check (certification null space, frozen before Step 1) ====================
+  candidates: curve scale (alpha_i, c_i) x s with A_.i / s (8, exact for the data term); constant shift of a curve (removed by centring
+  only to the extent sum_k B_k is constant); salt-embedding GL(2)/translation (broken by tanh); unused-salt embeddings (data-free)
+  pilot s100 early   : Hessian eig [-4.40e-02, 1.09e+00], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 31; curve-scale directions: max rel data change 6.5e-17, min curvature/max eig -1.1e-03
+  pilot s100 polished: Hessian eig [8.32e-06, 7.33e+00], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 31; curve-scale directions: max rel data change 3.1e-17, min curvature/max eig 1.0e-05
+  pilot s101 early   : Hessian eig [-3.18e-02, 1.08e+00], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 32; curve-scale directions: max rel data change 3.4e-17, min curvature/max eig -6.6e-04
+  pilot s101 polished: Hessian eig [1.43e-05, 5.32e+00], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 31; curve-scale directions: max rel data change 3.7e-17, min curvature/max eig 1.6e-05
+  pilot s102 early   : Hessian eig [-3.90e-02, 8.56e-01], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 31; curve-scale directions: max rel data change 3.6e-17, min curvature/max eig -6.3e-04
+  pilot s102 polished: Hessian eig [1.43e-05, 5.32e+00], |eig| < 1e-8 x max: 0; data-Jacobian null dims (sigma < 1e-8 x max): 31; curve-scale directions: max rel data change 3.7e-17, min curvature/max eig 1.6e-05
+  FROZEN certification gauge set: EMPTY (no exact continuous gauge direction of the full loss beyond sign flips)
+  baseline KAN-delta: as certify.py (E4: its constant-shift/rescaling directions are least-squares, not exact); frozen set empty
+
+STEP 0 done; commit arch/sc_output.txt and arch/sc_step0.json before Step 1.
