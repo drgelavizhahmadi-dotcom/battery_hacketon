@@ -1,0 +1,153 @@
+####################################################################################################
+POST-HOC, DESCRIPTIVE (decided after the synth results). No pre-registration; no verdict changes.
+####################################################################################################
+NOTES / discrepancies (files win):
+  every input belongs to a correlated pair (x1/x2, x3/x4), so no layer-1 edge comes from an uncorrelated input;
+  (b) is answered as: share of layer-1 edge growth per pair, layer-1 vs layer-2, unit concentration, and cancellation
+  WITHIN a correlated pair vs BETWEEN the two pairs (both at each hidden unit)
+  affine RBF = projection of each edge's 8 RBF coefficients onto span{1, k} (the D2 null space); curved = the rest
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/synth_correlated_P0_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1f1408efb29d
+  verified gauge_weights/synth_correlated_P0_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 f53f31bb6b39
+  verified gauge_weights/synth_correlated_P0_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 d62ac575e1a7
+  verified gauge_weights/synth_correlated_P0_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 b8e676d606c7
+  verified gauge_weights/synth_correlated_P0_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 e60a739ac3fd
+  verified gauge_weights/synth_correlated_P0_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 7568eb7a0a92
+  verified gauge_weights/synth_correlated_P0_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 0e900390e141
+  verified gauge_weights/synth_correlated_P0_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1eef4006b999
+  verified gauge_weights/synth_correlated_P1_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 df63c1d3b527
+  verified gauge_weights/synth_correlated_P1_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 985f2a3ec550
+  verified gauge_weights/synth_correlated_P1_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 5faeef4ae52a
+  verified gauge_weights/synth_correlated_P1_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 4e9077cdb639
+  verified gauge_weights/synth_correlated_P1_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 42b051ba3add
+  verified gauge_weights/synth_correlated_P1_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 34d8a9eb53ff
+  verified gauge_weights/synth_correlated_P1_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1b54238fd618
+  verified gauge_weights/synth_correlated_P1_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 ca99048ef919
+  verified gauge_weights/synth_independent_P0_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 6f8995e7c988
+  verified gauge_weights/synth_independent_P0_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 9b895042aff6
+  verified gauge_weights/synth_independent_P0_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 ddf5e3665a88
+  verified gauge_weights/synth_independent_P0_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 11976a3b16c3
+  verified gauge_weights/synth_independent_P0_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 dd812e7c13e4
+  verified gauge_weights/synth_independent_P0_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 3ee21272da51
+  verified gauge_weights/synth_independent_P0_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 a5c8661e52c2
+  verified gauge_weights/synth_independent_P0_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 dc40db5ae2a8
+  24 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== per cell ====================
+
+  --- correlated-P0 (n = 8) ---
+  ||theta||^2 early -> polished (median): 8.3 -> 473.3 (x65.7)
+  (a) share of ||delta theta||^2 (median): L1 affine RBF 0.054, L1 curved RBF 0.000, L1 SiLU 0.024, L1 bias 0.005, L2 affine RBF 0.338, L2 curved RBF 0.000, L2 SiLU 0.550, L2 bias 0.013
+      layer 1 total 0.110; affine share of layer-1 RBF energy early 0.937 -> polished 0.999
+  (b) layer-1 edge growth by input pair (median share): x1/x2 0.745, x3/x4 0.255; largest single unit's share 0.579 (effective number of units 2.14 of 3)
+      cancellation within a correlated pair: early 1.24 -> polished 1.84
+      cancellation between the two pairs: early 1.29 -> polished 1.41
+      cancellation all 4 layer-1 edges: early 1.72 -> polished 3.29
+      cancellation (d) layer 2, across the 3 edges into the output: early 1.90 -> polished 3.22
+  (c) saturation |tanh(s)| > 0.95: early 0.000 -> polished 0.003; |s| > 3: early 0.000 -> polished 0.000
+
+  --- correlated-P1 (n = 8) ---
+  ||theta||^2 early -> polished (median): 7.2 -> 198.2 (x32.1)
+  (a) share of ||delta theta||^2 (median): L1 affine RBF 0.016, L1 curved RBF 0.000, L1 SiLU 0.000, L1 bias 0.005, L2 affine RBF 0.888, L2 curved RBF 0.001, L2 SiLU 0.000, L2 bias 0.083
+      layer 1 total 0.024; affine share of layer-1 RBF energy early 0.938 -> polished 0.982
+  (b) layer-1 edge growth by input pair (median share): x1/x2 0.632, x3/x4 0.368; largest single unit's share 0.664 (effective number of units 1.90 of 3)
+      cancellation within a correlated pair: early 1.30 -> polished 1.54
+      cancellation between the two pairs: early 1.38 -> polished 1.47
+      cancellation all 4 layer-1 edges: early 1.83 -> polished 2.32
+      cancellation (d) layer 2, across the 3 edges into the output: early 1.96 -> polished 3.09
+  (c) saturation |tanh(s)| > 0.95: early 0.000 -> polished 0.000; |s| > 3: early 0.000 -> polished 0.000
+
+  --- independent-P0 (n = 8) ---
+  ||theta||^2 early -> polished (median): 8.1 -> 93.7 (x12.5)
+  (a) share of ||delta theta||^2 (median): L1 affine RBF 0.100, L1 curved RBF 0.001, L1 SiLU 0.044, L1 bias 0.071, L2 affine RBF 0.421, L2 curved RBF 0.002, L2 SiLU 0.153, L2 bias 0.180
+      layer 1 total 0.218; affine share of layer-1 RBF energy early 0.897 -> polished 0.987
+  (b) layer-1 edge growth by input pair (median share): x1/x2 0.290, x3/x4 0.710; largest single unit's share 0.759 (effective number of units 1.65 of 3)
+      cancellation within a correlated pair: early 1.31 -> polished 1.14
+      cancellation between the two pairs: early 1.44 -> polished 1.27
+      cancellation all 4 layer-1 edges: early 1.83 -> polished 1.60
+      cancellation (d) layer 2, across the 3 edges into the output: early 1.81 -> polished 1.26
+  (c) saturation |tanh(s)| > 0.95: early 0.000 -> polished 0.000; |s| > 3: early 0.000 -> polished 0.000
+
+==================== (e) independent-P0: never certified vs certified ====================
+
+  --- independent-P0 NOT certified (unbounded growth): seeds 0, 4 (n = 2) ---
+  ||theta||^2 early -> polished (median): 11.3 -> 5195.2 (x436.5)
+  (a) share of ||delta theta||^2 (median): L1 affine RBF 0.003, L1 curved RBF 0.000, L1 SiLU 0.001, L1 bias 0.001, L2 affine RBF 0.555, L2 curved RBF 0.000, L2 SiLU 0.244, L2 bias 0.195
+      layer 1 total 0.006; affine share of layer-1 RBF energy early 0.884 -> polished 0.987
+  (b) layer-1 edge growth by input pair (median share): x1/x2 0.586, x3/x4 0.414; largest single unit's share 0.699 (effective number of units 1.96 of 3)
+      cancellation within a correlated pair: early 1.34 -> polished 1.20
+      cancellation between the two pairs: early 1.31 -> polished 2.12
+      cancellation all 4 layer-1 edges: early 1.75 -> polished 2.79
+      cancellation (d) layer 2, across the 3 edges into the output: early 2.45 -> polished 2.42
+  (c) saturation |tanh(s)| > 0.95: early 0.003 -> polished 0.000; |s| > 3: early 0.000 -> polished 0.000
+
+  --- independent-P0 certified (finite growth): seeds 1, 2, 3, 5, 6, 7 (n = 6) ---
+  ||theta||^2 early -> polished (median): 7.5 -> 83.7 (x9.4)
+  (a) share of ||delta theta||^2 (median): L1 affine RBF 0.106, L1 curved RBF 0.001, L1 SiLU 0.053, L1 bias 0.083, L2 affine RBF 0.381, L2 curved RBF 0.002, L2 SiLU 0.153, L2 bias 0.180
+      layer 1 total 0.241; affine share of layer-1 RBF energy early 0.909 -> polished 0.987
+  (b) layer-1 edge growth by input pair (median share): x1/x2 0.288, x3/x4 0.712; largest single unit's share 0.759 (effective number of units 1.65 of 3)
+      cancellation within a correlated pair: early 1.27 -> polished 1.14
+      cancellation between the two pairs: early 1.47 -> polished 1.22
+      cancellation all 4 layer-1 edges: early 1.85 -> polished 1.59
+      cancellation (d) layer 2, across the 3 edges into the output: early 1.75 -> polished 1.18
+  (c) saturation |tanh(s)| > 0.95: early 0.000 -> polished 0.000; |s| > 3: early 0.000 -> polished 0.000
+
+  per model (growth | top two parts of the change | within-pair, between-pair, layer-2 cancellation at polished | sat95):
+    correlated_P0_s0         cert False x   146.4 | L2 SiLU 0.85, L2 affine RBF 0.11 | 5.97, 1.32, 2.06 | 0.000
+    correlated_P0_s1         cert False x   962.5 | L2 affine RBF 0.97, L2 bias 0.01 | 1.01, 1.49, 9.27 | 0.000
+    correlated_P0_s2         cert False x    41.0 | L2 affine RBF 0.49, L2 bias 0.29 | 1.97, 1.67, 1.10 | 0.011
+    correlated_P0_s3         cert False x    23.4 | L2 SiLU 0.51, L2 affine RBF 0.35 | 2.29, 1.52, 6.69 | 0.006
+    correlated_P0_s4         cert False x    62.1 | L2 SiLU 0.71, L2 affine RBF 0.12 | 1.33, 1.01, 3.22 | 0.000
+    correlated_P0_s5         cert False x    66.8 | L2 SiLU 0.71, L1 affine RBF 0.18 | 2.81, 2.45, 2.51 | 0.006
+    correlated_P0_s6         cert False x    64.6 | L2 affine RBF 0.74, L2 bias 0.08 | 1.16, 1.32, 3.23 | 0.004
+    correlated_P0_s7         cert False x    71.7 | L2 SiLU 0.59, L2 affine RBF 0.32 | 1.71, 1.14, 3.31 | 0.002
+    correlated_P1_s0         cert False x    27.6 | L2 affine RBF 0.82, L2 bias 0.16 | 1.92, 1.48, 2.12 | 0.000
+    correlated_P1_s1         cert False x    84.0 | L2 affine RBF 0.91, L2 bias 0.07 | 1.23, 1.05, 3.09 | 0.001
+    correlated_P1_s2         cert False x   428.4 | L2 affine RBF 0.90, L2 bias 0.09 | 1.73, 1.79, 3.39 | 0.003
+    correlated_P1_s3         cert False x    13.5 | L2 affine RBF 0.98, L1 affine RBF 0.01 | 1.12, 1.58, 5.37 | 0.000
+    correlated_P1_s4         cert False x    21.5 | L2 affine RBF 0.85, L2 bias 0.13 | 2.04, 1.50, 2.13 | 0.000
+    correlated_P1_s5         cert False x    29.2 | L2 affine RBF 0.87, L1 affine RBF 0.08 | 1.34, 1.02, 8.97 | 0.000
+    correlated_P1_s6         cert False x    36.7 | L2 affine RBF 0.94, L2 bias 0.03 | 1.10, 1.36, 3.08 | 0.030
+    correlated_P1_s7         cert False x    35.1 | L2 affine RBF 0.84, L2 bias 0.13 | 2.28, 1.47, 2.16 | 0.000
+    independent_P0_s0        cert False x   702.8 | L2 affine RBF 0.59, L2 bias 0.37 | 1.10, 1.52, 1.24 | 0.000
+    independent_P0_s1        cert True  x    15.0 | L2 affine RBF 0.40, L2 bias 0.27 | 1.14, 1.27, 1.04 | 0.000
+    independent_P0_s2        cert True  x    15.5 | L2 affine RBF 0.37, L2 bias 0.27 | 1.14, 1.27, 1.04 | 0.000
+    independent_P0_s3        cert True  x    10.0 | L2 affine RBF 0.45, L2 bias 0.24 | 1.13, 1.27, 1.08 | 0.000
+    independent_P0_s4        cert False x   170.3 | L2 affine RBF 0.52, L2 SiLU 0.44 | 1.30, 2.73, 3.61 | 0.001
+    independent_P0_s5        cert True  x     7.7 | L2 SiLU 0.31, L1 affine RBF 0.18 | 1.15, 1.17, 1.27 | 0.000
+    independent_P0_s6        cert True  x     8.9 | L2 affine RBF 0.56, L1 affine RBF 0.11 | 1.12, 1.15, 1.89 | 0.000
+    independent_P0_s7        cert True  x     7.2 | L2 SiLU 0.30, L1 affine RBF 0.20 | 1.15, 1.17, 1.27 | 0.000
+
+==================== closing paragraph (POST-HOC, descriptive; no verdict changes) ====================
+Where the runaway lives. In the synthetic 4-3-1 model the runaway is mainly a layer-2 phenomenon. In the correlated
+cells, layer 1 takes only 11.0% (P0) and 2.4% (P1) of ||delta theta||^2 from early to polished (medians, 8 seeds each).
+The rest goes into the three output edges psi_j(tanh s_j): their affine RBF part (P0 0.338, P1 0.888), their SiLU
+weight (P0 0.550, P1 0.000) and the output bias (0.013 / 0.083). The curved RBF part of every edge takes <= 0.002.
+This makes the runaway a growth of near-linear output edges that cancel each other: layer-2 cancellation
+sum_j RMS(psi_j)/RMS(sum_j psi_j) rises from 1.90 to 3.22 (P0) and from 1.96 to 3.09 (P1). Layer-1 cancellation also
+rises, but in P0 only (all four edges 1.72 -> 3.29; within a correlated pair 1.24 -> 1.84, between the two pairs
+1.29 -> 1.41); in P1 it rises less (1.83 -> 2.32).
+Concentration. Growth is not confined to one hidden unit: the largest unit takes 0.58 (P0) and 0.66 (P1) of the
+change, an effective 2.1 and 1.9 of the 3 units. The x1/x2 pair takes 0.75 / 0.63 of the (small) layer-1 change;
+because every input in this design belongs to a correlated pair, no "rest" exists to compare against.
+Saturation. Saturation is essentially absent: |tanh s| > 0.95 on <= 0.3% of training rows (cell medians; the maximum
+for any model is 3.0%), and |s| > 3 on 0%.
+What separates unbounded from finite growth (independent P0). The two never-certified seeds (s0 x703, s4 x170) put
+99.4% of their change into layer 2 (layer-1 share 0.006, against 0.241 for the six certified seeds, which grew x9.4).
+They are also the only independent-P0 seeds whose cancellation grows: between-pair 1.31 -> 2.12 against 1.47 -> 1.22
+for the certified seeds. The certified seeds' layer-2 cancellation falls from 1.75 to 1.18. The two uncertified seeds
+differ from each other. s4 runs away through layer-2 cancellation (3.61; L2 affine 0.52 + L2 SiLU 0.44). s0 has
+little cancellation (layer 2 1.24) but puts 0.37 of its change into the output bias next to 0.59 in the affine RBF
+part of the output edges. This is consistent with offset trading between the output bias and the near-constant part of
+the psi_j, since tanh s lies in (-1, 1). That reading is not tested here.
+Difference from the hackathon model. In the hackathon KAN-delta, the runaway was cross-edge cancellation in the
+FIRST layer: the cross-edge ratio rose from 1.7-2.9 (AdamW) to 4-10 (capped / A final), alongside substantial
+hidden-unit saturation (|s_j| > 3 on 12-39% of rows for the seeds) and ||theta||^2 growth of 150-1550x.
+The two models share the affine (null-space) character: the hackathon RBF null-space share was >= 0.994, and the
+synthetic layer-1 RBF energy is 0.999 (P0) and 0.982 (P1) affine at polish. Both also show little within-edge
+SiLU/RBF cancellation (hackathon 1.13-1.33).
+The synthetic runaway differs in three ways. (i) It is driven from layer 2, not layer 1. (ii) Its layer-1 cancellation
+stays at the bottom of the hackathon range (median 3.29 in correlated P0, 2.32 in P1). (iii) It needs no saturation.
+Collinear inputs are enough to open the flat direction, but in this small, unsaturated network that direction is
+mostly taken up by the output edges cancelling each other, not by first-layer edges cancelling across inputs.
