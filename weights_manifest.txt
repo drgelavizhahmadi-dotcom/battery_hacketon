@@ -442,3 +442,10 @@ gauge_weights/close_foldA_1e-06_s3.json  5f3c0aa666d9d6c01a39096b2cd7821c06d67ef
 gauge_weights/close_foldA_1e-06_s3.pt  2942e5512c8835c63df1cc34b5a63e486beec3649f773ac625a4216e8188693a  close.py  65ed55f  gauge_weights_2026-10-03f.tar.gz
 gauge_weights/close_foldA_1e-06_s4.json  e699edc4def3cc50599f9bc1308bda73b6968d18ede288b62a7436f9c48f9b57  close.py  65ed55f  gauge_weights_2026-10-03f.tar.gz
 gauge_weights/close_foldA_1e-06_s4.pt  f050089e527a877f83f6a6828002bb34414c88d681728a7df98c75f7afed4117  close.py  65ed55f  gauge_weights_2026-10-03f.tar.gz
+
+# --- seventh archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-10-03g.tar.gz
+# archive sha256: 19be2329aa7d19e6c561eabf02a38619da8e6979b01bae65cd6d18df31dcd2e5
+# producing commit 0b29351 = first commit containing gaugecheck.py as it was run (POST-HOC, exploratory study)
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/gaugecheck_regteacher.json  658b9b6968fe5ee036224a50a8ba7000203ce473a2cc4d1c22b0ceb7c55a25e8  gaugecheck.py  0b29351  gauge_weights_2026-10-03g.tar.gz
+gauge_weights/gaugecheck_regteacher.pt  e0a407483f47f01659110f8cf0039537bc49559ce5b8acbe803cae57c690ac62  gaugecheck.py  0b29351  gauge_weights_2026-10-03g.tar.gz
