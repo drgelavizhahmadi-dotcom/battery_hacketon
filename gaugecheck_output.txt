@@ -1,0 +1,95 @@
+####################################################################################################
+POST-HOC, EXPLORATORY (decided after seeing the certify results). No pre-registration; no pre-registered verdict is changed.
+####################################################################################################
+NOTES / discrepancies (files win):
+  gauge directions = certify.py Step 2c least-squares directions (const edge->bias in layer 1 and 2; unit rescaling with
+  outgoing compensation). No EXACT nonlinear version exists here: a constant is not exactly representable by one edge's
+  basis (residual ~3.5e-3), and tanh between layers breaks exact rescaling. Constant shifts are linear in the parameters,
+  so finite steps ARE their nonlinear version; for rescaling the nonlinear version is: scale unit j's incoming parameters
+  by a = 1 + t, then refit outgoing edge j by least squares to reproduce psi_j(tanh(s_j)) from tanh(a s_j).
+  B.3 d_AB = RMS(delta_student - delta_reference) / std(data target delta), the fiber2 normalisation.
+  certified mu = 1e-4 minima (from certify_results.json): ['ind_0', 'ind_1', 'ind_2', 'ind_3', 'ind_4', 'ind_5', 'stu_115', 'stu_104', 'stu_114']
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/close_0.0001_ind_0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 b5f2deffb990
+  verified gauge_weights/close_0.0001_ind_1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 665ad7a98cab
+  verified gauge_weights/close_0.0001_ind_2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 05a3f9f0bfca
+  verified gauge_weights/close_0.0001_ind_3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 cf6277b5cc18
+  verified gauge_weights/close_0.0001_ind_4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 bbb395924e11
+  verified gauge_weights/close_0.0001_ind_5.pt (gauge_weights_2026-10-03f.tar.gz) sha256 a1ebd1009d20
+  verified gauge_weights/close_0.0001_stu_104.pt (gauge_weights_2026-10-03f.tar.gz) sha256 4a70386fb612
+  verified gauge_weights/close_0.0001_stu_114.pt (gauge_weights_2026-10-03f.tar.gz) sha256 1796f7a2c0ed
+  verified gauge_weights/close_0.0001_stu_115.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2c9e1a111a63
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  18 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== A: is the penalty what breaks the gauge? (curvature and slope split along gauge directions) ====================
+
+  ind_0: Hessian eigenvalues median 5.82e-03, max 1.58e+01
+    const_L1  (n=48): d'Hd full 3.69e-04 = no-Q 2.01e-04 + muQ 1.65e-04; muQ share median 0.458 [0.039-0.663] | d'g full 2.7e-18, no-Q 7.1e-06, muQ 7.1e-06 | step t=1e-3: dpred 2.9e-07, |ddata| 2.0e-10; t=1e-2: dpred 2.9e-06, |ddata| 1.8e-09
+    const_L2  (n=6): d'Hd full 2.07e-04 = no-Q 4.02e-05 + muQ 1.51e-04; muQ share median 0.803 [0.208-0.978] | d'g full 4.6e-17, no-Q 1.6e-05, muQ 1.6e-05 | step t=1e-3: dpred 4.5e-07, |ddata| 8.8e-10; t=1e-2: dpred 4.5e-06, |ddata| 8.8e-09
+    rescale   (n=6): d'Hd full 1.99e-03 = no-Q 1.86e-03 + muQ 1.30e-04; muQ share median 0.062 [0.033-0.893] | d'g full 1.6e-16, no-Q 5.8e-05, muQ 5.8e-05 | step t=1e-3: dpred 1.5e-06, |ddata| 3.3e-09; t=1e-2: dpred 1.5e-05, |ddata| 3.6e-08
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 4.1e-06, |ddata| 9.4e-09; t=1e-2 dpred 4.3e-05, |ddata| 1.0e-07
+
+  ind_1: Hessian eigenvalues median 5.70e-03, max 1.55e+01
+    const_L1  (n=48): d'Hd full 3.68e-04 = no-Q 1.95e-04 + muQ 1.65e-04; muQ share median 0.458 [0.039-0.663] | d'g full 2.7e-18, no-Q 8.8e-06, muQ 8.8e-06 | step t=1e-3: dpred 2.8e-07, |ddata| 1.4e-10; t=1e-2: dpred 2.8e-06, |ddata| 1.4e-09
+    const_L2  (n=6): d'Hd full 1.77e-04 = no-Q 6.27e-06 + muQ 1.65e-04; muQ share median 0.966 [0.906-0.987] | d'g full 1.0e-17, no-Q 1.4e-05, muQ 1.4e-05 | step t=1e-3: dpred 4.8e-08, |ddata| 9.0e-11; t=1e-2: dpred 4.8e-07, |ddata| 9.0e-10
+    rescale   (n=6): d'Hd full 5.98e-04 = no-Q 4.28e-04 + muQ 1.76e-04; muQ share median 0.289 [0.054-0.749] | d'g full 2.2e-17, no-Q 4.8e-05, muQ 4.8e-05 | step t=1e-3: dpred 4.3e-07, |ddata| 1.4e-09; t=1e-2: dpred 4.4e-06, |ddata| 1.3e-08
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 2.4e-06, |ddata| 6.7e-09; t=1e-2 dpred 2.4e-05, |ddata| 6.6e-08
+
+  ind_2: Hessian eigenvalues median 5.71e-03, max 2.09e+01
+    const_L1  (n=48): d'Hd full 3.67e-04 = no-Q 1.97e-04 + muQ 1.65e-04; muQ share median 0.458 [0.039-0.664] | d'g full 7.7e-18, no-Q 5.9e-06, muQ 5.9e-06 | step t=1e-3: dpred 2.5e-07, |ddata| 1.2e-10; t=1e-2: dpred 2.5e-06, |ddata| 2.0e-09
+    const_L2  (n=6): d'Hd full 1.76e-04 = no-Q 4.55e-06 + muQ 1.71e-04; muQ share median 0.973 [0.930-0.991] | d'g full 4.6e-18, no-Q 1.7e-05, muQ 1.7e-05 | step t=1e-3: dpred 1.4e-08, |ddata| 4.6e-11; t=1e-2: dpred 1.4e-07, |ddata| 4.6e-10
+    rescale   (n=6): d'Hd full 1.96e-03 = no-Q 1.85e-03 + muQ 1.17e-04; muQ share median 0.060 [0.023-0.685] | d'g full 3.7e-17, no-Q 4.6e-05, muQ 4.6e-05 | step t=1e-3: dpred 1.3e-07, |ddata| 4.1e-10; t=1e-2: dpred 1.4e-06, |ddata| 3.0e-09
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 2.0e-06, |ddata| 2.7e-09; t=1e-2 dpred 2.1e-05, |ddata| 3.0e-08
+
+  ind_3: Hessian eigenvalues median 5.80e-03, max 1.74e+01
+    const_L1  (n=48): d'Hd full 3.69e-04 = no-Q 1.96e-04 + muQ 1.65e-04; muQ share median 0.461 [0.039-0.663] | d'g full 1.4e-17, no-Q 9.4e-06, muQ 9.4e-06 | step t=1e-3: dpred 2.9e-07, |ddata| 7.2e-11; t=1e-2: dpred 2.9e-06, |ddata| 7.4e-10
+    const_L2  (n=6): d'Hd full 1.86e-04 = no-Q 1.28e-05 + muQ 1.65e-04; muQ share median 0.930 [0.525-0.989] | d'g full 4.4e-17, no-Q 1.5e-05, muQ 1.5e-05 | step t=1e-3: dpred 1.6e-07, |ddata| 5.6e-10; t=1e-2: dpred 1.6e-06, |ddata| 5.6e-09
+    rescale   (n=6): d'Hd full 4.38e-04 = no-Q 2.53e-04 + muQ 1.85e-04; muQ share median 0.425 [0.029-0.878] | d'g full 4.6e-16, no-Q 4.3e-05, muQ 4.3e-05 | step t=1e-3: dpred 7.1e-07, |ddata| 1.3e-09; t=1e-2: dpred 7.1e-06, |ddata| 5.4e-09
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 3.7e-06, |ddata| 4.2e-09; t=1e-2 dpred 3.7e-05, |ddata| 3.9e-08
+
+  ind_4: Hessian eigenvalues median 5.76e-03, max 1.44e+01
+    const_L1  (n=48): d'Hd full 3.68e-04 = no-Q 2.03e-04 + muQ 1.65e-04; muQ share median 0.458 [0.039-0.663] | d'g full 3.5e-17, no-Q 7.8e-06, muQ 7.8e-06 | step t=1e-3: dpred 3.2e-07, |ddata| 6.5e-11; t=1e-2: dpred 3.2e-06, |ddata| 8.4e-10
+    const_L2  (n=6): d'Hd full 1.76e-04 = no-Q 1.58e-05 + muQ 1.55e-04; muQ share median 0.918 [0.769-0.992] | d'g full 2.6e-16, no-Q 1.2e-05, muQ 1.2e-05 | step t=1e-3: dpred 1.4e-07, |ddata| 1.7e-10; t=1e-2: dpred 1.4e-06, |ddata| 1.7e-09
+    rescale   (n=6): d'Hd full 8.61e-04 = no-Q 6.90e-04 + muQ 1.72e-04; muQ share median 0.200 [0.068-0.813] | d'g full 1.0e-14, no-Q 6.0e-05, muQ 6.0e-05 | step t=1e-3: dpred 1.1e-06, |ddata| 1.6e-09; t=1e-2: dpred 1.1e-05, |ddata| 2.1e-08
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 3.2e-06, |ddata| 4.7e-09; t=1e-2 dpred 3.3e-05, |ddata| 4.9e-08
+
+  ind_5: Hessian eigenvalues median 5.67e-03, max 1.47e+01
+    const_L1  (n=48): d'Hd full 3.67e-04 = no-Q 1.98e-04 + muQ 1.65e-04; muQ share median 0.458 [0.039-0.664] | d'g full 1.8e-15, no-Q 7.9e-06, muQ 7.9e-06 | step t=1e-3: dpred 1.4e-07, |ddata| 2.4e-11; t=1e-2: dpred 1.4e-06, |ddata| 2.5e-10
+    const_L2  (n=6): d'Hd full 1.94e-04 = no-Q 1.16e-05 + muQ 1.64e-04; muQ share median 0.931 [0.640-0.971] | d'g full 9.2e-15, no-Q 1.4e-05, muQ 1.4e-05 | step t=1e-3: dpred 2.8e-07, |ddata| 2.2e-10; t=1e-2: dpred 2.8e-06, |ddata| 2.2e-09
+    rescale   (n=6): d'Hd full 1.25e-03 = no-Q 1.12e-03 + muQ 1.33e-04; muQ share median 0.142 [0.037-0.846] | d'g full 1.3e-13, no-Q 6.6e-05, muQ 6.6e-05 | step t=1e-3: dpred 1.6e-06, |ddata| 2.0e-09; t=1e-2: dpred 1.7e-05, |ddata| 1.6e-08
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 4.3e-06, |ddata| 9.3e-09; t=1e-2 dpred 4.4e-05, |ddata| 9.4e-08
+
+  stu_115: Hessian eigenvalues median 3.90e-03, max 5.95e+00
+    const_L1  (n=48): d'Hd full 3.67e-04 = no-Q 1.94e-04 + muQ 1.65e-04; muQ share median 0.480 [0.039-0.665] | d'g full 2.1e-18, no-Q 3.3e-06, muQ 3.3e-06 | step t=1e-3: dpred 1.2e-07, |ddata| 1.3e-11; t=1e-2: dpred 1.2e-06, |ddata| 1.3e-10
+    const_L2  (n=6): d'Hd full 1.83e-04 = no-Q 5.58e-06 + muQ 1.69e-04; muQ share median 0.968 [0.032-0.984] | d'g full 2.4e-18, no-Q 5.5e-06, muQ 5.5e-06 | step t=1e-3: dpred 1.2e-08, |ddata| 6.1e-12; t=1e-2: dpred 1.2e-07, |ddata| 6.1e-11
+    rescale   (n=6): d'Hd full 3.88e-04 = no-Q 1.94e-04 + muQ 1.93e-04; muQ share median 0.516 [0.031-0.964] | d'g full 2.5e-18, no-Q 1.0e-05, muQ 1.0e-05 | step t=1e-3: dpred 5.4e-08, |ddata| 4.0e-11; t=1e-2: dpred 5.7e-07, |ddata| 3.7e-10
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 6.0e-07, |ddata| 6.7e-10; t=1e-2 dpred 6.0e-06, |ddata| 6.3e-09
+
+  stu_104: Hessian eigenvalues median 3.76e-03, max 7.07e+00
+    const_L1  (n=48): d'Hd full 3.67e-04 = no-Q 1.94e-04 + muQ 1.65e-04; muQ share median 0.480 [0.039-0.665] | d'g full 9.9e-19, no-Q 3.9e-06, muQ 3.9e-06 | step t=1e-3: dpred 1.4e-07, |ddata| 7.6e-12; t=1e-2: dpred 1.4e-06, |ddata| 1.6e-10
+    const_L2  (n=6): d'Hd full 1.78e-04 = no-Q 4.54e-06 + muQ 1.52e-04; muQ share median 0.975 [0.040-0.994] | d'g full 1.1e-18, no-Q 8.6e-06, muQ 8.6e-06 | step t=1e-3: dpred 1.1e-08, |ddata| 6.6e-12; t=1e-2: dpred 1.1e-07, |ddata| 6.6e-11
+    rescale   (n=6): d'Hd full 1.10e-03 = no-Q 9.37e-04 + muQ 1.59e-04; muQ share median 0.443 [0.040-0.957] | d'g full 2.3e-17, no-Q 2.2e-05, muQ 2.2e-05 | step t=1e-3: dpred 7.8e-08, |ddata| 4.6e-11; t=1e-2: dpred 8.2e-07, |ddata| 5.8e-10
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 6.1e-07, |ddata| 2.9e-10; t=1e-2 dpred 6.1e-06, |ddata| 2.7e-09
+
+  stu_114: Hessian eigenvalues median 3.97e-03, max 6.52e+00
+    const_L1  (n=48): d'Hd full 3.67e-04 = no-Q 1.94e-04 + muQ 1.65e-04; muQ share median 0.480 [0.039-0.665] | d'g full 3.2e-18, no-Q 2.7e-06, muQ 2.7e-06 | step t=1e-3: dpred 1.5e-07, |ddata| 2.4e-12; t=1e-2: dpred 1.5e-06, |ddata| 9.0e-11
+    const_L2  (n=6): d'Hd full 1.73e-04 = no-Q 3.12e-06 + muQ 1.49e-04; muQ share median 0.983 [0.030-0.993] | d'g full 2.4e-18, no-Q 6.1e-06, muQ 6.1e-06 | step t=1e-3: dpred 1.6e-08, |ddata| 1.3e-11; t=1e-2: dpred 1.6e-07, |ddata| 1.3e-10
+    rescale   (n=6): d'Hd full 3.82e-04 = no-Q 2.00e-04 + muQ 1.81e-04; muQ share median 0.586 [0.028-0.924] | d'g full 5.3e-18, no-Q 1.5e-05, muQ 1.5e-05 | step t=1e-3: dpred 1.0e-07, |ddata| 1.2e-10; t=1e-2: dpred 1.1e-06, |ddata| 1.1e-09
+    rescale (nonlinear, LS-refit outgoing): t=1e-3 dpred 6.1e-07, |ddata| 7.9e-10; t=1e-2 dpred 5.9e-06, |ddata| 7.9e-09
+
+==================== B: the right reference for the students ====================
+  B1 teacher under the certify loss (mu 1e-4, students' targets): max|grad| 5.63e-03; smallest eig 1.96e-08 (max 6.60e+00); data 2.7e-15 (0 by construction), penalty 4.583e-03, mu*Q 5.998e-04 -> NOT stationary
+  B2 regularised teacher: scipy termination after 121 iters; Step-1 certified True a:ok b:ok c:ok d:ok | data 1.334e-04, penalty 2.810e-04, mu*Q 1.492e-04, ||theta||^2 27.3 (teacher 19.8); delta corr with original teacher 0.999237
+  B3 stu_115: vs ORIGINAL teacher: delta corr 0.999219, unit 0.720, edge 0.841, d_AB 0.0348 | vs REGULARISED teacher: delta corr 0.999941, unit 0.902, edge 0.979, d_AB 0.0095
+  B3 stu_104: vs ORIGINAL teacher: delta corr 0.999198, unit 0.680, edge 0.904, d_AB 0.0353 | vs REGULARISED teacher: delta corr 0.999879, unit 0.868, edge 0.970, d_AB 0.0136
+  B3 stu_114: vs ORIGINAL teacher: delta corr 0.999262, unit 0.719, edge 0.907, d_AB 0.0338 | vs REGULARISED teacher: delta corr 0.999902, unit 0.876, edge 0.975, d_AB 0.0123
