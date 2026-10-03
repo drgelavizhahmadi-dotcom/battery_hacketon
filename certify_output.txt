@@ -1,0 +1,142 @@
+DISCREPANCIES / choices (files win; see certify_prereg.md):
+  F-a certification criterion defined AFTER the stage2/close.py criterion proved unreachable; reported alongside close.py V1 (failed)
+  F-b W4/W5 set after close.py's mu=1e-6 fold A result; F-c W6 has 10 points (weak test)
+  E3 'fiber.py procedure' = unit match + control-3 edge match, as in close.py/trust.py
+  E4 gauge directions are least-squares (not exact symmetries here); residuals reported
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/close_1e-06_ind_0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 cdf975a53462
+  verified gauge_weights/close_1e-06_ind_1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 e37ec18d98a3
+  verified gauge_weights/close_1e-06_ind_2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 99e0bce8c9cf
+  verified gauge_weights/close_1e-06_ind_3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 15b793033eba
+  verified gauge_weights/close_1e-06_ind_4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 e583c6fc8b89
+  verified gauge_weights/close_1e-06_ind_5.pt (gauge_weights_2026-10-03f.tar.gz) sha256 15471b7de405
+  verified gauge_weights/close_1e-06_stu_115.pt (gauge_weights_2026-10-03f.tar.gz) sha256 9a8e83bba7ce
+  verified gauge_weights/close_1e-06_stu_104.pt (gauge_weights_2026-10-03f.tar.gz) sha256 60d2df031716
+  verified gauge_weights/close_1e-06_stu_114.pt (gauge_weights_2026-10-03f.tar.gz) sha256 9f70c81c3873
+  verified gauge_weights/close_1e-05_ind_0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 efb56ded6cf4
+  verified gauge_weights/close_1e-05_ind_1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 45e303d1e67b
+  verified gauge_weights/close_1e-05_ind_2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 8540ebc36dce
+  verified gauge_weights/close_1e-05_ind_3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 8eb06d578594
+  verified gauge_weights/close_1e-05_ind_4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2d4e47853dc6
+  verified gauge_weights/close_1e-05_ind_5.pt (gauge_weights_2026-10-03f.tar.gz) sha256 3b02a4b7bd34
+  verified gauge_weights/close_1e-05_stu_115.pt (gauge_weights_2026-10-03f.tar.gz) sha256 464b344c3bc4
+  verified gauge_weights/close_1e-05_stu_104.pt (gauge_weights_2026-10-03f.tar.gz) sha256 6b8a0cca61cb
+  verified gauge_weights/close_1e-05_stu_114.pt (gauge_weights_2026-10-03f.tar.gz) sha256 0c5dcd792521
+  verified gauge_weights/close_0.0001_ind_0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 b5f2deffb990
+  verified gauge_weights/close_0.0001_ind_1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 665ad7a98cab
+  verified gauge_weights/close_0.0001_ind_2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 05a3f9f0bfca
+  verified gauge_weights/close_0.0001_ind_3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 cf6277b5cc18
+  verified gauge_weights/close_0.0001_ind_4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 bbb395924e11
+  verified gauge_weights/close_0.0001_ind_5.pt (gauge_weights_2026-10-03f.tar.gz) sha256 a1ebd1009d20
+  verified gauge_weights/close_0.0001_stu_115.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2c9e1a111a63
+  verified gauge_weights/close_0.0001_stu_104.pt (gauge_weights_2026-10-03f.tar.gz) sha256 4a70386fb612
+  verified gauge_weights/close_0.0001_stu_114.pt (gauge_weights_2026-10-03f.tar.gz) sha256 1796f7a2c0ed
+  verified gauge_weights/close_foldA_1e-06_s0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 db29b1787242
+  verified gauge_weights/close_foldA_1e-06_s1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 0261d2c9c532
+  verified gauge_weights/close_foldA_1e-06_s2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2b211d69cc23
+  verified gauge_weights/close_foldA_1e-06_s3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2942e5512c88
+  verified gauge_weights/close_foldA_1e-06_s4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 f050089e527a
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  47 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== STEP 1: candidates (recomputed max|grad| < 1e-7): 17 ====================
+  mu 1e-06   stu_104  max|grad| 6.68e-13
+  mu 1e-05   ind_0    max|grad| 9.73e-11
+  mu 1e-05   ind_3    max|grad| 4.61e-12
+  mu 1e-05   ind_4    max|grad| 1.09e-12
+  mu 1e-05   ind_5    max|grad| 7.28e-13
+  mu 1e-05   stu_115  max|grad| 5.47e-13
+  mu 1e-05   stu_104  max|grad| 4.17e-13
+  mu 1e-05   stu_114  max|grad| 1.02e-12
+  mu 0.0001  ind_0    max|grad| 6.36e-13
+  mu 0.0001  ind_1    max|grad| 1.11e-12
+  mu 0.0001  ind_2    max|grad| 9.53e-13
+  mu 0.0001  ind_3    max|grad| 2.70e-12
+  mu 0.0001  ind_4    max|grad| 1.43e-11
+  mu 0.0001  ind_5    max|grad| 3.22e-10
+  mu 0.0001  stu_115  max|grad| 4.83e-13
+  mu 0.0001  stu_104  max|grad| 1.15e-12
+  mu 0.0001  stu_114  max|grad| 6.94e-13
+  non-candidates: 1e-06/ind_0 (9.4e-04), 1e-06/ind_1 (3.3e-05), 1e-06/ind_2 (1.1e-04), 1e-06/ind_3 (6.7e-03), 1e-06/ind_4 (3.3e-06), 1e-06/ind_5 (1.4e-04), 1e-06/stu_115 (4.4e-05), 1e-06/stu_114 (1.0e-04), 1e-05/ind_1 (1.4e-05), 1e-05/ind_2 (4.5e-04)
+
+  certification (a) max|grad| < 1e-7, (b) min eig >= -1e-8 x max, (c) Newton decrement on non-null < 1e-16, (d) ||g_null|| < 1e-9:
+  mu 1e-06   stu_104  certified True  | grad 6.7e-13 min eig -9.98e-16 max 2.73e+01 null set   3 | Newton 3.0e-24 g_null 8.7e-17 | a:ok b:ok c:ok d:ok
+  mu 1e-05   ind_0    certified True  | grad 9.7e-11 min eig 3.01e-14 max 2.33e+01 null set   2 | Newton 6.3e-19 g_null 4.4e-14 | a:ok b:ok c:ok d:ok
+  mu 1e-05   ind_3    certified True  | grad 4.6e-12 min eig 2.77e-14 max 5.12e+01 null set   2 | Newton 1.1e-21 g_null 1.3e-14 | a:ok b:ok c:ok d:ok
+  mu 1e-05   ind_4    certified True  | grad 1.1e-12 min eig 5.53e-20 max 1.96e+01 null set   3 | Newton 2.6e-24 g_null 4.0e-17 | a:ok b:ok c:ok d:ok
+  mu 1e-05   ind_5    certified True  | grad 7.3e-13 min eig 1.96e-16 max 1.91e+01 null set   2 | Newton 3.4e-24 g_null 1.2e-16 | a:ok b:ok c:ok d:ok
+  mu 1e-05   stu_115  certified True  | grad 5.5e-13 min eig -5.40e-16 max 1.24e+01 null set   2 | Newton 1.2e-24 g_null 5.7e-17 | a:ok b:ok c:ok d:ok
+  mu 1e-05   stu_104  certified True  | grad 4.2e-13 min eig -1.00e-16 max 1.34e+01 null set   2 | Newton 4.0e-24 g_null 4.1e-16 | a:ok b:ok c:ok d:ok
+  mu 1e-05   stu_114  certified True  | grad 1.0e-12 min eig 8.67e-17 max 1.31e+01 null set   3 | Newton 8.0e-24 g_null 1.6e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_0    certified True  | grad 6.4e-13 min eig -7.13e-17 max 1.58e+01 null set   2 | Newton 1.9e-23 g_null 2.6e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_1    certified True  | grad 1.1e-12 min eig 7.91e-16 max 1.55e+01 null set   3 | Newton 1.3e-23 g_null 4.0e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_2    certified True  | grad 9.5e-13 min eig 3.01e-15 max 2.09e+01 null set   1 | Newton 1.8e-23 g_null 3.4e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_3    certified True  | grad 2.7e-12 min eig 8.01e-07 max 1.74e+01 null set   0 | Newton 5.6e-22 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_4    certified True  | grad 1.4e-11 min eig 9.80e-08 max 1.44e+01 null set   1 | Newton 8.2e-21 g_null 5.8e-14 | a:ok b:ok c:ok d:ok
+  mu 0.0001  ind_5    certified True  | grad 3.2e-10 min eig 7.50e-07 max 1.47e+01 null set   0 | Newton 2.4e-18 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  mu 0.0001  stu_115  certified True  | grad 4.8e-13 min eig 2.91e-16 max 5.95e+00 null set   1 | Newton 2.7e-23 g_null 1.5e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  stu_104  certified True  | grad 1.2e-12 min eig 6.30e-08 max 7.07e+00 null set   1 | Newton 1.5e-23 g_null 5.4e-16 | a:ok b:ok c:ok d:ok
+  mu 0.0001  stu_114  certified True  | grad 6.9e-13 min eig 2.43e-15 max 6.52e+00 null set   1 | Newton 4.6e-24 g_null 5.6e-17 | a:ok b:ok c:ok d:ok
+  certified per mu: mu 1e-06: 0/6 seeds, 1/3 students; mu 1e-05: 4/6 seeds, 3/3 students; mu 0.0001: 6/6 seeds, 3/3 students
+
+==================== STEP 2: analysis at certified minima ====================
+  (a) mu 1e-06: 0 certified seed(s); d_AB not computed
+  (a) mu 1e-05: certified seeds [0, 3, 4, 5]; d_AB median 0.0908 (capped, same pairs 0.1028)
+  (a) mu 0.0001: certified seeds [0, 1, 2, 3, 4, 5]; d_AB median 0.0771 (capped, same pairs 0.1041)
+  (b) mu 1e-06 stu_104: delta corr 0.999681; unit match median 0.520 [0.5559999942779541, 0.9190000295639038, 0.17499999701976776, 0.8349999785423279, 0.4650000035762787, 0.48399999737739563]; edge |corr| median 0.845
+  (b) mu 1e-05 stu_115: delta corr 0.999477; unit match median 0.639 [0.6539999842643738, 0.890999972820282, 0.05299999937415123, 0.8820000290870667, 0.6230000257492065, 0.41600000858306885]; edge |corr| median 0.851
+  (b) mu 1e-05 stu_104: delta corr 0.999505; unit match median 0.622 [0.625, 0.8949999809265137, 0.10100000351667404, 0.8679999709129333, 0.5680000185966492, 0.6179999709129333]; edge |corr| median 0.837
+  (b) mu 1e-05 stu_114: delta corr 0.999474; unit match median 0.642 [0.6930000185966492, 0.8980000019073486, 0.34299999475479126, 0.8999999761581421, 0.5899999737739563, 0.5329999923706055]; edge |corr| median 0.876
+  (b) mu 0.0001 stu_115: delta corr 0.999220; unit match median 0.720 [0.5820000171661377, 0.8980000019073486, 0.06199999898672104, 0.8429999947547913, 0.8360000252723694, 0.6039999723434448]; edge |corr| median 0.841
+  (b) mu 0.0001 stu_104: delta corr 0.999197; unit match median 0.680 [0.22200000286102295, 0.9089999794960022, 0.3580000102519989, 0.7820000052452087, 0.8790000081062317, 0.5789999961853027]; edge |corr| median 0.904
+  (b) mu 0.0001 stu_114: delta corr 0.999262; unit match median 0.719 [0.28600001335144043, 0.9010000228881836, 0.3009999990463257, 0.7749999761581421, 0.8629999756813049, 0.6629999876022339]; edge |corr| median 0.907
+
+  (c) null-set overlaps (exploratory): squared overlap of each normalised gauge direction with the null set; N-overlap of null eigenvectors' layer-1 blocks
+    mu 1e-06   stu_104  null   3 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 1.7e-03) | rescale 0.000 [0.000-0.000] (rel res 1.2e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.782 (random 0.50)
+    mu 1e-05   ind_0    null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 2.4e-04) | rescale 0.000 [0.000-0.000] (rel res 4.2e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.622 (random 0.50)
+    mu 1e-05   ind_3    null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 1.8e-04) | rescale 0.000 [0.000-0.000] (rel res 2.6e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.705 (random 0.50)
+    mu 1e-05   ind_4    null   3 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 3.8e-03) | rescale 0.000 [0.000-0.000] (rel res 3.3e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.518 (random 0.50)
+    mu 1e-05   ind_5    null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 4.6e-03) | rescale 0.000 [0.000-0.000] (rel res 5.2e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.917 (random 0.50)
+    mu 1e-05   stu_115  null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 5.0e-04) | rescale 0.000 [0.000-0.000] (rel res 9.0e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.864 (random 0.50)
+    mu 1e-05   stu_104  null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 2.6e-04) | rescale 0.000 [0.000-0.000] (rel res 8.2e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.701 (random 0.50)
+    mu 1e-05   stu_114  null   3 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 1.7e-04) | rescale 0.000 [0.000-0.000] (rel res 5.1e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.551 (random 0.50)
+    mu 0.0001  ind_0    null   2 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 2.9e-03) | rescale 0.000 [0.000-0.000] (rel res 1.6e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.333 (random 0.50)
+    mu 0.0001  ind_1    null   3 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 2.8e-04) | rescale 0.000 [0.000-0.000] (rel res 1.1e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.377 (random 0.50)
+    mu 0.0001  ind_2    null   1 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 8.6e-05) | rescale 0.000 [0.000-0.000] (rel res 7.4e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.413 (random 0.50)
+    mu 0.0001  ind_3    null   0 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 1.4e-03) | rescale 0.000 [0.000-0.000] (rel res 1.6e-02) | layer-1 block share nan, share-weighted N-overlap nan (random 0.50)
+    mu 0.0001  ind_4    null   1 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 9.6e-04) | rescale 0.000 [0.000-0.000] (rel res 1.4e-02) | layer-1 block share 0.000, share-weighted N-overlap 0.379 (random 0.50)
+    mu 0.0001  ind_5    null   0 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 9.5e-04) | rescale 0.000 [0.000-0.000] (rel res 1.6e-02) | layer-1 block share nan, share-weighted N-overlap nan (random 0.50)
+    mu 0.0001  stu_115  null   1 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 6.0e-05) | rescale 0.000 [0.000-0.000] (rel res 5.7e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.164 (random 0.50)
+    mu 0.0001  stu_104  null   1 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 5.9e-05) | rescale 0.000 [0.000-0.000] (rel res 4.7e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.193 (random 0.50)
+    mu 0.0001  stu_114  null   1 | const L1 0.000 [0.000-0.000] (res 3.5e-03) | const L2 0.000 [0.000-0.000] (res 5.9e-05) | rescale 0.000 [0.000-0.000] (rel res 4.9e-03) | layer-1 block share 0.000, share-weighted N-overlap 0.186 (random 0.50)
+
+==================== STEP 3: fold A accuracy at mu = 1e-4 ====================
+  mu 1e-06   seed 0: close.py cache | held-out RMSE 0.5735 (bias +0.034) | cross-edge 4.57 | ||theta||^2 510.7 | saturated 0.125
+  mu 1e-06   seed 1: close.py cache | held-out RMSE 0.7393 (bias +0.363) | cross-edge 3.59 | ||theta||^2 601.9 | saturated 0.123
+  mu 1e-06   seed 2: close.py cache | held-out RMSE 1.0283 (bias +0.925) | cross-edge 4.08 | ||theta||^2 662.6 | saturated 0.132
+  mu 1e-06   seed 3: close.py cache | held-out RMSE 0.8829 (bias +0.740) | cross-edge 3.81 | ||theta||^2 377.1 | saturated 0.025
+  mu 1e-06   seed 4: close.py cache | held-out RMSE 2.6883 (bias +2.452) | cross-edge 3.64 | ||theta||^2 467.0 | saturated 0.129
+  mu 0.0001  seed 0: scipy termination after 238 iters | held-out RMSE 0.6010 (bias +0.479) | cross-edge 2.98 | ||theta||^2 143.0 | saturated 0.000 | Step-1 certified True a:ok b:ok c:ok d:ok
+  mu 0.0001  seed 1: scipy termination after 477 iters | held-out RMSE 0.5869 (bias +0.399) | cross-edge 2.58 | ||theta||^2 150.2 | saturated 0.003 | Step-1 certified True a:ok b:ok c:ok d:ok
+  mu 0.0001  seed 2: scipy termination after 272 iters | held-out RMSE 0.4089 (bias +0.294) | cross-edge 2.85 | ||theta||^2 179.9 | saturated 0.034 | Step-1 certified True a:ok b:ok c:ok d:ok
+  mu 0.0001  seed 3: scipy termination after 173 iters | held-out RMSE 0.5388 (bias +0.394) | cross-edge 3.73 | ||theta||^2 36.8 | saturated 0.000 | Step-1 certified True a:ok b:ok c:ok d:ok
+  mu 0.0001  seed 4: scipy termination after 187 iters | held-out RMSE 0.5452 (bias -0.439) | cross-edge 3.29 | ||theta||^2 34.3 | saturated 0.000 | Step-1 certified True a:ok b:ok c:ok d:ok
+  ensemble fold A RMSE: mu 1e-4 0.3345 (bias +0.2256); mu 1e-6 1.0262 (bias +0.9028; close.py reported 1.0262); KAN-delta 0.1420
+  W6: Spearman(cross-edge ratio, held-out RMSE) over 10 models: rho +0.345, p 0.328
+
+VERDICTS: W1: held (6/6 seeds certified at mu 1e-4); W2: failed (median 0.0771 vs 0.5 x 0.1041); W3: failed (median 0.624 over 7 certified student instances); W4: failed (RMSE 0.3345); W5: held (RMSE 0.3345 vs 0.5131); W6: failed (rho +0.345, p 0.328; weak test, F-c)

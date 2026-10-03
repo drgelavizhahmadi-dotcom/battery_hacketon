@@ -121,3 +121,99 @@ above it is edited afterwards. Thresholds are the brief's, unchanged. No further
 
 Outputs: `certify.py`, `certify_output.txt`, `certify_results.json`, `figs/certify/`. Weights go in
 `gauge_weights/certify_*` and are not committed.
+
+---
+
+## Verdicts (appended after the run; `certify_output.txt`, `certify_results.json`, `figs/certify/w6_crossedge_vs_rmse.png`)
+
+The run completed without crashes. The inputs were SHA-256-verified and held in memory. The
+recomputed candidate list matched E1: 17 candidates, **all 17 certified**. As stated in F-a, these
+results stand **alongside** close.py's V1 (failed), not instead of it.
+
+| Prediction | Verdict | Key number |
+|---|---|---|
+| **W1** at μ = 1e-4, ≥ 5/6 seeds certified | **held** | 6/6 seeds (and 3/3 students). μ = 1e-5: 4/6 seeds, 3/3 students; μ = 1e-6: 0/6, 1/3 |
+| **W2** certified μ = 1e-4 seeds: median d_AB ≤ 0.5 × capped | **failed** | 0.0771 vs 0.5 × 0.1041 = 0.0521 (a 26% reduction) |
+| **W3** certified students: median unit match ≥ 0.8 | **failed** | 0.624 over 7 certified (student, μ) instances. Delta correlation with the teacher 0.9992–0.9997 |
+| **W4** μ = 1e-4 fold A ensemble RMSE ≤ 0.150 | **failed** | 0.3345 (bias +0.2256); KAN-delta 0.1420 |
+| **W5** μ = 1e-4 fold A ensemble RMSE ≤ 0.5131 | **held** | 0.3345, against close.py's μ = 1e-6 value of 1.0262 |
+| **W6** Spearman(cross-edge ratio, held-out RMSE) ≥ 0.6 over 10 models | **failed** | ρ = +0.345, p = 0.328 (weak test, F-c) |
+
+Commits: prereg `5f4520a` → results (the commit that adds this section). Inputs pinned in `7b77bc3`.
+
+**Interpretation, by the pre-registered rules:**
+- **W1 holds:** the targeted penalty restores finite minima, under the post-hoc criterion of F-a.
+  close.py's V1 failure was an artifact of the certification window. This is reported alongside V1.
+- **W2 fails:** distinct minima remain even without the runaway (non-convexity).
+- **W3 fails:** the students' unit mismatch survives at true minima, a genuine non-identifiability.
+- **W4 fails:** the regularised minima cost real held-out accuracy.
+- **W5 holds and W6 fails:** neither the "W5 and W6 hold" rule nor the "W5 fails" rule applies, so this
+  is reported as found. Bounding the runaway recovers much of the extrapolation loss (1.03 → 0.33),
+  but across models the cross-edge ratio does not track the per-seed held-out error. W6 is weak
+  evidence either way.
+
+### Step 2c: null sets at the certified minima (exploratory)
+
+| μ | Model | Null-set size | Overlap of constant shifts (L1 / L2) | Overlap of unit rescaling | Layer-1 block share of the null set |
+|---|---|---|---|---|---|
+| 1e-6 | stu 104 | 3 | 0.000 / 0.000 | 0.000 | 0.000 |
+| 1e-5 | ind 0, 3, 4, 5 | 2, 2, 3, 2 | 0.000 / 0.000 | 0.000 | 0.000 |
+| 1e-5 | stu 115, 104, 114 | 2, 2, 3 | 0.000 / 0.000 | 0.000 | 0.000 |
+| 1e-4 | ind 0–5 | 2, 3, 1, 0, 1, 0 | 0.000 / 0.000 | 0.000 | 0.000 (or undefined when the null set is empty) |
+| 1e-4 | stu 115, 104, 114 | 1, 1, 1 | 0.000 / 0.000 | 0.000 | 0.000 |
+
+- **Residuals of the least-squares directions:**
+  - constant shift in layer 1: 3.5e-3 (it depends only on the data);
+  - constant shift in layer 2: 6e-5 – 4.6e-3;
+  - unit rescaling: relative residual 4.7e-3 – 5.2e-2.
+- **The certified minima are isolated.** The null sets have 0–3 directions, none in the layer-1 block,
+  so these are the exact zero modes outside layer 1, most likely the salt edges. No explicit gauge
+  direction is flat.
+- **The share-weighted N-overlap** (0.16–0.92) is weighted by a layer-1 block share of about 0, so it
+  is not interpretable.
+
+### Step 3: per-seed fold A models
+
+All statistics are on fold A's training rows. The held-out RMSE is on the 635 PC+EA rows.
+
+| μ | Seed | Stop | Held-out RMSE (bias) | Cross-edge ratio | ‖θ‖² | Saturated | Step-1 certified |
+|---|---|---|---|---|---|---|---|
+| 1e-6 | 0 | close.py cache | 0.5735 (+0.034) | 4.57 | 510.7 | 0.125 | – |
+| 1e-6 | 1 | close.py cache | 0.7393 (+0.363) | 3.59 | 601.9 | 0.123 | – |
+| 1e-6 | 2 | close.py cache | 1.0283 (+0.925) | 4.08 | 662.6 | 0.132 | – |
+| 1e-6 | 3 | close.py cache | 0.8829 (+0.740) | 3.81 | 377.1 | 0.025 | – |
+| 1e-6 | 4 | close.py cache | 2.6883 (+2.452) | 3.64 | 467.0 | 0.129 | – |
+| 1e-4 | 0 | scipy, 238 iterations | 0.6010 (+0.479) | 2.98 | 143.0 | 0.000 | yes |
+| 1e-4 | 1 | scipy, 477 iterations | 0.5869 (+0.399) | 2.58 | 150.2 | 0.003 | yes |
+| 1e-4 | 2 | scipy, 272 iterations | 0.4089 (+0.294) | 2.85 | 179.9 | 0.034 | yes |
+| 1e-4 | 3 | scipy, 173 iterations | 0.5388 (+0.394) | 3.73 | 36.8 | 0.000 | yes |
+| 1e-4 | 4 | scipy, 187 iterations | 0.5452 (−0.439) | 3.29 | 34.3 | 0.000 | yes |
+
+Ensemble RMSE: μ = 1e-4 **0.3345**; μ = 1e-6 1.0262 (reproduced exactly); KAN-delta (107-epoch,
+unpolished) **0.1420**.
+
+### What is and is not established
+**Established:**
+- **The targeted null-space penalty does produce genuine, certified local minima** at μ = 1e-4. This
+  holds for all 6 seeds and all 3 students, and also for every μ = 1e-4 fold A model.
+  - These minima are isolated: no flat gauge or data-invisible directions are left.
+  - The stage2 / close.py failures to certify were therefore an artifact of the certification window
+    (F-a; close.py's V1 verdict stands).
+- **At these true minima:**
+  - **Independent seeds still realise different functions.** Disagreement fell only 26%, against the
+    50% predicted.
+  - **Students reproduce the teacher's function** (delta correlation about 0.999), **but not its units**
+    (unit match 0.52–0.72).
+  - So the remaining seed disagreement and unit mismatch come from **distinct minima (non-convexity)**,
+    not from the runaway or from flat directions.
+- **Bounding the runaway cuts the extrapolation failure of polished models by about 3×** (fold A
+  1.03 → 0.33).
+- **The regularised minima still generalise 2.4× worse than the early-stopped model** (0.142).
+  Training to a minimum, under either loss, costs held-out accuracy.
+
+**Not established:**
+- That the cross-edge cancellation ratio drives the per-seed extrapolation error (W6 failed, and is weak).
+- That any μ, or any certified minimum, generalises as well as early stopping.
+- Anything about whether the students' mismatch is relative to the *right* reference. The students were
+  certified on the μ = 1e-4 loss, while the teacher is a 107-epoch AdamW model that is not a minimum of
+  that loss. This is open, and is the subject of the post-hoc gaugecheck.
