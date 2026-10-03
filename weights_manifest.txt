@@ -449,3 +449,56 @@ gauge_weights/close_foldA_1e-06_s4.pt  f050089e527a877f83f6a6828002bb34414c88d68
 # columns for these entries: path  sha256  producing_script  producing_commit  archive
 gauge_weights/gaugecheck_regteacher.json  658b9b6968fe5ee036224a50a8ba7000203ce473a2cc4d1c22b0ceb7c55a25e8  gaugecheck.py  0b29351  gauge_weights_2026-10-03g.tar.gz
 gauge_weights/gaugecheck_regteacher.pt  e0a407483f47f01659110f8cf0039537bc49559ce5b8acbe803cae57c690ac62  gaugecheck.py  0b29351  gauge_weights_2026-10-03g.tar.gz
+
+# --- eighth archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-10-03h.tar.gz
+# archive sha256: 080023c4884e91909b61320a0b6996809a04b0f59f9153d5f273b8dacdb2a1f8
+# producing commit 34cc321 = first commit containing paper2/synth.py as it was run
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/synth_correlated_P0_s0.pt  1f1408efb29dfa2f4679a376912c81ddba81c3e20dd886f1203c6c61c1b1f131  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s1.pt  f53f31bb6b39eab4edd88c14d48adf5b2c4c850f36056e2d56487aeea27dbe27  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s2.pt  d62ac575e1a7a5cf8e9d0b9ae163393445e5595ee40848a9af1eadb0aa1fa87a  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s3.pt  b8e676d606c7adebd98ec35c1144cb07aa2cc4ae27cbdb57f39b4ca7f0e6715e  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s4.pt  e60a739ac3fd63b0fa94b5804d113d5695811ccb20ada9912c6febfff7ce02ea  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s5.pt  7568eb7a0a9256dca2dae6ab815699bccd775673f8847fd3a0819c4d6ef6d2a3  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s6.pt  0e900390e14186b76b69aa48360f8a0d1c7ea8121a691da887098863295a44e0  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P0_s7.pt  1eef4006b999a719da487bedbe5e9a2b147c9098eb3dd9be91d7540a5c70af27  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s0.pt  df63c1d3b527a77adccc7041a7c1d511f231a25fb98d07a00aef9c3dc301f05b  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s1.pt  985f2a3ec5501ae4a28a8b27358b1529be042bb1d927e8aec0cc4ee9632d0440  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s2.pt  5faeef4ae52aa54f34dac6d618cfc09e8e1da2e4031884d102109d1f8d4b9593  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s3.pt  4e9077cdb639b1c06798e7d51338d5b718f06091acc92e183f31c95b1da129d3  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s4.pt  42b051ba3addafbdd2213ce50d538cf60055eb9f6bd02aaf9fbf0e72441a1dd2  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s5.pt  34d8a9eb53ff4e815fd36f7384eb2504bf25d16401eaa43f138bd22df8c6dda0  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s6.pt  1b54238fd618688eea83c4d3d3b3b0475679bf71dc377314136490794597e212  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P1_s7.pt  ca99048ef91958e3a0c6409a6d323208c5051a8d17a1fe9a4c074fd4bc7bcbd2  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s0.pt  252d964a5bbf1a9367657ef6ce2db580641a44f043126f186f15f6b5a6c094e1  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s1.pt  db4fd9f0792ac08e8b650d6acdf73a32b0d420581c579c556f09c0ea2079d896  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s2.pt  6d6d72e1f41e03bd75bef6fcffe138ac4da59ab392b06e26837ad447e230d9a6  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s3.pt  f5f85c5eb8966debffe0b56019cf40244d28a8b17da3cbf624398fb8cdd8fa0d  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s4.pt  b111508d06eac0ff6e0f362a213136c7cf8c355719de60e7c575f8e2f296b1d9  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s5.pt  a267e6c099fb88cfcf6d2d72c5880806a1220d525dc186c9cc4e0e6dc89f8e6e  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s6.pt  83d85f48b3d9d71a2bbb6eee599b6810d2bcd7c356eecb4b2ed51baf30bd7a85  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_correlated_P2_s7.pt  06df302121bf2f642a869dcb4f6a843676244443d920520a449c0be322ba7c09  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s0.pt  6f8995e7c988fbb1246df32c1d5e2910f8d3a0e3a97cf0af84998242f84c7572  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s1.pt  9b895042aff66f26a4744f2a120723487f49cc382cd5e087da5d93934c3774c7  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s2.pt  ddf5e3665a8863ee5e67a7e77cb5cc0e21d1b08f1cfea022e0358c843242245e  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s3.pt  11976a3b16c36f9d27a71479505ad20a97988808a002ed442cf729ee130dad30  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s4.pt  dd812e7c13e4fb9155a482d57899714346189ca2606269ce088173b255f7a5d3  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s5.pt  3ee21272da5118cd510403f55a55dfd419f55f32e359d73b6e5e0d3b419f1a5d  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s6.pt  a5c8661e52c2dcd0d3e7a9d092bd5998b66fd3ddbb6dced1116d980db59341b9  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P0_s7.pt  dc40db5ae2a8c5eccc23f66d9c332d100aec924811b24c516155bcd076836efd  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s0.pt  a7cccd0e18c680adb0dd97c1c7cf0aef0c1f83fbb766ea137bf661d1a9bd22b5  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s1.pt  3611a3be430730338824ace8e37010f3f236c01d29831e82f771b7885bcf28f2  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s2.pt  628e9c8ea69a0b33587a2fa1a56292d195ad22d021068c5e1e523e80b00a1a44  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s3.pt  a51c74f2cd95ad673b34cc8ad0e2d395b75554d66ed35537e85f8c63945f2e06  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s4.pt  d215b0ee56b4e4c5df9a92cd540d917c2c26b1713575dd6c37ef7f4ce534ca3d  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s5.pt  f612d11bc919cafb608c302141b12f0353975ecceb58b04b7bbbcd502bf47d1f  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s6.pt  b054a45ba85b7661704816fe5202bec2caf75366ec554e1a675f86d1e2c592a4  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P1_s7.pt  010f3121b16514dcc45584838718341399f2757af508a6672a90fb85312b1691  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s0.pt  663035425a336792bfa6878208fbe3e7645bdfafa911903ce4326e9378f22ade  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s1.pt  3ab21e0dff8df36d06ded25fdde4897f83afbaa21cab3518735b14a84f9e0541  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s2.pt  b8598fd686c3bb489c33a507385ddfd445159824626f60fef1f30da9a5a170f4  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s3.pt  9e857c299ce11cf0d05725322df49ed5333ab38401e15680fe28fe16180bee99  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s4.pt  1b3bd1609202655160b69b579ff178b2f074531909f8102466e5f8fd4b867510  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s5.pt  4ccb83c964cd1a957f7178fabc3b90dc33ee967ad188b2b410dab899d0c59a70  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s6.pt  be29e9fe2744eb9774368f988d66630cc0ec68a589bc77c6acb5f3e5a6666d6c  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
+gauge_weights/synth_independent_P2_s7.pt  4f703579289c4a0efb33e9a835ca29a91ad6fa3cfdfecbebc22322a1892881bf  paper2/synth.py  34cc321  gauge_weights_2026-10-03h.tar.gz
