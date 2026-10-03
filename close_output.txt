@@ -1,0 +1,141 @@
+DISCREPANCIES / choices (files win; see close_prereg.md):
+  K1 students start from the control-3 AdamW stage (530-2680 epochs); no 107-epoch weights exist for them
+  K2 Q covers all 66 edges (incl. the 2 salt edges per unit) + layers.0/1 SiLU base weights; biases, embedding unpenalised
+  K3 2 h wall-clock safety cap per run (as stage2), not in the brief
+  K6 'that mu' = mu converging the most models (ties: smallest); V2-V5 on models converged at that mu
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/delta_s0.pt (gauge_weights_2026-09-29.tar.gz) sha256 d051054904bb
+  verified gauge_weights/delta_s1.pt (gauge_weights_2026-09-29.tar.gz) sha256 55d5ec5506eb
+  verified gauge_weights/delta_s2.pt (gauge_weights_2026-09-29.tar.gz) sha256 f60758dbceb2
+  verified gauge_weights/delta_s3.pt (gauge_weights_2026-09-29.tar.gz) sha256 5189878b3320
+  verified gauge_weights/delta_s4.pt (gauge_weights_2026-09-29.tar.gz) sha256 8f3ab61b81cb
+  verified gauge_weights/delta_s5.pt (gauge_weights_2026-09-29.tar.gz) sha256 0e03d0ed0b6a
+  verified gauge_weights/control3_R_s115.pt (gauge_weights_2026-09-29.tar.gz) sha256 aa9db272a539
+  verified gauge_weights/control3_R_s104.pt (gauge_weights_2026-09-29.tar.gz) sha256 6d44cd9e2c62
+  verified gauge_weights/control3_R_s114.pt (gauge_weights_2026-09-29.tar.gz) sha256 649e4fa911cf
+  verified gauge_weights/fiber2_ind_0.pt (gauge_weights_2026-09-29b.tar.gz) sha256 058a9a5f116a
+  verified gauge_weights/fiber2_ind_1.pt (gauge_weights_2026-09-29b.tar.gz) sha256 de6f8726ecb1
+  verified gauge_weights/fiber2_ind_2.pt (gauge_weights_2026-09-29b.tar.gz) sha256 bcc37613356e
+  verified gauge_weights/fiber2_ind_3.pt (gauge_weights_2026-09-29b.tar.gz) sha256 0ccac0b33aa3
+  verified gauge_weights/fiber2_ind_4.pt (gauge_weights_2026-09-29b.tar.gz) sha256 38ae633cebb1
+  verified gauge_weights/fiber2_ind_5.pt (gauge_weights_2026-09-29b.tar.gz) sha256 b2208b146ffa
+  verified gauge_weights/stage2_A_ind_0.pt (gauge_weights_2026-10-02e.tar.gz) sha256 1c3702314478
+  verified gauge_weights/stage2_A_ind_1.pt (gauge_weights_2026-10-02e.tar.gz) sha256 9213b25e2115
+  verified gauge_weights/stage2_A_ind_2.pt (gauge_weights_2026-10-02e.tar.gz) sha256 2c320503ce07
+  verified gauge_weights/stage2_A_ind_3.pt (gauge_weights_2026-10-02e.tar.gz) sha256 35960ba573a0
+  verified gauge_weights/stage2_A_ind_4.pt (gauge_weights_2026-10-02e.tar.gz) sha256 5b5dc1d81a98
+  verified gauge_weights/stage2_A_ind_5.pt (gauge_weights_2026-10-02e.tar.gz) sha256 584afaa0c36a
+  21 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+  stage2 Part A final data terms (V2 reference): ind 0 8.1012e-03, ind 1 8.5272e-03, ind 2 9.1478e-03, ind 3 8.7143e-03, ind 4 8.6059e-03, ind 5 9.5383e-03
+
+==================== mu = 1e-06: trust-exact from the pre-runaway start ====================
+  ind 0: iteration cap (500) after 500 iters (1720.1 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.1347e-03 (start 1.7993e-02); penalty 2.692e-04; mu*Q 4.950e-04; ||theta||^2 532.4 (26.94 x start); max|grad| 9.4e-04; neg eigs 8; cross-edge 3.73; saturated 0.113
+      ||theta||^2 per block: layer-1 RBF 157.8, layer-2 RBF 147.3, SiLU base 190.9, biases 16.2, salt embedding 20.3
+  ind 1: iteration cap (500) after 500 iters (1704.0 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.4638e-03 (start 1.7491e-02); penalty 3.708e-04; mu*Q 4.255e-04; ||theta||^2 466.8 (21.17 x start); max|grad| 3.3e-05; neg eigs 1; cross-edge 4.38; saturated 0.123
+      ||theta||^2 per block: layer-1 RBF 118.1, layer-2 RBF 117.1, SiLU base 191.2, biases 13.8, salt embedding 26.6
+  ind 2: iteration cap (500) after 500 iters (1697.5 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.8976e-03 (start 1.8843e-02); penalty 5.238e-04; mu*Q 4.004e-04; ||theta||^2 423.0 (30.58 x start); max|grad| 1.1e-04; neg eigs 1; cross-edge 5.70; saturated 0.006
+      ||theta||^2 per block: layer-1 RBF 123.8, layer-2 RBF 153.5, SiLU base 125.1, biases 9.3, salt embedding 11.3
+  ind 3: iteration cap (500) after 500 iters (1716.6 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.6065e-03 (start 1.5996e-02); penalty 2.917e-04; mu*Q 4.144e-04; ||theta||^2 459.7 (31.49 x start); max|grad| 6.7e-03; neg eigs 9; cross-edge 4.00; saturated 0.115
+      ||theta||^2 per block: layer-1 RBF 148.0, layer-2 RBF 120.7, SiLU base 147.0, biases 19.8, salt embedding 24.3
+  ind 4: iteration cap (500) after 500 iters (1692.7 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.2711e-03 (start 1.7860e-02); penalty 3.254e-04; mu*Q 5.134e-04; ||theta||^2 623.8 (31.35 x start); max|grad| 3.3e-06; neg eigs 0; cross-edge 3.77; saturated 0.125
+      ||theta||^2 per block: layer-1 RBF 261.7, layer-2 RBF 102.7, SiLU base 150.3, biases 81.4, salt embedding 27.6
+  ind 5: iteration cap (500) after 500 iters (1764.4 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.2049e-03 (start 1.8568e-02); penalty 3.257e-04; mu*Q 4.685e-04; ||theta||^2 546.3 (23.53 x start); max|grad| 1.4e-04; neg eigs 3; cross-edge 3.20; saturated 0.152
+      ||theta||^2 per block: layer-1 RBF 165.7, layer-2 RBF 144.6, SiLU base 159.3, biases 44.1, salt embedding 32.5
+  stu 115: iteration cap (500) after 500 iters (1754.9 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 6.5873e-05 (start 2.1601e-04); penalty 2.937e-05; mu*Q 4.397e-05; ||theta||^2 82.9 (5.99 x start); max|grad| 4.4e-05; neg eigs 4; cross-edge 3.39; saturated 0.001
+      ||theta||^2 per block: layer-1 RBF 16.3, layer-2 RBF 12.4, SiLU base 15.3, biases 11.1, salt embedding 27.7
+  stu 104: scipy termination after 429 iters (1464.3 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 5.5558e-05 (start 2.1734e-04); penalty 2.586e-05; mu*Q 4.021e-05; ||theta||^2 426.3 (14.93 x start); max|grad| 6.7e-13; neg eigs 0; cross-edge 2.44; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 17.8, layer-2 RBF 9.4, SiLU base 13.1, biases 7.7, salt embedding 378.3
+  stu 114: iteration cap (500) after 500 iters (1724.6 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 7.7871e-05 (start 2.1742e-04); penalty 1.844e-05; mu*Q 3.959e-05; ||theta||^2 72.7 (4.48 x start); max|grad| 1.0e-04; neg eigs 8; cross-edge 2.85; saturated 0.001
+      ||theta||^2 per block: layer-1 RBF 14.6, layer-2 RBF 12.5, SiLU base 12.6, biases 4.9, salt embedding 28.1
+
+==================== mu = 1e-05: trust-exact from the pre-runaway start ====================
+  ind 0: iteration cap (500) after 500 iters (1649.1 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.8879e-03 (start 1.7993e-02); penalty 8.292e-04; mu*Q 6.797e-04; ||theta||^2 272.6 (13.80 x start); max|grad| 9.7e-11; neg eigs 0; cross-edge 2.84; saturated 0.025
+      ||theta||^2 per block: layer-1 RBF 31.3, layer-2 RBF 16.8, SiLU base 23.5, biases 9.7, salt embedding 191.3
+  ind 1: iteration cap (500) after 500 iters (1632.1 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 9.7525e-03 (start 1.7491e-02); penalty 7.571e-04; mu*Q 7.973e-04; ||theta||^2 189.5 (8.59 x start); max|grad| 1.4e-05; neg eigs 0; cross-edge 3.53; saturated 0.088
+      ||theta||^2 per block: layer-1 RBF 32.4, layer-2 RBF 25.8, SiLU base 24.7, biases 12.4, salt embedding 94.2
+  ind 2: iteration cap (500) after 500 iters (1718.1 s) | scipy: Maximum number of iterations has been exceeded.
+      converged False; data 1.0247e-02 (start 1.8843e-02); penalty 7.334e-04; mu*Q 7.642e-04; ||theta||^2 119.5 (8.64 x start); max|grad| 4.5e-04; neg eigs 4; cross-edge 3.03; saturated 0.029
+      ||theta||^2 per block: layer-1 RBF 35.9, layer-2 RBF 26.4, SiLU base 17.4, biases 16.7, salt embedding 23.1
+  ind 3: scipy termination after 378 iters (1283.6 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.0450e-02 (start 1.5996e-02); penalty 8.107e-04; mu*Q 5.488e-04; ||theta||^2 196.4 (13.45 x start); max|grad| 4.6e-12; neg eigs 0; cross-edge 2.97; saturated 0.023
+      ||theta||^2 per block: layer-1 RBF 22.5, layer-2 RBF 19.6, SiLU base 16.2, biases 13.3, salt embedding 124.9
+  ind 4: scipy termination after 362 iters (1238.7 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 9.8822e-03 (start 1.7860e-02); penalty 9.139e-04; mu*Q 7.928e-04; ||theta||^2 856.7 (43.05 x start); max|grad| 1.1e-12; neg eigs 0; cross-edge 3.68; saturated 0.024
+      ||theta||^2 per block: layer-1 RBF 44.9, layer-2 RBF 17.0, SiLU base 21.7, biases 10.0, salt embedding 763.2
+  ind 5: scipy termination after 235 iters (748.7 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.0711e-02 (start 1.8568e-02); penalty 8.104e-04; mu*Q 4.996e-04; ||theta||^2 520.2 (22.41 x start); max|grad| 7.3e-13; neg eigs 0; cross-edge 2.22; saturated 0.016
+      ||theta||^2 per block: layer-1 RBF 26.1, layer-2 RBF 12.3, SiLU base 15.0, biases 11.8, salt embedding 455.0
+  stu 115: scipy termination after 292 iters (946.2 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 9.1050e-05 (start 2.1601e-04); penalty 8.351e-05; mu*Q 1.065e-04; ||theta||^2 410.3 (29.68 x start); max|grad| 5.5e-13; neg eigs 0; cross-edge 3.07; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.5, layer-2 RBF 3.0, SiLU base 2.5, biases 3.6, salt embedding 395.7
+  stu 104: scipy termination after 290 iters (950.2 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 8.6181e-05 (start 2.1734e-04); penalty 8.410e-05; mu*Q 1.077e-04; ||theta||^2 346.7 (12.14 x start); max|grad| 4.2e-13; neg eigs 0; cross-edge 3.20; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.7, layer-2 RBF 2.8, SiLU base 2.7, biases 2.6, salt embedding 333.0
+  stu 114: scipy termination after 360 iters (1258.5 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 9.1532e-05 (start 2.1742e-04); penalty 8.674e-05; mu*Q 1.024e-04; ||theta||^2 336.0 (20.69 x start); max|grad| 1.0e-12; neg eigs 0; cross-edge 2.63; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.4, layer-2 RBF 2.2, SiLU base 3.1, biases 1.8, salt embedding 323.5
+
+==================== mu = 0.0001: trust-exact from the pre-runaway start ====================
+  ind 0: scipy termination after 193 iters (722.1 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.1230e-02 (start 1.7993e-02); penalty 1.324e-03; mu*Q 5.801e-04; ||theta||^2 315.5 (15.97 x start); max|grad| 6.4e-13; neg eigs 0; cross-edge 2.60; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.2, layer-2 RBF 5.5, SiLU base 1.8, biases 1.8, salt embedding 301.2
+  ind 1: scipy termination after 152 iters (535.5 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.1070e-02 (start 1.7491e-02); penalty 1.574e-03; mu*Q 5.639e-04; ||theta||^2 336.1 (15.24 x start); max|grad| 1.1e-12; neg eigs 0; cross-edge 2.20; saturated 0.001
+      ||theta||^2 per block: layer-1 RBF 5.7, layer-2 RBF 5.9, SiLU base 1.8, biases 2.8, salt embedding 319.9
+  ind 2: scipy termination after 243 iters (980.1 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.1310e-02 (start 1.8843e-02); penalty 1.475e-03; mu*Q 4.768e-04; ||theta||^2 158.1 (11.43 x start); max|grad| 9.5e-13; neg eigs 0; cross-edge 2.90; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 4.5, layer-2 RBF 6.0, SiLU base 1.2, biases 2.9, salt embedding 143.5
+  ind 3: scipy termination after 180 iters (682.3 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.0941e-02 (start 1.5996e-02); penalty 1.469e-03; mu*Q 5.603e-04; ||theta||^2 32.7 (2.24 x start); max|grad| 2.7e-12; neg eigs 0; cross-edge 2.85; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.6, layer-2 RBF 5.4, SiLU base 1.8, biases 0.7, salt embedding 19.2
+  ind 4: scipy termination after 233 iters (914.0 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.1038e-02 (start 1.7860e-02); penalty 1.501e-03; mu*Q 5.871e-04; ||theta||^2 34.7 (1.74 x start); max|grad| 1.4e-11; neg eigs 0; cross-edge 2.63; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 5.9, layer-2 RBF 5.3, SiLU base 1.7, biases 0.5, salt embedding 21.4
+  ind 5: scipy termination after 226 iters (897.6 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.0992e-02 (start 1.8568e-02); penalty 1.492e-03; mu*Q 6.729e-04; ||theta||^2 37.4 (1.61 x start); max|grad| 3.2e-10; neg eigs 0; cross-edge 2.16; saturated 0.005
+      ||theta||^2 per block: layer-1 RBF 6.3, layer-2 RBF 5.8, SiLU base 2.0, biases 2.3, salt embedding 21.0
+  stu 115: scipy termination after 128 iters (493.6 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.3640e-04 (start 2.1601e-04); penalty 2.851e-04; mu*Q 1.585e-04; ||theta||^2 137.6 (9.95 x start); max|grad| 4.8e-13; neg eigs 0; cross-edge 2.45; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 1.8, layer-2 RBF 1.1, SiLU base 0.3, biases 0.8, salt embedding 133.6
+  stu 104: scipy termination after 149 iters (572.6 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.4028e-04 (start 2.1734e-04); penalty 2.750e-04; mu*Q 1.642e-04; ||theta||^2 25.4 (0.89 x start); max|grad| 1.2e-12; neg eigs 0; cross-edge 2.67; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 1.7, layer-2 RBF 1.1, SiLU base 0.3, biases 1.6, salt embedding 20.6
+  stu 114: scipy termination after 181 iters (656.5 s) | scipy: A bad approximation caused failure to predict improvement.
+      converged False; data 1.2904e-04 (start 2.1742e-04); penalty 2.724e-04; mu*Q 1.551e-04; ||theta||^2 157.8 (9.72 x start); max|grad| 6.9e-13; neg eigs 0; cross-edge 2.46; saturated 0.000
+      ||theta||^2 per block: layer-1 RBF 1.7, layer-2 RBF 1.0, SiLU base 0.4, biases 1.1, salt embedding 153.7
+
+  converged: mu 1e-06: 0/9 []; mu 1e-05: 0/9 []; mu 0.0001: 0/9 []
+  selected mu (most converged; ties smallest): 1e-06
+
+==================== accuracy: fold A, mu = 1e-06 ====================
+  fold A seed 0: iteration cap (500) after 500 iters; converged False
+  fold A seed 1: iteration cap (500) after 500 iters; converged False
+  fold A seed 2: iteration cap (500) after 500 iters; converged False
+  fold A seed 3: iteration cap (500) after 500 iters; converged False
+  fold A seed 4: iteration cap (500) after 500 iters; converged False
+  fold A RMSE 1.0262, bias +0.9028  (KAN-delta 0.1420)
+
+VERDICTS: V1: failed (mu 1e-06: 0/6 seeds, 0/3 students, mu 1e-05: 0/6 seeds, 0/3 students, mu 0.0001: 0/6 seeds, 0/3 students); V2: inconclusive (no seed converged at mu 1e-06); V3: inconclusive (nothing converged at mu 1e-06); V4: inconclusive (0 seed(s) converged); V5: inconclusive (no student converged); V6: failed (RMSE 1.0262, bias +0.9028)
+
+==================== POST-HOC (descriptive, not verdicts) ====================
+  numerically stationary = max|grad| < 1e-7 AND smallest eigenvalue >= -1e-8 x largest (criteria a and c; b not required)
+  mu 1e-06: numerically stationary 1/9 (0/6 seeds, 1/3 students); certified 0/9; rel10 of stationary runs 1.0e-08-1.0e-08
+  mu 1e-05: numerically stationary 7/9 (4/6 seeds, 3/3 students); certified 0/9; rel10 of stationary runs 3.8e-11-4.2e-08
+      stationary seeds: data / stage2-A data 1.123-1.221; ||theta||^2 / start 13.45-43.05
+  mu 0.0001: numerically stationary 9/9 (6/6 seeds, 3/3 students); certified 0/9; rel10 of stationary runs 2.3e-10-4.1e-04
+      stationary seeds: data / stage2-A data 1.152-1.386; ||theta||^2 / start 1.61-15.97
+  fold A diagnostic (same code, mu = 1e-6): unpolished 107-epoch ensemble RMSE 0.1420 (= KAN-delta); per seed unpolished
+  0.1375-0.1987 -> polished 0.5735-2.6883 (biases +0.03 to +2.45); training-row delta RMSE 0.124-0.141 -> 0.085-0.089;
+  held-out max |delta| 0.90-1.17 -> 2.42-6.81. Polishing improves the training fit and destroys held-out accuracy: not a code error.

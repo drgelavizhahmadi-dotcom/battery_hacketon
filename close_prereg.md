@@ -74,3 +74,60 @@ unchanged. No further stages follow.
 
 Outputs: `close.py`, `close_output.txt`, `close_results.json`, `figs/close/`. Weights go in
 `gauge_weights/close_*` and are not committed.
+
+---
+
+## Verdicts (appended after the run; `close_output.txt`, `close_results.json`, `figs/close/close_grad.png`)
+
+The run completed without crashes. All inputs were SHA-256-verified and held in memory, and the 2 h
+safety cap never bound. The scripted verdicts are official.
+
+| Prediction | Verdict | Key number |
+|---|---|---|
+| **V1** at some μ: ≥ 4/6 seeds and ≥ 2/3 students converge | **failed** | 0/9 certified at every μ (1e-6, 1e-5, 1e-4) |
+| **V2** selected μ: converged seeds' data ≤ 1.05 × stage2 A | **inconclusive** | no seed certified at the selected μ = 1e-6 |
+| **V3** selected μ: ‖θ‖² ≤ 10 × start | **inconclusive** | nothing certified at μ = 1e-6 |
+| **V4** median d_AB ≤ 0.5 × capped | **inconclusive** | 0 seeds certified |
+| **V5** students' unit match ≥ 0.8 | **inconclusive** | 0 students certified |
+| **V6** fold A RMSE ≤ 0.150 | **failed** | **RMSE 1.0262, bias +0.9028** (KAN-delta 0.1420) |
+
+**Selected μ: 1e-6,** by the K6 tie rule. There were 0 certified models at every μ, so the smallest wins.
+
+**Interpretation branch, by the pre-registered rules:** **V1 failed, so "the penalty's null space is not
+sufficient; the data-side freedom or saturation sustains the runaway".** The descriptive evidence below
+does not support that reading well; see the caveat.
+
+### Descriptive notes (not verdicts)
+- **Certification versus numerical stationarity.** A run is numerically stationary when max|grad| < 1e-7
+  and it has no significant negative curvature: criteria (a) and (c), without (b).
+  - μ = 1e-6: 1/9 (student 104).
+  - μ = 1e-5: **7/9** (seeds 0, 3, 4, 5 and all 3 students).
+  - μ = 1e-4: **9/9**.
+  - Every one of them fails only criterion (b), with relative change over 10 iterations of 3.8e-11 to
+    4.1e-4, against 1e-12 required.
+  - The reason is mechanical. Once the gradient is very small, scipy's trust-exact stops ("A bad
+    approximation caused failure to predict improvement") within 1–12 iterations of max|grad|
+    falling below 1e-7, so 10 stationary iterations never accumulate. Seed 0 at μ = 1e-5 instead
+    reached it at iteration 493 of 500. The same thing happened in stage2.
+  - **Read on numerical stationarity alone, V1's thresholds would be met** at μ = 1e-5 (4/6 seeds,
+    3/3 students) and at μ = 1e-4 (6/6, 3/3). Under the pre-registered criterion, V1 failed.
+- **Fit cost at the stationary points:** the seeds' data term is **1.12–1.22 ×** their stage2 Part A
+  value at μ = 1e-5, and **1.15–1.39 ×** at μ = 1e-4. That is above V2's 1.05 at both. For the students,
+  the data term is 2.4–3.8 × their capped fit.
+- **Norm at the stationary points:** ‖θ‖² / start is 13–43 × at μ = 1e-5 and **1.6–16 ×** at μ = 1e-4,
+  where 3 of 6 seeds stay under 10 ×. In the original runaway, start to capped, it was about
+  150–1550 ×.
+- **The cross-edge cancellation ratio** falls from 4–10 (runaway) to about 2.2–2.9 at μ = 1e-4, and
+  saturation from 12–39% to ≤ 0.5%.
+- **Taken together:** numerically, closing the null space yields stationary points of bounded (though
+  not always small) norm, at a fit cost of 12–39%. That is closest to the branch "V1 and V3 hold, V2
+  fails: closing the null space works, but the runaway was buying real fit". **This was not
+  established under the pre-registered criteria**, and the official branch is the V1-fails branch.
+- **The fold A result is a real effect, not a code error.**
+  - With the same code, the unpolished 107-epoch fold A ensemble gives RMSE 0.1420, the KAN-delta value.
+  - Polishing at μ = 1e-6 lowers the training-row delta RMSE from 0.124–0.141 to 0.085–0.089, but
+    raises the held-out RMSE per seed from 0.138–0.199 to 0.57–2.69 (biases +0.03 to +2.45).
+  - The largest held-out |delta| grows from 0.90–1.17 to 2.42–6.81.
+  - **Optimising further than 107 AdamW epochs, at the selected μ, overfits the training support and
+    extrapolates badly to the unseen co-solvent (EA).** Early stopping at 107 epochs was doing the work
+    of a regulariser.
