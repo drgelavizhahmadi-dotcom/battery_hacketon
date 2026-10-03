@@ -143,3 +143,73 @@ They are replaced by the function-space criteria below.
 
 Weights go in `gauge_weights/synth_*` (git-ignored) and are not committed. The data are generated in
 memory from fixed seeds and nothing is re-read from disk.
+
+---
+
+## Verdicts (appended after the run; `paper2/synth_output.txt`, `paper2/synth_results.json`, `paper2/figs/`)
+
+**Step 0 (calibration, no verdicts).**
+- **Teacher:** accepted in round 0 (frequency scale 1.0). Its D2 term is 8.0e-4, its SiLU curvature
+  term 4.0e-4, and Q 5.67. σ is 2.86e-2 (independent) and 2.47e-2 (correlated).
+- **Acceptance polishes:** the RMS prediction change was 7.7e-3 – 8.9e-3, all under 0.5σ.
+  - Independent P0 and P1: certified, with ‖θ‖² growth of ×7.5 and ×5.9.
+  - Correlated P0 and P1: **not certified** (iteration cap), with ‖θ‖² growth of **×85 and ×1069**,
+    although the function stayed within 0.5σ.
+- **References, by the pre-registered rule:**
+  - independent P0 and P1: the certified polished teacher;
+  - correlated P0 and P1: the original teacher;
+  - P2 cells: the certified regularised teacher.
+- **μ calibration:**
+  - μ = 1e-6: the regularised teacher passed, but the pilot's maximum growth was ×5.03, so it **failed**.
+  - **μ = 1e-5: passed** (regularised teacher certified, within 7.2e-3 – 8.6e-3; pilot maximum growth
+    ×1.32). **Frozen at μ = 1e-5.** The pilots are calibration only.
+
+**Cell summary (Step 1 and Step 2; medians over 8 seeds):**
+
+| Cell | ‖θ‖² polished/early | Certified | Cross-edge (polished) | Off-manifold RMSE polished/early | Unit match | Edge match | d_AB | Reference |
+|---|---|---|---|---|---|---|---|---|
+| independent P0 | 12.49 | 6/8 | 1.60 | 1.20 | 1.000 | 1.000 | 0.0035 | polished teacher (certified) |
+| independent P1 | 7.89 | 6/8 | 2.72 | 0.97 | 1.000 | 1.000 | 0.0046 | polished teacher (certified) |
+| independent P2 | 1.09 | 8/8 | 1.88 | 0.95 | 1.000 | 1.000 | 0.0001 | regularised teacher (certified) |
+| correlated P0 | **65.71** | **0/8** | 3.29 | 1.22 | 0.774 | 0.953 | 0.0129 | original teacher |
+| correlated P1 | **32.13** | **0/8** | 2.32 | 0.77 | 0.883 | 0.980 | 0.0134 | original teacher |
+| correlated P2 | 1.00 | 8/8 | 1.99 | 0.78 | 1.000 | 1.000 | 0.0001 | regularised teacher (certified) |
+
+| Prediction | Verdict | Key number |
+|---|---|---|
+| **X1** runaway (≥ 10) in correlated P0 and P1; ≤ 3 in the three independent cells and correlated P2 | **failed** | Correlated P0 ×65.7 and P1 ×32.1, and P2 ×1.00, as predicted. **But independent P0 ×12.5 and P1 ×7.9 exceed 3** (independent P2 ×1.09) |
+| **X2** certified ≤ 2/8 in correlated P0 and P1; ≥ 6/8 elsewhere | **held** | correlated P0 0/8, P1 0/8; independent 6/8, 6/8, 8/8; correlated P2 8/8 |
+| **X3** cancellation in correlated P0 and P1 each ≥ 2 × correlated P2 | **failed** | P0 3.29 and P1 2.32, against 2 × 1.99 = 3.98 |
+| **X4** off-manifold ratio ≥ 3 in correlated P0 and P1, ≤ 1.5 in P2 | **failed** | P0 1.22, P1 **0.77**; P2 0.78 (the P2 part held) |
+| **X5** Spearman(cancellation, off-manifold RMSE) ≥ 0.6 over the 24 correlated models | **failed** | ρ = +0.177, p = 0.407 |
+| **X6** unit match ≥ 0.85 in the independent cells and correlated P2; < 0.7 in correlated P0 and P1 | **failed** | The first part held: 1.000 in all four no-runaway-predicted cells. **The second part failed: correlated P0 0.774 and P1 0.883 are not < 0.7** |
+
+Commits: prereg `dfd281d` → results (the commit that adds this section).
+
+**Interpretation, by the pre-registered rules:**
+- **"X1–X3 hold"** does not apply.
+- **"Correlated P0 runs away but correlated P1 does not"** does not apply: both run away (0/8 certified,
+  ×66 and ×32).
+- **"Any independent cell runs away"** applies formally. By X1's own runaway threshold (≥ 10),
+  independent P0 (×12.5) qualifies, so by the rule **correlated inputs are not necessary.**
+  - Caveat: 6 of 8 independent-P0 models grow to **certified** finite minima (×7–15), and only seeds
+    0 and 4 grow without bound (×703 and ×170). In the correlated P0 and P1 cells, 0 of 16 are
+    certified.
+- **"Correlated P2 runs away"** does not apply: ×1.00, 8/8 certified. Closing the RBF null space
+  prevented growth in both conditions.
+- **X4 and X5 both failed,** so neither extrapolation rule applies, and this is reported as found.
+  **In this setting, polishing did not degrade off-manifold extrapolation**: median ratios 0.77–1.22,
+  and correlated P1 improved.
+- **X6's rule maps failure to "non-identifiability persists beyond the runaway". The data contradict that
+  reading.** X6 failed only because the *runaway* cells matched the original teacher *better* than
+  predicted (0.774 and 0.883 against < 0.7). Every cell without a runaway recovered the reference's
+  internals exactly (unit and edge match 1.000, d_AB about 1e-4). The verdict stays **failed**, as
+  recorded.
+
+Descriptive notes (not verdicts):
+- **The P2 cells are fully identifiable here.** All seeds land on the same certified minimum as the
+  regularised teacher (d_AB about 1e-4). In the real electrolyte data, certified seeds still differed
+  (certify W2).
+- **Under correlated inputs, the early-stopped models already extrapolate several times worse** than
+  under independent inputs: off-manifold RMSE about 0.05–0.17, against about 0.01. Most of the
+  off-manifold error is in place before any polishing.

@@ -1,0 +1,85 @@
+####################################################################################################
+paper2/synth run 2026-10-03 18:34:51 (see paper2/synth_prereg.md)
+DISCREPANCIES / choices (files win):
+  kan.KAN always adds a salt embedding -> SynthKAN = two kan.KANLayers with tanh between them, no embedding
+  inputs N(0,1)/3 then clipped to the grid range [-1,1] (clipping N(0,1) directly would put ~32% on the boundary)
+  an extra 2000-row validation split for early stopping (the brief's test rows stay untouched)
+  P2's Q holds only the RBF null-space part (SiLU already penalised in P1), unlike close.py's Q; P2 uses mu*Q in BOTH stages
+  K_silu = (30 + pi^2)/90 = 0.44300 (real-line integral; over [-1,1] it would be 0.373)
+  independent: realised corr(x1,x2) -0.031, corr(x3,x4) 0.030; clipped 0.0027
+  correlated: realised corr(x1,x2) 0.952, corr(x3,x4) 0.951; clipped 0.0024
+
+==================== STEP 0: teacher, acceptance, mu calibration (calibration only; no verdicts) ====================
+  round 0 (frequency scale 1.000) independent P0: RMS prediction change 8.59e-03 vs 0.5 sigma 1.43e-02 -> ok; scipy termination after 88 iters; certified True; ||theta||^2 growth x7.46
+  round 0 (frequency scale 1.000) independent P1: RMS prediction change 8.89e-03 vs 0.5 sigma 1.43e-02 -> ok; scipy termination after 59 iters; certified True; ||theta||^2 growth x5.93
+  round 0 (frequency scale 1.000) correlated  P0: RMS prediction change 7.73e-03 vs 0.5 sigma 1.23e-02 -> ok; iteration cap (500) after 500 iters; certified False; ||theta||^2 growth x84.72
+  round 0 (frequency scale 1.000) correlated  P1: RMS prediction change 8.33e-03 vs 0.5 sigma 1.23e-02 -> ok; iteration cap (500) after 500 iters; certified False; ||theta||^2 growth x1069.44
+  teacher accepted at frequency scale 1.000: D2 term 8.015e-04, SiLU curvature term 3.982e-04, Q 5.669; independent: std(output) 0.572, sigma 2.858e-02; correlated: std(output) 0.493, sigma 2.467e-02
+  mu 1e-06 regularised teacher independent: RMS change 8.76e-03 (0.5 sigma 1.43e-02); certified True
+  mu 1e-06 regularised teacher correlated : RMS change 7.13e-03 (0.5 sigma 1.23e-02); certified True
+  mu 1e-06 pilot (calibration only, seeds 100-107, correlated-P2): max ||theta||^2 growth x5.03 -> FAIL
+  mu 1e-05 regularised teacher independent: RMS change 8.55e-03 (0.5 sigma 1.43e-02); certified True
+  mu 1e-05 regularised teacher correlated : RMS change 7.19e-03 (0.5 sigma 1.23e-02); certified True
+  mu 1e-05 pilot (calibration only, seeds 100-107, correlated-P2): max ||theta||^2 growth x1.32 -> ok
+  FROZEN: mu = 1e-05; teacher frequency scale 1.000; data seeds 1000-5001
+  references: independent|P0: polished teacher (certified), independent|P1: polished teacher (certified), independent|P2: regularised teacher (certified), correlated|P0: original teacher, correlated|P1: original teacher, correlated|P2: regularised teacher (certified)
+
+==================== STEP 1: training (48 models) ====================
+  independent_P0_s0      early ep  5563 | iteration cap (500) 500 it | certified False | ||theta||^2      12.3 ->     8649.7 (x702.76) | cross-edge 1.66 -> 1.57 | sat 0.000 | off-RMSE 0.0258 -> 0.0289 | in-RMSE 0.0249 -> 0.0286
+  independent_P0_s1      early ep  2777 | converged (stage2 criterion)  70 it | certified True  | ||theta||^2       6.4 ->       95.6 (x15.01) | cross-edge 1.80 -> 1.52 | sat 0.000 | off-RMSE 0.0101 -> 0.0134 | in-RMSE 0.0099 -> 0.0111
+  independent_P0_s2      early ep  3811 | scipy termination  80 it | certified True  | ||theta||^2       6.2 ->       95.6 (x15.48) | cross-edge 1.87 -> 1.52 | sat 0.000 | off-RMSE 0.0101 -> 0.0134 | in-RMSE 0.0096 -> 0.0111
+  independent_P0_s3      early ep  6329 | scipy termination  59 it | certified True  | ||theta||^2       9.2 ->       91.7 (x9.98) | cross-edge 1.83 -> 1.55 | sat 0.000 | off-RMSE 0.0104 -> 0.0134 | in-RMSE 0.0096 -> 0.0111
+  independent_P0_s4      early ep  2844 | iteration cap (500) 500 it | certified False | ||theta||^2      10.2 ->     1740.7 (x170.32) | cross-edge 1.84 -> 4.01 | sat 0.000 | off-RMSE 0.0495 -> 0.0449 | in-RMSE 0.0492 -> 0.0461
+  independent_P0_s5      early ep  5255 | scipy termination  84 it | certified True  | ||theta||^2       7.2 ->       55.8 (x7.73) | cross-edge 2.37 -> 1.62 | sat 0.000 | off-RMSE 0.0113 -> 0.0127 | in-RMSE 0.0111 -> 0.0104
+  independent_P0_s6      early ep  3161 | scipy termination  68 it | certified True  | ||theta||^2       8.5 ->       75.6 (x8.92) | cross-edge 2.05 -> 1.62 | sat 0.000 | off-RMSE 0.0147 -> 0.0128 | in-RMSE 0.0144 -> 0.0103
+  independent_P0_s7      early ep  4008 | scipy termination  69 it | certified True  | ||theta||^2       7.8 ->       55.8 (x7.18) | cross-edge 1.81 -> 1.62 | sat 0.000 | off-RMSE 0.0097 -> 0.0127 | in-RMSE 0.0094 -> 0.0104
+  independent_P1_s0      early ep  3409 | iteration cap (500) 500 it | certified False | ||theta||^2      10.1 ->     2383.3 (x235.14) | cross-edge 1.64 -> 2.13 | sat 0.000 | off-RMSE 0.0261 -> 0.0278 | in-RMSE 0.0250 -> 0.0261
+  independent_P1_s1      early ep  2597 | scipy termination  59 it | certified True  | ||theta||^2       6.5 ->       44.0 (x6.73) | cross-edge 1.78 -> 2.83 | sat 0.000 | off-RMSE 0.0105 -> 0.0104 | in-RMSE 0.0103 -> 0.0102
+  independent_P1_s2      early ep  3727 | scipy termination  51 it | certified True  | ||theta||^2       6.7 ->       44.0 (x6.56) | cross-edge 1.82 -> 2.83 | sat 0.000 | off-RMSE 0.0109 -> 0.0104 | in-RMSE 0.0099 -> 0.0102
+  independent_P1_s3      early ep  6541 | scipy termination  57 it | certified True  | ||theta||^2       8.1 ->       44.0 (x5.41) | cross-edge 1.95 -> 2.84 | sat 0.000 | off-RMSE 0.0105 -> 0.0104 | in-RMSE 0.0096 -> 0.0102
+  independent_P1_s4      early ep  3409 | iteration cap (500) 500 it | certified False | ||theta||^2       8.3 ->    12832.5 (x1538.23) | cross-edge 2.05 -> 2.29 | sat 0.000 | off-RMSE 0.0485 -> 0.0483 | in-RMSE 0.0499 -> 0.0467
+  independent_P1_s5      early ep  3694 | converged (stage2 criterion)  91 it | certified True  | ||theta||^2       8.5 ->       81.0 (x9.57) | cross-edge 2.06 -> 2.61 | sat 0.000 | off-RMSE 0.0142 -> 0.0102 | in-RMSE 0.0141 -> 0.0099
+  independent_P1_s6      early ep  3423 | converged (stage2 criterion)  94 it | certified True  | ||theta||^2       8.9 ->       80.9 (x9.04) | cross-edge 1.96 -> 2.61 | sat 0.000 | off-RMSE 0.0158 -> 0.0102 | in-RMSE 0.0147 -> 0.0099
+  independent_P1_s7      early ep  2574 | scipy termination  58 it | certified True  | ||theta||^2       8.3 ->       43.8 (x5.27) | cross-edge 1.65 -> 2.83 | sat 0.000 | off-RMSE 0.0112 -> 0.0104 | in-RMSE 0.0104 -> 0.0102
+  independent_P2_s0      early ep  3457 | scipy termination  48 it | certified True  | ||theta||^2       9.3 ->        9.5 (x1.03) | cross-edge 1.70 -> 2.01 | sat 0.000 | off-RMSE 0.0261 -> 0.0276 | in-RMSE 0.0251 -> 0.0261
+  independent_P2_s1      early ep  2818 | scipy termination  40 it | certified True  | ||theta||^2       6.4 ->        7.4 (x1.16) | cross-edge 1.76 -> 1.88 | sat 0.000 | off-RMSE 0.0102 -> 0.0097 | in-RMSE 0.0101 -> 0.0093
+  independent_P2_s2      early ep  3592 | scipy termination  28 it | certified True  | ||theta||^2       6.4 ->        7.4 (x1.15) | cross-edge 1.81 -> 1.88 | sat 0.000 | off-RMSE 0.0108 -> 0.0097 | in-RMSE 0.0098 -> 0.0093
+  independent_P2_s3      early ep  5962 | scipy termination  28 it | certified True  | ||theta||^2       7.4 ->        7.4 (x1.00) | cross-edge 1.98 -> 1.88 | sat 0.000 | off-RMSE 0.0107 -> 0.0097 | in-RMSE 0.0100 -> 0.0093
+  independent_P2_s4      early ep  3650 | scipy termination  62 it | certified True  | ||theta||^2       7.8 ->        8.9 (x1.14) | cross-edge 2.10 -> 1.78 | sat 0.000 | off-RMSE 0.0485 -> 0.0483 | in-RMSE 0.0497 -> 0.0474
+  independent_P2_s5      early ep  7168 | scipy termination  38 it | certified True  | ||theta||^2       6.7 ->        7.4 (x1.10) | cross-edge 2.48 -> 1.88 | sat 0.000 | off-RMSE 0.0108 -> 0.0097 | in-RMSE 0.0106 -> 0.0092
+  independent_P2_s6      early ep  8418 | scipy termination  23 it | certified True  | ||theta||^2       6.8 ->        7.4 (x1.09) | cross-edge 2.07 -> 1.88 | sat 0.000 | off-RMSE 0.0102 -> 0.0097 | in-RMSE 0.0096 -> 0.0092
+  independent_P2_s7      early ep  4231 | scipy termination  34 it | certified True  | ||theta||^2       7.9 ->        7.4 (x0.94) | cross-edge 1.88 -> 1.88 | sat 0.000 | off-RMSE 0.0103 -> 0.0097 | in-RMSE 0.0096 -> 0.0092
+  correlated_P0_s0       early ep  9988 | iteration cap (500) 500 it | certified False | ||theta||^2      12.9 ->     1895.1 (x146.43) | cross-edge 1.64 -> 7.50 | sat 0.000 | off-RMSE 0.0757 -> 0.0945 | in-RMSE 0.0092 -> 0.0112
+  correlated_P0_s1       early ep  6839 | iteration cap (500) 500 it | certified False | ||theta||^2       8.4 ->     8101.9 (x962.47) | cross-edge 1.53 -> 1.53 | sat 0.000 | off-RMSE 0.0602 -> 0.0893 | in-RMSE 0.0092 -> 0.0100
+  correlated_P0_s2       early ep  4755 | iteration cap (500) 500 it | certified False | ||theta||^2       8.6 ->      353.8 (x41.03) | cross-edge 1.57 -> 4.78 | sat 0.000 | off-RMSE 0.0727 -> 0.0892 | in-RMSE 0.0087 -> 0.0091
+  correlated_P0_s3       early ep 10000 | iteration cap (500) 500 it | certified False | ||theta||^2      11.8 ->      274.4 (x23.35) | cross-edge 1.41 -> 4.46 | sat 0.000 | off-RMSE 0.0544 -> 0.0802 | in-RMSE 0.0090 -> 0.0106
+  correlated_P0_s4       early ep  6849 | iteration cap (500) 500 it | certified False | ||theta||^2       7.8 ->      485.7 (x62.06) | cross-edge 1.80 -> 1.14 | sat 0.000 | off-RMSE 0.0595 -> 0.0721 | in-RMSE 0.0085 -> 0.0102
+  correlated_P0_s5       early ep  6991 | iteration cap (500) 500 it | certified False | ||theta||^2       8.1 ->      540.7 (x66.84) | cross-edge 2.28 -> 7.23 | sat 0.001 | off-RMSE 0.0811 -> 0.0837 | in-RMSE 0.0097 -> 0.0133
+  correlated_P0_s6       early ep  4599 | iteration cap (500) 500 it | certified False | ||theta||^2       6.6 ->      424.5 (x64.59) | cross-edge 1.85 -> 1.69 | sat 0.000 | off-RMSE 0.0909 -> 0.0682 | in-RMSE 0.0099 -> 0.0101
+  correlated_P0_s7       early ep  4429 | iteration cap (500) 500 it | certified False | ||theta||^2       6.4 ->      461.0 (x71.65) | cross-edge 1.86 -> 2.12 | sat 0.000 | off-RMSE 0.0562 -> 0.0631 | in-RMSE 0.0081 -> 0.0109
+  correlated_P1_s0       early ep  6768 | iteration cap (500) 500 it | certified False | ||theta||^2       7.3 ->      202.4 (x27.62) | cross-edge 1.71 -> 2.41 | sat 0.000 | off-RMSE 0.0585 -> 0.0460 | in-RMSE 0.0091 -> 0.0088
+  correlated_P1_s1       early ep  4038 | iteration cap (500) 500 it | certified False | ||theta||^2       7.7 ->      645.0 (x84.04) | cross-edge 1.58 -> 1.34 | sat 0.000 | off-RMSE 0.0829 -> 0.0626 | in-RMSE 0.0104 -> 0.0093
+  correlated_P1_s2       early ep  4208 | iteration cap (500) 500 it | certified False | ||theta||^2       8.5 ->     3648.6 (x428.39) | cross-edge 1.55 -> 3.16 | sat 0.000 | off-RMSE 0.0738 -> 0.0817 | in-RMSE 0.0095 -> 0.0112
+  correlated_P1_s3       early ep  7716 | iteration cap (500) 500 it | certified False | ||theta||^2      10.6 ->      143.3 (x13.45) | cross-edge 1.60 -> 2.22 | sat 0.000 | off-RMSE 0.0617 -> 0.0590 | in-RMSE 0.0096 -> 0.0088
+  correlated_P1_s4       early ep  4842 | iteration cap (500) 500 it | certified False | ||theta||^2       7.1 ->      152.0 (x21.50) | cross-edge 2.42 -> 3.34 | sat 0.000 | off-RMSE 0.0551 -> 0.0556 | in-RMSE 0.0089 -> 0.0097
+  correlated_P1_s5       early ep  4554 | iteration cap (500) 500 it | certified False | ||theta||^2       6.8 ->      199.1 (x29.17) | cross-edge 2.14 -> 1.45 | sat 0.000 | off-RMSE 0.0871 -> 0.0502 | in-RMSE 0.0103 -> 0.0090
+  correlated_P1_s6       early ep  1681 | iteration cap (500) 500 it | certified False | ||theta||^2       5.4 ->      197.4 (x36.73) | cross-edge 1.95 -> 1.59 | sat 0.000 | off-RMSE 0.0909 -> 0.0556 | in-RMSE 0.0111 -> 0.0083
+  correlated_P1_s7       early ep  1976 | iteration cap (500) 500 it | certified False | ||theta||^2       5.2 ->      181.0 (x35.09) | cross-edge 2.12 -> 3.13 | sat 0.000 | off-RMSE 0.1743 -> 0.0436 | in-RMSE 0.0158 -> 0.0091
+  correlated_P2_s0       early ep  7214 | converged (stage2 criterion)  40 it | certified True  | ||theta||^2       6.3 ->        6.2 (x0.99) | cross-edge 1.72 -> 1.99 | sat 0.000 | off-RMSE 0.0520 -> 0.0445 | in-RMSE 0.0086 -> 0.0080
+  correlated_P2_s1       early ep  4929 | scipy termination  98 it | certified True  | ||theta||^2       6.6 ->        6.7 (x1.00) | cross-edge 1.61 -> 1.89 | sat 0.000 | off-RMSE 0.0789 -> 0.0564 | in-RMSE 0.0103 -> 0.0087
+  correlated_P2_s2       early ep  4088 | scipy termination  80 it | certified True  | ||theta||^2       7.3 ->        9.7 (x1.32) | cross-edge 1.59 -> 1.87 | sat 0.000 | off-RMSE 0.0765 -> 0.0756 | in-RMSE 0.0097 -> 0.0100
+  correlated_P2_s3       early ep  7523 | scipy termination  25 it | certified True  | ||theta||^2       6.5 ->        6.2 (x0.95) | cross-edge 1.47 -> 2.00 | sat 0.000 | off-RMSE 0.0531 -> 0.0444 | in-RMSE 0.0084 -> 0.0080
+  correlated_P2_s4       early ep  5985 | scipy termination  67 it | certified True  | ||theta||^2       6.4 ->        6.2 (x0.98) | cross-edge 2.29 -> 2.00 | sat 0.000 | off-RMSE 0.0526 -> 0.0444 | in-RMSE 0.0086 -> 0.0080
+  correlated_P2_s5       early ep  6515 | converged (stage2 criterion) 193 it | certified True  | ||theta||^2       6.3 ->        6.2 (x0.99) | cross-edge 2.27 -> 1.99 | sat 0.000 | off-RMSE 0.0844 -> 0.0445 | in-RMSE 0.0101 -> 0.0080
+  correlated_P2_s6       early ep  1773 | scipy termination 175 it | certified True  | ||theta||^2       5.2 ->        6.2 (x1.21) | cross-edge 1.96 -> 2.00 | sat 0.000 | off-RMSE 0.0909 -> 0.0443 | in-RMSE 0.0112 -> 0.0080
+  correlated_P2_s7       early ep  1510 | scipy termination  66 it | certified True  | ||theta||^2       4.4 ->        6.2 (x1.43) | cross-edge 1.87 -> 2.00 | sat 0.000 | off-RMSE 0.1381 -> 0.0444 | in-RMSE 0.0179 -> 0.0080
+
+==================== STEP 2: identifiability and extrapolation ====================
+  independent P0: growth x12.49 | certified 6/8 | cross-edge 1.60 | off-RMSE ratio 1.20 | unit 1.000 | edge 1.000 | pred corr 0.99999 | d_AB 0.0035 | reference: polished teacher (certified)
+  independent P1: growth x7.89 | certified 6/8 | cross-edge 2.72 | off-RMSE ratio 0.97 | unit 1.000 | edge 1.000 | pred corr 0.99999 | d_AB 0.0046 | reference: polished teacher (certified)
+  independent P2: growth x1.09 | certified 8/8 | cross-edge 1.88 | off-RMSE ratio 0.95 | unit 1.000 | edge 1.000 | pred corr 1.00000 | d_AB 0.0001 | reference: regularised teacher (certified)
+  correlated  P0: growth x65.71 | certified 0/8 | cross-edge 3.29 | off-RMSE ratio 1.22 | unit 0.774 | edge 0.953 | pred corr 0.99987 | d_AB 0.0129 | reference: original teacher
+  correlated  P1: growth x32.13 | certified 0/8 | cross-edge 2.32 | off-RMSE ratio 0.77 | unit 0.883 | edge 0.980 | pred corr 0.99988 | d_AB 0.0134 | reference: original teacher
+  correlated  P2: growth x1.00 | certified 8/8 | cross-edge 1.99 | off-RMSE ratio 0.78 | unit 1.000 | edge 1.000 | pred corr 1.00000 | d_AB 0.0001 | reference: regularised teacher (certified)
+
+VERDICTS: X1: failed (inde-P0 x12.49, inde-P1 x7.89, inde-P2 x1.09, corr-P0 x65.71, corr-P1 x32.13, corr-P2 x1.00); X2: held (inde-P0 6/8, inde-P1 6/8, inde-P2 8/8, corr-P0 0/8, corr-P1 0/8, corr-P2 8/8); X3: failed (corr P0 3.29, P1 2.32, P2 1.99); X4: failed (corr P0 1.22, P1 0.77, P2 0.78); X5: failed (rho +0.177, p 0.407, n = 24); X6: failed (inde-P0 1.000, inde-P1 1.000, inde-P2 1.000, corr-P0 0.774, corr-P1 0.883, corr-P2 1.000)
