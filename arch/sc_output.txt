@@ -61,3 +61,32 @@ inputs (read once by anchor.prepare, held in memory): train.csv sha256 6c0e89961
   baseline KAN-delta: as certify.py (E4: its constant-shift/rescaling directions are least-squares, not exact); frozen set empty
 
 STEP 0 done; commit arch/sc_output.txt and arch/sc_step0.json before Step 1.
+
+##############################################################################################################
+arch/sc_run STEPS 1-2 2026-10-03 21:26:56; Step 0 committed in d898d73; frozen beta = 0.0001; frozen gauge set: empty
+##############################################################################################################
+
+==================== STEP 1: training (10 seeds per fold, both models; AdamW as final.py, 107 epochs) ====================
+  fold A                   : 10 SC + 10 baseline early models (3.7 s)
+  fold 2-Glyme             : 10 SC + 10 baseline early models (3.2 s)
+  fold 2-MeTHF             : 10 SC + 10 baseline early models (3.3 s)
+  fold 3-Glyme             : 10 SC + 10 baseline early models (3.3 s)
+  fold DME                 : 10 SC + 10 baseline early models (3.2 s)
+  fold EA                  : 10 SC + 10 baseline early models (0.0 s, = fold A models (D3))
+  fold EC                  : 10 SC + 10 baseline early models (2.4 s)
+  fold Methylene chloride  : 10 SC + 10 baseline early models (3.3 s)
+  fold Sulfolane           : 10 SC + 10 baseline early models (3.4 s)
+  fold THF                 : 10 SC + 10 baseline early models (3.5 s)
+  fold Toluene             : 10 SC + 10 baseline early models (3.3 s)
+
+  fold A polishing (trust-exact, float64, cap 500) and certification (certify.py four-part criterion):
+Traceback (most recent call last):
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/arch/sc_run.py", line 505, in <module>
+    {"step0": step0, "step12": step12}[sys.argv[1]]()
+  File "/Users/gelavizhahmadi/Projects/battery_hacketon/arch/sc_run.py", line 347, in step12
+    log(f"  {kind:4s} s{s}: {i['stop']} after {i['iters']} iters ({i['wall_s']} s);{extra} ||theta||^2 x{obj['theta2'][1] / obj['theta2'][0]:.3f}; "
+TypeError: log() got an unexpected keyword argument 'flush'
+
+[CRASH RECORD 1, 2026-10-03: the Step 1 run above stopped with TypeError in a log() call (an unsupported flush keyword) right after the
+ first fold A polish (SC s0) had been computed and cached. No result was lost. Fixed in the next commit; the run resumes from the
+ SHA-indexed cache, the training protocol is unchanged, and the early models are reloaded from the cache, not retrained.]

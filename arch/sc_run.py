@@ -347,7 +347,7 @@ def step12():
             log(f"  {kind:4s} s{s}: {i['stop']} after {i['iters']} iters ({i['wall_s']} s);{extra} ||theta||^2 x{obj['theta2'][1] / obj['theta2'][0]:.3f}; "
                 f"certified {str(c['certified']):5s} grad {c['grad']:.1e} min eig {c['mineig']:.1e} max {c['maxeig']:.1e} spectral null {c['n_null']} "
                 f"(outside frozen set: {c['n_null']}) Newton {c['newton']:.1e} g_null {c['gnull']:.1e} | " +
-                " ".join(f"{k}:{'ok' if v else 'FAIL'}" for k, v in c["crit"].items()), flush=True)
+                " ".join(f"{k}:{'ok' if v else 'FAIL'}" for k, v in c["crit"].items()))
 
     # ---------------- Step 2: measurements
     log("\n==================== STEP 2: measurements ====================")
