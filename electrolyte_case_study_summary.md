@@ -5,7 +5,7 @@ prediction is log k = a measured pure-PC anchor + x_co · h(solvent descriptors,
 Its first layer is a [8 continuous inputs + 2 salt-embedding, 6, 1] FastKAN, with SiLU + 8 Gaussian
 RBFs per edge and a smoothness penalty (`kan.py`, `final.py`).
 
-This document summarises every pre-registered test run on it. Each prediction was committed before
+This document summarises every pre-registered test run on it. The final narrative and the claims for the paper are at the end. Each prediction was committed before
 its code ran; the pre-registration and results commits are listed.
 
 ## All pre-registered predictions
@@ -37,10 +37,10 @@ and C4 (there is no C4 in control 2, and no C3' or C4').
 | | H2: ≥ 50% of N is REDISTRIBUTION within the correlated group | **held, exactly at threshold** | 18/36 | b473232 → c5505e5 |
 | | H3: set A fraction in N ≥ 0.5 and ≥ 3× random | inconclusive (untestable: 3 × 0.5 > 1) | median 0.942 (random 0.5) | b473232 → c5505e5 |
 | | H4: set B (capped), same criterion | inconclusive (untestable) | median 0.949 | b473232 → c5505e5 |
-| | H5: flattest Hessian directions overlap N ≥ 0.5 | **held**, with caveat (see (b)) | median 0.885; median layer-1 block share only 0.08 | b473232 → c5505e5 |
+| | H5: flattest Hessian directions overlap N ≥ 0.5 | **held**, with caveat (see `support_prereg.md`) | median 0.885; median layer-1 block share only 0.08 | b473232 → c5505e5 |
 | | H6: fraction in N rises from control-3 to capped state, ≥ 15/20 | **held** | 20/20 (0.713 → 0.949) | b473232 → c5505e5 |
 
-**Tally (29 predictions):** 5 held (C3, H1, H2, H5, H6, with H2 at its threshold), 5 failed
+**Tally, first table (29 predictions):** 5 held (C3, H1, H2, H5, H6, with H2 at its threshold), 5 failed
 (Control 1, P6, C1', F1, G1) and 19 inconclusive. Most inconclusive results come from
 gates that failed, or from a criterion that could not be met by construction (H3, H4).
 
@@ -51,80 +51,6 @@ gates that failed, or from a criterion that could not be met by construction (H3
 close-out stated 5–7×. That figure was an earlier rough estimate; the measured ratio replaces it.
 From that state to the capped state, the median unit match to the teacher fell further, from 0.659
 to 0.594.
-
-## (a) What is identified in this model
-
-- **The prediction function, on the support of the data.**
-  - Anchor + KAN-delta predicts held-out solvent systems with log10 RMSE 0.142 (PC+EA) and 0.140
-    (EC+PC). These are cross-validation results from `kan.py`, not pre-registered and not
-    leaderboard scores.
-  - Independent seeds agree with each other (about 0.037 in delta) more closely than with the data
-    (residual about 0.097).
-  - A trained teacher's function is recovered from the real inputs to correlation 0.9988.
-- **The near-null space N of the first-layer design,** which is fixed by the data and basis alone.
-  - N has 36 of 72 dimensions (relative singular value < 1e-2).
-  - Half of it (18/36) redistributes coefficient energy among correlated co-solvent and mixture
-    descriptors: the correlation between eps_co and lneta_co is 0.966, and between mix_eps and
-    mix_lneta 0.907. The co-solvent descriptors also take only 30 distinct values.
-- **Edges for inputs that are weakly correlated with the rest tend to be recovered better,** though
-  still not reliably. In control 3 (R):
-  - 1000/T scored 0.962, molality 0.900 and M_co 0.927. Their largest correlations with any other
-    input are 0.13, 0.24 and 0.28.
-  - x_co, eps_co, lneta_co and mix_eps scored 0.578–0.767.
-  - mix_lneta (0.908) is the exception: it is strongly correlated (0.907 with mix_eps) yet was
-    recovered well.
-
-## (b) What is not identified, and why
-
-- **Individual hidden units and first-layer edges are not identified.**
-  - Seed-to-seed unit matching has a median |corr| of 0.49.
-  - Student-to-teacher unit matching falls from 0.66 to 0.59 as the loss falls about 10×.
-  - The gauge-fixing procedure was never validated: Control 1 and C1' failed, and control 2's gates
-    failed.
-  - The seeds are not one function in different gauges (F1: 0/190 on-fiber).
-  - No model reached certified convergence (G1: 0/26). The independent seeds are 2–3 orders of
-    magnitude from the gradient criterion, and still descending along flat directions after 20,000
-    float64 L-BFGS iterations.
-- **Why: the model differences lie in N.** 94–95% of the gauge-removed first-layer difference lies
-  in N, against 50% expected at random. That share rose for every student (20/20) as the fit
-  improved.
-  - By the pre-registered reading of H6, fitting improves along constrained directions while
-    differences persist along near-null ones. That is consistent with approximate symmetries created
-    by the input design, not by the architecture alone (only 2/36 N-vectors are WITHIN-EDGE).
-- **Limits on this explanation:**
-  - The enrichment is about 1.9×, and the pre-registered ≥ 3× test was untestable because N is so
-    large.
-  - H2 held exactly at its threshold.
-  - H5's support is weaker than it looks. The directions analysed are negative-curvature directions
-    of non-stationary points, and their median first-layer block share is 0.08. Post hoc: for the 27/90
-    with a block share ≥ 0.5, the overlap is 0.925.
-  - The truly flat directions (|λ| about 1e-15) lie outside the continuous first-layer block,
-    probably in the salt-embedding edges. They were not investigated.
-  - Every comparison is between non-converged points on optimisation trajectories.
-
-## (c) Which claims can go into the paper
-
-**Supported:**
-1. The anchor + KAN-delta approach predicts held-out solvent systems well. Report the cross-validation
-   numbers with their caveats.
-2. **KAN edge shapes and hidden units in this setting are not identifiable and must not be read as
-   physics.** Teacher-student controls with a known, reachable teacher failed to recover them, and
-   the seeds realise different functions at nearly equal loss.
-3. **Seed-to-seed parameter differences lie mostly in a near-null space that the data design
-   determines** (correlated, few-valued solvent descriptors). The share rises as the fit tightens.
-   Report this as descriptive evidence consistent with approximate symmetries, with the caveats in (b).
-4. Seed spread is not a usable error or abstention signal here (P6).
-
-**Not supported:**
-- that gauge fixing recovers edges;
-- that the additive affine gauge accounts for all of the seed-to-seed variation;
-- that approximate symmetries *cause* the slow convergence (H3/H4 untestable; no model converged);
-- any per-edge physical interpretation;
-- that H5 describes the flattest directions of the loss.
-
-**Reproducibility.** Code and logs are in this repository. Weights are archived outside git
-(`gauge_weights_2026-09-29.tar.gz` and `…29b.tar.gz`) and listed with SHA-256 checksums and producing
-commits in `weights_manifest.txt`.
 
 ## Interventions
 
@@ -225,3 +151,125 @@ loss ratios for the six seeds:
   does not touch the SiLU base weights, and it doesn't touch constant or linear RBF patterns.
 - **All comparisons between "capped" models in this case study** (fiber2, support, rank, trust) are
   therefore between points on unfinished, norm-growing trajectories, not between minima.
+
+## Null-space penalty and certification (`close_prereg.md`, `certify_prereg.md`)
+
+**Intervention:** loss + μ · Q, where Q penalises the null space of the smoothness penalty (the
+constant and linear RBF patterns of every edge) plus the squared SiLU base weights. μ ∈ {1e-6, 1e-5,
+1e-4}, starting from the pre-runaway weights; trust-exact with the exact Hessian.
+
+| Prediction | Verdict | Key number | Prereg → results |
+|---|---|---|---|
+| V1: at some μ, ≥ 4/6 seeds and ≥ 2/3 students converge (stage2 criterion) | **failed** | 0 certified at every μ | e5105d7 → 65ed55f |
+| V2: converged seeds' data term ≤ 1.05 × stage2 A | inconclusive | nothing certified at the selected μ = 1e-6 | e5105d7 → 65ed55f |
+| V3: ‖θ‖² ≤ 10 × start | inconclusive | same | e5105d7 → 65ed55f |
+| V4: seed disagreement halved | inconclusive | same | e5105d7 → 65ed55f |
+| V5: students' unit match ≥ 0.8 | inconclusive | same | e5105d7 → 65ed55f |
+| V6: fold A RMSE ≤ 0.150 | **failed** | 1.0262, bias +0.9028 | e5105d7 → 65ed55f |
+| W1: at μ = 1e-4, ≥ 5/6 seeds certified (second-order criterion, F-a) | **held** | 6/6; all 17 candidates certified | 5f4520a → 36f295b |
+| W2: certified seeds' median d_AB ≤ 0.5 × capped | **failed** | 0.0771 vs capped 0.1041 (−26%) | 5f4520a → 36f295b |
+| W3: certified students' unit match ≥ 0.8 (vs the original teacher) | **failed** | 0.624 | 5f4520a → 36f295b |
+| W4: μ = 1e-4 fold A RMSE ≤ 0.150 | **failed** | 0.3345 | 5f4520a → 36f295b |
+| W5: μ = 1e-4 fold A RMSE ≤ 0.5131 | **held** | 0.3345 | 5f4520a → 36f295b |
+| W6: Spearman(cross-edge ratio, held-out RMSE) ≥ 0.6 | **failed** | ρ = +0.345, p = 0.328 (weak test) | 5f4520a → 36f295b |
+
+- **certify's criterion was defined after the stage2 / close.py criterion proved unreachable** (F-a in
+  `certify_prereg.md`). W1 stands **alongside** close.py's V1 (failed), not instead of it.
+- **gaugecheck** (`gaugecheck_notes.md`, commit 0b29351) is **POST-HOC and EXPLORATORY, and changes no
+  verdict.**
+
+**Overall tally (65 pre-registered predictions).** The two pass/fail sanity checks (rank I3-G and
+I3-F, both passed) are not counted. The control gates are counted as Control 1.
+
+| Study | Held | Failed | Inconclusive |
+|---|---|---|---|
+| First table (Control 1, P1–P6, C1–C3, C1'/C2'/C4, F1–F5, G1–G5, H1–H6) | 5 | 5 | 19 |
+| Rule (I1–I5) | 0 | 0 | 5 |
+| Rank (I1, I2, I4, I5 per arm, I6) | 3 | 6 | 0 |
+| Trust (T1–T5) | 0 | 2 | 3 |
+| Stage 2 (U1–U5) | 1 | 3 | 1 |
+| Close (V1–V6) | 0 | 2 | 4 |
+| Certify (W1–W6) | 2 | 4 | 0 |
+| **Total** | **11** | **22** | **32** |
+
+## Final narrative
+
+1. **The runaway mechanism.**
+   - **What happens:** the smoothness penalty is blind to constant and linear RBF patterns, and the SiLU
+     base weights are not penalised at all. Along those directions, edges grow into large, nearly affine
+     functions at no penalty cost. From the fiber stage onward, the median RBF coefficient vector has
+     ≥ 99.4% of its energy in that 2-dimensional null space (anatomy, descriptive).
+   - **Why the output doesn't explode:** the growth cancels across correlated inputs entering the same
+     hidden unit (cross-edge ratio 4–10; anatomy post hoc).
+   - **Intervention evidence:** penalising exactly that null space plus the SiLU weights bounds the norm
+     in a dose-dependent way. Numerically stationary runs go 1/9 → 7/9 → 9/9 as μ increases (close.py,
+     descriptive), and the μ = 1e-4 runs are certified, isolated minima (**certify W1 held**, under the
+     post-hoc criterion F-a).
+   - **Caveats:** close.py's own **V1 failed** under its pre-registered criterion. Removing only the
+     data-side near-null space (rank) did not cure the problem (**rank I1 and I2 failed**).
+2. **The students recover the right reference.** After the runaway is closed, the certified students
+   match the **regularised** teacher's units and edges: unit match 0.87–0.90, edge match about
+   0.97–0.98, function difference about 3× smaller (gaugecheck B, **post-hoc**). **W3 failed** against the
+   *original* teacher, which is not a stationary point of the regularised loss (gradient 5.6e-3). The
+   penalty moves the minimum.
+3. **Residual non-convexity.** At certified, isolated minima, independent seeds still realise different
+   functions: their disagreement fell only 26% (**W2 failed**). That points to distinct minima, not flat
+   valleys.
+4. **Exact vs approximate gauge directions in a discretised KAN** (gaugecheck A, **post-hoc**).
+   - **What they share:** gauge-like directions are 8–30× flatter than typical, and nearly
+     function-preserving.
+   - **Layer-2 constant shifts** are near-exact gauges, fixed almost entirely by μQ (96% of their
+     curvature).
+   - **Layer-1 constant shifts and unit rescaling** are only approximate gauges. The fixed RBF basis
+     cannot represent a constant exactly, and tanh breaks rescaling, so the architecture supplies most of
+     their curvature (μQ: 46% and 24%).
+   - **At every minimum,** the penalty's slope cancels the data terms' slope exactly along each of these
+     directions.
+5. **Early stopping gives the best held-out accuracy.** Fold A RMSE is **0.142** for the 107-epoch
+   AdamW models, against **0.33** at the certified μ = 1e-4 minima and **1.03** for polishing at
+   μ = 1e-6.
+   - Bounding the runaway recovers much of the extrapolation loss (**W5 held**), but every minimum
+     reached costs held-out accuracy (**W4 failed**, V6 failed).
+   - Across polished models, the cross-edge ratio does not track the per-seed error (**W6 failed**,
+     a weak test).
+
+## Claims for the paper
+
+**Supported** (pre-registered, or a deterministic and reproduced result):
+- **Predictive accuracy.** Anchor + KAN-delta predicts held-out solvent systems with fold A RMSE 0.142
+  and fold B 0.140. This is cross-validation, not a leaderboard score, and not itself pre-registered;
+  0.1420 was reproduced exactly with the same code in rank and in close.py's fold A diagnostic.
+- **No physical reading of edges or units.** At the trained (107-epoch and capped) states, KAN edges and
+  hidden units are not identifiable and must not be read as physics. Teacher-student controls failed
+  (Control 1, C1'), seeds are not one function (F1), and no state was certifiable (G1, T1, U1, V1).
+- **Where seeds differ.** Seed-to-seed parameter differences lie mostly in a data-determined near-null
+  space, and that share rises as the fit tightens (H6 held; about 1.9× enrichment; H3 and H4 were
+  untestable).
+- **No abstention signal.** Seed spread does not flag errors (P6 failed).
+- **Removing data-side directions doesn't help.** Removing the data-side near-null directions (rank)
+  does not cure the slow convergence or the seed disagreement (I1 and I2 failed).
+- **The penalty yields certified minima.** Penalising the smoothness penalty's null space plus the SiLU
+  weights yields certified, isolated local minima at μ = 1e-4 (W1 held, under the post-hoc criterion F-a,
+  alongside V1 failed).
+- **Non-convexity remains.** At those minima, seeds still differ (W2 failed).
+- **Training to a minimum costs accuracy.** Regularised minima generalise worse than early stopping (W4
+  failed), but much better than unregularised polishing (W5 held).
+
+**Post-hoc only** (to be presented as exploratory):
+- The mechanism's anatomy: the null-space concentration of the growth, and cancellation across edges
+  rather than within them.
+- close.py's numerical-stationarity counts and its descriptive dose-response.
+- The students' recovery of the regularised teacher's units and edges (gaugecheck B), and therefore the
+  explanation of W3's failure as a moved minimum.
+- The exact-vs-approximate gauge analysis (gaugecheck A).
+
+**Unsupported:**
+- Any per-edge physical interpretation of KAN edges.
+- Validated gauge fixing of trained, unregularised models (Control 1, C1').
+- That the seed disagreement was caused by the runaway (W2 failed).
+- That any certified minimum generalises as well as early stopping (W4 failed).
+- That the cross-edge cancellation ratio drives extrapolation error (W6 failed).
+- That approximate symmetries from correlated inputs cause the slow convergence (H3 and H4 untestable;
+  rank I1 and I2 failed).
+- That the students' units match the *original* teacher at a minimum (W3 failed).
+
