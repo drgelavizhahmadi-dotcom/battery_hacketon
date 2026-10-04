@@ -186,3 +186,37 @@ Runs after this prereg commit; nothing in Step 0 is a result.
 ## Verdicts
 
 (appended after Step 2; nothing above this line will be edited)
+
+Recorded 2026-10-04 from `arch/sc_output.txt` / `arch/sc_results.json` (Step 0 committed in d898d73; frozen β = 1e-4; frozen
+certification gauge set empty; crash record 1 + fix in 27a8b33, run resumed from the SHA-indexed cache, no result lost).
+
+**Note:** fold A and the LOCO EA fold are the same rows (flag 7, D3), so S2 and the EA fold of S1 are not independent.
+
+| | Prediction | Verdict | Key numbers |
+|---|---|---|---|
+| S1 | SC LOCO RMSE ≤ 1.05 × baseline | **FAILED** | unweighted mean SC 0.2923 vs base 0.2554 (ratio 1.145; threshold 0.2681). Also reported: row-weighted 0.2478 / 0.2297 (1.079); folds ≥ 20 rows 0.3138 / 0.2093 (1.499) |
+| S2 | SC fold A RMSE ≤ 0.160 | **FAILED** | SC 0.1757 (base 0.1420) |
+| S3 | SC median d_AB ≤ 0.5 × baseline | **FAILED** | SC 0.1865 vs base 0.1120 (threshold 0.0560): SC seeds agree *less* than baseline seeds |
+| S4 | curve corr ≥ 0.90 for ≥ 6 of 8 inputs | **FAILED** | 3 of 8 (M_co 0.959, mix_lneta 0.970, invT 0.986); lowest x_co 0.596; others 0.871–0.891 |
+| S5 | ≥ 8/10 SC fold A models certified | **HELD** | SC 10/10 (max\|grad\| ≤ 7e-10, 0 near-null eigenvalues); baseline 0/10 (all hit the 500-iteration cap) |
+| S6 | median β-norm polished/early ≤ 3 (calibrated) | **HELD** | median 1.337 (range 0.652–2.356); ‖θ‖² ×4.59 (base ×67.9, range 30.6–281) |
+| S7 | SC polished/early fold A RMSE ≤ 1.5 | **FAILED** | SC 1.920 (0.1757 → 0.3373); baseline 5.736 (0.1420 → 0.8147) |
+| S8 | d log k/d(1000/T) < 0 on ≥ 95% rows in ≥ 8/10 seeds | **HELD** | 10/10 (median share 1.000; 1424 rows, 10 excluded per D4) |
+| S9 | Spearman(1000/T, \|slope\|) > 0 in ≥ 8/10 seeds | **HELD** | 10/10 (median +0.661, range +0.406 to +0.885) |
+| S10 | d log k/d(ln η_mix) < 0 on ≥ 90% rows in ≥ 8/10 seeds | **FAILED** | 7/10 (median share 0.967; s0 0.892, s2 0.892, s8 0.826) |
+
+Tally: 4 held (S5, S6, S8, S9), 6 failed (S1, S2, S3, S4, S7, S10).
+
+**Interpretation, applying the fixed rules:**
+- **S3 and S4 fail.** Sharing does not pin the curves down on correlated inputs; concurvity persists. The
+  pre-registered next variant is a covariance penalty on the z_i (not started).
+- **S1 fails, but S3–S6 do not all hold.** So the "identifiability bought with accuracy" reading does not apply as
+  stated. What is shown is narrower: SC-KAN-delta buys *convergence* (S5, S6: every model reaches a certified,
+  bounded minimum, against 0/10 for the baseline), and that convergence does not give identifiability. The 10
+  certified minima are distinct: isolated minima, not one minimum reached along flat directions.
+- **S7 fails for SC, and the baseline fails it too.** The rule "S7 holds and the baseline fails it" is not met.
+  Polishing to the certified minimum still raises fold A RMSE ×1.92 for SC, against ×5.74 for the baseline.
+- **S10 fails (and S8/S9 hold).** Under the fixed rule, the curves are not physically readable as they stand.
+  Caveat on S8/S9: d log k/d(1000/T) includes the pure-PC anchor's slope (D4), which dominates. The model part
+  x_co·dh/d(1000/T) is negative on only 0.370 of rows (median over seeds), so S8/S9 mainly confirm the anchor's
+  Arrhenius/VTF behaviour, not the learned curves'.

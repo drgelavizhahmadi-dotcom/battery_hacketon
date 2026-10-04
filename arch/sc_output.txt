@@ -90,3 +90,94 @@ TypeError: log() got an unexpected keyword argument 'flush'
 [CRASH RECORD 1, 2026-10-03: the Step 1 run above stopped with TypeError in a log() call (an unsupported flush keyword) right after the
  first fold A polish (SC s0) had been computed and cached. No result was lost. Fixed in the next commit; the run resumes from the
  SHA-indexed cache, the training protocol is unchanged, and the early models are reloaded from the cache, not retrained.]
+
+##############################################################################################################
+arch/sc_run STEPS 1-2 2026-10-03 21:29:49; Step 0 committed in d898d73; frozen beta = 0.0001; frozen gauge set: empty
+##############################################################################################################
+
+==================== STEP 1: training (10 seeds per fold, both models; AdamW as final.py, 107 epochs) ====================
+  fold A                   : 10 SC + 10 baseline early models (0.0 s)
+  fold 2-Glyme             : 10 SC + 10 baseline early models (0.0 s)
+  fold 2-MeTHF             : 10 SC + 10 baseline early models (0.0 s)
+  fold 3-Glyme             : 10 SC + 10 baseline early models (0.0 s)
+  fold DME                 : 10 SC + 10 baseline early models (0.0 s)
+  fold EA                  : 10 SC + 10 baseline early models (0.0 s, = fold A models (D3))
+  fold EC                  : 10 SC + 10 baseline early models (0.0 s)
+  fold Methylene chloride  : 10 SC + 10 baseline early models (0.0 s)
+  fold Sulfolane           : 10 SC + 10 baseline early models (0.0 s)
+  fold THF                 : 10 SC + 10 baseline early models (0.0 s)
+  fold Toluene             : 10 SC + 10 baseline early models (0.0 s)
+
+  fold A polishing (trust-exact, float64, cap 500) and certification (certify.py four-part criterion):
+  sc   s0: scipy termination after 265 iters (99.8 s); beta-norm x1.665; ||theta||^2 x5.253; certified True  grad 1.3e-14 min eig 1.6e-05 max 2.1e+01 spectral null 0 (outside frozen set: 0) Newton 3.9e-25 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s0: iteration cap (500) after 500 iters (1579.4 s); ||theta||^2 x48.274; certified False grad 2.5e-04 min eig -1.1e-04 max 5.7e+02 spectral null 113 (outside frozen set: 113) Newton 7.3e-06 g_null 3.0e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s1: scipy termination after 112 iters (43.2 s); beta-norm x1.073; ||theta||^2 x2.649; certified True  grad 1.3e-13 min eig 1.5e-05 max 4.1e+00 spectral null 0 (outside frozen set: 0) Newton 3.1e-25 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s1: iteration cap (500) after 500 iters (1542.1 s); ||theta||^2 x59.535; certified False grad 1.7e-04 min eig -1.5e-04 max 5.4e+02 spectral null 107 (outside frozen set: 107) Newton 2.6e-07 g_null 2.2e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s2: scipy termination after 262 iters (99.7 s); beta-norm x2.356; ||theta||^2 x6.591; certified True  grad 4.9e-12 min eig 1.4e-05 max 5.3e+00 spectral null 0 (outside frozen set: 0) Newton 8.8e-23 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s2: iteration cap (500) after 500 iters (1542.9 s); ||theta||^2 x281.211; certified False grad 2.5e-04 min eig -1.2e-04 max 2.2e+02 spectral null 97 (outside frozen set: 97) Newton 3.0e-05 g_null 3.2e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s3: scipy termination after 159 iters (60.5 s); beta-norm x0.652; ||theta||^2 x1.719; certified True  grad 6.1e-11 min eig 1.3e-05 max 1.1e+01 spectral null 0 (outside frozen set: 0) Newton 3.8e-21 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s3: iteration cap (500) after 500 iters (1571.4 s); ||theta||^2 x37.599; certified False grad 1.9e-04 min eig -1.9e-04 max 6.1e+02 spectral null 103 (outside frozen set: 103) Newton 2.2e-05 g_null 2.9e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s4: scipy termination after 205 iters (78.1 s); beta-norm x1.251; ||theta||^2 x5.653; certified True  grad 6.9e-10 min eig 1.8e-05 max 1.1e+01 spectral null 0 (outside frozen set: 0) Newton 3.3e-19 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s4: iteration cap (500) after 500 iters (1600.5 s); ||theta||^2 x30.639; certified False grad 1.3e-03 min eig -3.6e-03 max 8.2e+02 spectral null 114 (outside frozen set: 114) Newton -3.1e-05 g_null 2.8e-05 | a:FAIL b:FAIL c:ok d:FAIL
+  sc   s5: scipy termination after 133 iters (51.0 s); beta-norm x1.674; ||theta||^2 x4.619; certified True  grad 6.5e-12 min eig 1.7e-05 max 4.8e+00 spectral null 0 (outside frozen set: 0) Newton 2.6e-22 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s5: iteration cap (500) after 500 iters (1590.8 s); ||theta||^2 x38.870; certified False grad 6.5e-04 min eig -7.8e-04 max 4.4e+02 spectral null 103 (outside frozen set: 103) Newton -1.9e-05 g_null 2.8e-05 | a:FAIL b:FAIL c:ok d:FAIL
+  sc   s6: scipy termination after 177 iters (67.8 s); beta-norm x1.203; ||theta||^2 x3.981; certified True  grad 6.6e-15 min eig 1.4e-05 max 5.3e+00 spectral null 0 (outside frozen set: 0) Newton 8.3e-26 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s6: iteration cap (500) after 500 iters (1613.3 s); ||theta||^2 x93.539; certified False grad 1.2e-03 min eig -9.8e-05 max 5.6e+02 spectral null 105 (outside frozen set: 105) Newton 3.1e-06 g_null 1.6e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s7: scipy termination after 257 iters (98.3 s); beta-norm x1.423; ||theta||^2 x5.493; certified True  grad 3.3e-14 min eig 1.3e-05 max 1.0e+01 spectral null 0 (outside frozen set: 0) Newton 3.6e-26 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s7: iteration cap (500) after 500 iters (1613.2 s); ||theta||^2 x128.149; certified False grad 7.9e-04 min eig -1.7e-04 max 6.7e+02 spectral null 110 (outside frozen set: 110) Newton 1.0e-06 g_null 1.6e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+  sc   s8: scipy termination after 216 iters (82.6 s); beta-norm x1.491; ||theta||^2 x4.562; certified True  grad 7.1e-15 min eig 1.4e-05 max 5.3e+00 spectral null 0 (outside frozen set: 0) Newton 4.3e-28 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s8: iteration cap (500) after 500 iters (1636.9 s); ||theta||^2 x98.965; certified False grad 6.7e-03 min eig -1.7e-02 max 8.6e+02 spectral null 116 (outside frozen set: 116) Newton -8.5e-07 g_null 2.2e-05 | a:FAIL b:FAIL c:ok d:FAIL
+  sc   s9: scipy termination after 117 iters (44.9 s); beta-norm x1.218; ||theta||^2 x3.085; certified True  grad 1.0e-11 min eig 1.7e-05 max 7.7e+00 spectral null 0 (outside frozen set: 0) Newton 3.9e-21 g_null 0.0e+00 | a:ok b:ok c:ok d:ok
+  base s9: iteration cap (500) after 500 iters (1595.1 s); ||theta||^2 x76.319; certified False grad 4.6e-04 min eig -2.9e-04 max 1.6e+02 spectral null 86 (outside frozen set: 86) Newton 2.5e-04 g_null 2.0e-05 | a:FAIL b:FAIL c:FAIL d:FAIL
+
+==================== STEP 2: measurements ====================
+  accuracy (5-seed ensemble, seeds 0-4, early state; RMSE on delta = log k):
+    fold                     n       SC     base
+    A                      635   0.1757   0.1420
+    2-Glyme                  5   0.0199   0.0830
+    2-MeTHF                126   0.3785   0.1738
+    3-Glyme                 15   0.4138   0.4636
+    DME                     47   0.2652   0.1662
+    EA                     635   0.1757   0.1420
+    EC                    1385   0.2235   0.2555
+    Methylene chloride      96   0.4564   0.2691
+    Sulfolane               12   0.2930   0.5420
+    THF                     54   0.4788   0.2489
+    Toluene                 20   0.2187   0.2095
+    LOCO mean, unweighted (S1)             SC 0.2923  base 0.2554  ratio 1.145
+    LOCO, row-weighted (pooled RMSE)       SC 0.2478  base 0.2297  ratio 1.079
+    LOCO mean, folds >= 20 test rows       SC 0.3138  base 0.2093  ratio 1.499
+    fold A                                 SC 0.1757  base 0.1420  ratio 1.237
+    note: fold A and the LOCO EA fold are the same rows (D3), so S2 and the EA term of S1 are not independent
+  fold A polished ensemble RMSE sc: 0.3373 (early 0.1757; ratio 1.920)
+  fold A polished ensemble RMSE base: 0.8147 (early 0.1420; ratio 5.736)
+  seed agreement sc: median d_AB 0.1865 over 45 pairs (IQR 0.1395-0.2448)
+  seed agreement base: median d_AB 0.1120 over 45 pairs (IQR 0.1027-0.1276)
+  curve agreement (median pairwise corr of z_i on a 200-point grid, after conventions): x_co 0.596, eps_co 0.871, lneta_co 0.891, M_co 0.959, mix_eps 0.888, mix_lneta 0.970, invT 0.986, molal 0.886 -> 3 of 8 >= 0.90
+  (descriptive) hidden-unit match: median over pairs of the median matched contribution correlation 0.698
+  physics s0: d log k/d(1000/T) < 0 on 0.999 of 1424 rows; Spearman(1000/T, |slope|) +0.406; d log k/d(ln eta_mix) < 0 on 0.892 of 1434 rows
+  physics s1: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.658; d log k/d(ln eta_mix) < 0 on 0.916 of 1434 rows
+  physics s2: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.645; d log k/d(ln eta_mix) < 0 on 0.892 of 1434 rows
+  physics s3: d log k/d(1000/T) < 0 on 0.999 of 1424 rows; Spearman(1000/T, |slope|) +0.664; d log k/d(ln eta_mix) < 0 on 0.989 of 1434 rows
+  physics s4: d log k/d(1000/T) < 0 on 0.999 of 1424 rows; Spearman(1000/T, |slope|) +0.504; d log k/d(ln eta_mix) < 0 on 0.989 of 1434 rows
+  physics s5: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.871; d log k/d(ln eta_mix) < 0 on 0.953 of 1434 rows
+  physics s6: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.837; d log k/d(ln eta_mix) < 0 on 0.980 of 1434 rows
+  physics s7: d log k/d(1000/T) < 0 on 0.999 of 1424 rows; Spearman(1000/T, |slope|) +0.465; d log k/d(ln eta_mix) < 0 on 0.980 of 1434 rows
+  physics s8: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.709; d log k/d(ln eta_mix) < 0 on 0.826 of 1434 rows
+  physics s9: d log k/d(1000/T) < 0 on 1.000 of 1424 rows; Spearman(1000/T, |slope|) +0.885; d log k/d(ln eta_mix) < 0 on 0.989 of 1434 rows
+  rows excluded from S8/S9 (no two valid anchor T levels, D4): 10 of 1434; model-part-only d delta/d(1000/T) < 0 (median over seeds) 0.370
+  stability sc: certified 10/10; ||theta||^2 polished/early median 4.591 (range 1.719-6.591); beta-norm polished/early median 1.337 (range 0.652-2.356)
+  stability base: certified 0/10; ||theta||^2 polished/early median 67.927 (range 30.639-281.211)
+
+==================== VERDICTS (pre-registered S1-S10) ====================
+  S1   FAILED SC 0.2923 vs 1.05 x base 0.2681 (row-weighted 0.2478/0.2297; >=20 rows 0.3138/0.2093)
+  S2   FAILED SC fold A 0.1757 (base 0.1420); not independent of S1's EA fold
+  S3   FAILED SC 0.1865 vs 0.5 x base 0.0560
+  S4   FAILED 3 of 8 >= 0.90 (min 0.596)
+  S5   HELD   SC 10/10 certified (base 0/10)
+  S6   HELD   median 1.337 (calibrated, flag 8)
+  S7   FAILED SC 1.920 (base 5.736)
+  S8   HELD   10/10 seeds with >= 95% rows negative (median share 1.000)
+  S9   HELD   10/10 seeds with Spearman > 0 (median +0.661)
+  S10  FAILED 7/10 seeds with >= 90% rows negative (median share 0.967)
+  note: fold A and the LOCO EA fold are the same rows, so S2 and the EA fold of S1 are not independent
