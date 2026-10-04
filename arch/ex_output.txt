@@ -163,3 +163,77 @@ anchored training rows: 2069; co-solvents: 10
   identical to arch/sc Step 0b table (d898d73): True; fold A == EA fold: True
 
 STEP 0 done (data checks only). Waiting for the decision before Step 1.
+
+##############################################################################################################
+arch/ex_run STEPS 1-2 2026-10-04 09:46:03 (prereg 3938f8f, Step 0 4c268c1, Amendment 1 fa6ae2a)
+##############################################################################################################
+DISCREPANCIES / choices (files win):
+  D6 baseline = cached scbase_* early models from arch/sc (SHA-256 re-checked against gauge_weights/sc_index.json, read into memory)
+  D7 s at 25 C uses each co-solvent's PURE properties from pipeline.PROPS (eps, ln eta, M) and 1000/298.15, scaled by final.py's Scaler;
+     values outside the scaler's [-1, 1] range are extrapolation and are marked
+  D8 '25 C rows' for the observed-property report = rows with |T - 298.15| < 1 K (none exist if no T level is that close)
+  D9 E3 spread for the descriptive ratio = SD over all 10 co-solvents of their seed-median s (Amendment 1)
+
+==================== STEP 1: training (EX-KAN, 10 seeds per fold; AdamW as final.py, 107 epochs; no polishing) ====================
+  fold A                   : 10 EX models (3.5 s); 10 baseline models reloaded (SHA ok)
+  fold 2-Glyme             : 10 EX models (3.1 s); 10 baseline models reloaded (SHA ok)
+  fold 2-MeTHF             : 10 EX models (3.1 s); 10 baseline models reloaded (SHA ok)
+  fold 3-Glyme             : 10 EX models (3.2 s); 10 baseline models reloaded (SHA ok)
+  fold DME                 : 10 EX models (3.1 s); 10 baseline models reloaded (SHA ok)
+  fold EA                  : 10 EX models (0.0 s); 10 baseline models reloaded (SHA ok) (= fold A, flag 10)
+  fold EC                  : 10 EX models (2.1 s); 10 baseline models reloaded (SHA ok)
+  fold Methylene chloride  : 10 EX models (3.1 s); 10 baseline models reloaded (SHA ok)
+  fold Sulfolane           : 10 EX models (3.2 s); 10 baseline models reloaded (SHA ok)
+  fold THF                 : 10 EX models (3.1 s); 10 baseline models reloaded (SHA ok)
+  fold Toluene             : 10 EX models (3.2 s); 10 baseline models reloaded (SHA ok)
+  fold full                : 10 EX models (3.2 s)
+
+==================== STEP 2: measurements ====================
+  accuracy (5-seed ensemble, seeds 0-4; RMSE on delta = log k):
+    fold                     n       EX     base
+    A                      635   0.1502   0.1420
+    2-Glyme                  5   0.0750   0.0830
+    2-MeTHF                126   0.3005   0.1738
+    3-Glyme                 15   0.4353   0.4636
+    DME                     47   0.1977   0.1662
+    EA                     635   0.1502   0.1420
+    EC                    1385   0.2369   0.2555
+    Methylene chloride      96   0.3678   0.2691
+    Sulfolane               12   0.4599   0.5420
+    THF                     54   0.4166   0.2489
+    Toluene                 20   0.1942   0.2095
+    LOCO mean, unweighted (E1)             EX 0.2834  base 0.2554  ratio 1.110
+    LOCO, row-weighted (pooled RMSE)       EX 0.2363  base 0.2297  ratio 1.029
+    LOCO mean, folds >= 20 test rows       EX 0.2662  base 0.2093  ratio 1.272
+    fold A (E2)                            EX 0.1502  base 0.1420  ratio 1.057
+    note: fold A and the LOCO EA fold are the same rows (flag 10), so E2 and the EA term of E1 are not independent
+
+  pure-co-solvent offset s at 25 C (full set, 10 seeds; s = log k(pure co-solvent) - log k(PC) under the model):
+    co-solvent              eps  median s  seed SD  rule(primary)  rule(<=2)  extrapolated inputs
+    2-Glyme                7.40    +0.239    0.222  flagged        flagged    -
+    2-MeTHF                6.97    +0.377    0.060  flagged        unflag     -
+    3-Glyme                7.50    +0.143    0.478  flagged        flagged    M_co
+    DME                    7.20    +0.341    0.069  flagged        unflag     -
+    EA                     6.00    +0.347    0.063  separable      unflag     -
+    EC                    89.80    +0.104    0.091  separable      unflag     -
+    Methylene chloride     8.93    +0.376    0.067  separable      unflag     -
+    Sulfolane             43.30    -0.124    0.147  flagged        flagged    -
+    THF                    7.40    +0.412    0.074  flagged        unflag     M_co
+    Toluene                2.38    +0.309    0.091  flagged        unflag     -
+    spread of s across co-solvents (SD of seed medians, D9): 0.159
+    separable co-solvents (descriptive, Amendment 1): EA seed SD 0.063 = 0.39 x spread; EC seed SD 0.091 = 0.57 x spread; Methylene chloride seed SD 0.067 = 0.42 x spread
+    s at observed (blend) properties on 25 C rows (D8): no rows within 1 K of 298.15 K
+
+  E3 primary (separable ['EA', 'EC', 'Methylene chloride']): median pairwise corr over 45 seed pairs +0.987   [Methylene chloride marginal: 8/80 groups, ~4% molality drift]
+  E3 secondary (<= 2 rule, 7 unflagged): +0.869
+  E4: mean s(low eps) < mean s(EC, Sulfolane) in 0/10 seeds; vs EC alone 0/10; vs Sulfolane alone 0/10
+      per seed: mean low [0.285, 0.187, 0.379, 0.311, 0.261, 0.304, 0.344, 0.218, 0.2, 0.486]; EC [0.158, 0.028, 0.327, 0.176, 0.085, 0.097, 0.159, -0.021, 0.064, 0.111]; Sulfolane [0.108, -0.165, -0.089, -0.331, 0.008, -0.132, 0.032, -0.35, -0.28, -0.116]
+  E5 primary: median seed-SD flagged (7) 0.091 vs separable (3) 0.067 -> ratio 1.37
+  E5 secondary (<= 2 rule): flagged (3) 0.222 vs unflagged (7) 0.069 -> ratio 3.22
+
+==================== VERDICTS (pre-registered E1-E5; E3/E5 by Amendment 1 primary rule) ====================
+  E1  FAILED EX 0.2834 vs 0.95 x base 0.2426 (ratio 1.110; row-weighted 0.2363/0.2297; >=20 rows 0.2662/0.2093)
+  E2  FAILED EX fold A 0.1502 (base this run 0.1420); not independent of E1's EA fold
+  E3  HELD   primary +0.987 over 3 separable (weak test; MeCl marginal); secondary +0.869 over 7
+  E4  FAILED 0/10 seeds (vs EC alone 0/10, vs Sulfolane alone 0/10)
+  E5  FAILED primary ratio 1.37 (0.091/0.067); secondary 3.22

@@ -158,3 +158,37 @@ fixed-composition group with two x_co values.
   - Methylene chloride is marginal: 8 of 80 groups, at a single nominal concentration, so its separation is partly
     via the ~4% mol/L molality drift. This is noted next to E3.
 - Nothing above this section has been edited.
+
+## Verdicts (recorded 2026-10-04)
+
+Source: `arch/ex_output.txt` and `arch/ex_results.json`. Step 0 is in 4c268c1 and Amendment 1 in fa6ae2a. The models
+were early states (AdamW, 107 epochs, no polishing). The baseline was the cached `scbase_*` models, SHA-verified.
+
+**Note:** fold A and the LOCO EA fold are the same rows (flag 10), so E2 and the EA fold of E1 are not independent.
+
+| | Prediction | Verdict | Key numbers |
+|---|---|---|---|
+| E1 | EX LOCO ≤ 0.95 × KAN-delta | **FAILED** | unweighted mean EX 0.2834 vs threshold 0.2426 (base 0.2554; ratio 1.110). Row-weighted 0.2363 / 0.2297 (1.029); folds ≥ 20 rows 0.2662 / 0.2093 (1.272). EX is better on EC (0.237 vs 0.256), Sulfolane, 3-Glyme, 2-Glyme and Toluene, and worse on 2-MeTHF, THF, Methylene chloride, DME and EA |
+| E2 | EX fold A ≤ 0.142 | **FAILED** | EX 0.1502 (base this run 0.1420) |
+| E3 | s agrees across seeds (separable co-solvents, Amendment 1) | **HELD** | median pairwise corr +0.987 over EA, EC, Methylene chloride: a weak test with 3 values per seed, and Methylene chloride is marginal. Seed SD of s: EA 0.063 (0.39 × the spread across co-solvents, 0.159), EC 0.091 (0.57 ×), Methylene chloride 0.067 (0.42 ×). Secondary (≤ 2 rule, 7 co-solvents): +0.869 |
+| E4 | mean s(low ε) < mean s(EC, Sulfolane) in ≥ 8/10 seeds | **FAILED** | 0/10: the ordering is reversed in every seed. Per high-ε co-solvent: vs EC alone 0/10 (EC median s +0.104), vs Sulfolane alone 0/10 (median −0.124). The low-ε mean is +0.19 to +0.49 per seed. Sulfolane does not drive the failure on its own: EC alone fails in every seed too |
+| E5 | median seed-SD flagged ≥ 2 × separable (Amendment 1) | **FAILED** | 0.091 vs 0.067, ratio 1.37. Secondary (≤ 2 rule): 0.222 vs 0.069, ratio 3.22, no verdict; the secondary is driven by 3-Glyme (SD 0.478, M_co extrapolated) and 2-Glyme (0.222) |
+
+Tally: 1 held (E3), 4 failed (E1, E2, E4, E5).
+
+**Interpretation, applying the fixed rules:**
+- **E1 and E2 fail:** the two-anchor structure does not improve extrapolation to unseen solvents. (The rule "E1
+  fails, E3 and E4 hold" is not met, because E4 fails.)
+- **E4 fails:** the log-linear ideal line is a poor baseline for low-dielectric solvents as predicted. In every seed,
+  the model puts the low-ε solvents *above* both high-ε ones, i.e. it predicts their pure-solvent conductivity is
+  higher relative to PC. Record this and consider an ideal line in another variable.
+- **E5 fails under the primary rule:** the data-design layer is not demonstrated. Flagged co-solvents are only 1.37 ×
+  as variable across seeds as separable ones.
+  - The committed ≤ 2 rule gives 3.22, but that contrast is carried by the two glymes. One of them is evaluated
+    outside the training range of M_co.
+
+**POST-HOC, descriptive (decided after seeing the results; changes no verdict):** across the 10 co-solvents, the
+seed-median s is ranked by viscosity more than by dielectric constant. Spearman with ln η is −0.85 (p = 0.002); with
+ε, −0.50 (p = 0.14). The ordering is Sulfolane (10.3 cP) lowest, then 3-Glyme, EC and 2-Glyme, with the ~0.4–0.6 cP
+ethers and esters highest. That is Walden-type behaviour, the reasoning flag 8 raised against Sulfolane, here applying
+to the whole set.
