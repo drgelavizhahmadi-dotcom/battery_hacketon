@@ -1,0 +1,45 @@
+{
+ "figure": "fig1_mechanism",
+ "data_files": [],
+ "weights": {},
+ "notes": [
+  "computed illustration: final.py edge type (kan.KANLayer: 8 Gaussian RBFs, centres linspace(-1,1,8), width 2/7, range [-1,1])",
+  "b: the tilt is a pure linear RBF pattern, so D2 is exactly 0 and the SiLU term is unchanged (P0 = P1 = 0); only P2's mu*Q sees it (Q = 2 t^2)"
+ ],
+ "values": {
+  "a_deviation_relative_to_range": {
+   "full_max": 0.12876337550157982,
+   "full_rms": 0.03178832225753833,
+   "c80_max": 0.02018997053561258,
+   "c80_rms": 0.004484689905403041
+  },
+  "a_line_fit_full": [
+   1.4891482514097636e-17,
+   0.8787120778946259
+  ],
+  "a_central80_shaded": [
+   -0.8,
+   0.8
+  ],
+  "b_lambda_mu_Ksilu": [
+   0.001,
+   1e-05,
+   0.44299560445654845
+  ],
+  "b_max_abs_D2_over_t": 3.3588218230113393e-34,
+  "b_P2_at_t": {
+   "-3": 0.00017999999999999998,
+   "-2": 8e-05,
+   "-1": 2e-05,
+   "1": 2e-05,
+   "2": 8e-05,
+   "3": 0.00017999999999999998
+  },
+  "c_rms_per_unit_t": {
+   "correlated": 0.09959073541785757,
+   "independent": 0.4403203885622591,
+   "ratio_independent_over_correlated": 4.421298695252987
+  },
+  "c_inputs": "synth.make_inputs(0.95, seed 1001) and (0.0, seed 1000), first two columns (x1, x2), 2000 points each"
+ }
+}

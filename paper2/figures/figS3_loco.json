@@ -1,0 +1,104 @@
+{
+ "figure": "figS3_loco",
+ "data_files": [
+  {
+   "path": "arch/sc_results.json",
+   "commit": "e00e37f",
+   "sha256": "07277b0d9bdc3e59403672ed929867bc7233802a0733d266c05f7c85555c317f"
+  },
+  {
+   "path": "arch/ex_results.json",
+   "commit": "579b58f",
+   "sha256": "84193ad2ceae95c072a3532f5eea71e9f891fdeaad09814a3274b106af3b526d"
+  }
+ ],
+ "weights": {},
+ "notes": [
+  "5-seed ensembles (seeds 0-4), early state, RMSE on delta (= log k); baseline = KAN-delta (final.py protocol), identical in arch/sc and arch/ex (same cached models). The EA fold = fold A rows."
+ ],
+ "values": {
+  "baseline_max_abs_diff_sc_vs_ex_runs": 0.0,
+  "per_fold": {
+   "EC": {
+    "KAN-\u03b4 baseline": 0.25553256727988216,
+    "SC-KAN-\u03b4": 0.22347035720582223,
+    "EX-KAN": 0.2368633452483946,
+    "n": 1385
+   },
+   "EA": {
+    "KAN-\u03b4 baseline": 0.1420430087785024,
+    "SC-KAN-\u03b4": 0.17568725024561088,
+    "EX-KAN": 0.15016207985541055,
+    "n": 635
+   },
+   "2-MeTHF": {
+    "KAN-\u03b4 baseline": 0.17377650859458174,
+    "SC-KAN-\u03b4": 0.3784521930210419,
+    "EX-KAN": 0.3004624429452623,
+    "n": 126
+   },
+   "Methylene chloride": {
+    "KAN-\u03b4 baseline": 0.2691108288379515,
+    "SC-KAN-\u03b4": 0.4563950137195171,
+    "EX-KAN": 0.3678033493459969,
+    "n": 96
+   },
+   "THF": {
+    "KAN-\u03b4 baseline": 0.24893557416311202,
+    "SC-KAN-\u03b4": 0.4787631317780848,
+    "EX-KAN": 0.41657196417258097,
+    "n": 54
+   },
+   "DME": {
+    "KAN-\u03b4 baseline": 0.16618455594686626,
+    "SC-KAN-\u03b4": 0.2652049578267546,
+    "EX-KAN": 0.19767379488007042,
+    "n": 47
+   },
+   "Toluene": {
+    "KAN-\u03b4 baseline": 0.2095220198161493,
+    "SC-KAN-\u03b4": 0.21871832556519394,
+    "EX-KAN": 0.19416549760144117,
+    "n": 20
+   },
+   "3-Glyme": {
+    "KAN-\u03b4 baseline": 0.4635562982600362,
+    "SC-KAN-\u03b4": 0.41377349242781464,
+    "EX-KAN": 0.4353079082625325,
+    "n": 15
+   },
+   "Sulfolane": {
+    "KAN-\u03b4 baseline": 0.5420455763479467,
+    "SC-KAN-\u03b4": 0.29299102952227535,
+    "EX-KAN": 0.45986631423306756,
+    "n": 12
+   },
+   "2-Glyme": {
+    "KAN-\u03b4 baseline": 0.08296590692633284,
+    "SC-KAN-\u03b4": 0.01993214908232097,
+    "EX-KAN": 0.07497866444031887,
+    "n": 5
+   }
+  },
+  "means": {
+   "KAN-\u03b4 baseline": {
+    "unweighted": 0.2553672844951361,
+    "row_weighted": 0.2296509349508222,
+    "ge20": 0.2093007233452922,
+    "foldA": 0.1420430087785024
+   },
+   "SC-KAN-\u03b4": {
+    "unweighted": 0.29233879003944363,
+    "row_weighted": 0.2477865351802648,
+    "ge20": 0.31381303276600364,
+    "foldA": 0.17568725024561088
+   },
+   "EX-KAN": {
+    "unweighted": 0.2833855360985076,
+    "row_weighted": 0.23632014075436952,
+    "ge20": 0.26624321057845096,
+    "foldA": 0.15016207985541055
+   }
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "figure": "figS2_gaugecheck",
+ "data_files": [
+  {
+   "path": "gaugecheck_results.json",
+   "commit": "0b29351",
+   "sha256": "e9fb234018d92d24c6dbd1618ef6e67b750dee6f90b844fba7da44cb3697260c"
+  }
+ ],
+ "weights": {},
+ "notes": [
+  "POST-HOC (gaugecheck, 0b29351): at the mu = 1e-4 certified minima, share of the curvature d'Hd along each least-squares gauge direction that comes from the mu*Q term (curv = [full, without Q, mu*Q]); families: const_L1 (48 per model), const_L2 (6), rescale (6)"
+ ],
+ "values": {
+  "muQ_share": {
+   "const_L1 ind": {
+    "median": 0.4579057411005166,
+    "q1": 0.40408092399095474,
+    "q3": 0.6096438484837438,
+    "n": 288
+   },
+   "const_L1 stu": {
+    "median": 0.47979191257572196,
+    "q1": 0.4145930530274071,
+    "q3": 0.6095998906612493,
+    "n": 144
+   },
+   "const_L2 ind": {
+    "median": 0.9415990410547881,
+    "q1": 0.8734359008934458,
+    "q3": 0.9763572662712923,
+    "n": 36
+   },
+   "const_L2 stu": {
+    "median": 0.9706542731177925,
+    "q1": 0.36134158133661143,
+    "q3": 0.9895876900783658,
+    "n": 18
+   },
+   "rescale ind": {
+    "median": 0.2088736305277389,
+    "q1": 0.05610585789175061,
+    "q3": 0.6316702965612453,
+    "n": 36
+   },
+   "rescale stu": {
+    "median": 0.5158517496094037,
+    "q1": 0.04221982161653866,
+    "q3": 0.8848488250716395,
+    "n": 18
+   }
+  }
+ }
+}

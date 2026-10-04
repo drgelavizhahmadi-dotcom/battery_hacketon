@@ -1,0 +1,527 @@
+{
+ "figure": "fig4_where",
+ "data_files": [
+  {
+   "path": "weights_manifest.txt",
+   "commit": "d6e9f52",
+   "sha256": "3aeae6a75b02bb193945befead6aeac36d543a0f56f9e16289b1677e557c0e0c"
+  },
+  {
+   "path": "paper2/anatomy_synth_results.json",
+   "commit": "ea22a56",
+   "sha256": "3ae91a3da99e79730ec5523278125bcb77f4f771d2705b675e0a433c6767b666"
+  },
+  {
+   "path": "paper2/checks/checks_results.json",
+   "commit": "6e1df32",
+   "sha256": "77bacc70f3f799991fd87fb3601c29c8db4815fcffa3ec9de65deee3841768fa"
+  }
+ ],
+ "weights": {
+  "delta_s0.pt": {
+   "sha256": "d051054904bb14f4e4d142bea82a241339009cb96936948c8cd7483cb42de17c",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "delta_s1.pt": {
+   "sha256": "55d5ec5506eb071908aa86dbfefdec82ee72236b34c6aab8635052ac78c9cc15",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "delta_s2.pt": {
+   "sha256": "f60758dbceb2354ef795f79e95aa78eb3e78c180338348b4f079ef50baaf72a3",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "delta_s3.pt": {
+   "sha256": "5189878b3320adaeedcc707c05b1bd28573ca695dbc81297fc225bd2bfc5ff0d",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "delta_s4.pt": {
+   "sha256": "8f3ab61b81cb5bfde2fd2597eb38d338642b20dfeb44a2d69a049f1d28994032",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "delta_s5.pt": {
+   "sha256": "0e03d0ed0b6a9c9b190e1dd956f312486f9cb0240eb5cae200bca4c9f6794d6f",
+   "archive": "gauge_weights_2026-09-29.tar.gz"
+  },
+  "fiber2_ind_0.pt": {
+   "sha256": "058a9a5f116a7231f0e8996bb9c7f0a068028823bc71dbd89e44263a0041d97d",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "fiber2_ind_1.pt": {
+   "sha256": "de6f8726ecb1854a47b69db20c82cb12aac5518f8081794755f973aa3cbf6614",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "fiber2_ind_2.pt": {
+   "sha256": "bcc37613356e31474a808cd01ca8d2e34ea8d2f57afc56e92b7a3ce0daf376ee",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "fiber2_ind_3.pt": {
+   "sha256": "0ccac0b33aa3b6736bba95983f7a6fa41f8e1587477f3a14046e5b92aebc241c",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "fiber2_ind_4.pt": {
+   "sha256": "38ae633cebb1cd2d0ae45179b632fae96f0c887b7e6cfc348159684447e406d4",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "fiber2_ind_5.pt": {
+   "sha256": "b2208b146ffae710833d8e907c098f7daea1f5167b3d3c8d5cc2f651f9f0a967",
+   "archive": "gauge_weights_2026-09-29b.tar.gz"
+  },
+  "stage2_A_ind_0.pt": {
+   "sha256": "1c37023144783c14e9eb2c8136a499a9bdca6f42ef90f9141f0e16c534b59d95",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  },
+  "stage2_A_ind_1.pt": {
+   "sha256": "9213b25e2115dd60db507de3f6bcf703a999dfac2ac8f51cf6a4397767c19274",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  },
+  "stage2_A_ind_2.pt": {
+   "sha256": "2c320503ce07134cf99127fd0ab7542c7a8d5a463cad8157630b8a9dbc100406",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  },
+  "stage2_A_ind_3.pt": {
+   "sha256": "35960ba573a0083dcfcd3ddc902e9704ca2a394635f7b7381436266aa8ac5b77",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  },
+  "stage2_A_ind_4.pt": {
+   "sha256": "5b5dc1d81a98906eb8d308ed3572bbb07de8e17322c51a57426d630f6989ec75",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  },
+  "stage2_A_ind_5.pt": {
+   "sha256": "584afaa0c36a58c468c0cf4024b9cd883e56c2a34ae367b5127762528b3fb1a5",
+   "archive": "gauge_weights_2026-10-02e.tar.gz"
+  }
+ },
+ "notes": [
+  "a, real data: shares of ||delta theta||^2 by block computed here from the archived weights (SHA-verified, in memory): delta_s* (107 epochs), fiber2_ind_* (capped), stage2_A_ind_* (Part A final, flat vectors rebuilt on their fiber2 start); no committed result splits the real-data change into affine/curved RBF parts",
+  "affine RBF = projection of each edge's 8 RBF coefficients onto span{1, k}; curved = the rest; layer-1 RBF includes the salt-embedding edges; 'salt embedding' (the embedding table itself) exists only in the real model",
+  "a, synthetic: anatomy_synth_results.json (ea22a56) per-model shares, correlated P0/P1, 8 seeds each; bars = mean over models (sums to 1)",
+  "a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A are the two unregularised segments",
+  "b: paper2/checks (6e1df32), training rows; SC-KAN-\u03b4 and KAN-\u03b4 are the fold A models of arch/sc; colour = certified (blue) vs not certified / runaway (vermillion); bar = median"
+ ],
+ "values": {
+  "a_mean_shares": {
+   "real\n107 ep\u2192cap.": {
+    "layer-1 affine RBF": 0.3006711352106603,
+    "layer-1 curved RBF": 0.00025532760509511536,
+    "layer-2 affine RBF": 0.30942220246151064,
+    "layer-2 curved RBF": 7.627096272442594e-05,
+    "SiLU weights": 0.36681470677595596,
+    "biases": 0.020115961111387328,
+    "salt embedding": 0.0026443958726661844
+   },
+   "real\ncap.\u2192Part A": {
+    "layer-1 affine RBF": 0.4019585137713442,
+    "layer-1 curved RBF": 0.0001267309119512975,
+    "layer-2 affine RBF": 0.1904510236750144,
+    "layer-2 curved RBF": 2.2185661368442493e-05,
+    "SiLU weights": 0.38368278780528703,
+    "biases": 0.023406616346633363,
+    "salt embedding": 0.00035214182840142286
+   },
+   "synth.\ncorr. P0": {
+    "layer-1 affine RBF": 0.06328102576395722,
+    "layer-1 curved RBF": 0.00027036546228538603,
+    "layer-2 affine RBF": 0.3942881905383543,
+    "layer-2 curved RBF": 0.00019952925570057692,
+    "SiLU weights": 0.4723877233383932,
+    "biases": 0.06957316564130935,
+    "salt embedding": 0.0
+   },
+   "synth.\ncorr. P1": {
+    "layer-1 affine RBF": 0.024451159140054864,
+    "layer-1 curved RBF": 0.0008076921721272024,
+    "layer-2 affine RBF": 0.8882376078638847,
+    "layer-2 curved RBF": 0.0009294760340444958,
+    "SiLU weights": 0.00013913289561642663,
+    "biases": 0.0854349318942723,
+    "salt embedding": 0.0
+   }
+  },
+  "a_per_model": {
+   "real\n107 ep\u2192cap.": [
+    {
+     "layer-1 affine RBF": 0.46202268943330627,
+     "layer-1 curved RBF": 0.0001766135240926237,
+     "layer-2 affine RBF": 0.05433508821423732,
+     "layer-2 curved RBF": 6.290125551109653e-05,
+     "SiLU weights": 0.44912686674868346,
+     "biases": 0.03269015318550776,
+     "salt embedding": 0.0015856876386614303
+    },
+    {
+     "layer-1 affine RBF": 0.4399917459539362,
+     "layer-1 curved RBF": 0.00023490481148528058,
+     "layer-2 affine RBF": 0.17515297425140092,
+     "layer-2 curved RBF": 8.221506285758857e-05,
+     "SiLU weights": 0.3756212559001908,
+     "biases": 0.00364726384424508,
+     "salt embedding": 0.005269640175884211
+    },
+    {
+     "layer-1 affine RBF": 0.11747364674037811,
+     "layer-1 curved RBF": 0.00032003635213403466,
+     "layer-2 affine RBF": 0.5166637300424392,
+     "layer-2 curved RBF": 9.621871669288183e-05,
+     "SiLU weights": 0.33921945006547816,
+     "biases": 0.020838208783160426,
+     "salt embedding": 0.005388709299717264
+    },
+    {
+     "layer-1 affine RBF": 0.1841709866164863,
+     "layer-1 curved RBF": 0.00021439406898976246,
+     "layer-2 affine RBF": 0.506257778327885,
+     "layer-2 curved RBF": 7.22376872913326e-05,
+     "SiLU weights": 0.2966057420613391,
+     "biases": 0.011810008718744337,
+     "salt embedding": 0.0008688525192642218
+    },
+    {
+     "layer-1 affine RBF": 0.43913043915321304,
+     "layer-1 curved RBF": 5.781965954585768e-05,
+     "layer-2 affine RBF": 0.22790641993502672,
+     "layer-2 curved RBF": 1.852622719412714e-05,
+     "SiLU weights": 0.29820034403433726,
+     "biases": 0.03404436985661325,
+     "salt embedding": 0.0006420811340696887
+    },
+    {
+     "layer-1 affine RBF": 0.16123730336664216,
+     "layer-1 curved RBF": 0.0005281972143231329,
+     "layer-2 affine RBF": 0.3762172239980747,
+     "layer-2 curved RBF": 0.00012552682679952895,
+     "SiLU weights": 0.44211458184570696,
+     "biases": 0.017665762280053107,
+     "salt embedding": 0.0021114044684002933
+    }
+   ],
+   "real\ncap.\u2192Part A": [
+    {
+     "layer-1 affine RBF": 0.32304095908590863,
+     "layer-1 curved RBF": 2.9157979002656946e-05,
+     "layer-2 affine RBF": 0.06318913728736192,
+     "layer-2 curved RBF": 1.2015384734922532e-05,
+     "SiLU weights": 0.5898106398730271,
+     "biases": 0.023809598969619865,
+     "salt embedding": 0.00010849142034504756
+    },
+    {
+     "layer-1 affine RBF": 0.3422378533295054,
+     "layer-1 curved RBF": 1.8844934146211215e-05,
+     "layer-2 affine RBF": 0.23256988501732176,
+     "layer-2 curved RBF": 1.9299830218953717e-06,
+     "SiLU weights": 0.38603807873030344,
+     "biases": 0.03818722620819513,
+     "salt embedding": 0.0009461817975063218
+    },
+    {
+     "layer-1 affine RBF": 0.3012915601487267,
+     "layer-1 curved RBF": 0.00010549146707491817,
+     "layer-2 affine RBF": 0.27679340618910736,
+     "layer-2 curved RBF": 1.3543314146782239e-05,
+     "SiLU weights": 0.40019084594500015,
+     "biases": 0.02135067831429475,
+     "salt embedding": 0.0002544746216494303
+    },
+    {
+     "layer-1 affine RBF": 0.2817105051564792,
+     "layer-1 curved RBF": 0.0001994797456497918,
+     "layer-2 affine RBF": 0.20423928326725854,
+     "layer-2 curved RBF": 2.3208533397475303e-05,
+     "SiLU weights": 0.5027188409244019,
+     "biases": 0.010894976489723077,
+     "salt embedding": 0.00021370588308992612
+    },
+    {
+     "layer-1 affine RBF": 0.6527400589712885,
+     "layer-1 curved RBF": 4.8668571644056746e-06,
+     "layer-2 affine RBF": 0.23088992053504884,
+     "layer-2 curved RBF": 4.739086826010652e-07,
+     "SiLU weights": 0.08006786948329428,
+     "biases": 0.036206204285372766,
+     "salt embedding": 9.060595914874386e-05
+    },
+    {
+     "layer-1 affine RBF": 0.5107301459361565,
+     "layer-1 curved RBF": 0.00040254448866980125,
+     "layer-2 affine RBF": 0.13502450975398783,
+     "layer-2 curved RBF": 8.194284422697843e-05,
+     "SiLU weights": 0.3432704518756952,
+     "biases": 0.00999101381259456,
+     "salt embedding": 0.000499391288669068
+    }
+   ],
+   "synth.\ncorr. P0": [
+    {
+     "layer-1 affine RBF": 0.026136442127491128,
+     "layer-1 curved RBF": 7.239175425024077e-05,
+     "layer-2 affine RBF": 0.10678519018234091,
+     "layer-2 curved RBF": 1.6050507372150055e-05,
+     "SiLU weights": 0.8554671205690934,
+     "biases": 0.01152280485945224,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.0025248336130232934,
+     "layer-1 curved RBF": 1.829960246234595e-05,
+     "layer-2 affine RBF": 0.969975621627113,
+     "layer-2 curved RBF": 1.94351772247821e-06,
+     "SiLU weights": 0.012952517085207072,
+     "biases": 0.014526784554471754,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.03599263039999537,
+     "layer-1 curved RBF": 0.0005796885383129012,
+     "layer-2 affine RBF": 0.49029437132003445,
+     "layer-2 curved RBF": 0.00036135975001583016,
+     "SiLU weights": 0.1766194304680054,
+     "biases": 0.296152519523636,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.07485915863353144,
+     "layer-1 curved RBF": 0.0003460852220015389,
+     "layer-2 affine RBF": 0.3514810186030396,
+     "layer-2 curved RBF": 0.000410206758508432,
+     "SiLU weights": 0.569973688806193,
+     "biases": 0.002929841976726067,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.08230035546520745,
+     "layer-1 curved RBF": 0.0002252416333837849,
+     "layer-2 affine RBF": 0.11772449070976126,
+     "layer-2 curved RBF": 0.00011142731934375408,
+     "SiLU weights": 0.7265382065854847,
+     "biases": 0.07310027828681899,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.1770772437681534,
+     "layer-1 curved RBF": 0.0003382844013085081,
+     "layer-2 affine RBF": 0.05726462053576459,
+     "layer-2 curved RBF": 0.00023405339545731082,
+     "SiLU weights": 0.7416254107540088,
+     "biases": 0.023460387145307404,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.07059614614924362,
+     "layer-1 curved RBF": 0.00035365022463904944,
+     "layer-2 affine RBF": 0.7364329299163145,
+     "layer-2 curved RBF": 0.0002682993378369249,
+     "SiLU weights": 0.07794421814776017,
+     "biases": 0.11440475622420582,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.03676139595501209,
+     "layer-1 curved RBF": 0.00022928232192471885,
+     "layer-2 affine RBF": 0.32434728141246616,
+     "layer-2 curved RBF": 0.00019289345934773495,
+     "SiLU weights": 0.6179811942913928,
+     "biases": 0.020487952559856464,
+     "salt embedding": 0.0
+    }
+   ],
+   "synth.\ncorr. P1": [
+    {
+     "layer-1 affine RBF": 0.014642162445355326,
+     "layer-1 curved RBF": 0.0005418184645262271,
+     "layer-2 affine RBF": 0.8187845340151337,
+     "layer-2 curved RBF": 0.00048691428612030943,
+     "SiLU weights": 9.965183704561664e-06,
+     "biases": 0.16553460560515976,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.015905713473094073,
+     "layer-1 curved RBF": 0.00024980546740545307,
+     "layer-2 affine RBF": 0.9069455422871293,
+     "layer-2 curved RBF": 0.00025662380550416276,
+     "SiLU weights": 8.567708491321564e-06,
+     "biases": 0.07663374725837578,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.0018695979777375291,
+     "layer-1 curved RBF": 4.737820331411477e-05,
+     "layer-2 affine RBF": 0.9033056889397656,
+     "layer-2 curved RBF": 5.407200082735987e-05,
+     "SiLU weights": 2.5618770349996652e-06,
+     "biases": 0.0947207010013204,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.01203457659681635,
+     "layer-1 curved RBF": 0.00036731868685840793,
+     "layer-2 affine RBF": 0.9754558298441122,
+     "layer-2 curved RBF": 0.0017904402399863168,
+     "SiLU weights": 1.4255780218604344e-05,
+     "biases": 0.010337578852008148,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.016722279811058057,
+     "layer-1 curved RBF": 0.0008636554887948245,
+     "layer-2 affine RBF": 0.8503808584847984,
+     "layer-2 curved RBF": 0.000392487461896871,
+     "SiLU weights": 1.2957144796852019e-05,
+     "biases": 0.131627761608655,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.08389742485354003,
+     "layer-1 curved RBF": 0.0017276013872840246,
+     "layer-2 affine RBF": 0.8731268641232316,
+     "layer-2 curved RBF": 0.0009643878412670123,
+     "SiLU weights": 2.5988903576837632e-05,
+     "biases": 0.04025773289110057,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.025929267511646467,
+     "layer-1 curved RBF": 0.0003681057323005643,
+     "layer-2 affine RBF": 0.9406172038961261,
+     "layer-2 curved RBF": 0.0014194508853810617,
+     "SiLU weights": 0.0007679918200336995,
+     "biases": 0.030897980154512113,
+     "salt embedding": 0.0
+    },
+    {
+     "layer-1 affine RBF": 0.0246082504511911,
+     "layer-1 curved RBF": 0.002295853946534003,
+     "layer-2 affine RBF": 0.837284341320781,
+     "layer-2 curved RBF": 0.0020714317513728722,
+     "SiLU weights": 0.0002707747470745369,
+     "biases": 0.13346934778304662,
+     "salt embedding": 0.0
+    }
+   ]
+  },
+  "b_max_hidden_corr": {
+   "synth. certified": {
+    "values": [
+     0.037911208020541355,
+     0.03791120717540903,
+     0.03818124040279239,
+     0.06859414981539491,
+     0.049444248304883004,
+     0.0685941498141708,
+     0.05424940313528872,
+     0.05424940303515999,
+     0.05425047729627212,
+     0.05223660421877263,
+     0.052238083480381885,
+     0.054279219833763936,
+     0.5432877122620713,
+     0.047329926864097184,
+     0.04732992637806299,
+     0.04730328260322508,
+     0.640290858888873,
+     0.04749396377776757,
+     0.04756381682340312,
+     0.047493963767501174,
+     0.882193649755771,
+     0.8107317465987545,
+     0.5945704802345996,
+     0.8822460187518201,
+     0.8825670807145763,
+     0.8821936506671186,
+     0.8826226120107483,
+     0.882246018738528
+    ],
+    "median": 0.05424994021578042,
+    "n": 28,
+    "kind": "certified"
+   },
+   "synth. not cert.": {
+    "values": [
+     0.42960319856027834,
+     0.9465046843670332,
+     0.4687002316219743,
+     0.9236610196315979,
+     0.9987650162464865,
+     0.8286779198632785,
+     0.3899236485484454,
+     0.9497910029500126,
+     0.976008647109735,
+     0.9940666299578759,
+     0.9124641656633242,
+     0.9661200539976841,
+     0.8687783256175275,
+     0.9953939924425977,
+     0.8843233963163031,
+     0.9526187520574987,
+     0.891353117871544,
+     0.9980664831689694,
+     0.9932750568826757,
+     0.8320075930270626
+    ],
+    "median": 0.9350828519993155,
+    "n": 20,
+    "kind": "runaway"
+   },
+   "real capped": {
+    "values": [
+     0.970421699242433,
+     0.9955260393747595,
+     0.9532158830333956,
+     0.9660633556909315,
+     0.9979877957831921,
+     0.9468114411699252
+    ],
+    "median": 0.9682425274666823,
+    "n": 6,
+    "kind": "runaway"
+   },
+   "real Part A": {
+    "values": [
+     0.9914900604238542,
+     0.9923361092806956,
+     0.9564627351538956,
+     0.9735596346908979,
+     0.9981262005802225,
+     0.8974199533672004
+    ],
+    "median": 0.982524847557376,
+    "n": 6,
+    "kind": "runaway"
+   },
+   "SC-KAN-\u03b4 polished": {
+    "values": [
+     0.9165479114826693,
+     0.7027648813740702,
+     0.7745261873776962,
+     0.8895353193291772,
+     0.9726689605309021,
+     0.8864550131140917,
+     0.7745261873622852,
+     0.8618456695615084,
+     0.774526187362143,
+     0.6975721802380123
+    ],
+    "median": 0.8181859284696023,
+    "n": 10,
+    "kind": "certified"
+   },
+   "KAN-\u03b4 polished": {
+    "values": [
+     0.998577376108712,
+     0.984434504344297,
+     0.9304092320673142,
+     0.926766893827105,
+     0.9426429313823291,
+     0.9193017612375063,
+     0.9490162407992302,
+     0.8644632384644124,
+     0.9643015825673719,
+     0.9794796964907708
+    ],
+    "median": 0.9458295860907797,
+    "n": 10,
+    "kind": "runaway"
+   }
+  }
+ }
+}

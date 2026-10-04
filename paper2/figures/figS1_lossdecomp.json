@@ -1,0 +1,61 @@
+{
+ "figure": "figS1_lossdecomp",
+ "data_files": [
+  {
+   "path": "paper2/lossdecomp_results.json",
+   "commit": "4ec6fce",
+   "sha256": "b5d6a48ebd9c531dd0930e284f09367ed7b8a60787342ffa4dc259cf8bb849cb"
+  }
+ ],
+ "weights": {},
+ "notes": [
+  "POST-HOC (lossdecomp, 4ec6fce): change in each loss term from early to polished, summed over the 8 seeds of a cell and divided by the summed change in total loss (pooled shares; sum to 1 per cell). Only early vs polished states were saved.",
+  "numbers above the bars: median relative change of the total loss, early -> polished"
+ ],
+ "values": {
+  "pooled_shares": {
+   "independent P0": {
+    "data": 0.5693536505601302,
+    "D2": 0.43064634943986985,
+    "SiLU": -0.0,
+    "muQ": -0.0,
+    "median_total_change_rel": -0.07871906533883216
+   },
+   "independent P1": {
+    "data": 0.48624110363030787,
+    "D2": 0.43985959657050816,
+    "SiLU": 0.07389929979918361,
+    "muQ": -0.0,
+    "median_total_change_rel": -0.1132591153531593
+   },
+   "independent P2": {
+    "data": 0.6799252615551064,
+    "D2": 0.19754998952725936,
+    "SiLU": 0.16710453503499942,
+    "muQ": -0.04457978611736367,
+    "median_total_change_rel": -0.038778614224550985
+   },
+   "correlated P0": {
+    "data": 0.3450063033665063,
+    "D2": 0.6549936966334937,
+    "SiLU": -0.0,
+    "muQ": -0.0,
+    "median_total_change_rel": -0.11710154761877915
+   },
+   "correlated P1": {
+    "data": 0.3656893283766222,
+    "D2": 0.5498697118884772,
+    "SiLU": 0.08444095973490066,
+    "muQ": -0.0,
+    "median_total_change_rel": -0.15480559385783327
+   },
+   "correlated P2": {
+    "data": 0.4995628416474735,
+    "D2": 0.4033582071656665,
+    "SiLU": 0.1657553858796569,
+    "muQ": -0.06867643469279651,
+    "median_total_change_rel": -0.053360205429191385
+   }
+  }
+ }
+}
