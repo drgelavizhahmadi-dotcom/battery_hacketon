@@ -1,0 +1,595 @@
+{
+ "prereg": "3938f8f",
+ "shas": {
+  "train.csv": "6c0e899617e60107cd0ccc3e54ef7aa709389b5395f558f8f70485881f2994e1",
+  "test.csv": "0760be3df704fd5ac873ea8d5fb8075f4c38fc6a0f95c2800f27f50521b88566",
+  "sample_submission.csv": "dd7a75173eeac35b4b3f503172082167c51fda275b660cb5a1b3014230bc1321"
+ },
+ "cosolvents": {
+  "2-Glyme": {
+   "rows": 5,
+   "distinct_xco": 1,
+   "xco_min": 0.7113494719610001,
+   "xco_max": 0.7113494719610001,
+   "xco_sd": 0.0,
+   "flag_le2": true,
+   "sole_rows": 0,
+   "blend_only": true,
+   "partners": {
+    "EC": 5
+   },
+   "own_fracs": [
+    0.343
+   ],
+   "xco_values": [
+    0.7113
+   ],
+   "groups": 5,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 5,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  },
+  "2-MeTHF": {
+   "rows": 126,
+   "distinct_xco": 13,
+   "xco_min": 0.647702257554,
+   "xco_max": 0.9388952635525,
+   "xco_sd": 0.07142181091787217,
+   "flag_le2": false,
+   "sole_rows": 0,
+   "blend_only": true,
+   "partners": {
+    "DME+EC": 30,
+    "EC+Methylene chloride": 24,
+    "EC": 34,
+    "EC+THF": 30,
+    "EC+Toluene": 8
+   },
+   "own_fracs": [
+    0.1031,
+    0.1232,
+    0.1818,
+    0.1981,
+    0.2075,
+    0.2144,
+    0.2703,
+    0.2934,
+    0.3166,
+    0.3202,
+    0.4257,
+    0.4634,
+    0.6898
+   ],
+   "xco_values": [
+    0.6477,
+    0.7459,
+    0.7477,
+    0.8123,
+    0.8261,
+    0.8373,
+    0.8398,
+    0.8627,
+    0.8637,
+    0.877,
+    0.8922,
+    0.927,
+    0.9389
+   ],
+   "groups": 126,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 119,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 2,
+   "rows_ge09": 18,
+   "rows_eq1": 0
+  },
+  "3-Glyme": {
+   "rows": 15,
+   "distinct_xco": 2,
+   "xco_min": 0.6891978995470001,
+   "xco_max": 0.859847427259,
+   "xco_sd": 0.0836008535482675,
+   "flag_le2": true,
+   "sole_rows": 0,
+   "blend_only": true,
+   "partners": {
+    "EC": 9,
+    "Sulfolane": 6
+   },
+   "own_fracs": [
+    0.2926,
+    0.2968
+   ],
+   "xco_values": [
+    0.6892,
+    0.8598
+   ],
+   "groups": 15,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 15,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  },
+  "DME": {
+   "rows": 47,
+   "distinct_xco": 5,
+   "xco_min": 0.44913390736900005,
+   "xco_max": 0.862652351228,
+   "xco_sd": 0.13340023425051217,
+   "flag_le2": false,
+   "sole_rows": 7,
+   "blend_only": false,
+   "partners": {
+    "2-MeTHF+EC": 30,
+    "EC": 10
+   },
+   "own_fracs": [
+    0.2072,
+    0.224,
+    0.3095,
+    0.4174,
+    0.4491
+   ],
+   "xco_values": [
+    0.4491,
+    0.744,
+    0.7459,
+    0.8373,
+    0.8627
+   ],
+   "groups": 47,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 47,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  },
+  "EA": {
+   "rows": 635,
+   "distinct_xco": 7,
+   "xco_min": 0.11406044178899999,
+   "xco_max": 0.729995985458,
+   "xco_sd": 0.20433548286180547,
+   "flag_le2": false,
+   "sole_rows": 635,
+   "blend_only": false,
+   "partners": {},
+   "own_fracs": [
+    0.1141,
+    0.2246,
+    0.3318,
+    0.4358,
+    0.5368,
+    0.6348,
+    0.73
+   ],
+   "xco_values": [
+    0.1141,
+    0.2246,
+    0.3318,
+    0.4358,
+    0.5368,
+    0.6348,
+    0.73
+   ],
+   "groups": 633,
+   "groups_ge2": 2,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 11,
+   "groups2_ge2": 11,
+   "median_distinct_group2": 7.0,
+   "molal_overlap_median": 0.805987564869815,
+   "distinct_conc": 396,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  },
+  "EC": {
+   "rows": 1385,
+   "distinct_xco": 35,
+   "xco_min": 0.11411092866799999,
+   "xco_max": 0.9403435658085,
+   "xco_sd": 0.23393798066381913,
+   "flag_le2": false,
+   "sole_rows": 1181,
+   "blend_only": false,
+   "partners": {
+    "2-MeTHF+DME": 30,
+    "2-MeTHF+Methylene chloride": 24,
+    "2-MeTHF": 34,
+    "2-MeTHF+THF": 30,
+    "2-MeTHF+Toluene": 8,
+    "DME": 10,
+    "2-Glyme": 5,
+    "Methylene chloride+THF": 24,
+    "Methylene chloride": 24,
+    "3-Glyme": 9,
+    "Toluene": 6
+   },
+   "own_fracs": [
+    0.0761,
+    0.078,
+    0.0932,
+    0.1141,
+    0.1319,
+    0.1375,
+    0.1505,
+    0.1569,
+    0.1698,
+    0.1739,
+    0.1753,
+    0.1838,
+    0.1922,
+    0.2045,
+    0.2076,
+    0.222,
+    0.2247,
+    0.2395,
+    0.2587,
+    0.322,
+    0.3243,
+    0.3267,
+    0.3319,
+    0.3684,
+    0.3737,
+    0.3966,
+    0.4359,
+    0.4496,
+    0.4546,
+    0.4868,
+    0.5369,
+    0.5607,
+    0.6349,
+    0.7301,
+    0.7486
+   ],
+   "xco_values": [
+    0.1141,
+    0.1698,
+    0.1838,
+    0.2247,
+    0.3319,
+    0.4359,
+    0.4868,
+    0.5369,
+    0.5607,
+    0.6349,
+    0.6437,
+    0.6477,
+    0.6892,
+    0.7072,
+    0.7113,
+    0.7301,
+    0.744,
+    0.7459,
+    0.7477,
+    0.7486,
+    0.7973,
+    0.8123,
+    0.8261,
+    0.8373,
+    0.8398,
+    0.8494,
+    0.8627,
+    0.8637,
+    0.877,
+    0.882,
+    0.8922,
+    0.8966,
+    0.927,
+    0.9389,
+    0.9403
+   ],
+   "groups": 1350,
+   "groups_ge2": 29,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 14,
+   "drift_max": 0.053602916023322275,
+   "drift_median": 0.03417182740604745,
+   "groups2": 240,
+   "groups2_ge2": 40,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": 0.7877621658827372,
+   "distinct_conc": 671,
+   "rows_ge09": 26,
+   "rows_eq1": 0
+  },
+  "Methylene chloride": {
+   "rows": 96,
+   "distinct_xco": 12,
+   "xco_min": 0.36284947134800005,
+   "xco_max": 0.9403435658085,
+   "xco_sd": 0.1631823237662318,
+   "flag_le2": false,
+   "sole_rows": 24,
+   "blend_only": false,
+   "partners": {
+    "2-MeTHF+EC": 24,
+    "EC+THF": 24,
+    "EC": 24
+   },
+   "own_fracs": [
+    0.3335,
+    0.3431,
+    0.3628,
+    0.365,
+    0.5387,
+    0.5493,
+    0.5706,
+    0.5729,
+    0.7315,
+    0.7399,
+    0.7561,
+    0.7578
+   ],
+   "xco_values": [
+    0.3628,
+    0.5706,
+    0.7072,
+    0.7561,
+    0.7973,
+    0.8398,
+    0.8494,
+    0.882,
+    0.8922,
+    0.8966,
+    0.9389,
+    0.9403
+   ],
+   "groups": 80,
+   "groups_ge2": 8,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 8,
+   "drift_max": 0.04010159966149006,
+   "drift_median": 0.04010159966149006,
+   "groups2": 80,
+   "groups2_ge2": 8,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": 0.0,
+   "distinct_conc": 1,
+   "rows_ge09": 16,
+   "rows_eq1": 0
+  },
+  "Sulfolane": {
+   "rows": 12,
+   "distinct_xco": 2,
+   "xco_min": 0.471654452788,
+   "xco_max": 0.859847427259,
+   "xco_sd": 0.19409648723550002,
+   "flag_le2": true,
+   "sole_rows": 6,
+   "blend_only": false,
+   "partners": {
+    "3-Glyme": 6
+   },
+   "own_fracs": [
+    0.4717,
+    0.563
+   ],
+   "xco_values": [
+    0.4717,
+    0.8598
+   ],
+   "groups": 12,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 12,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  },
+  "THF": {
+   "rows": 54,
+   "distinct_xco": 6,
+   "xco_min": 0.826077877646,
+   "xco_max": 0.9403435658085,
+   "xco_sd": 0.040529871433593524,
+   "flag_le2": false,
+   "sole_rows": 0,
+   "blend_only": true,
+   "partners": {
+    "2-MeTHF+EC": 30,
+    "EC+Methylene chloride": 24
+   },
+   "own_fracs": [
+    0.1243,
+    0.2154,
+    0.3107,
+    0.314,
+    0.5126,
+    0.7105
+   ],
+   "xco_values": [
+    0.8261,
+    0.8494,
+    0.877,
+    0.8966,
+    0.927,
+    0.9403
+   ],
+   "groups": 54,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 54,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 18,
+   "rows_eq1": 0
+  },
+  "Toluene": {
+   "rows": 20,
+   "distinct_xco": 3,
+   "xco_min": 0.25440662807799996,
+   "xco_max": 0.812312969156,
+   "xco_sd": 0.23324551589859874,
+   "flag_le2": false,
+   "sole_rows": 6,
+   "blend_only": false,
+   "partners": {
+    "2-MeTHF+EC": 8,
+    "EC": 6
+   },
+   "own_fracs": [
+    0.1891,
+    0.2544,
+    0.2562
+   ],
+   "xco_values": [
+    0.2544,
+    0.6437,
+    0.8123
+   ],
+   "groups": 20,
+   "groups_ge2": 0,
+   "median_distinct_per_group": 1.0,
+   "molL_groups": 0,
+   "drift_max": null,
+   "drift_median": null,
+   "groups2": 20,
+   "groups2_ge2": 0,
+   "median_distinct_group2": 1.0,
+   "molal_overlap_median": null,
+   "distinct_conc": 1,
+   "rows_ge09": 0,
+   "rows_eq1": 0
+  }
+ },
+ "flagged": [
+  "2-Glyme",
+  "3-Glyme",
+  "Sulfolane"
+ ],
+ "unflagged": [
+  "2-MeTHF",
+  "DME",
+  "EA",
+  "EC",
+  "Methylene chloride",
+  "THF",
+  "Toluene"
+ ],
+ "dec_test": {
+  "n": 5959,
+  "n_anchored": 5313,
+  "quantiles": [
+   0.08760921222999996,
+   0.17766442691399997,
+   0.36553437861399996,
+   0.564515207426,
+   1.0
+  ],
+  "quantiles_anchored": [
+   0.08760921222999996,
+   0.17766442691399997,
+   0.36553437861399996,
+   0.463575226704,
+   0.668484844516
+  ],
+  "combos": {
+   "DEC+DMC+EC": 23,
+   "DEC+PC": 5921,
+   "DEC+EC": 15
+  }
+ },
+ "loco": [
+  {
+   "fold": "A",
+   "train": 1434,
+   "test": 635
+  },
+  {
+   "fold": "2-Glyme",
+   "train": 2064,
+   "test": 5
+  },
+  {
+   "fold": "2-MeTHF",
+   "train": 1943,
+   "test": 126
+  },
+  {
+   "fold": "3-Glyme",
+   "train": 2054,
+   "test": 15
+  },
+  {
+   "fold": "DME",
+   "train": 2022,
+   "test": 47
+  },
+  {
+   "fold": "EA",
+   "train": 1434,
+   "test": 635
+  },
+  {
+   "fold": "EC",
+   "train": 684,
+   "test": 1385
+  },
+  {
+   "fold": "Methylene chloride",
+   "train": 1973,
+   "test": 96
+  },
+  {
+   "fold": "Sulfolane",
+   "train": 2057,
+   "test": 12
+  },
+  {
+   "fold": "THF",
+   "train": 2015,
+   "test": 54
+  },
+  {
+   "fold": "Toluene",
+   "train": 2049,
+   "test": 20
+  }
+ ],
+ "loco_matches_sc": true
+}

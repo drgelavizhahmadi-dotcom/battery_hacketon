@@ -1,0 +1,165 @@
+##############################################################################################################
+arch/ex_run STEP 0 2026-10-04 09:41:47 (prereg arch/ex_prereg.md, commit 3938f8f): data checks only, no training.
+##############################################################################################################
+DISCREPANCIES / choices (files win; flags 1-11 are in the prereg):
+  D1 'rows per co-solvent' = anchored training rows containing it (the LOCO rule); x_co = 1 - frac_PC (anchor.prepare), i.e. the TOTAL
+     non-PC fraction, so for blends x_co includes the partner; the co-solvent's own mole fraction is reported alongside
+  D2 distinct x_co values are counted after rounding to 4 decimals
+  D3 a 'group' (for within-group x_co and molality drift) = source DOI, salt, T level (0.1 K), concentration unit and nominal
+     concentration, and non-PC blend ratio (co-solvent fractions renormalised, rounded to 3 decimals); x_co varies inside a group
+  D5 concentrations are continuous (e.g. EA: one source, one salt, 396 distinct concentrations in 635 rows), so D3 groups almost never
+     repeat a concentration across x_co; a second grouping drops the concentration (source DOI, salt, T level, blend ratio) and
+     reports distinct x_co there together with the overlap of their molality ranges (g is smooth in molality)
+  D4 molality drift: (max - min) / median of molal within a mol/L group with >= 2 distinct x_co (molal = c / rho_mix there)
+inputs: train.csv sha256 6c0e899617e6, test.csv sha256 0760be3df704, sample_submission.csv sha256 dd7a75173eea (read once by anchor.prepare, held in memory)
+
+anchored training rows: 2069; co-solvents: 10
+
+==================== STEP 0a/0b: per co-solvent ====================
+
+  2-Glyme: 5 rows; distinct x_co 1; x_co range [0.711, 0.711], SD 0.000 -> FLAGGED (<= 2 distinct x_co)
+    x_co values: 0.711
+    sole co-solvent in 0 rows  -> BLEND-ONLY
+    blend partners: EC (5 rows)
+      with EC: mole fractions (in the full mixture) 2-Glyme 0.343, EC 0.368 [5]
+    groups (D3): 5; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 5; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  2-MeTHF: 126 rows; distinct x_co 13; x_co range [0.648, 0.939], SD 0.071 -> not flagged
+    x_co values: 0.648, 0.746, 0.748, 0.812, 0.826, 0.837, 0.840, 0.863, 0.864, 0.877, 0.892, 0.927, 0.939
+    sole co-solvent in 0 rows  -> BLEND-ONLY
+    blend partners: EC (34 rows); DME+EC (30 rows); EC+THF (30 rows); EC+Methylene chloride (24 rows); EC+Toluene (8 rows)
+      with DME+EC: mole fractions (in the full mixture) 2-MeTHF 0.214, DME 0.207, EC 0.324 [10]; 2-MeTHF 0.320, DME 0.310, EC 0.208 [10]; 2-MeTHF 0.463, DME 0.224, EC 0.175 [10]
+      with EC+Methylene chloride: mole fractions (in the full mixture) 2-MeTHF 0.103, EC 0.078, Methylene chloride 0.758 [8]; 2-MeTHF 0.182, EC 0.138, Methylene chloride 0.573 [8]; 2-MeTHF 0.270, EC 0.204, Methylene chloride 0.365 [8]
+      with EC: mole fractions (in the full mixture) 2-MeTHF 0.198, EC 0.450 [7]; 2-MeTHF 0.426, EC 0.322 [10]; 2-MeTHF 0.690, EC 0.174 [17]
+      with EC+THF: mole fractions (in the full mixture) 2-MeTHF 0.123, EC 0.093, THF 0.711 [10]; 2-MeTHF 0.207, EC 0.157, THF 0.513 [10]; 2-MeTHF 0.293, EC 0.222, THF 0.311 [10]
+      with EC+Toluene: mole fractions (in the full mixture) 2-MeTHF 0.317, EC 0.240, Toluene 0.256 [8]
+    groups (D3): 126; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 119; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 2
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 18 (x_co = 1: 0); at x_co [0.927, 0.939]
+
+  3-Glyme: 15 rows; distinct x_co 2; x_co range [0.689, 0.860], SD 0.084 -> FLAGGED (<= 2 distinct x_co)
+    x_co values: 0.689, 0.860
+    sole co-solvent in 0 rows  -> BLEND-ONLY
+    blend partners: EC (9 rows); Sulfolane (6 rows)
+      with EC: mole fractions (in the full mixture) 3-Glyme 0.293, EC 0.397 [9]
+      with Sulfolane: mole fractions (in the full mixture) 3-Glyme 0.297, Sulfolane 0.563 [6]
+    groups (D3): 15; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 15; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  DME: 47 rows; distinct x_co 5; x_co range [0.449, 0.863], SD 0.133 -> not flagged
+    x_co values: 0.449, 0.744, 0.746, 0.837, 0.863
+    sole co-solvent in 7 rows
+    blend partners: 2-MeTHF+EC (30 rows); EC (10 rows)
+      with 2-MeTHF+EC: mole fractions (in the full mixture) 2-MeTHF 0.214, DME 0.207, EC 0.324 [10]; 2-MeTHF 0.320, DME 0.310, EC 0.208 [10]; 2-MeTHF 0.463, DME 0.224, EC 0.175 [10]
+      with EC: mole fractions (in the full mixture) DME 0.417, EC 0.327 [10]
+    groups (D3): 47; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 47; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  EA: 635 rows; distinct x_co 7; x_co range [0.114, 0.730], SD 0.204 -> not flagged
+    x_co values: 0.114, 0.225, 0.332, 0.436, 0.537, 0.635, 0.730
+    sole co-solvent in 635 rows
+    groups (D3): 633; with >= 2 distinct x_co: 2; median distinct x_co per group 1
+    groups without concentration (D5): 11; with >= 2 distinct x_co: 11; median distinct x_co 7; median shared molality range across x_co 0.81 of the group's range; distinct concentrations 396
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  EC: 1385 rows; distinct x_co 35; x_co range [0.114, 0.940], SD 0.234 -> not flagged
+    x_co values: 0.114, 0.170, 0.184, 0.225, 0.332, 0.436, 0.487, 0.537, 0.561, 0.635, 0.644, 0.648, 0.689, 0.707, 0.711, 0.730, 0.744, 0.746, 0.748, 0.749 ...
+    sole co-solvent in 1181 rows
+    blend partners: 2-MeTHF (34 rows); 2-MeTHF+DME (30 rows); 2-MeTHF+THF (30 rows); 2-MeTHF+Methylene chloride (24 rows); Methylene chloride+THF (24 rows); Methylene chloride (24 rows); DME (10 rows); 3-Glyme (9 rows); 2-MeTHF+Toluene (8 rows); Toluene (6 rows); 2-Glyme (5 rows)
+      with 2-MeTHF+DME: mole fractions (in the full mixture) 2-MeTHF 0.214, DME 0.207, EC 0.324 [10]; 2-MeTHF 0.320, DME 0.310, EC 0.208 [10]; 2-MeTHF 0.463, DME 0.224, EC 0.175 [10]
+      with 2-MeTHF+Methylene chloride: mole fractions (in the full mixture) 2-MeTHF 0.103, EC 0.078, Methylene chloride 0.758 [8]; 2-MeTHF 0.182, EC 0.138, Methylene chloride 0.573 [8]; 2-MeTHF 0.270, EC 0.204, Methylene chloride 0.365 [8]
+      with 2-MeTHF: mole fractions (in the full mixture) 2-MeTHF 0.198, EC 0.450 [7]; 2-MeTHF 0.426, EC 0.322 [10]; 2-MeTHF 0.690, EC 0.174 [17]
+      with 2-MeTHF+THF: mole fractions (in the full mixture) 2-MeTHF 0.123, EC 0.093, THF 0.711 [10]; 2-MeTHF 0.207, EC 0.157, THF 0.513 [10]; 2-MeTHF 0.293, EC 0.222, THF 0.311 [10]
+      with 2-MeTHF+Toluene: mole fractions (in the full mixture) 2-MeTHF 0.317, EC 0.240, Toluene 0.256 [8]
+      with DME: mole fractions (in the full mixture) DME 0.417, EC 0.327 [10]
+      with 2-Glyme: mole fractions (in the full mixture) 2-Glyme 0.343, EC 0.368 [5]
+      with Methylene chloride+THF: mole fractions (in the full mixture) EC 0.076, Methylene chloride 0.740, THF 0.124 [8]; EC 0.132, Methylene chloride 0.549, THF 0.215 [8]; EC 0.192, Methylene chloride 0.343, THF 0.314 [8]
+      with Methylene chloride: mole fractions (in the full mixture) EC 0.151, Methylene chloride 0.731 [8]; EC 0.259, Methylene chloride 0.539 [8]; EC 0.374, Methylene chloride 0.334 [8]
+      with 3-Glyme: mole fractions (in the full mixture) 3-Glyme 0.293, EC 0.397 [9]
+      with Toluene: mole fractions (in the full mixture) EC 0.455, Toluene 0.189 [6]
+    groups (D3): 1350; with >= 2 distinct x_co: 29; median distinct x_co per group 1
+    groups without concentration (D5): 240; with >= 2 distinct x_co: 40; median distinct x_co 1; median shared molality range across x_co 0.79 of the group's range; distinct concentrations 671
+    mol/L groups with varying x_co: 14; molality drift max 5.360%, median 3.417%
+    0b: rows with x_co >= 0.9: 26 (x_co = 1: 0); at x_co [0.927, 0.939, 0.94]
+
+  Methylene chloride: 96 rows; distinct x_co 12; x_co range [0.363, 0.940], SD 0.163 -> not flagged
+    x_co values: 0.363, 0.571, 0.707, 0.756, 0.797, 0.840, 0.849, 0.882, 0.892, 0.897, 0.939, 0.940
+    sole co-solvent in 24 rows
+    blend partners: 2-MeTHF+EC (24 rows); EC+THF (24 rows); EC (24 rows)
+      with 2-MeTHF+EC: mole fractions (in the full mixture) 2-MeTHF 0.103, EC 0.078, Methylene chloride 0.758 [8]; 2-MeTHF 0.182, EC 0.138, Methylene chloride 0.573 [8]; 2-MeTHF 0.270, EC 0.204, Methylene chloride 0.365 [8]
+      with EC+THF: mole fractions (in the full mixture) EC 0.076, Methylene chloride 0.740, THF 0.124 [8]; EC 0.132, Methylene chloride 0.549, THF 0.215 [8]; EC 0.192, Methylene chloride 0.343, THF 0.314 [8]
+      with EC: mole fractions (in the full mixture) EC 0.151, Methylene chloride 0.731 [8]; EC 0.259, Methylene chloride 0.539 [8]; EC 0.374, Methylene chloride 0.334 [8]
+    groups (D3): 80; with >= 2 distinct x_co: 8; median distinct x_co per group 1
+    groups without concentration (D5): 80; with >= 2 distinct x_co: 8; median distinct x_co 1; median shared molality range across x_co 0.00 of the group's range; distinct concentrations 1
+    mol/L groups with varying x_co: 8; molality drift max 4.010%, median 4.010%
+    0b: rows with x_co >= 0.9: 16 (x_co = 1: 0); at x_co [0.939, 0.94]
+
+  Sulfolane: 12 rows; distinct x_co 2; x_co range [0.472, 0.860], SD 0.194 -> FLAGGED (<= 2 distinct x_co)
+    x_co values: 0.472, 0.860
+    sole co-solvent in 6 rows
+    blend partners: 3-Glyme (6 rows)
+      with 3-Glyme: mole fractions (in the full mixture) 3-Glyme 0.297, Sulfolane 0.563 [6]
+    groups (D3): 12; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 12; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  THF: 54 rows; distinct x_co 6; x_co range [0.826, 0.940], SD 0.041 -> not flagged
+    x_co values: 0.826, 0.849, 0.877, 0.897, 0.927, 0.940
+    sole co-solvent in 0 rows  -> BLEND-ONLY
+    blend partners: 2-MeTHF+EC (30 rows); EC+Methylene chloride (24 rows)
+      with 2-MeTHF+EC: mole fractions (in the full mixture) 2-MeTHF 0.123, EC 0.093, THF 0.711 [10]; 2-MeTHF 0.207, EC 0.157, THF 0.513 [10]; 2-MeTHF 0.293, EC 0.222, THF 0.311 [10]
+      with EC+Methylene chloride: mole fractions (in the full mixture) EC 0.076, Methylene chloride 0.740, THF 0.124 [8]; EC 0.132, Methylene chloride 0.549, THF 0.215 [8]; EC 0.192, Methylene chloride 0.343, THF 0.314 [8]
+    groups (D3): 54; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 54; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 18 (x_co = 1: 0); at x_co [0.927, 0.94]
+
+  Toluene: 20 rows; distinct x_co 3; x_co range [0.254, 0.812], SD 0.233 -> not flagged
+    x_co values: 0.254, 0.644, 0.812
+    sole co-solvent in 6 rows
+    blend partners: 2-MeTHF+EC (8 rows); EC (6 rows)
+      with 2-MeTHF+EC: mole fractions (in the full mixture) 2-MeTHF 0.317, EC 0.240, Toluene 0.256 [8]
+      with EC: mole fractions (in the full mixture) EC 0.455, Toluene 0.189 [6]
+    groups (D3): 20; with >= 2 distinct x_co: 0; median distinct x_co per group 1
+    groups without concentration (D5): 20; with >= 2 distinct x_co: 0; median distinct x_co 1; distinct concentrations 1
+    mol/L groups with varying x_co: 0
+    0b: rows with x_co >= 0.9: 0 (x_co = 1: 0)
+
+  SUMMARY 0a: flagged (<= 2 distinct x_co): ['2-Glyme', '3-Glyme', 'Sulfolane']; unflagged: ['2-MeTHF', 'DME', 'EA', 'EC', 'Methylene chloride', 'THF', 'Toluene']
+  E3 needs >= 3 unflagged co-solvents: 7 -> OK
+  E5 needs >= 1 flagged and >= 1 unflagged: OK
+  blend-only co-solvents: ['2-Glyme', '2-MeTHF', '3-Glyme', 'THF']
+
+==================== STEP 0c: DEC test set, x_co distribution ====================
+  all test rows: n 5959; distinct x_co 8; quantiles 0/10/25/50/75/90/100% 0.088 / 0.088 / 0.178 / 0.366 / 0.565 / 0.668 / 1.000
+    histogram (0.1-wide bins from 0 to 1): 875 840 905 853 925 831 692 0 0 38
+  anchored test rows (KAN-delta rows): n 5313; distinct x_co 7; quantiles 0/10/25/50/75/90/100% 0.088 / 0.088 / 0.178 / 0.366 / 0.464 / 0.668 / 0.668
+    histogram (0.1-wide bins from 0 to 1): 806 781 810 780 808 726 602 0 0 0
+  test combinations: DEC+PC 5921; DEC+DMC+EC 23; DEC+EC 15
+  x_co >= 0.9 in test: 38 rows (anchored 0); x_co = 1: 38
+
+==================== STEP 0d: LOCO folds (as arch/sc_prereg.md flag 6) ====================
+  A                    train  1434  test   635  >=20
+  2-Glyme              train  2064  test     5  <20
+  2-MeTHF              train  1943  test   126  >=20
+  3-Glyme              train  2054  test    15  <20
+  DME                  train  2022  test    47  >=20
+  EA                   train  1434  test   635  >=20
+  EC                   train   684  test  1385  >=20
+  Methylene chloride   train  1973  test    96  >=20
+  Sulfolane            train  2057  test    12  <20
+  THF                  train  2015  test    54  >=20
+  Toluene              train  2049  test    20  >=20
+  identical to arch/sc Step 0b table (d898d73): True; fold A == EA fold: True
+
+STEP 0 done (data checks only). Waiting for the decision before Step 1.
