@@ -1,0 +1,97 @@
+####################################################################################################
+paper2/checks: DESCRIPTIVE, POST-HOC (plan 5745103). No training; no verdict changes; nothing here is pre-registered.
+####################################################################################################
+NOTES / discrepancies (files win):
+  real-data training rows = all 2069 anchored rows (the seeds' training set); SC/baseline fold A rows = the 1434 fold A training rows
+  stage2 Part A finals are saved as flat parameter vectors; rebuilt with trust.Flat on their fiber2-capped start (unused salt rows fixed)
+  SC polished models are flat vectors too, rebuilt with sc_model.FlatSC.to_net (centring mean recomputed on the training rows)
+  synth 'runaway' = not certified (synth_results.json), as in the brief; real-data stages have no certified models (stage2 U1 failed)
+
+==================== inputs (SHA-256 verified against weights_manifest.txt, held in memory) ====================
+  106 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== ITEM 1: hidden-unit correlation (claim F4; POST-HOC expectation: runaway > converged) ====================
+
+  synthetic students (3 hidden units), per cell and state:
+  independent P0 early (certified 6/8)                       n   8  median|offdiag| 0.041  max|offdiag| median 0.061 (range 0.048-0.480)  PR median 2.86 of 3
+  independent P0 polished (certified 6/8)                    n   8  median|offdiag| 0.036  max|offdiag| median 0.059 (range 0.038-0.947)  PR median 2.94 of 3
+  independent P1 early (certified 6/8)                       n   8  median|offdiag| 0.068  max|offdiag| median 0.114 (range 0.052-0.707)  PR median 2.69 of 3
+  independent P1 polished (certified 6/8)                    n   8  median|offdiag| 0.045  max|offdiag| median 0.054 (range 0.052-0.924)  PR median 2.64 of 3
+  independent P2 early (certified 8/8)                       n   8  median|offdiag| 0.031  max|offdiag| median 0.052 (range 0.043-0.710)  PR median 2.88 of 3
+  independent P2 polished (certified 8/8)                    n   8  median|offdiag| 0.024  max|offdiag| median 0.047 (range 0.047-0.640)  PR median 2.91 of 3
+  correlated P0 early (certified 0/8)                        n   8  median|offdiag| 0.350  max|offdiag| median 0.802 (range 0.672-0.898)  PR median 1.71 of 3
+  correlated P0 polished (certified 0/8)                     n   8  median|offdiag| 0.574  max|offdiag| median 0.958 (range 0.390-0.999)  PR median 1.38 of 3
+  correlated P1 early (certified 0/8)                        n   8  median|offdiag| 0.374  max|offdiag| median 0.824 (range 0.443-0.873)  PR median 1.76 of 3
+  correlated P1 polished (certified 0/8)                     n   8  median|offdiag| 0.630  max|offdiag| median 0.922 (range 0.832-0.998)  PR median 1.56 of 3
+  correlated P2 early (certified 8/8)                        n   8  median|offdiag| 0.306  max|offdiag| median 0.817 (range 0.613-0.859)  PR median 1.75 of 3
+  correlated P2 polished (certified 8/8)                     n   8  median|offdiag| 0.196  max|offdiag| median 0.882 (range 0.595-0.883)  PR median 1.66 of 3
+
+  synthetic: certified vs not (polished state; early state in brackets of the same models):
+  NOT certified (runaway) - polished                         n  20  median|offdiag| 0.602  max|offdiag| median 0.935 (range 0.390-0.999)  PR median 1.47 of 3
+  NOT certified (runaway) - early                            n  20  median|offdiag| 0.351  max|offdiag| median 0.784 (range 0.443-0.898)  PR median 1.81 of 3
+  certified - polished                                       n  28  median|offdiag| 0.045  max|offdiag| median 0.054 (range 0.038-0.883)  PR median 2.91 of 3
+  certified - early                                          n  28  median|offdiag| 0.049  max|offdiag| median 0.062 (range 0.043-0.859)  PR median 2.79 of 3
+
+  synthetic: independent vs correlated cells, P0/P1 only (the runaway levels):
+  independent P0+P1 early                                    n  16  median|offdiag| 0.049  max|offdiag| median 0.062 (range 0.048-0.707)  PR median 2.79 of 3
+  independent P0+P1 polished                                 n  16  median|offdiag| 0.045  max|offdiag| median 0.054 (range 0.038-0.947)  PR median 2.94 of 3
+  correlated P0+P1 early                                     n  16  median|offdiag| 0.351  max|offdiag| median 0.817 (range 0.443-0.898)  PR median 1.71 of 3
+  correlated P0+P1 polished                                  n  16  median|offdiag| 0.618  max|offdiag| median 0.951 (range 0.390-0.999)  PR median 1.47 of 3
+
+  synthetic independent P0/P1: the 4 never-certified (s0, s4) vs the 12 certified, polished:
+  independent P0/P1 NOT certified (s0, s4) - polished        n   4  median|offdiag| 0.278  max|offdiag| median 0.696 (range 0.430-0.947)  PR median 1.43 of 3
+  independent P0/P1 certified - polished                     n  12  median|offdiag| 0.036  max|offdiag| median 0.053 (range 0.038-0.069)  PR median 2.94 of 3
+
+  real-data KAN-delta seeds (6 hidden units, 2069 anchored rows), per stage:
+  107-epoch (extra)                                          n   6  median|offdiag| 0.434  max|offdiag| median 0.821 (range 0.768-0.921)  PR median 1.89 of 6
+  fiber2 capped                                              n   6  median|offdiag| 0.335  max|offdiag| median 0.968 (range 0.947-0.998)  PR median 1.73 of 6
+  stage2 Part A final                                        n   6  median|offdiag| 0.295  max|offdiag| median 0.983 (range 0.897-0.998)  PR median 1.88 of 6
+
+  fold A, 1434 rows: SC-KAN-delta (10/10 certified at polish) vs baseline KAN-delta (extra; 0/10 certified):
+  sc early                                                   n  10  median|offdiag| 0.528  max|offdiag| median 0.958 (range 0.835-0.980)  PR median 1.93 of 6
+  sc polished                                                n  10  median|offdiag| 0.422  max|offdiag| median 0.818 (range 0.698-0.973)  PR median 2.24 of 6
+  scbase (extra) early                                       n  10  median|offdiag| 0.384  max|offdiag| median 0.880 (range 0.737-0.936)  PR median 1.97 of 6
+  scbase (extra) polished                                    n  10  median|offdiag| 0.443  max|offdiag| median 0.946 (range 0.864-0.999)  PR median 1.96 of 6
+
+  per-model detail (real seeds): ind0 107-epoch max 0.80 PR 2.27; ind0 fiber2 max 0.97 PR 1.99; ind0 stage2 max 0.99 PR 1.98; ind1 107-epoch max 0.82 PR 1.83; ind1 fiber2 max 1.00 PR 1.87; ind1 stage2 max 0.99 PR 1.90; ind2 107-epoch max 0.77 PR 1.91; ind2 fiber2 max 0.95 PR 1.55; ind2 stage2 max 0.96 PR 1.66; ind3 107-epoch max 0.87 PR 2.29; ind3 fiber2 max 0.97 PR 1.65; ind3 stage2 max 0.97 PR 1.69; ind4 107-epoch max 0.92 PR 1.86; ind4 fiber2 max 1.00 PR 1.70; ind4 stage2 max 1.00 PR 1.85; ind5 107-epoch max 0.83 PR 1.86; ind5 fiber2 max 0.95 PR 1.76; ind5 stage2 max 0.90 PR 1.91
+
+==================== ITEM 2: how affine is the tilt (claim F2) ====================
+  final.py edge (kan.KANLayer): 8 Gaussian RBFs, centres linspace(-1, 1, 8), width h = 0.285714 (= 2/7), grid range [-1, 1]
+  synth model: SynthKAN = two kan.KANLayers -> identical edge type; SC-KAN-delta curves: same centres/width: True
+  linear pattern c_k ~ k - mean(k)   full [-1, 1]            : max deviation 12.894%, RMS 3.168% of the function range (1.4949)
+  linear pattern c_k ~ k - mean(k)   central 80% [-0.8, 0.8] : max deviation 2.022%, RMS 0.446% of the function range (1.4530)
+  constant pattern c_k = 1           full [-1, 1]            : max deviation 19.932%, RMS 4.856% of the mean level (0.6121)
+  constant pattern c_k = 1           central 80% [-0.8, 0.8] : max deviation 2.894%, RMS 0.637% of the mean level (0.6248)
+
+==================== ITEM 3: reference commits and data citation ====================
+  final.py (KAN-delta ensemble, seeds 0-4, 107 epochs) first committed in: 3081cc0 2026-09-23 CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission
+  fold A RMSE 0.1420 first recorded (kan_output.txt) in: 3081cc0 2026-09-23 CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission
+    kan_output.txt: PRE-REG 1 (KAN-delta fold A <= HGB-delta 0.1747): KAN 0.1420 -> HELD
+    (the same 0.1420 is reproduced by the cached baseline ensemble in arch/sc, e00e37f, and arch/ex, 579b58f)
+  citation search in the competition material (metaData.csv, solvent_properties.csv) and README.md: 0 hits
+  -> neither the competition files nor the repo docs carry a citation for CALiSol-23 (the metadata only calls it 'the CALiSol-23 benchmark').
+  Published dataset article (found online via PubMed Central PMC11237020, NOT from the competition material):
+    de Blasio, P., Elsborg, J., Vegge, T., Flores, E. & Bhowmik, A. CALiSol-23: Experimental electrolyte conductivity data for
+    various Li-salts and solvent combinations. Scientific Data 11, 750 (2024). https://doi.org/10.1038/s41597-024-03575-8
+    (article licence CC BY 4.0, quoted from the PMC page; dataset at DTU Data under CC BY 4.0 per a tool summary of its data availability statement, not checked verbatim)
+
+==================== closing paragraph, item 1 (POST-HOC, descriptive; no verdict changes) ====================
+Does hidden-unit correlation support the claim that the output layer can host the runaway even with independent raw
+inputs? In the synthetic independent cells, yes.
+- The four never-certified independent P0/P1 students (s0, s4) end with strongly correlated hidden units: polished max
+  |off-diagonal correlation| median 0.70 (range 0.43-0.95), effective number of units 1.43 of 3.
+- The 12 certified independent P0/P1 students stay almost uncorrelated: 0.053 (range 0.038-0.069), 2.94 of 3.
+- So, with independent inputs, the models that run away are exactly the ones whose hidden units became correlated,
+  which gives the output layer cancelling directions to grow along.
+- Over all synthetic models the expectation holds: runaway 0.935 (PR 1.47) vs certified 0.054 (PR 2.91) at polish. It
+  is confounded by input correlation, though:
+  - in the correlated cells the hidden units are already correlated at the early state (max 0.80-0.82);
+  - polishing raises this further only where the model runs away (P0 0.80 -> 0.96, P1 0.82 -> 0.92);
+  - the certified correlated-P2 models keep max 0.88 without running away.
+- On real data, correlated hidden units are everywhere:
+  - KAN-delta seeds: max 0.82 at 107 epochs, 0.97 capped and 0.98 at the Part A final (PR 1.7-1.9 of 6);
+  - the 10 certified SC-KAN-delta fold A minima: max 0.82 at polish (0.96 early), against 0.95 for the never-certified
+    baseline at polish (0.88 early). SC's polish lowers the correlation while the baseline's raises it.
+Hidden-unit correlation therefore goes with the runaway, and with independent inputs it marks the runaway models
+cleanly. It is not sufficient on its own: correlated units in a model whose penalty closes the flat directions (P2, SC)
+reach certified, bounded minima.
