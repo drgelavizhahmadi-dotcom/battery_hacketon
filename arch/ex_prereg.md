@@ -134,3 +134,27 @@ A verdict table for E1–E5, with the key numbers and commits. Do not start furt
 ## Verdicts
 
 (appended after Step 2; nothing above this line will be edited)
+
+## Amendment 1 (2026-10-04, decided after Step 0 / commit 4c268c1, before any EX-KAN model was trained)
+
+Reason: Step 0 showed that, under decision B, s is identified only where x_co varies at a **fixed blend composition**.
+The committed ≤ 2 distinct-x_co rule counts x_co values that come from different blend ratios, and each ratio also
+changes eps_co, ln_eta_co and M_co. By that rule, 2-MeTHF, THF, DME and Toluene are unflagged, but they have no
+fixed-composition group with two x_co values.
+
+- **PRIMARY flag rule (used for the E3 and E5 verdicts):** a co-solvent is **SEPARABLE** if it has ≥ 1
+  fixed-composition group with ≥ 2 distinct x_co values. The grouping is the concentration-free one, D5 in
+  `arch/ex_output.txt`: same source, salt, temperature and blend ratio.
+  - **Separable:** EA (11 of 11 groups), EC (40 of 240) and Methylene chloride (8 of 80).
+  - **Flagged:** 2-Glyme, 2-MeTHF, 3-Glyme, DME, Sulfolane, THF and Toluene.
+  - E3 uses the 3 separable co-solvents. E5 compares the median seed-SD of the 7 flagged with that of the 3
+    separable.
+- **SECONDARY (reported alongside, no separate verdict):** E3 and E5 are also computed under the committed ≤ 2
+  distinct-x_co rule: 7 unflagged; 3 flagged (2-Glyme, 3-Glyme, Sulfolane).
+- **E3 caveats:**
+  - With 3 separable co-solvents, the pairwise correlation (over 3 values per seed) is a weak test.
+  - Also reported, descriptively: each separable co-solvent's seed SD of s, and that SD relative to the spread of s
+    across co-solvents. The spread is defined as the SD, over all 10 co-solvents, of their seed-median s.
+  - Methylene chloride is marginal: 8 of 80 groups, at a single nominal concentration, so its separation is partly
+    via the ~4% mol/L molality drift. This is noted next to E3.
+- Nothing above this section has been edited.
