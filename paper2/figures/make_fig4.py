@@ -72,19 +72,20 @@ sc.note("a, synthetic: anatomy_synth_results.json (ea22a56) per-model shares, co
 
 groups = {"real\n107 ep→cap.": real["107 epochs → capped"], "real\ncap.→Part A": real["capped → Part A"],
           "synth.\ncorr. P0": syn["synthetic correlated P0\n(early → polished)"], "synth.\ncorr. P1": syn["synthetic correlated P1\n(early → polished)"]}
-fig, axs = plt.subplots(1, 2, figsize=(FULL, 2.9), gridspec_kw=dict(width_ratios=[1, 1.05]))
+fig, axs = plt.subplots(1, 2, figsize=(FULL, 3.1), gridspec_kw=dict(width_ratios=[1, 1.05]))
 ax = axs[0]
 x = np.arange(len(groups)); bottom = np.zeros(len(groups))
 mean = {g: {b: float(np.mean([r[b] for r in rr])) for b in BLOCKS} for g, rr in groups.items()}
 for b in BLOCKS:
     v = np.array([mean[g][b] for g in groups])
     ax.bar(x, v, 0.65, bottom=bottom, color=BLOCK_C[b], label=b, edgecolor="white", lw=0.3); bottom += v
-ax.set_xticks(x); ax.set_xticklabels(list(groups), fontsize=6.5); ax.set_ylabel(r"share of $\|\Delta\theta\|^2$"); ax.set_ylim(0, 1)
-ax.legend(frameon=False, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=3, columnspacing=0.8, handlelength=1.2)
+TICK = {"real\n107 ep→cap.": "real\n107 ep→\ncapped", "real\ncap.→Part A": "real\ncapped→\nfurther TR\npolishing"}  # display only; sidecar keys unchanged
+ax.set_xticks(x); ax.set_xticklabels([TICK.get(g, g) for g in groups], fontsize=6.5); ax.set_ylabel(r"share of $\|\Delta\theta\|^2$"); ax.set_ylim(0, 1)
+ax.legend(frameon=False, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.36), ncol=3, columnspacing=0.8, handlelength=1.2)
 letter(ax, "a", dx=-0.12)
 sc.put("a_mean_shares", mean)
 sc.put("a_per_model", {g: rr for g, rr in groups.items()})
-sc.note("a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A are the two unregularised segments")
+sc.note("a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A (shown as further trust-region (TR) polishing) are the two unregularised segments")
 
 # ---- b) largest hidden-unit correlation (paper2/checks)
 ck = sc.json("paper2/checks/checks_results.json")["item1"]["rows"]
@@ -100,7 +101,8 @@ for j, (lab, rr, kind) in enumerate(cats):
     y = np.array([r["max"] for r in rr]); vals[lab.replace("\n", " ")] = dict(values=y.tolist(), median=float(np.median(y)), n=len(y), kind=kind)
     ax.scatter(j + np.random.default_rng(j).uniform(-0.18, 0.18, len(y)), y, s=7, color=C[kind], alpha=0.8, lw=0)
     ax.plot([j - 0.28, j + 0.28], [np.median(y)] * 2, color=OI["black"], lw=1)
-ax.set_xticks(range(len(cats))); ax.set_xticklabels([c[0] for c in cats], fontsize=6)
+TICKB = {"real\nPart A": "real\nfurther\npolishing"}  # display only; sidecar keys unchanged
+ax.set_xticks(range(len(cats))); ax.set_xticklabels([TICKB.get(c[0], c[0]) for c in cats], fontsize=6)
 ax.set_ylabel("largest |hidden-unit corr.|"); ax.set_ylim(0, 1.02)
 letter(ax, "b", dx=-0.2)
 sc.put("b_max_hidden_corr", vals)

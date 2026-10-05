@@ -95,7 +95,7 @@
   "a, real data: shares of ||delta theta||^2 by block computed here from the archived weights (SHA-verified, in memory): delta_s* (107 epochs), fiber2_ind_* (capped), stage2_A_ind_* (Part A final, flat vectors rebuilt on their fiber2 start); no committed result splits the real-data change into affine/curved RBF parts",
   "affine RBF = projection of each edge's 8 RBF coefficients onto span{1, k}; curved = the rest; layer-1 RBF includes the salt-embedding edges; 'salt embedding' (the embedding table itself) exists only in the real model",
   "a, synthetic: anatomy_synth_results.json (ea22a56) per-model shares, correlated P0/P1, 8 seeds each; bars = mean over models (sums to 1)",
-  "a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A are the two unregularised segments",
+  "a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A (shown as further trust-region (TR) polishing) are the two unregularised segments",
   "b: paper2/checks (6e1df32), training rows; SC-KAN-\u03b4 and KAN-\u03b4 are the fold A models of arch/sc; colour = certified (blue) vs not certified / runaway (vermillion); bar = median"
  ],
  "values": {
