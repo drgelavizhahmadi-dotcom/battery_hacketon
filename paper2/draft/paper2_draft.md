@@ -115,7 +115,7 @@ Medians over 8 seeds; growth is the squared parameter norm, polished over early-
 **Nothing ever converged.**
 
 - Of 190 pairs of polished independent seeds, none computed the same function.
-- After 20,000 float64 L-BFGS iterations, 0 of 26 models converged; exact-Hessian trust-region methods also failed on every seed.
+- After 20,000 float64 L-BFGS iterations (the "capped" state used below), 0 of 26 models converged; exact-Hessian trust-region methods also failed on every seed.
 - Students trained on a frozen teacher matched its predictions (correlation 0.9988) but not its hidden units (0.66).
 
 **The anatomy matches Section 3.**

@@ -90,6 +90,8 @@ def inline(s, extra=()):
         s = s.replace(k, v)
     s = re.sub(r"\$\$", "", s)  # merge adjacent inline-math pieces
     s = s.replace(r"$\to$", r"$\to$\allowbreak{}")
+    s = s.replace("KAN-delta", r"KAN-$\delta$")
+    s = re.sub(r"(?<![\w.])(\d+(?:\.\d+)?)e-0*(\d+)(?![\w])", lambda m: (r"$10^{-" + m.group(2) + "}$") if m.group(1) == "1" else (f"${m.group(1)}" + r"\times10^{-" + m.group(2) + "}$"), s)
     for i, x in enumerate(ph):
         s = s.replace(f"\x00{i}\x00", x)
     bad = [c for c in s if ord(c) > 127]
@@ -117,6 +119,18 @@ def pct(x):
     return f"{100 * x:.1f}\\%"
 
 
+MU = {"0": "$\\mu = 0$", "1e-06": "$10^{-6}$", "1e-05": "$10^{-5}$", "0.0001": "$10^{-4}$"}
+GROUP = {"real Part A": "real, further polishing", "synth. certified": "synthetic, certified", "synth. not cert.": "synthetic, not certified",
+         "real capped": "real, capped"}
+
+
+def pow10(x):
+    """0.001 -> $10^{-3}$, 2e-07 -> $2\\times10^{-7}$"""
+    m, e = f"{x:.0e}".split("e")
+    e = int(e)
+    return f"$10^{{{e}}}$" if m == "1" else f"${m}\\times10^{{{e}}}$"
+
+
 def captions():
     f1, f2, f3, f4, f5 = (side(n) for n in ["fig1_mechanism", "fig2_synthetic", "fig3_dose_response", "fig4_where", "fig5_uniqueness"])
     d = f1["a_deviation_relative_to_range"]; c = f1["c_rms_per_unit_t"]
@@ -127,26 +141,26 @@ def captions():
         f"\\textbf{{(a)}} Edge function produced by a unit linear coefficient pattern and its best straight line; the shaded band is the central 80\\% of the range, "
         f"where the maximum deviation is {pct(d['c80_max'])} of the function's range ({pct(d['full_max'])} over the full range). "
         "\\textbf{(b)} Penalty as a function of a tilt $t$ applied as $+t$ to edge 1 and $-t$ to edge 2: the second-difference penalty (P0) and P1 are exactly zero for every $t$; "
-        f"only P2's term $\\mu Q$ grows ($\\lambda = {f1['b_lambda_mu_Ksilu'][0]:g}$, $\\mu = {f1['b_lambda_mu_Ksilu'][1]:g}$). "
+        f"only P2's term $\\mu Q$ grows ($\\lambda = $ {pow10(f1['b_lambda_mu_Ksilu'][0])}, $\\mu = $ {pow10(f1['b_lambda_mu_Ksilu'][1])}). "
         f"\\textbf{{(c)}} RMS change in the unit's pre-activation per unit tilt: {c['correlated']:.4f} on correlated inputs ($\\rho = 0.95$) against {c['independent']:.4f} on independent inputs "
         f"({c['ratio_independent_over_correlated']:.2f}$\\times$).")
     cells_ = [("independent", "P0"), ("independent", "P1"), ("independent", "P2"), ("correlated", "P0"), ("correlated", "P1"), ("correlated", "P2")]
     g = "; ".join(f"{a} {b}: {f2[f'{a}_{b}']['certified']}/8 certified, $\\times${f2[f'{a}_{b}']['median_growth']:.1f}" for a, b in cells_)
     cap["fig:synthetic"] = (
         "fig2_synthetic",
-        "Synthetic $2\\times3$ study: $\\|\\theta\\|^2$ over trust-exact polishing iterations (log scale), one line per seed, "
+        "Synthetic $2\\times3$ study: $\\|\\theta\\|^2$ over exact-Hessian trust-region polishing iterations (log scale), one line per seed, "
         "coloured certified (blue) or not certified (vermillion). Rows: independent and correlated inputs; columns: P0, P1, P2. "
         f"Per panel, certified seeds and median growth (polished over early-stopped): {g}.")
     b = f3["b_growth"]; cc = f3["c_data_rel_runaway"]; dd = f3["d_foldA"]
     cap["fig:dose"] = (
         "fig3_dose_response",
-        "Real-data dose-response in the null-space weight $\\mu$ (6 KAN-delta seeds; $\\mu = 0$ is the runaway reference, stage-2 Part~A). "
-        "\\textbf{(a)} Seeds at a numerical minimum / certified: "
-        + "; ".join(f"{m}: {f3['a_numerical_minimum'][m]}/{f3['a_certified'][m]}" for m in ['0', '1e-06', '1e-05', '0.0001']) + ". "
+        "Real-data dose-response in the null-space weight $\\mu$ (6 KAN-$\\delta$ seeds; $\\mu = 0$: polished without a null-space penalty). "
+        "\\textbf{(a)} Seeds at a numerical minimum (all of them certified): "
+        + "; ".join(f"{MU[m]}, {f3['a_numerical_minimum'][m]} of 6" for m in ['0', '1e-06', '1e-05', '0.0001']) + ". "
         f"\\textbf{{(b)}} $\\|\\theta\\|^2$ relative to the 107-epoch state, median (range): "
-        + "; ".join(f"{m}: {b[m]['median']:.1f} ({b[m]['min']:.1f}--{b[m]['max']:.1f})" for m in ['0', '1e-06', '1e-05', '0.0001']) + ". "
+        + "; ".join(f"{MU[m]}, {b[m]['median']:.0f} ({b[m]['min']:.0f}--{b[m]['max']:.0f})" for m in ['0', '1e-06', '1e-05', '0.0001']) + ". "
         f"\\textbf{{(c)}} Training data term relative to the runaway, median: "
-        + "; ".join(f"{m}: {cc[m]['median']:.3f}" for m in ['1e-06', '1e-05', '0.0001']) + ". "
+        + "; ".join(f"{MU[m]}, {cc[m]['median']:.3f}" for m in ['1e-06', '1e-05', '0.0001']) + ". "
         f"\\textbf{{(d)}} Fold A RMSE: early-stopped {dd['early_stopped']} (dashed line); polished 5-seed ensemble {dd['ensemble']['1e-06']:.3f} at $\\mu = 10^{{-6}}$ "
         f"and {dd['ensemble']['0.0001']:.3f} at $\\mu = 10^{{-4}}$; grey points are single seeds.")
     a = f4["a_mean_shares"]; ks = list(a)
@@ -155,23 +169,27 @@ def captions():
     cap["fig:where"] = (
         "fig4_where",
         "Where the runaway lives. \\textbf{(a)} Mean share of $\\|\\Delta\\theta\\|^2$ by parameter block. Real data, 107 epochs$\\to$capped: layer-1 affine RBF "
-        f"{sh(ks[0], 'layer-1 affine RBF')}, layer-2 affine RBF {sh(ks[0], 'layer-2 affine RBF')}, SiLU weights {sh(ks[0], 'SiLU weights')}; capped$\\to$Part~A: "
+        f"{sh(ks[0], 'layer-1 affine RBF')}, layer-2 affine RBF {sh(ks[0], 'layer-2 affine RBF')}, SiLU weights {sh(ks[0], 'SiLU weights')}; capped$\\to$further trust-region polishing: "
         f"{sh(ks[1], 'layer-1 affine RBF')}, {sh(ks[1], 'layer-2 affine RBF')}, {sh(ks[1], 'SiLU weights')}; synthetic correlated P0: layer-2 affine RBF "
         f"{sh(ks[2], 'layer-2 affine RBF')}, SiLU weights {sh(ks[2], 'SiLU weights')}; correlated P1: layer-2 affine RBF {sh(ks[3], 'layer-2 affine RBF')}. "
         "The real-data split was evaluated post hoc from archived weights (Appendix~\\ref{app:repro}). "
         "\\textbf{(b)} Largest absolute correlation between hidden-unit activations on the training rows, median: "
-        + "; ".join(f"{k} {v['median']:.3f} ($n={v['n']}$)" for k, v in hb.items()) + ". Blue: certified; vermillion: not certified or runaway.")
+        + "; ".join(f"{GROUP.get(k, k)} {v['median']:.3f} ($n={v['n']}$)" for k, v in hb.items()) + ". Blue: certified; vermillion: not certified or runaway.")
     nn = f5["a_n_null"]; db = f5["b_dAB"]
     nnk = list(nn); dbk = list(db)
     def rng(v): return f"{min(v)}--{max(v)}"
+    def zero_all(v):
+        assert all(x == 0 for x in v), v
+        return f"0 in all {len(v)} models"
     cap["fig:uniqueness"] = (
         "fig5_uniqueness",
         "Convergence is not uniqueness. \\textbf{(a)} Near-null Hessian eigenvalues ($|\\lambda| < 10^{-8}\\lambda_{\\max}$) at the end of polishing: "
-        f"KAN-delta baseline on fold A, median {nn[nnk[0]]['median']:.0f} (range {rng(nn[nnk[0]]['values'])}); null-space penalty $\\mu = 10^{{-4}}$ on all rows, "
-        f"median {nn[nnk[1]]['median']:.0f} (range {rng(nn[nnk[1]]['values'])}); SC-KAN-delta on fold A, {rng(nn[nnk[2]]['values'])}. "
+        f"KAN-$\\delta$ baseline on fold A, median {nn[nnk[0]]['median']:.0f} (range {rng(nn[nnk[0]]['values'])}); null-space penalty $\\mu = 10^{{-4}}$ on all rows, "
+        f"median {nn[nnk[1]]['median']:.0f} (range {rng(nn[nnk[1]]['values'])}); SC-KAN-$\\delta$ on fold A, {zero_all(nn[nnk[2]]['values'])}. "
         "\\textbf{The baseline counts are taken at non-stationary points}: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. "
         "\\textbf{(b)} Seed disagreement $d_{AB}$ (median, interquartile range): "
-        + "; ".join(f"{k.replace('*', '$^*$')} {v['median']:.3f}" for k, v in db.items()) + ". "
+        + "; ".join(f"{k.replace('*', '$^*$').replace('1e-4', '$10^{-4}$')} {v['median']:.3f}" for k, v in db.items()) + ". "
+        "Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. "
         "Groups marked $^*$ (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights "
         "(SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.")
     cap["fig:S1"] = ("figS1_lossdecomp", supp_caption("figS1_lossdecomp"))
@@ -181,6 +199,9 @@ def captions():
 
 
 DELTA = "$\\delta$"
+S2NAME = {"const_L1 ind": "constant shift in layer 1, real-data seeds", "const_L1 stu": "constant shift in layer 1, students (trained on a frozen teacher)",
+          "const_L2 ind": "constant shift in layer 2, real-data seeds", "const_L2 stu": "constant shift in layer 2, students",
+          "rescale ind": "unit rescaling, real-data seeds", "rescale stu": "unit rescaling, students"}
 
 
 def supp_caption(name):
@@ -192,10 +213,10 @@ def supp_caption(name):
     if name == "figS2_gaugecheck":
         m = v["muQ_share"]
         return ("Post hoc gauge check at the $\\mu = 10^{-4}$ certified minima: share of the curvature along each least-squares gauge direction contributed by $\\mu Q$. Medians: "
-                + "; ".join(f"{k.replace('_', ' ')} {d['median']:.2f} ($n = {d['n']}$)" for k, d in m.items()) + ".")
+                + "; ".join(f"{S2NAME[k]} {d['median']:.2f} ($n = {d['n']}$)" for k, d in m.items()) + ".")
     if name == "figS3_loco":
         m = v["means"]
-        return ("Leave-one-co-solvent-out RMSE per fold (5-seed ensembles, early state) for the KAN-delta baseline, SC-KAN-delta and EX-KAN. Unweighted means: "
+        return ("Leave-one-co-solvent-out RMSE per fold (5-seed ensembles, early state) for the KAN-$\\delta$ baseline, SC-KAN-$\\delta$ and EX-KAN. Unweighted means: "
                 + "; ".join(k.replace("δ", DELTA) + f" {d['unweighted']:.4f}" for k, d in m.items()) + ". The EA fold uses the fold A rows.")
 
 

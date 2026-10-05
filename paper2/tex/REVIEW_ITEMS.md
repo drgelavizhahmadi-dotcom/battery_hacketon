@@ -10,35 +10,35 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 - **Location:** main text, Mechanism; built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig1_mechanism.json`.
 
-**Caption:** Mechanism (computed illustration) for the edge type of Section [sec:2] (8 Gaussian RBFs on [-1, 1]). (a) Edge function produced by a unit linear coefficient pattern and its best straight line; the shaded band is the central 80% of the range, where the maximum deviation is 2.0% of the function's range (12.9% over the full range). (b) Penalty as a function of a tilt t applied as +t to edge 1 and -t to edge 2: the second-difference penalty (P0) and P1 are exactly zero for every t; only P2's term μ Q grows (λ = 0.001, μ = 1e-05). (c) RMS change in the unit's pre-activation per unit tilt: 0.0996 on correlated inputs (ρ = 0.95) against 0.4403 on independent inputs (4.42×).
+**Caption:** Mechanism (computed illustration) for the edge type of Section [sec:2] (8 Gaussian RBFs on [-1, 1]). (a) Edge function produced by a unit linear coefficient pattern and its best straight line; the shaded band is the central 80% of the range, where the maximum deviation is 2.0% of the function's range (12.9% over the full range). (b) Penalty as a function of a tilt t applied as +t to edge 1 and -t to edge 2: the second-difference penalty (P0) and P1 are exactly zero for every t; only P2's term μ Q grows (λ = 10^-3, μ = 10^-5). (c) RMS change in the unit's pre-activation per unit tilt: 0.0996 on correlated inputs (ρ = 0.95) against 0.4403 on independent inputs (4.42×).
 
 ### Figure 2 (`\label{fig:synthetic}`, file `fig2_synthetic.pdf`)
 
 - **Location:** main text, Controlled study; built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig2_synthetic.json`.
 
-**Caption:** Synthetic 2×3 study: ‖θ‖^2 over trust-exact polishing iterations (log scale), one line per seed, coloured certified (blue) or not certified (vermillion). Rows: independent and correlated inputs; columns: P0, P1, P2. Per panel, certified seeds and median growth (polished over early-stopped): independent P0: 6/8 certified, ×12.5; independent P1: 6/8 certified, ×7.9; independent P2: 8/8 certified, ×1.1; correlated P0: 0/8 certified, ×65.7; correlated P1: 0/8 certified, ×32.1; correlated P2: 8/8 certified, ×1.0.
+**Caption:** Synthetic 2×3 study: ‖θ‖^2 over exact-Hessian trust-region polishing iterations (log scale), one line per seed, coloured certified (blue) or not certified (vermillion). Rows: independent and correlated inputs; columns: P0, P1, P2. Per panel, certified seeds and median growth (polished over early-stopped): independent P0: 6/8 certified, ×12.5; independent P1: 6/8 certified, ×7.9; independent P2: 8/8 certified, ×1.1; correlated P0: 0/8 certified, ×65.7; correlated P1: 0/8 certified, ×32.1; correlated P2: 8/8 certified, ×1.0.
 
 ### Figure 3 (`\label{fig:dose}`, file `fig3_dose_response.pdf`)
 
 - **Location:** main text, Closing the blind spot, and what remains; built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig3_dose_response.json`.
 
-**Caption:** Real-data dose-response in the null-space weight μ (6 KAN-delta seeds; μ = 0 is the runaway reference, stage-2 Part A). (a) Seeds at a numerical minimum / certified: 0: 0/0; 1e-06: 0/0; 1e-05: 4/4; 0.0001: 6/6. (b) ‖θ‖^2 relative to the 107-epoch state, median (range): 0: 690.0 (170.0–4145.5); 1e-06: 28.8 (21.2–31.5); 1e-05: 13.6 (8.6–43.1); 0.0001: 6.8 (1.6–16.0). (c) Training data term relative to the runaway, median: 1e-06: 1.092; 1e-05: 1.146; 0.0001: 1.269. (d) Fold A RMSE: early-stopped 0.142 (dashed line); polished 5-seed ensemble 1.026 at μ = 10^-6 and 0.334 at μ = 10^-4; grey points are single seeds.
+**Caption:** Real-data dose-response in the null-space weight μ (6 KAN-δ seeds; μ = 0: polished without a null-space penalty). (a) Seeds at a numerical minimum (all of them certified): μ = 0, 0 of 6; 10^-6, 0 of 6; 10^-5, 4 of 6; 10^-4, 6 of 6. (b) ‖θ‖^2 relative to the 107-epoch state, median (range): μ = 0, 690 (170–4146); 10^-6, 29 (21–31); 10^-5, 14 (9–43); 10^-4, 7 (2–16). (c) Training data term relative to the runaway, median: 10^-6, 1.092; 10^-5, 1.146; 10^-4, 1.269. (d) Fold A RMSE: early-stopped 0.142 (dashed line); polished 5-seed ensemble 1.026 at μ = 10^-6 and 0.334 at μ = 10^-4; grey points are single seeds.
 
 ### Figure 4 (`\label{fig:where}`, file `fig4_where.pdf`)
 
 - **Location:** main text, Controlled study; built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig4_where.json`.
 
-**Caption:** Where the runaway lives. (a) Mean share of ‖Δθ‖^2 by parameter block. Real data, 107 epochs→capped: layer-1 affine RBF 0.30, layer-2 affine RBF 0.31, SiLU weights 0.37; capped→Part A: 0.40, 0.19, 0.38; synthetic correlated P0: layer-2 affine RBF 0.39, SiLU weights 0.47; correlated P1: layer-2 affine RBF 0.89. The real-data split was evaluated post hoc from archived weights (Appendix [app:repro]). (b) Largest absolute correlation between hidden-unit activations on the training rows, median: synth. certified 0.054 (n=28); synth. not cert. 0.935 (n=20); real capped 0.968 (n=6); real Part A 0.983 (n=6); SC-KAN-δ polished 0.818 (n=10); KAN-δ polished 0.946 (n=10). Blue: certified; vermillion: not certified or runaway.
+**Caption:** Where the runaway lives. (a) Mean share of ‖Δθ‖^2 by parameter block. Real data, 107 epochs→capped: layer-1 affine RBF 0.30, layer-2 affine RBF 0.31, SiLU weights 0.37; capped→further trust-region polishing: 0.40, 0.19, 0.38; synthetic correlated P0: layer-2 affine RBF 0.39, SiLU weights 0.47; correlated P1: layer-2 affine RBF 0.89. The real-data split was evaluated post hoc from archived weights (Appendix [app:repro]). (b) Largest absolute correlation between hidden-unit activations on the training rows, median: synthetic, certified 0.054 (n=28); synthetic, not certified 0.935 (n=20); real, capped 0.968 (n=6); real, further polishing 0.983 (n=6); SC-KAN-δ polished 0.818 (n=10); KAN-δ polished 0.946 (n=10). Blue: certified; vermillion: not certified or runaway.
 
 ### Figure 5 (`\label{fig:uniqueness}`, file `fig5_uniqueness.pdf`)
 
 - **Location:** main text, Closing the blind spot, and what remains; built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig5_uniqueness.json`.
 
-**Caption:** Convergence is not uniqueness. (a) Near-null Hessian eigenvalues (|λ| < 10^-8λ_max) at the end of polishing: KAN-delta baseline on fold A, median 106 (range 86–116); null-space penalty μ = 10^-4 on all rows, median 1 (range 0–3); SC-KAN-delta on fold A, 0–0. The baseline counts are taken at non-stationary points: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. (b) Seed disagreement d_AB (median, interquartile range): KAN-δ fold A early 0.112; KAN-δ fold A polished^* 0.077; KAN-δ all rows capped 0.104; μ = 1e-4 all rows certified 0.077; SC-KAN-δ fold A early 0.187; SC-KAN-δ fold A polished^* 0.085. Groups marked ^* (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights (SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.
+**Caption:** Convergence is not uniqueness. (a) Near-null Hessian eigenvalues (|λ| < 10^-8λ_max) at the end of polishing: KAN-δ baseline on fold A, median 106 (range 86–116); null-space penalty μ = 10^-4 on all rows, median 1 (range 0–3); SC-KAN-δ on fold A, 0 in all 10 models. The baseline counts are taken at non-stationary points: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. (b) Seed disagreement d_AB (median, interquartile range): KAN-δ fold A early 0.112; KAN-δ fold A polished^* 0.077; KAN-δ all rows capped 0.104; μ = 10^-4 all rows certified 0.077; SC-KAN-δ fold A early 0.187; SC-KAN-δ fold A polished^* 0.085. Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. Groups marked ^* (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights (SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.
 
 ### Figure S1 (`\label{fig:S1}`, file `figS1_lossdecomp.pdf`)
 
@@ -52,14 +52,14 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/figS2_gaugecheck.json`.
 
-**Caption:** Post hoc gauge check at the μ = 10^-4 certified minima: share of the curvature along each least-squares gauge direction contributed by μ Q. Medians: const L1 ind 0.46 (n = 288); const L1 stu 0.48 (n = 144); const L2 ind 0.94 (n = 36); const L2 stu 0.97 (n = 18); rescale ind 0.21 (n = 36); rescale stu 0.52 (n = 18).
+**Caption:** Post hoc gauge check at the μ = 10^-4 certified minima: share of the curvature along each least-squares gauge direction contributed by μ Q. Medians: constant shift in layer 1, real-data seeds 0.46 (n = 288); constant shift in layer 1, students (trained on a frozen teacher) 0.48 (n = 144); constant shift in layer 2, real-data seeds 0.94 (n = 36); constant shift in layer 2, students 0.97 (n = 18); unit rescaling, real-data seeds 0.21 (n = 36); unit rescaling, students 0.52 (n = 18).
 
 ### Figure S3 (`\label{fig:S3}`, file `figS3_loco.pdf`)
 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/figS3_loco.json`.
 
-**Caption:** Leave-one-co-solvent-out RMSE per fold (5-seed ensembles, early state) for the KAN-delta baseline, SC-KAN-delta and EX-KAN. Unweighted means: KAN-δ baseline 0.2554; SC-KAN-δ 0.2923; EX-KAN 0.2834. The EA fold uses the fold A rows.
+**Caption:** Leave-one-co-solvent-out RMSE per fold (5-seed ensembles, early state) for the KAN-δ baseline, SC-KAN-δ and EX-KAN. Unweighted means: KAN-δ baseline 0.2554; SC-KAN-δ 0.2923; EX-KAN 0.2834. The EA fold uses the fold A rows.
 
 ## 2. Table short titles (`% CAPTION-DRAFT: review`; not in the draft)
 
