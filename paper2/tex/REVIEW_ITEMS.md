@@ -72,7 +72,7 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 - **Location:** Appendix D, "Research process"; built by `build_tex.py`, `appendix_d()`.
 - The table of pre-registration, amendment and crash-record commits that follows the prose is generated from git and is not listed here.
 
-**Pre-registration.** Every study committed a pre-registration file (predictions, thresholds, interpretation rules) before the script that tested it existed. Verdicts were appended below the committed text; the pre-registered text and recorded verdicts were never edited.
+**Pre-registration.** Every study committed a pre-registration file (predictions, thresholds, interpretation rules) before the script that tested it existed. Verdicts were appended below the committed text; the pre-registered text was never edited, and corrections to reported numbers were made in separate, labelled commits.
 
 **Amendments.** A change to a design after its pre-registration was committed as a dated amendment section before any affected model was trained, with its reason; the original text was kept. Choices forced by the code or data at run time were logged as numbered discrepancies at the top of each output log.
 
@@ -80,7 +80,7 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 
 **Data and weights.** Model weights were never committed: they were archived outside the repository with a manifest of SHA-256 hashes and producing commits, and every later analysis verified the hashes and held its inputs in memory. Post-hoc analyses were labelled as such in their files and changed no verdict.
 
-**AI coding agent.** Code, runs and write-ups were produced by an AI coding agent working under this protocol, with the human author setting the briefs, approving amendments and deciding each next stage. Crashes were recorded in the logs and fixed in separate commits labelled as implementation-only.
+**AI assistance.** Code, runs and logs were produced by an AI coding agent working under this protocol. Study designs, briefs and the manuscript were developed with an AI assistant. The author set the research questions, reviewed and approved every brief and amendment, decided each next stage, and takes responsibility for all content. Crashes were recorded in the logs and fixed in separate commits labelled as implementation-only.
 
 ## 4. Inserted figure references (the draft has none; `build_tex.py`, `FIG_REFS`)
 

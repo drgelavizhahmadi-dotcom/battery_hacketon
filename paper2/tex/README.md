@@ -28,6 +28,14 @@ Run `make` (both PDFs), `make check` (author-name and repository-owner search in
   - **E:** the supplementary figures S1–S3.
   - Do not edit the generated `.tex` files by hand; rerun `python3 paper2/tex/build_tex.py` from the repo root.
 
+## Conversion rules (draft text -> LaTeX)
+
+- **Model name:** the draft source keeps "KAN-delta"; the LaTeX conversion renders it as KAN-$\delta$. This covers
+  SC-KAN-delta and every appendix table, and matches the figure graphics, which say KAN-δ.
+- **Powers of ten:** "1e-5" style numbers become $10^{-5}$, and "7e-10" becomes $7\times10^{-10}$. Identifiers and file
+  names, such as `close_1e-06`, are left unchanged.
+- **Unicode:** formulas and Greek letters become LaTeX math. The draft's author-year citations become `natbib` commands.
+
 ## TMLR template
 
 - **Source:** the TMLR author guide (https://jmlr.org/tmlr/author-guide.html) links "TMLR LaTeX stylefile and template" to

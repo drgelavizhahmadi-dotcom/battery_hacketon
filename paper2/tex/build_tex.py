@@ -488,17 +488,20 @@ def appendix_c():
 # ------------------------------------------------------------------ appendix D: research process (prose = DRAFT-TEXT; records generated from git)
 def appendix_d():
     o = ["\\section{Research process}\\label{app:process}\n",
-         "% DRAFT-TEXT: review (new prose, not in the source draft; it states only the protocol followed, no results)",
+         "% DRAFT-TEXT: review (new prose, not in the source draft; it states only the protocol followed, no results). First and last paragraphs: author-supplied wording (2026-10-05)",
          "\\paragraph{Pre-registration.} Every study committed a pre-registration file (predictions, thresholds, interpretation rules) "
-         "before the script that tested it existed. Verdicts were appended below the committed text; the pre-registered text and recorded verdicts were never edited.",
+         "before the script that tested it existed. Verdicts were appended below the committed text; the pre-registered text was never edited, "
+         "and corrections to reported numbers were made in separate, labelled commits.",
          "\\paragraph{Amendments.} A change to a design after its pre-registration was committed as a dated amendment section before any affected model was trained, "
          "with its reason; the original text was kept. Choices forced by the code or data at run time were logged as numbered discrepancies at the top of each output log.",
          "\\paragraph{Files win.} Instructions to the agent stated that committed files take precedence over any number or description in a prompt; "
          "discrepancies between a brief and the files were flagged rather than resolved silently.",
          "\\paragraph{Data and weights.} Model weights were never committed: they were archived outside the repository with a manifest of SHA-256 hashes and producing commits, "
          "and every later analysis verified the hashes and held its inputs in memory. Post-hoc analyses were labelled as such in their files and changed no verdict.",
-         "\\paragraph{AI coding agent.} Code, runs and write-ups were produced by an AI coding agent working under this protocol, with the human author setting the briefs, "
-         "approving amendments and deciding each next stage. Crashes were recorded in the logs and fixed in separate commits labelled as implementation-only.\n",
+         "\\paragraph{AI assistance.} Code, runs and logs were produced by an AI coding agent working under this protocol. "
+         "Study designs, briefs and the manuscript were developed with an AI assistant. The author set the research questions, reviewed and approved "
+         "every brief and amendment, decided each next stage, and takes responsibility for all content. Crashes were recorded in the logs and fixed "
+         "in separate commits labelled as implementation-only.\n",
          "\\noindent Pre-registrations, amendments and crash records (from the commit history):\n"]
     rows = []
     for ln in git("log", "--reverse", "--format=%h|%ad|%s", "--date=short").splitlines():
