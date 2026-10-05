@@ -7,7 +7,7 @@ Every figure is built from **committed** results only: no training and no re-opt
 - no titles inside the figures; panel letters a, b, c.
 
 Each figure has a sidecar `<name>.json` listing the data files used (path, last commit, SHA-256), any archived weights (SHA-256, archive), notes, and every plotted number.
-Rebuild with `python3 paper2/figures/<script>` from the repo root.
+Rebuild with `/usr/bin/python3 paper2/figures/<script>` from the repo root (pinned interpreter; or `make figures` in paper2/tex).
 
 | Figure | Script | Data files (commit) | Archived weights | Content |
 |---|---|---|---|---|

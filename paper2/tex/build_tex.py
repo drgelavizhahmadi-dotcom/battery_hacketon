@@ -6,7 +6,7 @@
   appendixC.tex  <- reproducibility map from paper2/figures/MANIFEST.md (+ the draft's tables)
   appendixE.tex  <- supplementary figures S1-S3
 Captions are drafted from the figure sidecar JSONs and marked "% CAPTION-DRAFT: review".
-Run from the repo root: python3 paper2/tex/build_tex.py"""
+Run from the repo root: /usr/bin/python3 paper2/tex/build_tex.py (or `make` in paper2/tex)"""
 import json
 import re
 import subprocess
@@ -58,6 +58,7 @@ CITES = [  # draft author-year text -> natbib
     ("(Soudry et al., 2018)", r"\citep{soudry2018implicit}"),
     ("(Sussmann, 1992; Kůrková and Neruda, 1994)", r"\citep{sussmann1992uniqueness,kurkova1994uniqueness}"),
     ("(de Blasio et al., 2024)", r"\citep{deblasio2024calisol}"),
+    ("(Agarwal et al., 2021)", r"\citep{agarwal2021nam}"),
 ]
 SUP = str.maketrans("⁻⁰¹²³⁴⁵⁶⁷⁸⁹", "-0123456789")
 SUB = str.maketrans("₀₁₂₃₄₅₆₇₈₉", "0123456789")
@@ -179,6 +180,9 @@ def captions():
     return cap
 
 
+DELTA = "$\\delta$"
+
+
 def supp_caption(name):
     v = side(name)
     if name == "figS1_lossdecomp":
@@ -192,7 +196,7 @@ def supp_caption(name):
     if name == "figS3_loco":
         m = v["means"]
         return ("Leave-one-co-solvent-out RMSE per fold (5-seed ensembles, early state) for the KAN-delta baseline, SC-KAN-delta and EX-KAN. Unweighted means: "
-                + "; ".join(f"{k.replace('δ', '$\\delta$')} {d['unweighted']:.4f}" for k, d in m.items()) + ". The EA fold uses the fold A rows.")
+                + "; ".join(k.replace("δ", DELTA) + f" {d['unweighted']:.4f}" for k, d in m.items()) + ". The EA fold uses the fold A rows.")
 
 
 def figure(label, name, cap, width="\\linewidth"):
@@ -438,7 +442,8 @@ def appendix_c():
         c = cells(r)
         lab = {"fig1": "fig:mechanism", "fig2": "fig:synthetic", "fig3": "fig:dose", "fig4": "fig:where", "fig5": "fig:uniqueness",
                "figS1": "fig:S1", "figS2": "fig:S2", "figS3": "fig:S3"}[c[0].split("_")[0]]
-        rows.append([f"Figure~\\ref{{{lab}}} \\figname{{{tex_escape(c[0]).replace(chr(92) + "_", chr(92) + "_" + chr(92) + "allowbreak{}")}}}", inline(c[1]), inline(c[2]), inline(c[3])])
+        fname = tex_escape(c[0]).replace("\\_", "\\_\\allowbreak{}")
+        rows.append([f"Figure~\\ref{{{lab}}} \\figname{{{fname}}}", inline(c[1]), inline(c[2]), inline(c[3])])
     o = ["\\section{Reproducibility map}\\label{app:repro}\n",
          "Generated from \\texttt{paper2/figures/MANIFEST.md}. Every figure is rebuilt by its script from committed results; "
          "each figure's sidecar JSON lists the data files (path, commit, SHA-256), any archived weights (SHA-256, archive) and every plotted number. "
