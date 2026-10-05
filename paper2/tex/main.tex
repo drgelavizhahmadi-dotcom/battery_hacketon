@@ -1,0 +1,57 @@
+% paper2/tex/main.tex -- paper 2 manuscript. Built through anonymous.tex (TMLR double-blind) or preprint.tex (arXiv).
+% Do not compile main.tex directly: the wrapper defines \PREPRINT (or not) and \input{main}.
+% Generated parts (do not edit by hand; run build_tex.py): title.tex, body.tex, appendixA-E.tex.
+\documentclass[10pt]{article}
+\ifdefined\PREPRINT
+  \usepackage[preprint]{tmlr}
+\else
+  \usepackage{tmlr}
+\fi
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{../figures/}}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\input{title.tex}
+
+\ifdefined\PREPRINT
+  \author{\name Gelavizh Ahmadi \\
+          \addr Independent researcher, Berlin, Germany \\
+          \addr ORCID: 0000-0000-0000-0000 % ORCID-PLACEHOLDER: replace before posting
+          }
+  \newcommand{\figname}[1]{(\texttt{#1})}
+  \newcommand{\REPOSTATEMENT}{Code, committed results and figure scripts: \url{https://github.com/drgelavizhahmadi-dotcom/battery_hacketon}.}
+  \hypersetup{pdftitle={Runaway edges: a smoothness-penalty blind spot makes Kolmogorov-Arnold networks non-identifiable on correlated inputs},
+              pdfauthor={Gelavizh Ahmadi}}
+\else
+  % anonymous build: no author, affiliation, acknowledgments or repository URL anywhere in the source that reaches the PDF
+  \author{}
+  \newcommand{\figname}[1]{}
+  \newcommand{\REPOSTATEMENT}{Code will be released upon publication.}
+  \hypersetup{pdftitle={Runaway edges: a smoothness-penalty blind spot makes Kolmogorov-Arnold networks non-identifiable on correlated inputs},
+              pdfauthor={}, pdfsubject={}, pdfkeywords={}, pdfcreator={LaTeX}}
+\fi
+
+\begin{document}
+\maketitle
+
+\input{body.tex}
+
+\nocite{agarwal2021nam} % in the draft's reference list but not cited in its text
+\bibliography{references}
+\bibliographystyle{tmlr}
+
+\appendix
+\ifdefined\PREPRINT
+  \input{appendixA.tex}\input{appendixB.tex}\input{appendixC.tex}\input{appendixD.tex}\input{appendixE.tex}
+\else % commit hashes replaced by neutral labels (commitmap.json is not part of the submission)
+  \input{appendixA_anon.tex}\input{appendixB_anon.tex}\input{appendixC_anon.tex}\input{appendixD_anon.tex}\input{appendixE_anon.tex}
+\fi
+
+\end{document}
