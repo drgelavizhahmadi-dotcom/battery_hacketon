@@ -122,7 +122,7 @@ The preprint build adds the author, affiliation, an ORCID placeholder (`% ORCID-
 ## Anonymous build: what is replaced
 
 - **Commit hashes:** all 48 commit hashes in the appendices are replaced by `S-01` … `S-48`, in chronological order.
-- **File and archive names:** all 67 repository file and archive names are replaced by `F-NN` and `W-NN`, in order of
+- **File and archive names:** all 53 distinct repository file and archive names are replaced by `F-NN` and `W-NN`, in order of
   first appearance.
 - **Figure IDs:** the figure IDs in Appendix C (`\figname`) are omitted.
 - **Mapping:** `commitmap.json` holds the full label-to-original mapping. It is not part of either PDF. It identifies the

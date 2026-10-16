@@ -1,0 +1,9 @@
+# pinned interpreter: /usr/bin/python3 (resolves to /Library/Developer/CommandLineTools/usr/bin/python3), Python 3.9.6
+# exact versions of every third-party package imported by the repository's scripts and tests
+matplotlib==3.9.4
+numpy==1.26.4
+pandas==2.3.3
+pytest==8.4.2
+scipy==1.13.1
+scikit-learn==1.6.1
+torch==2.8.0
