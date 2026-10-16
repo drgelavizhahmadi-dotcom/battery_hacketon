@@ -133,7 +133,7 @@ Medians over 8 seeds; growth is the squared parameter norm, polished over early-
 
 | μ | Seeds at a numerical minimum | Negative curvature (seeds) | Norm growth (seeds) | Training fit vs runaway |
 | --- | --- | --- | --- | --- |
-| 10⁻⁶ | 0 of 6 | up to 9 eigenvalues | 21–31× | about equal |
+| 10⁻⁶ | 0 of 6 | up to 9 eigenvalues | 21–31× | −3% to +13% |
 | 10⁻⁵ | 4 of 6 | up to 4 eigenvalues | 9–43× | 12–22% worse |
 | 10⁻⁴ | 6 of 6 | none | 1.6–16× | 15–39% worse |
 
