@@ -105,3 +105,45 @@ runaway needs composition, freezing layer 1 should remove it.
 ## Verdicts
 
 (appended after the run; nothing above this line will be edited)
+
+### Verdicts, part 1 (recorded 2026-10-17, from `freeze_output.txt`; run stopped by the pre-registered rule, decision record 11bf8bc)
+
+| | Prediction | Verdict | Key numbers |
+|---|---|---|---|
+| Z1 | Arm A certified: ≥ 5/6 real; ≥ 7/8 in each synthetic cell | **HELD** | A-R 6/6; A-S correlated P0 8/8; A-S correlated P1 8/8 |
+| Z2 | Arm A median layer-2 growth ≤ 3 in R and in each synthetic cell | **FAILED** | A-R ×582.8 (×206–×11,689); P0 ×4.07 (×1.36–×245); P1 ×22.9 (×1.51–×801) |
+| Z3 | Arm A smallest Hessian eigenvalue ≥ −1e-8 × largest at every logged iterate | **HELD** | worst ratio +1.99e-10 (all values positive) |
+| Z4 | Arm C: 8/8 certified, median growth ≤ 3 | **HELD** (computed before the stop) | 8/8; ×2.52 (×1.68–×2.85) |
+| Z5 | Arm D | pending | — |
+| Z6 | Arm E | pending | — |
+
+By the fixed interpretation, Z2 failing selects the branch "a runaway without composition: the mechanism needs revision; stop
+and report before anything else". The run was stopped and reported. On 2026-10-17 the author decided, after seeing Arm A's
+results, to resume Arms D, E and B (option 2).
+
+### Interpretation note (POST-HOC, written 2026-10-17 after the Arm A results; the author's reading; changes no verdict)
+
+- **Z2's branch premise did not occur.** That premise is "a runaway without composition". Every Arm A model reached a
+  certified, finite minimum with non-negative curvature (Z3). The failure reflects the growth threshold, which did not
+  separate a distant finite minimum from unbounded growth. The pre-registered rules did not anticipate this.
+- **Precedent:** growth without runaway already occurred in synthetic independent P0 (×12.5, 6/8 certified; Table 1). The
+  paper's runaway criterion is non-certification, not growth magnitude.
+- **Conditioning:** the Arm A condition numbers at the final iterate have per-cell medians of 2.2e7 (P0), 2.0e8 (R) and
+  3.6e8 (P1).
+  - A near-singular quadratic has its minimum far from the start: the displacement is about 1/λ_min along near-null
+    directions.
+  - Early stopping on such a problem acts like ridge regularisation (Yao, Rosasco & Caponnetto 2007; Ali, Kolter &
+    Tibshirani 2019).
+- **Comparison with the full model:** Arm A's real median growth is ×583 (finite, certified). The full real model's growth
+  from the same 107-epoch state to the end of stage-2 Part A is ×690 (never certified).
+  - The two factors cover different parameter blocks. Arm A covers layer 2 only; the full polish covers layer-1 affine,
+    SiLU and layer-2 affine. Their closeness is therefore weak evidence.
+  - Two readings remain:
+    - **(a) A receding minimum:** each frozen slice has a finite minimum, but layer 1's drift raises hidden-unit
+      correlation and pushes that minimum outward, so the joint problem has none reachable.
+    - **(b) A distant finite minimum** that the coupled, non-convex optimisation cannot reach within the budget.
+  - The infimum test (a certified L2 regularisation path) is designed to distinguish them.
+- **Arm B bears on (a):** with layer 2 frozen, layer 1 sees fixed raw inputs, so under (a) it should also certify, possibly
+  with growth.
+- **Arm D's rule** also uses a growth threshold (≤ 3) and shares Z2's weakness; this is noted next to Z5. Arm E uses a norm
+  ratio, not this threshold.

@@ -6,6 +6,7 @@ so an interruption resumes. No weights in git."""
 import copy
 import io
 import json
+import signal
 import sys
 import time
 import warnings
@@ -135,7 +136,24 @@ def run(flat, blocks):
             st["stop"] = "2 h wall-clock cap"
             raise StopIteration
 
-    res = minimize(flat.fun, x0, jac=True, hess=flat.hessian, method="trust-exact", callback=callback, options=dict(maxiter=MAXITER, gtol=1e-30))
+    # wall-clock cap enforced by a timer as well: scipy 1.13.1's trust-exact subproblem (IterativeSubproblem.solve) is an
+    # unbounded `while True` loop that never returns to the callback, so the callback's 2 h check alone can hang
+    # (crash record 1 of revision step 2). Implementation only: same 2 h cap, same last accepted iterate.
+    class WallClock(Exception):
+        pass
+
+    def on_alarm(signum, frame):
+        raise WallClock()
+    old = signal.signal(signal.SIGALRM, on_alarm)
+    signal.setitimer(signal.ITIMER_REAL, WALL + 60)
+    res = None
+    try:
+        res = minimize(flat.fun, x0, jac=True, hess=flat.hessian, method="trust-exact", callback=callback, options=dict(maxiter=MAXITER, gtol=1e-30))
+    except WallClock:
+        st["stop"] = "2 h wall-clock cap (timer; inside the trust-exact subproblem)"
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, old)
     k = len(hist["loss"]) - 1
     if st["stop"] == "scipy termination" and k >= MAXITER:
         st["stop"] = "iteration cap (500)"
@@ -143,7 +161,7 @@ def run(flat, blocks):
     if not logged or logged[-1]["it"] != k:
         snap(k, x)
     cert, _, _ = certify_point(flat, x)
-    return x, dict(stop=st["stop"], message=str(res.message), iters=k, wall_s=round(time.time() - st["t0"], 1), cert=cert, logged=logged)
+    return x, dict(stop=st["stop"], message=str(res.message) if res is not None else "timer", iters=k, wall_s=round(time.time() - st["t0"], 1), cert=cert, logged=logged)
 
 
 # ------------------------------------------------------------------ models and losses

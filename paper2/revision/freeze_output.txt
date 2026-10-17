@@ -62,3 +62,106 @@ anything else". Arms D (seeds 1-7), E and B were NOT run. Summary of the complet
   C       8 seeds: certified 8/8; growth median x2.52 (x1.68-x2.85); worst min/max eig +8.2e-7; 2 iterations each
   D       seed 0 only: certified; growth x0.263
 No verdicts are appended to freeze_prereg.md until the author decides how to proceed.
+
+==================== RESUMED 2026-10-17 (author decision, option 2; cached runs are reloaded, not recomputed) ====================
+####################################################################################################
+paper2/revision/freeze.py 2026-10-17 10:28:56: revision step 2 (prereg freeze_prereg.md, a6d752b)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  F1 Arm A real loss = trust.Flat's final.py loss (MSE on delta + 1e-3*sum D2 over both layers), all 2069 anchored rows,
+     no weight decay (prereg decision); layer 1 AND the salt embedding are frozen (the embedding feeds layer 1)
+  F2 Arm B: layer 2 frozen; layer 1 (coef, SiLU weights, biases) polished; the salt embedding stays frozen
+  F3 growth for Z2 = squared norm of all layer-2 parameters (RBF coef + SiLU weights + bias), polished / early
+  F4 Arm D adds 1e-4 * ||theta||^2 over all parameters, as specified (the AdamW-equivalent would be 5e-5 * ||theta||^2)
+  F5 Arm E wd = 1e-4 references are the committed early states; a determinism check retrains seed 0 with wd = 1e-4
+  F6 per-iterate logs (every 25 iterates + final: block norms, min/max Hessian eigenvalue, terms) are in freeze_results.json
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  27 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+  synthetic correlated data regenerated (seeds 1001-5001); check: committed early data term of correlated_P0_s0 6.512567e-04
+
+==================== ARM A: frozen layer 1 (and salt embedding), polish layer 2 only ====================
+  A-R ind0                     scipy termination              it   6 | certified True  grad 5.2e-16 | growth x521.188 | min eig/max eig over logged iterates +2.83e-08 | data 1.7993e-02 -> 1.6705e-02
+  A-R ind1                     scipy termination              it   5 | certified True  grad 1.5e-15 | growth x206.433 | min eig/max eig over logged iterates +2.81e-09 | data 1.7491e-02 -> 1.7014e-02
+  A-R ind2                     scipy termination              it   5 | certified True  grad 2.8e-15 | growth x479.624 | min eig/max eig over logged iterates +4.15e-08 | data 1.8843e-02 -> 1.7057e-02
+  A-R ind3                     scipy termination              it   7 | certified True  grad 4.8e-15 | growth x7926.622 | min eig/max eig over logged iterates +2.08e-09 | data 1.5996e-02 -> 1.5604e-02
+  A-R ind4                     scipy termination              it   8 | certified True  grad 5.6e-15 | growth x11689.326 | min eig/max eig over logged iterates +5.48e-10 | data 1.7860e-02 -> 1.6830e-02
+  A-R ind5                     scipy termination              it   6 | certified True  grad 3.6e-16 | growth x644.492 | min eig/max eig over logged iterates +2.59e-08 | data 1.8568e-02 -> 1.6976e-02
+  A-S-P0 s0                       scipy termination              it   2 | certified True  grad 6.2e-17 | growth x1.356 | min eig/max eig over logged iterates +2.54e-07 | data 6.5126e-04 -> 6.5191e-04
+  A-S-P0 s1                       scipy termination              it   2 | certified True  grad 7.4e-16 | growth x2.162 | min eig/max eig over logged iterates +4.19e-08 | data 6.5012e-04 -> 6.4989e-04
+  A-S-P0 s2                       scipy termination              it   3 | certified True  grad 8.2e-16 | growth x7.931 | min eig/max eig over logged iterates +6.25e-08 | data 6.5298e-04 -> 6.5228e-04
+  A-S-P0 s3                       scipy termination              it   3 | certified True  grad 1.3e-15 | growth x3.422 | min eig/max eig over logged iterates +2.09e-09 | data 6.5371e-04 -> 6.5252e-04
+  A-S-P0 s4                       scipy termination              it   3 | certified True  grad 4.0e-16 | growth x6.692 | min eig/max eig over logged iterates +5.22e-08 | data 6.4251e-04 -> 6.4286e-04
+  A-S-P0 s5                       scipy termination              it   2 | certified True  grad 3.8e-16 | growth x4.711 | min eig/max eig over logged iterates +6.29e-08 | data 6.5996e-04 -> 6.6031e-04
+  A-S-P0 s6                       scipy termination              it   5 | certified True  grad 5.5e-15 | growth x244.533 | min eig/max eig over logged iterates +1.06e-09 | data 6.6823e-04 -> 6.6875e-04
+  A-S-P0 s7                       scipy termination              it   2 | certified True  grad 1.3e-15 | growth x2.735 | min eig/max eig over logged iterates +2.34e-09 | data 6.3775e-04 -> 6.3958e-04
+  A-S-P1 s0                       scipy termination              it   4 | certified True  grad 6.0e-15 | growth x69.172 | min eig/max eig over logged iterates +2.43e-09 | data 6.5857e-04 -> 6.5722e-04
+  A-S-P1 s1                       scipy termination              it   4 | certified True  grad 1.5e-15 | growth x18.468 | min eig/max eig over logged iterates +5.46e-10 | data 6.7772e-04 -> 6.7666e-04
+  A-S-P1 s2                       scipy termination              it   2 | certified True  grad 9.6e-16 | growth x3.015 | min eig/max eig over logged iterates +7.87e-08 | data 6.6619e-04 -> 6.6607e-04
+  A-S-P1 s3                       scipy termination              it   7 | certified True  grad 6.6e-15 | growth x801.452 | min eig/max eig over logged iterates +1.99e-10 | data 6.6981e-04 -> 6.6668e-04
+  A-S-P1 s4                       scipy termination              it   2 | certified True  grad 5.2e-16 | growth x1.514 | min eig/max eig over logged iterates +4.16e-08 | data 6.5229e-04 -> 6.5253e-04
+  A-S-P1 s5                       scipy termination              it   3 | certified True  grad 2.5e-15 | growth x9.820 | min eig/max eig over logged iterates +4.09e-10 | data 6.7138e-04 -> 6.7053e-04
+  A-S-P1 s6                       scipy termination              it   3 | certified True  grad 5.1e-15 | growth x27.315 | min eig/max eig over logged iterates +5.11e-09 | data 6.9542e-04 -> 6.9311e-04
+  A-S-P1 s7                       scipy termination              it   5 | certified True  grad 1.2e-14 | growth x424.255 | min eig/max eig over logged iterates +3.16e-09 | data 7.5307e-04 -> 7.4414e-04
+
+==================== ARM C: one-layer control KANLayer [4,1], correlated synthetic data, P0 loss ====================
+  C s0                       scipy termination              it   2 | certified True  grad 8.8e-16 | growth x2.604 | min eig/max eig over logged iterates +8.24e-07 | data 5.7872e-03 -> 5.7072e-03
+  C s1                       scipy termination              it   2 | certified True  grad 8.0e-16 | growth x2.519 | min eig/max eig over logged iterates +8.24e-07 | data 5.7941e-03 -> 5.7072e-03
+  C s2                       scipy termination              it   2 | certified True  grad 7.1e-16 | growth x2.851 | min eig/max eig over logged iterates +8.24e-07 | data 5.7564e-03 -> 5.7072e-03
+  C s3                       scipy termination              it   2 | certified True  grad 1.4e-15 | growth x2.521 | min eig/max eig over logged iterates +8.24e-07 | data 5.8206e-03 -> 5.7072e-03
+  C s4                       scipy termination              it   2 | certified True  grad 6.8e-16 | growth x1.681 | min eig/max eig over logged iterates +8.24e-07 | data 5.8166e-03 -> 5.7072e-03
+  C s5                       scipy termination              it   2 | certified True  grad 1.3e-15 | growth x2.383 | min eig/max eig over logged iterates +8.24e-07 | data 5.8012e-03 -> 5.7072e-03
+  C s6                       scipy termination              it   2 | certified True  grad 9.2e-16 | growth x2.706 | min eig/max eig over logged iterates +8.24e-07 | data 5.7766e-03 -> 5.7072e-03
+  C s7                       scipy termination              it   2 | certified True  grad 9.7e-16 | growth x2.471 | min eig/max eig over logged iterates +8.24e-07 | data 5.8009e-03 -> 5.7072e-03
+
+==================== ARM D: correlated P0, polish-time L2 = 1e-4 * ||theta||^2 added to the P0 loss ====================
+  D s0                       scipy termination              it  33 | certified True  grad 2.9e-14 | growth x0.263 | min eig/max eig over logged iterates -1.60e-05 | data 6.5126e-04 -> 6.7531e-04
+  D s1                       scipy termination              it  48 | certified True  grad 3.4e-13 | growth x0.412 | min eig/max eig over logged iterates -1.71e-05 | data 6.5012e-04 -> 6.4741e-04
+  D s2                       scipy termination              it 121 | certified True  grad 4.1e-12 | growth x0.402 | min eig/max eig over logged iterates -1.79e-04 | data 6.5298e-04 -> 6.4727e-04
+  D s3                       scipy termination              it 108 | certified True  grad 2.4e-10 | growth x0.296 | min eig/max eig over logged iterates -1.17e-04 | data 6.5371e-04 -> 6.4847e-04
+  D s4                       scipy termination              it  42 | certified True  grad 2.7e-12 | growth x0.449 | min eig/max eig over logged iterates -2.00e-05 | data 6.4251e-04 -> 6.4830e-04
+  D s5                       scipy termination              it  45 | certified True  grad 1.1e-12 | growth x0.418 | min eig/max eig over logged iterates -1.86e-04 | data 6.5996e-04 -> 6.7567e-04
+  D s6                       scipy termination              it  55 | certified True  grad 1.7e-15 | growth x0.507 | min eig/max eig over logged iterates -1.17e-04 | data 6.6823e-04 -> 6.7719e-04
+  D s7                       scipy termination              it  31 | certified True  grad 2.4e-12 | growth x0.540 | min eig/max eig over logged iterates -2.62e-05 | data 6.3775e-04 -> 6.4847e-04
+
+==================== ARM E: retrain with AdamW weight_decay = 0 (early-stopped state), against wd = 1e-4 ====================
+  E(i) s0: ||theta||^2 wd0 12.953 vs wd1e-4 12.942 (x1.001); data 6.5209e-04 / 6.5126e-04; in-RMSE 0.0092 / 0.0092; off-RMSE 0.0758 / 0.0757; best epoch 9962 / 9988
+  E(i) s1: ||theta||^2 wd0 8.475 vs wd1e-4 8.418 (x1.007); data 6.4971e-04 / 6.5012e-04; in-RMSE 0.0092 / 0.0092; off-RMSE 0.0604 / 0.0602; best epoch 6964 / 6839
+  E(i) s2: ||theta||^2 wd0 8.605 vs wd1e-4 8.623 (x0.998); data 6.5297e-04 / 6.5298e-04; in-RMSE 0.0087 / 0.0087; off-RMSE 0.0729 / 0.0727; best epoch 4699 / 4755
+  E(i) s3: ||theta||^2 wd0 11.754 vs wd1e-4 11.752 (x1.000); data 6.5374e-04 / 6.5371e-04; in-RMSE 0.0090 / 0.0090; off-RMSE 0.0544 / 0.0544; best epoch 9999 / 10000
+  E(i) s4: ||theta||^2 wd0 7.837 vs wd1e-4 7.826 (x1.001); data 6.4260e-04 / 6.4251e-04; in-RMSE 0.0085 / 0.0085; off-RMSE 0.0594 / 0.0595; best epoch 6879 / 6849
+  E(i) s5: ||theta||^2 wd0 8.100 vs wd1e-4 8.089 (x1.001); data 6.6003e-04 / 6.5996e-04; in-RMSE 0.0097 / 0.0097; off-RMSE 0.0811 / 0.0811; best epoch 7019 / 6991
+  E(i) s6: ||theta||^2 wd0 6.484 vs wd1e-4 6.572 (x0.987); data 6.6846e-04 / 6.6823e-04; in-RMSE 0.0099 / 0.0099; off-RMSE 0.0908 / 0.0909; best epoch 4291 / 4599
+  E(i) s7: ||theta||^2 wd0 6.472 vs wd1e-4 6.434 (x1.006); data 6.3737e-04 / 6.3775e-04; in-RMSE 0.0080 / 0.0081; off-RMSE 0.0564 / 0.0562; best epoch 4637 / 4429
+  E(i) determinism check: seed 0 retrained with wd = 1e-4 vs committed early state: max |diff| 0.00e+00
+  E(ii) s0: ||theta||^2 wd0 33.241 vs wd1e-4 33.239 (x1.0001); train data 1.7901e-02 / 1.7901e-02
+  E(ii) s1: ||theta||^2 wd0 40.603 vs wd1e-4 40.601 (x1.0001); train data 1.7641e-02 / 1.7641e-02
+  E(ii) s2: ||theta||^2 wd0 22.585 vs wd1e-4 22.583 (x1.0001); train data 1.9885e-02 / 1.9885e-02
+  E(ii) s3: ||theta||^2 wd0 21.985 vs wd1e-4 21.984 (x1.0001); train data 1.5247e-02 / 1.5247e-02
+  E(ii) s4: ||theta||^2 wd0 44.927 vs wd1e-4 44.924 (x1.0001); train data 1.6528e-02 / 1.6528e-02
+  E(ii) fold A 5-seed ensemble RMSE: wd0 0.1420 vs wd1e-4 0.1420 (reference 0.1420); determinism check seed 0 wd = 1e-4 vs committed: max |diff| 0.00e+00
+
+==================== ARM B (EXPLORATORY): frozen layer 2, polish layer 1 only (salt embedding frozen) ====================
+  B-S-P0 s0                       scipy termination              it   7 | certified True  grad 3.8e-15 | growth x9.287 | min eig/max eig over logged iterates +2.15e-08 | data 6.5126e-04 -> 6.4282e-04
+  B-S-P0 s1                       scipy termination              it   7 | certified True  grad 1.1e-13 | growth x13.046 | min eig/max eig over logged iterates -1.00e-08 | data 6.5012e-04 -> 6.4221e-04
+  B-S-P0 s2                       scipy termination              it  22 | certified True  grad 3.5e-13 | growth x53.187 | min eig/max eig over logged iterates -1.58e-05 | data 6.5298e-04 -> 6.3891e-04
+  B-S-P0 s3                       scipy termination              it  12 | certified True  grad 1.3e-13 | growth x12.634 | min eig/max eig over logged iterates -6.33e-10 | data 6.5371e-04 -> 6.4827e-04
+  B-S-P0 s4                       scipy termination              it   7 | certified True  grad 1.4e-12 | growth x13.375 | min eig/max eig over logged iterates -9.84e-08 | data 6.4251e-04 -> 6.3273e-04
+  B-S-P0 s5                       scipy termination              it   9 | certified True  grad 7.6e-15 | growth x13.589 | min eig/max eig over logged iterates -2.58e-07 | data 6.5996e-04 -> 6.4566e-04
+  B-S-P0 s6                       scipy termination              it   7 | certified True  grad 1.1e-13 | growth x13.905 | min eig/max eig over logged iterates -1.08e-07 | data 6.6823e-04 -> 6.5860e-04
+  B-S-P0 s7                       scipy termination              it   9 | certified True  grad 1.8e-12 | growth x18.946 | min eig/max eig over logged iterates -5.66e-09 | data 6.3775e-04 -> 6.2905e-04
+  B-S-P1 s0                       scipy termination              it   9 | certified True  grad 2.6e-14 | growth x6.530 | min eig/max eig over logged iterates +9.23e-09 | data 6.5857e-04 -> 6.4663e-04
+  B-S-P1 s1                       scipy termination              it   8 | certified True  grad 6.7e-16 | growth x8.446 | min eig/max eig over logged iterates -6.02e-10 | data 6.7772e-04 -> 6.6888e-04
+  B-S-P1 s2                       scipy termination              it  18 | certified True  grad 9.2e-13 | growth x38.078 | min eig/max eig over logged iterates -3.32e-05 | data 6.6619e-04 -> 6.4570e-04
+  B-S-P1 s3                       scipy termination              it   6 | certified True  grad 3.9e-16 | growth x2.427 | min eig/max eig over logged iterates +1.35e-08 | data 6.6981e-04 -> 6.6067e-04
+  B-S-P1 s4                       scipy termination              it  14 | certified True  grad 1.2e-14 | growth x10.536 | min eig/max eig over logged iterates +5.61e-09 | data 6.5229e-04 -> 6.4081e-04
+  B-S-P1 s5                       scipy termination              it   9 | certified True  grad 1.2e-14 | growth x3.040 | min eig/max eig over logged iterates -1.01e-07 | data 6.7138e-04 -> 6.5837e-04
+  B-S-P1 s6                       scipy termination              it  14 | certified True  grad 1.6e-12 | growth x6.868 | min eig/max eig over logged iterates -2.44e-06 | data 6.9542e-04 -> 6.7019e-04
+  B-S-P1 s7                       converged (stage2 criterion)   it  16 | certified True  grad 9.6e-11 | growth x7.371 | min eig/max eig over logged iterates +1.67e-08 | data 7.5307e-04 -> 7.3775e-04
+
+[CRASH RECORD 1 (revision step 2), 2026-10-17 13:30: the resumed run hung in Arm B-R ind0 (real data, layer 1 polished, 546 free
+ parameters) from 10:34. A stack sample showed it inside scipy 1.13.1's trust-exact subproblem solver (IterativeSubproblem.solve,
+ an unbounded `while True` loop of Cholesky factorisations, LAPACK dpotrf/dtrtrs), which never returns to the per-iteration
+ callback where the 2 h wall-clock cap is checked. The process was stopped by hand after 2 h 55 min. Nothing completed was lost:
+ Arms A, C, D, E and all 16 synthetic Arm B models are cached. Fix (implementation only, next commit): the same 2 h cap is also
+ enforced by a SIGALRM timer, keeping the last accepted iterate. The run resumes from the cache.]
