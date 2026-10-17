@@ -147,3 +147,19 @@ results, to resume Arms D, E and B (option 2).
   with growth.
 - **Arm D's rule** also uses a growth threshold (≤ 3) and shares Z2's weakness; this is noted next to Z5. Arm E uses a norm
   ratio, not this threshold.
+
+### Verdicts, part 2 (recorded 2026-10-17 after the resumed run; crash record 1 and its implementation-only fix in 9228f70)
+
+| | Prediction | Verdict | Key numbers |
+|---|---|---|---|
+| Z5 | Arm D branch | **"an L2 term of this size at polish time bounds the runaway"** | 8/8 certified; median growth ×0.415 (×0.263–×0.540). Note: this rule uses the same ≤ 3 growth threshold as Z2 and shares its weakness (see the interpretation note); here the norm shrinks, so the threshold is not binding. |
+| Z6 E(i) | Arm E, synthetic correlated P0 | **"early stopping alone kept them bounded; weight decay was incidental"** | median ‖θ‖² ratio wd 0 / wd 1e-4 ×1.0011 (×0.987–×1.007); in-distribution RMSE 0.0091 vs 0.0091; off-manifold 0.0667 vs 0.0665; determinism check max \|diff\| 0 |
+| Z6 E(ii) | Arm E, real fold A | **"early stopping alone kept them bounded; weight decay was incidental"** | median ratio ×1.0001 (×1.0001–×1.0001); fold A ensemble RMSE 0.1420 vs 0.1420; determinism check max \|diff\| 0 |
+
+Arms D and E are reported separately, as registered.
+
+**Arm B (exploratory, no prediction):**
+- **Synthetic:** correlated P0 8/8 certified, growth ×13.5 (×9.3–×53); correlated P1 8/8 certified, ×7.1 (×2.4–×38).
+- **Real:** 4/6 certified, growth ×1.97e5 (×1.16e4–×1.28e10). Four runs stopped at the 2 h cap, one at scipy termination and one at the 500-iteration cap.
+  - The four certified real points carry 24–28 near-null eigenvalues.
+  - POST-HOC, descriptive: hidden-unit saturation (\|s\| > 3) rises from 0 to 5–26% while the median \|s\| stays at about 0.5–1.0. The growth is therefore mostly cancellation inside layer 1, not saturation.
