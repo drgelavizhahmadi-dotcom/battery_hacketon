@@ -55,3 +55,148 @@ DISCREPANCIES / choices (files win):
  not interrupt it this time. Stopped by hand; Arm A (22 models) and the B-R ind0 replay are cached. Fix (implementation only): each
  real Arm B restart probe now runs in a separate process that is killed at the 2 h cap (+5 min), and the last accepted iterate is
  checkpointed at every Hessian evaluation, so a killed probe still returns its last accepted point. The run resumes from the cache.]
+
+==================== RESUMED 2026-10-18 after crash record 2 (cached results reloaded) ====================
+####################################################################################################
+paper2/revision/degeneracy.py 2026-10-18 10:22:55: POST-HOC, DESCRIPTIVE follow-up to revision step 2 (190544d).
+No pre-registration (the step-2 data have been seen); nothing here changes a verdict.
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  G1 step 2 logged the data term only every 25 iterates, so 'first 10 iterations' (item 4) comes from a deterministic REPLAY of
+     the first 10 trust-exact iterations from the early state (same code); for runs that ended within 10 iterations the replay
+     endpoint is checked against the cached endpoint
+  G2 a hidden unit counts as 'saturated' when |s| > 3 on >= 10% of the training rows at the endpoint (fixed before running)
+  G3 'parameters feeding saturated units': Arm B = that unit's layer-1 RBF coefficients, SiLU weights and bias; Arm A = the
+     layer-2 RBF coefficients and SiLU weight of that unit's output edge (the layer-2 bias is not unit-specific: 'rest')
+  G4 'layer-1 affine RBF' share = energy of each near-flat eigenvector's layer-1 coefficient part projected on span{1, k}
+     (per edge), over the eigenvector's total energy; it is 0 by construction in Arm A (layer 1 frozen)
+  G5 restart probe: same trust-exact runner and caps (500 iterations, 2 h, timer), convergence gradient tolerance 1e-9 instead
+     of 1e-7 (x100 tighter), started at the step-2 endpoint; ||theta||^2 = all parameters
+  G7 (after crash record 2) each real Arm B restart probe runs in a separate process killed at the 2 h cap + 5 min; the last
+     accepted iterate is checkpointed at every Hessian evaluation and used if the probe is killed (iterations then reported as -1)
+  G6 scaling probes use the Arm B loss (data + 1e-3 * sum D2); 'non-increasing up to c = 10' = loss(c) never rises over
+     c = 1, 1.01, 1.1, 1.5, 2, 5, 10
+  references for item 2: certified mu = 1e-4 minima n_null median 1 (range 0-3); SC-KAN-delta 0 (certify_results.json, arch/sc)
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  74 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== Arm A, cell R ====================
+  A-R ind0: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +2.83e-08 (worst logged +2.83e-08) | replay check 0.0e+00
+  A-R ind1: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +2.81e-09 (worst logged +2.81e-09) | replay check 0.0e+00
+  A-R ind2: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +4.15e-08 (worst logged +4.15e-08) | replay check 0.0e+00
+  A-R ind3: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +2.08e-09 (worst logged +2.08e-09) | replay check 0.0e+00
+  A-R ind4: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   2 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +5.48e-10 (worst logged +5.48e-10) | replay check 0.0e+00
+  A-R ind5: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +2.59e-08 (worst logged +2.59e-08) | replay check 0.0e+00
+
+==================== Arm A, cell P0 ====================
+  A-P0 s0: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it n/a (data rose) | endpoint min/max +2.54e-07 (worst logged +2.54e-07) | replay check 0.0e+00
+  A-P0 s1: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +4.19e-08 (worst logged +4.19e-08) | replay check 0.0e+00
+  A-P0 s2: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +6.25e-08 (worst logged +6.25e-08) | replay check 0.0e+00
+  A-P0 s3: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +2.09e-09 (worst logged +2.09e-09) | replay check 0.0e+00
+  A-P0 s4: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it n/a (data rose) | endpoint min/max +5.22e-08 (worst logged +5.22e-08) | replay check 0.0e+00
+  A-P0 s5: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it n/a (data rose) | endpoint min/max +6.29e-08 (worst logged +6.29e-08) | replay check 0.0e+00
+  A-P0 s6: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it n/a (data rose) | endpoint min/max +1.06e-09 (worst logged +1.06e-09) | replay check 0.0e+00
+  A-P0 s7: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it n/a (data rose) | endpoint min/max +2.34e-09 (worst logged +2.34e-09) | replay check 0.0e+00
+
+==================== Arm A, cell P1 ====================
+  A-P1 s0: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +2.43e-09 (worst logged +2.43e-09) | replay check 0.0e+00
+  A-P1 s1: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +5.46e-10 (worst logged +5.46e-10) | replay check 0.0e+00
+  A-P1 s2: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +7.87e-08 (worst logged +7.87e-08) | replay check 0.0e+00
+  A-P1 s3: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +1.99e-10 (worst logged +1.99e-10) | replay check 0.0e+00
+  A-P1 s4: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it n/a (data rose) | endpoint min/max +4.16e-08 (worst logged +4.16e-08) | replay check 0.0e+00
+  A-P1 s5: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +4.09e-10 (worst logged +4.09e-10) | replay check 0.0e+00
+  A-P1 s6: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +5.11e-09 (worst logged +5.11e-09) | replay check 0.0e+00
+  A-P1 s7: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.000 | data improvement in first 10 it 1.000 | endpoint min/max +3.16e-09 (worst logged +3.16e-09) | replay check 0.0e+00
+
+==================== Arm B, cell R ====================
+  B-R ind0: cert True  | sat |s|>3 0.000 -> 0.084 (units [0, 1, 2]) | near-flat  24 | overlap sat-feed 0.542, L1-affine 0.481 | data improvement in first 10 it 0.491 | endpoint min/max -6.16e-17 (worst logged -2.80e-03)
+      restart (gtol 1e-9): 2 h wall-clock cap (timer; inside the trust-exact subproblem), 4 it, loss -5.03e-11 rel, ||theta||^2 +9.45e-04 rel, certified True
+      scaling affine c=1..10: 1.5047e-02 2.7211e-01 3.5200e-01 3.5316e-01 3.3257e-01 3.3257e-01 3.3257e-01  non-increasing: False
+      scaling all    c=1..10: 1.5047e-02 1.5053e-02 1.5642e-02 2.4073e-02 3.6693e-02 8.2997e-02 1.1085e-01  non-increasing: False
+      CLASS: FLAT MINIMUM
+  B-R ind1: cert True  | sat |s|>3 0.000 -> 0.075 (units [0, 1]) | near-flat  28 | overlap sat-feed 0.355, L1-affine 0.494 | data improvement in first 10 it 0.434 | endpoint min/max -2.41e-17 (worst logged -1.65e-03)
+      restart (gtol 1e-9): scipy termination, 3 it, loss -1.22e-16 rel, ||theta||^2 -7.49e-05 rel, certified True
+      scaling affine c=1..10: 1.4225e-02 5.6379e-02 1.6104e-01 1.2857e-01 1.3047e-01 1.3114e-01 1.3120e-01  non-increasing: False
+      scaling all    c=1..10: 1.4225e-02 1.4231e-02 1.4741e-02 2.2719e-02 3.5438e-02 6.6621e-02 8.1179e-02  non-increasing: False
+      CLASS: FLAT MINIMUM
+  B-R ind2: cert False | sat |s|>3 0.000 -> 0.235 (units [1, 2, 3, 5]) | near-flat  37 | overlap sat-feed 0.774, L1-affine 0.579 | data improvement in first 10 it 0.445 | endpoint min/max -5.77e-17 (worst logged -6.40e-03)
+      restart (gtol 1e-9): 2 h wall-clock cap (timer; inside the trust-exact subproblem), 3 it, loss -8.03e-12 rel, ||theta||^2 +4.59e-06 rel, certified True
+      scaling affine c=1..10: 1.4829e-02 2.7118e-01 3.8402e-01 4.4703e-01 4.4661e-01 4.5627e-01 4.5566e-01  non-increasing: False
+      scaling all    c=1..10: 1.4829e-02 1.4834e-02 1.5303e-02 2.3875e-02 4.0183e-02 9.1741e-02 1.0861e-01  non-increasing: False
+      CLASS: FLAT MINIMUM
+  B-R ind3: cert False | sat |s|>3 0.000 -> 0.062 (units [5]) | near-flat  27 | overlap sat-feed 0.189, L1-affine 0.580 | data improvement in first 10 it 0.414 | endpoint min/max -4.36e-17 (worst logged -1.35e-03)
+      restart (gtol 1e-9): 2 h wall-clock cap (timer; inside the trust-exact subproblem), 1 it, loss -5.02e-11 rel, ||theta||^2 -4.62e-04 rel, certified True
+      scaling affine c=1..10: 1.1824e-02 2.5382e-02 1.4336e-01 1.3511e-01 1.3579e-01 1.3576e-01 1.3547e-01  non-increasing: False
+      scaling all    c=1..10: 1.1824e-02 1.1830e-02 1.2391e-02 2.2719e-02 4.3848e-02 1.4369e-01 2.0096e-01  non-increasing: False
+      CLASS: FLAT MINIMUM
+  B-R ind4: cert True  | sat |s|>3 0.000 -> 0.054 (units [1, 3]) | near-flat  21 | overlap sat-feed 0.358, L1-affine 0.516 | data improvement in first 10 it 0.322 | endpoint min/max -2.19e-17 (worst logged -3.42e-03)
+      restart (gtol 1e-9): scipy termination, 2 it, loss +0.00e+00 rel, ||theta||^2 +0.00e+00 rel, certified True
+      scaling affine c=1..10: 1.2828e-02 1.5831e-02 5.7291e-02 9.2839e-02 1.3642e-01 1.6001e-01 1.6300e-01  non-increasing: False
+      scaling all    c=1..10: 1.2828e-02 1.2831e-02 1.3110e-02 1.7379e-02 2.3731e-02 4.4209e-02 6.0715e-02  non-increasing: False
+      CLASS: FLAT MINIMUM
+  B-R ind5: cert True  | sat |s|>3 0.000 -> 0.255 (units [1, 2, 3, 4]) | near-flat  41 | overlap sat-feed 0.805, L1-affine 0.535 | data improvement in first 10 it 0.429 | endpoint min/max -4.44e-17 (worst logged -2.84e-03)
+      restart (gtol 1e-9): iteration cap (500), 500 it, loss -1.03e-03 rel, ||theta||^2 +5.68e+00 rel, certified False
+      scaling affine c=1..10: 1.5047e-02 7.8028e-02 1.6882e-01 1.3993e-01 1.4118e-01 1.6751e-01 1.7138e-01  non-increasing: False
+      scaling all    c=1..10: 1.5047e-02 1.5051e-02 1.5451e-02 2.1748e-02 3.1642e-02 6.1115e-02 7.5266e-02  non-increasing: False
+      CLASS: PLATEAU
+
+==================== Arm B, cell P0 ====================
+  B-P0 s0: cert True  | sat |s|>3 0.000 -> 0.001 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +2.22e-08 (worst logged +2.15e-08) | replay check 0.0e+00
+  B-P0 s1: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.55e-08 (worst logged -1.00e-08) | replay check 0.0e+00
+  B-P0 s2: cert True  | sat |s|>3 0.000 -> 0.003 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.761 | data improvement in first 10 it 0.542 | endpoint min/max +2.82e-09 (worst logged -1.58e-05)
+  B-P0 s3: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.951 | data improvement in first 10 it 1.000 | endpoint min/max +3.49e-09 (worst logged -6.33e-10)
+  B-P0 s4: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.04e-08 (worst logged -9.84e-08) | replay check 0.0e+00
+  B-P0 s5: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.58e-08 (worst logged -2.58e-07) | replay check 0.0e+00
+  B-P0 s6: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.31e-08 (worst logged -1.08e-07) | replay check 0.0e+00
+  B-P0 s7: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   2 | overlap sat-feed 0.000, L1-affine 0.804 | data improvement in first 10 it 1.000 | endpoint min/max +5.36e-09 (worst logged -5.66e-09) | replay check 0.0e+00
+
+==================== Arm B, cell P1 ====================
+  B-P1 s0: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.10e-08 (worst logged +9.23e-09) | replay check 0.0e+00
+  B-P1 s1: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +2.79e-08 (worst logged -6.02e-10) | replay check 0.0e+00
+  B-P1 s2: cert True  | sat |s|>3 0.000 -> 0.001 (units []) | near-flat   1 | overlap sat-feed 0.000, L1-affine 0.776 | data improvement in first 10 it 0.928 | endpoint min/max +2.31e-09 (worst logged -3.32e-05)
+  B-P1 s3: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +1.65e-08 (worst logged +1.35e-08) | replay check 0.0e+00
+  B-P1 s4: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 0.993 | endpoint min/max +1.46e-08 (worst logged +5.61e-09)
+  B-P1 s5: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +4.55e-08 (worst logged -1.01e-07) | replay check 0.0e+00
+  B-P1 s6: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 0.946 | endpoint min/max +3.65e-08 (worst logged -2.44e-06)
+  B-P1 s7: cert True  | sat |s|>3 0.000 -> 0.000 (units []) | near-flat   0 | overlap sat-feed -, L1-affine - | data improvement in first 10 it 1.000 | endpoint min/max +3.39e-08 (worst logged +1.67e-08)
+
+==================== Arm D, cell P0 ====================
+  D s0: certified True; endpoint min/max +3.19e-06; worst along trajectory -1.60e-05
+  D s1: certified True; endpoint min/max +4.46e-06; worst along trajectory -1.71e-05
+  D s2: certified True; endpoint min/max +4.40e-06; worst along trajectory -1.79e-04
+  D s3: certified True; endpoint min/max +4.28e-06; worst along trajectory -1.17e-04
+  D s4: certified True; endpoint min/max +1.32e-06; worst along trajectory -2.00e-05
+  D s5: certified True; endpoint min/max +3.29e-06; worst along trajectory -1.86e-04
+  D s6: certified True; endpoint min/max +3.02e-06; worst along trajectory -1.17e-04
+  D s7: certified True; endpoint min/max +4.28e-06; worst along trajectory -2.62e-05
+
+wrote degeneracy_results.json and figs/degeneracy_scaling.png
+
+==================== CONCLUSION (POST-HOC, descriptive; changes no verdict) ====================
+Item 8. The step-2 report's "worst min/max eigenvalue" is the worst value along the LOGGED TRAJECTORY, not at the endpoint.
+  Endpoint values:
+  - real Arm B -6.2e-17 to -2.2e-17 (numerically zero);
+  - synthetic Arm B +2.3e-9 to +4.6e-8;
+  - Arm D +1.3e-6 to +4.5e-6;
+  - Arm A as in step 2 (all positive).
+  No CERTIFIED endpoint has min/max < -1e-8.
+(a) Real Arm B: 5 of 6 endpoints classify as FLAT MINIMUM and 1 (ind5) as PLATEAU.
+  - ind5 was certified in step 2. Its restart ran 500 iterations, lowered the loss by 1.0e-3 (relative), raised ||theta||^2
+    x6.7, and ended uncertified. The step-2 certificate passed a point on the way to infinity.
+  - For ind0, ind2 and ind3 the restart stopped at the 2 h cap after only 1-4 iterations (the trust-exact subproblem stalled).
+    Their FLAT MINIMUM class therefore rests mainly on the scaling probes. Both probes raise the loss at every c for all six
+    models.
+  - All six real endpoints are highly degenerate: 21-41 near-flat Hessian directions, against 0-3 at the paper's certified
+    mu = 1e-4 minima, 0 for SC-KAN, and 0-2 in Arm A and in synthetic Arm B.
+(b) What drives real Arm B's growth: mainly the layer-1 affine coefficients.
+  - The near-flat eigenvectors put 0.48-0.58 of their weight on layer-1 affine RBF coefficients, against 0.19-0.81 on
+    parameters feeding saturated units.
+  - Scaling only the affine component by 1.01 raises the loss x1.2-x18. Scaling all layer-1 weights and biases by 1.01
+    changes it by < 0.1%, and by 10 raises it only x4.7-x17.
+  - The affine parts are therefore large and precisely cancelling (the cross-edge mechanism), while saturation (5-26% of
+    activations) is a secondary, unit-specific contributor.
+(c) The boundary does not follow convex vs non-convex. The convex arms (A, and C from step 2) give clean certified minima. So
+  does the non-convex synthetic Arm B: 16/16 certified, 0-2 near-flat directions, no saturation, at most 0.3% of activations
+  beyond |s| > 3. Only the non-convex REAL layer-1 problem is degenerate (and in one case a plateau). The boundary follows the
+  data, real correlated few-valued descriptors vs synthetic inputs, more than the convexity of the sub-problem.

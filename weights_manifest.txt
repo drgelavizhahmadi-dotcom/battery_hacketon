@@ -944,3 +944,66 @@ gauge_weights/freeze_E_wd0_syn_s5.pt  1744b86d367ac81854bd8d545bfd64d4db63b2c4b8
 gauge_weights/freeze_E_wd0_syn_s6.pt  8ec628ea2076c1241355ccdfea7029d2378e8be0a49bcb9000ad207f9c048d93  paper2/revision/freeze.py  11bf8bc  gauge_weights_2026-10-17k.tar.gz
 gauge_weights/freeze_E_wd0_syn_s7.pt  e16a06b739ba50244a7780954ac5fb69d6f4645c6ec389b00eedf8272bd920d5  paper2/revision/freeze.py  11bf8bc  gauge_weights_2026-10-17k.tar.gz
 gauge_weights/sc_index.json  5fc5beb0735f8b53aa6f08f0dee193f05b51d4251deabdfb0b341300e2bbe0e2  paper2/revision/freeze.py  9228f70  gauge_weights_2026-10-17k.tar.gz
+# --- twelfth archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-10-18l.tar.gz
+# archive sha256: 720818da1f7a2343c2ffb52ac59654cc0b029d3a20556d43cb451215e0595248
+# post-hoc degeneracy follow-up (paper2/revision/degeneracy.py): replays (degen_replay_*), restart endpoints (degen_restart_*) and
+# restart checkpoints (degen_ckpt_*.npy); B-R restarts produced by the fixed script (dc07ec5), Arm A replays and the B-R ind0 replay by
+# the first version (committed in dc07ec5 as well); gauge_weights/sc_index.json = SHA cache index (final state)
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/degen_ckpt_ind0.npy  c8e6e6a891be6a2ae054d4d0143a31e698b3dd364f8e309b4d9aacd25f6292cb  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_ckpt_ind1.npy  e8ac126358a23d3798fde399b8f0c5c19c4469b1a83b7507cfb2684c5470994d  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_ckpt_ind2.npy  8197f0164a6b8952046481640f5913c457832df50774164e284c2f05e7c6423f  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_ckpt_ind3.npy  d6cdf15495db0567cce4bf672dd04d16e5eb1a0030c4557e3daafcea50ff5bd0  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_ckpt_ind4.npy  f2bcb31ad0700b1065953cde1610580889f710d74c30ec14399348f9e4905470  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_ckpt_ind5.npy  53b2632da14824d8ac8b0a79ef5db4f4493e9f7a3729b96d775a2b026fdf9419  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s0.pt  189840b92d554836ce9ea49325e0dbf5cf4ace5cf9225b3b0fe1a2adebecd1a9  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s1.pt  aca0f42735ca843a22b71d2d5505325ee35cf3cf941192c3294fefffbeaabb6e  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s2.pt  67e977e2088537e0c6f9c6505259e516be1b1bd405e6c295cd0d9013449d2e5c  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s3.pt  a04da4e5d71637223eb3da0a8324a725c8fd4eef0edc57fd42e49d8f0bcce7ec  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s4.pt  0e916ec1db414f02f4aacf3c4329ed1fca4f00a0d28ef588ee7111fb00db2ae2  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s5.pt  0247f8d72419556e211d7b7a744ec0bc1fce598de7a50ddd90e4b5d6d6d35c66  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s6.pt  fbd119a7dd34be151a5695fb25532b22be6fb553c66efb60dbd91519e7fb3fc0  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P0_s7.pt  bd9e5c70aabd40a7aeee461711744e14ece5c8a6d1813503fcbd9cced8968de0  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s0.pt  24530a6e3874228201d13e25dd803e443657af51f09228c96ea72ef4689dc7ac  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s1.pt  65d501c093d84b02f2e515234707ce226bb6c14b34f7b51c63ea850dcaf7f7c2  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s2.pt  7e3cdee0c208449c3e4f4f2e18006690667672a0ae02a907edbea36e12e11be0  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s3.pt  7b9a0faa933fe2276709fea1b9d55f15221521cc5a2fd9626f84b73c4731bc54  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s4.pt  175ea083a862b04ca529c375fafaf27dac426bac9f4630a602a909f469b511cb  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s5.pt  76f1221004f1de96b1617fbb378d83ab7420494e03cc771acf4b14e0512d706a  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s6.pt  7da4dd84b38c315871889e87ed2e100c78c282016ac15c164f35a38df0160ed5  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-P1_s7.pt  5d90a33e631a5ce2d68c87c7a6257e9bed03f892670c4353447b9ab3629f40ca  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind0.pt  6ff50cd3905bfa601b408f066b15d41ae52890caeea01ded0b641883715906d1  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind1.pt  bdc11d223fe969a51a8fbfb39b56bfd795c260436eb5ccf938151f8b1f507994  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind2.pt  ab13068f4c824c0dad097133c839f59ac21d50bf66ae9ec850ac1ca0dcd2797c  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind3.pt  df863f968dd5445e04bd86c2865c14a4f711c9298405702bc58ddf56c98f2e6f  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind4.pt  a90102e8d5138ddf73964aecd0aea248fbf290189086c80115989af3f09be16c  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_A-R_ind5.pt  9b8d40608e268c679ad7241abdb9203e7fe3722cbc501d8cec4b8229192b9a7b  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s0.pt  d8c9cd80bd7f4c290a4b17f0d03760b96ad167e7114e8f7a7da09ffd9d61eecc  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s1.pt  8d3d24f9718abe8e1160e599973867dd03960989e27807ed74a93326b96d2fcf  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s2.pt  be1eb8b403b0a61b96c450f554ae318a66dd7a7d14ac39efbe0095b23421f81b  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s3.pt  67e122004a212d1d4e651475ce15555a7c39acc2b741381d3c258b62c9dab569  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s4.pt  20977cd541b3d7eb0b7d604159069e8196e4eeac7625af9e87bc690c15210251  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s5.pt  21480c9f9cb50d5d68630bcd02a703934078389c79ac632a1fdee98cff3a45b2  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s6.pt  675adb15d3fae88c21d98db565bec656c72c24ee5ce4dc0b918b3d6284e93785  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P0_s7.pt  7d0e6af1f9721bbadcccd88a7e2c5c674d3dcf261330ed59e138b41a62e3e76f  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s0.pt  18c20ef521391adb979c7c38e0ae96a1dd1512ce8e2685a3cbabcdd93d851acd  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s1.pt  00daec02b9e57f370e1ca59cf04e8ba4a5a0dcf0d507b39535a1855d2e9c1172  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s2.pt  9fe7515c361a9c065f7667026b129ac1397ebcdae23efcfb8131597c842a8dea  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s3.pt  bd5d7cbdfcfc5b3c5bd9be9e35d5f05bfd8816d203e4c54abaa0f4a609fb7525  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s4.pt  458d403df51c6315038f1ee92c8f05c8cce3dd22333567cd3a6ae0c3b75ae7c1  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s5.pt  13b08fb6abf037b8f92b4bec59a6ca34a9f0a6a49d26cb1d6109086902c9b2b3  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s6.pt  63066807178137951758a0e3be4895dfa6da7adbccc1e42e4138af78c69e71e6  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-P1_s7.pt  93ebbb4e19839634eb8f72384f13d887f63c0f09240a61a34f6ff16e6b83c03c  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind0.pt  3a0e377a9e44be9d9c48d6940bdb2bc1869aedbad3f0e342fade851594ba3e61  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind1.pt  5d32bc530fda426bc026f5f2b649a651786c748df3031e36498656edf049a213  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind2.pt  39ab6258857bd3b5e2fc66b8df3545fc802184bf2342e0cfec9f286121f2296b  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind3.pt  c7f3bd1af4b3c49968437fd1baaf0cc433152af756c7a93f0f02c1150f790b8d  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind4.pt  e295d5705977b562bd87f0c2844c34b0919b24d9632181030700bb4f9fa0f433  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_replay_B-R_ind5.pt  e861dbb60bcfd46dc512c9aca130fb53a7045e5431d2ca4a10276c61b2ecaf3b  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind0.pt  523029eb6d5d85702acded6af9216d5b21381b34d9b290ce3237616aa7492241  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind1.pt  d6bc97bb9860b016b314964fa55b0f29a8595a3f146e90765914a257612d6301  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind2.pt  8e555d9d032a1a1707ff0d00bd68c4e74cad173b845a892820aff5b4ca68d0d5  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind3.pt  8d29c8f0ef5d0d602cbd13704743dc4acade9b23f7d627fb6ef7cc6675014e5b  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind4.pt  f30a6cf6703caf27eaf70bdcd7b4ca9ec83ac6bd22a7f99d28588830c699a97e  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/degen_restart_B-R_ind5.pt  b274a9c1504a9c529463c8afe78d28c5939cc76e748ced650ef8576da82371d8  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
+gauge_weights/sc_index.json  fd3e54c403a07008e8b8d0f93695486b2286b3b85921d04380a03efaf61a54f1  paper2/revision/degeneracy.py  dc07ec5  gauge_weights_2026-10-18l.tar.gz
