@@ -275,3 +275,147 @@ The predictions are evaluated on certified points, including certified-degenerat
 ## Verdicts
 
 (appended after the run; nothing above this line will be edited)
+
+### PHASE 0 (POST-HOC; recorded 2026-10-18 from `infimum_output.txt`)
+
+| Endpoint | Degeneracy class | Updated class | Flat-direction descents | Largest relative loss change |
+|---|---|---|---|---|
+| ind0 | FLAT MINIMUM | FLAT MINIMUM | 0 | −4.0e-13 |
+| ind1 | FLAT MINIMUM | FLAT MINIMUM | 0 | −2.6e-15 |
+| ind2 | FLAT MINIMUM | FLAT MINIMUM | 0 | −1.2e-12 |
+| ind3 | FLAT MINIMUM | FLAT MINIMUM | 0 | −2.8e-14 |
+| ind4 | FLAT MINIMUM | FLAT MINIMUM | 0 | −3.4e-15 |
+| ind5 | PLATEAU | PLATEAU | 10 | −7.75e-6 (at s = 1 × ‖θ‖) |
+
+- **No class changed.**
+- **The five flat minima show no descent** along their 10 flattest directions, at steps up to the full norm. All loss changes are below 1e-12 in relative terms.
+- **ind5 remains PLATEAU, with real descents.** The flat-direction search found 10 of them, and the restart had also lowered the loss and raised the norm.
+- The addendum is appended, dated and labelled post-hoc, to `paper2/revision/degeneracy_output.txt`.
+
+### PHASE 1 (recorded 2026-10-18 from `infimum_output.txt`; synthetic SynthKAN, primary L2 path)
+
+All 264 points (24 models × 11 γ values) were reached and certified. There were no caps, no hard kills and no path stops.
+
+| | Prediction | Verdict | Count |
+|---|---|---|---|
+| I1 | runaway: ‖θ*‖² increases as γ decreases | **HELD** | 16/16 |
+| I2 | runaway: α > 0.2, bootstrap 95% interval excluding 0 | **HELD** | 16/16 |
+| I3 | control: ratio between the two smallest certified γ ≤ 1.5 | **HELD** | 8/8 |
+| I4 | runaway: L* decreases as γ decreases | **HELD** | 16/16 |
+
+**Branch: RECEDING MINIMUM, for the tested range γ = 1e-2 to 1e-7 only.** The regularised minimisers diverge as γ → 0 over that range. All 16 runaway models reached three decades of γ.
+
+**Per cell:**
+
+| Cell | α (95% interval) | ‖θ*‖² at 1e-2 → 1e-7 | Ratio of the two smallest γ | L* at 1e-7 |
+|---|---|---|---|---|
+| P0 (runaway) | +0.633 to +0.758; intervals [+0.579, +0.685] to [+0.708, +0.807] | 0.88 → 64.8–97.5 | 1.80–2.27 | 6.46e-4 to 6.52e-4 |
+| P1 (runaway) | +0.362 in all 8 ([+0.349, +0.376]) | 0.88 → 28.2–28.3 | 1.524–1.525 | 6.94e-4 |
+| P2 (control) | +0.014 in all 8 ([+0.009, +0.019]) | 0.88 → 6.22–6.23 | 1.004 | 7.78e-4 |
+
+**Degenerate points.**
+- All 13 degenerate points (P0 only, at γ ≤ 3.16e-7: 5 at 3.16e-7 and 8 at 1e-7) were probe-validated FLAT MINIMA. There were 0 PLATEAU points, so the degenerate interpretation branch was not triggered.
+- Each such point had 4–16 near-flat directions and 0 saturation.
+- No probe found a descent. The smallest relative loss changes were +4.5e-2 for scaling and +9.4e-9 for the flat-direction search.
+
+**Restart probes.**
+- The restart probes stopped immediately. In 12 of 13 cases scipy's trust-exact returned "A bad approximation caused failure to predict improvement" after 0 iterations; the 13th took 14 iterations. There was no change in loss or norm, because the points were already at numerical precision.
+- Admission therefore rested on the scaling and flat-direction probes.
+- These are not "restart stalled" under the prereg's definition, which requires a cap (H2).
+
+**Seed collapse.**
+- **At γ = 1e-2, the 8 starts in each cell converge to essentially one function.**
+  - The within-cell spread of ‖θ*‖² is 0.18–0.32%.
+  - Prediction RMS differences are at most 0.7% of the output std.
+- **Not one point in parameter space.**
+  - The raw pairwise relative distance is 1.4–2.0 (median 1.6).
+  - After aligning hidden-unit permutations and sign flips, it is still 0.26–0.43 for most pairs; some pairs coincide to 1e-8. The sign flip (with the layer-2 RBF coefficients reversed) is only an approximate symmetry, because SiLU is not odd.
+- **Along the path, P1 and P2 stay collapsed.**
+  - The ‖θ*‖² spread is at most 1.2% (P1) and 1.9% (P2) at every γ.
+  - At γ = 1e-7 the aligned distances are 0.2% (P1) and 1.3% (P2).
+  - Each of these cells is therefore one path reproduced from 8 starts.
+- **P0 separates at small γ.**
+  - The ‖θ*‖² spread is 13.6% at γ = 3.2e-6, 47% at 1e-6 and 37% at 1e-7.
+  - The aligned distance at 1e-7 is 0.86 (median).
+  - Three P0 seeds (s3, s5, s7) end at the same point.
+- **Consequence.** The ≥ 80% counts reflect one path per cell for P1 and P2, and a few branches for P0, not independent replicates.
+- **Correction.** An earlier summary to the author stated a within-cell spread below 0.2% throughout. That holds only at γ = 1e-2.
+
+**Per-block growth (median ‖θ‖² per block over the 8 seeds, early state → γ = 1e-7; range at 1e-7 in brackets):**
+
+| Block | P0 | P1 | P2 |
+|---|---|---|---|
+| L1 RBF affine | 2.38 → 12.6 [11.2–15.9] | 3.21 → 14.4 [14.3–14.4] | 2.80 → 2.91 |
+| L1 RBF curved | 0.143 → 0.035 | 0.219 → 0.118 | 0.207 → 0.144 |
+| L1 SiLU | 1.29 → 7.88 [7.14–10.9] | 0.0034 → 0.0003 | 0.0051 → 0.0030 |
+| L1 bias | 0.182 → 4.30 [2.30–8.91] | 0.185 → 0.071 | 0.177 → 0.048 |
+| L2 RBF affine | 2.74 → 26.0 [23.9–28.4] | 3.43 → 11.9 [11.9–12.0] | 2.89 → 2.98 |
+| L2 RBF curved | 0.089 → 0.003 | 0.136 → 0.049 | 0.129 → 0.091 |
+| L2 SiLU | 0.805 → 30.6 [5.12–39.8] | 0.0017 → 0.00005 | 0.0015 → 0.0005 |
+| L2 bias | 0.056 → 6.41 [4e-5–7.08] | 0.060 → 1.72 [1.71–1.72] | 0.054 → 0.046 |
+
+P1 diverges more weakly (α 0.362, final ratio 1.525). Its SiLU weights are penalised and shrink, so its growth moves into the affine RBF part of both layers and into the output bias. P0's growth goes mainly into the layer-2 SiLU weights, the layer-2 affine coefficients and the layer-1 biases (plus the layer-1 affine part and SiLU weights). P2's blocks stay flat.
+
+**Arm (b), descriptive: no straight escape route.**
+- Along a straight line in the final drift direction, P0's loss rises from the first step (turning point at ×1.00 of the norm).
+- P1's loss falls by at most 2.2e-4 (relative) up to ×1.11 of the norm, then rises.
+- The minimisers therefore recede along a curved valley, not a straight ray.
+
+**Implementation choices H1–H7 (from the log):**
+- **H1:** θ = all loss-relevant parameters. That is all 139 for the synthetic models, and for the real models the 609 of `trust.Flat`; the unused salt-embedding rows are fixed and excluded.
+- **H2:** the stall check uses the relative change in ‖θ‖², not ‖θ‖. For small changes the ‖θ‖² change is about twice the ‖θ‖ change. With ‖θ‖ instead, the step-2 restarts change by 4.7e-4, 2.3e-6 and 2.3e-4 (ind0, ind2, ind3), still above 1e-6. No Phase 1 restart hit a cap. **The choice changed no classification.** The prereg's own definition makes ind0, ind2 and ind3 not stalled, contrary to its parenthetical.
+- **H3:** relative norm changes use ‖θ‖². "A direction that increases the norm" means ‖y‖ > ‖x‖.
+- **H4:** a real point whose remaining model budget is below the 2 h point cap is not started, and is "not reached (budget)". A point cut by the budget is "not reached (budget)", never uncertified.
+- **H5:**
+  - I1 and I4 need at least 3 included points, I2 at least 4, and I3 at least 2; otherwise the prediction is "not met".
+  - "Three decades reached" means an included point at γ ≤ 1e-5.
+  - Branch precedence: inconclusive > I3 fails > receding > finite distant > partial.
+- **H6:** the arm (b) direction is the difference of the last two reached path points. The scan uses 50 log-spaced points from 1e-3 ‖θ_end‖ out to a norm of 100 ‖θ_end‖, and evaluates L without the γ term.
+- **H7:** the stage2 stopping rule resumes from the checkpointed last 11 losses. The per-point caps are cumulative across resumes, tracked by heartbeat and checkpoint.
+
+### POST-HOC AMENDMENT (2026-10-18, written after the Phase 1 results): cold-start basin check
+
+POST-HOC everywhere. It is reported separately and cannot change any pre-registered verdict.
+
+- **Design.**
+  - Cells P0 and P1 at γ ∈ {1e-3, 1e-5, 1e-7}, plus P2 at γ = 1e-7 (the optional part).
+  - Starts: the 8 committed early-stopped weights plus the all-zeros vector, 9 starts in all.
+  - Each (start, γ) is polished independently, with no warm-start chain. The protocol is the primary path's: trust-exact, the caps, `certify_point`, the degenerate check and the probes.
+- **Recorded per run:**
+  - certified or not, with the reason;
+  - ‖θ*‖² and L*;
+  - the distance to the warm-started path's points at that γ: raw ‖x − x_warm‖/‖x_warm‖, to the start's own seed and the minimum over the 8 seeds;
+  - the prediction RMS difference divided by the output std.
+- **Jittered start.**
+  - Added for a (cell, γ) only if the all-zeros start does not move, or ends with all hidden units identical (the symmetric manifold).
+  - The jittered start is all-zeros plus iid Gaussian noise of scale 1e-6, from numpy `default_rng(20261018)`, the same vector for every (cell, γ).
+  - If it escapes to the warm-path branch, the zero-start outcome is recorded as a "symmetric-manifold artefact of the exactly-zero start", not as evidence of a small-norm basin.
+- **Basin groups (descriptive, fixed before the run):**
+  - uncertified;
+  - small-norm: ‖θ*‖² below 0.5 × the warm-path minimum;
+  - warm-path branch: prediction within 2% of the output std of some warm-path point, and ‖θ*‖² within the warm-path range ± 10%;
+  - other.
+- **Question:** do cold starts reach the same diverging branch, or do small-norm minima exist at small γ?
+
+### POST-HOC cold-start results (recorded 2026-10-18 from `infimum_output.txt`; cannot change any verdict)
+
+- **Runs.** 63 independent polishes (54 in P0/P1 + 9 in P2 at γ = 1e-7). 62 were certified; P0 s7 at γ = 1e-7 hit the iteration cap. 21 of the certified points were degenerate, and all were FLAT MINIMUM.
+- **Zero start.** It moved in every (cell, γ) (‖x − 0‖ = 1.2–10.5) and never ended on the symmetric manifold, so no jittered start was triggered.
+- **No small-norm basin was found.** No certified cold endpoint at any γ has ‖θ*‖² below 0.5 × the warm-path minimum. Every cold endpoint has ‖θ*‖² ≥ 0.99 × the warm-path minimum.
+- **γ = 1e-3: one basin.** All 9 starts in each of P0 and P1 reach the warm-path branch: ‖θ*‖² within the warm range, predictions within 3e-10 of the output std.
+- **γ = 1e-5: mostly the warm-path branch.**
+  - P0: 8/9 on the warm-path branch; s3 at ‖θ*‖² 7.06 against a warm range of 5.19–5.46.
+  - P1: 7/9 on the warm-path branch; s2 and s3 at 8.16 against 6.24–6.25.
+  - These are other certified minima at larger norm.
+- **γ = 1e-7: cold starts reach larger-norm minima with lower L* and a lower regularised objective (L* + γ‖θ‖²) than the warm path.**
+
+| Cell | Warm-path ‖θ*‖² | Cold certified ‖θ*‖² | Best objective found: warm → cold | ‖θ*‖² of the best point found | Cold starts beating the best warm point |
+|---|---|---|---|---|---|
+| P0 | 64.8–97.5 | 93.4–125 | 6.5456e-4 → 6.4828e-4 | 101.5 (s2) | 1/8 |
+| P1 | 28.2–28.3 | 28.3–118 | 6.9728e-4 → 6.7367e-4 | 100.8 (s3) | 8/9 |
+| P2 (control) | 6.22–6.23 | 6.22–9.58 | 7.7843e-4 → 7.7843e-4 (warm is best) | 6.22 | 0/9 |
+
+- **Reading (POST-HOC).**
+  - The warm-started chain follows a lower-norm branch. At small γ, better regularised minima exist at larger norms. P1's weak divergence (α 0.362) is a property of its warm branch: its best minimum found at γ = 1e-7 has ‖θ*‖² ≈ 100.8, against 28.2 on the warm path.
+  - This is consistent with the receding-minimum branch, and goes further in its direction. The cold starts found no small-norm basin.
+  - In the control, the warm path is the best minimum found. The other P2 minima (s2: ‖θ*‖² 9.58, L* 8.04e-4) are worse local minima, not lower-objective ones.

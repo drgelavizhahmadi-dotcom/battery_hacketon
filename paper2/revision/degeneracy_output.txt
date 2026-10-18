@@ -200,3 +200,16 @@ Item 8. The step-2 report's "worst min/max eigenvalue" is the worst value along 
   does the non-convex synthetic Arm B: 16/16 certified, 0-2 near-flat directions, no saturation, at most 0.3% of activations
   beyond |s| > 3. Only the non-convex REAL layer-1 problem is degenerate (and in one case a plateau). The boundary follows the
   data, real correlated few-valued descriptors vs synthetic inputs, more than the convexity of the sub-problem.
+
+==================== ADDENDUM 2026-10-18 (POST-HOC; infimum test Phase 0, prereg infimum_prereg.md 179814f) ====================
+Retroactive flat-direction search on the six real Arm B endpoints (archive 11): the up to 10 flattest Hessian eigenvectors
+(smallest |lambda|, layer-1 space of the Arm B loss), both signs, 13 log-spaced steps 1e-3..1 x ||theta_free||; a descent = relative
+loss decrease > 1e-6 at a norm-increasing step. Classes updated by the infimum prereg's rule (restart lowers the loss AND raises
+the norm, or any probe finds a descent along a norm-increasing direction -> PLATEAU). The text above is unchanged.
+  ind0: FLAT MINIMUM -> FLAT MINIMUM (flat-direction descents 0, largest relative loss change -3.98e-13; scaling descents 0; restart lowers+grows False; restart stalled False)
+  ind1: FLAT MINIMUM -> FLAT MINIMUM (flat-direction descents 0, largest relative loss change -2.56e-15; scaling descents 0; restart lowers+grows False; restart stalled False)
+  ind2: FLAT MINIMUM -> FLAT MINIMUM (flat-direction descents 0, largest relative loss change -1.15e-12; scaling descents 0; restart lowers+grows False; restart stalled False)
+  ind3: FLAT MINIMUM -> FLAT MINIMUM (flat-direction descents 0, largest relative loss change -2.77e-14; scaling descents 0; restart lowers+grows False; restart stalled False)
+  ind4: FLAT MINIMUM -> FLAT MINIMUM (flat-direction descents 0, largest relative loss change -3.38e-15; scaling descents 0; restart lowers+grows False; restart stalled False)
+  ind5: PLATEAU -> PLATEAU (flat-direction descents 10, largest relative loss change -7.75e-06; scaling descents 0; restart lowers+grows True; restart stalled False)
+  Stalled-restart flag by its fixed definition (cap AND |relative change| < 1e-6 in both loss and ||theta||^2); see infimum_output.txt H2.
