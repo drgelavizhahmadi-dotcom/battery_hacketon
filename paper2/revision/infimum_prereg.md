@@ -399,7 +399,7 @@ POST-HOC everywhere. It is reported separately and cannot change any pre-registe
 
 ### POST-HOC cold-start results (recorded 2026-10-18 from `infimum_output.txt`; cannot change any verdict)
 
-- **Runs.** 63 independent polishes (54 in P0/P1 + 9 in P2 at γ = 1e-7). 62 were certified; P0 s7 at γ = 1e-7 hit the iteration cap. 21 of the certified points were degenerate, and all were FLAT MINIMUM.
+- **Runs.** 63 independent polishes (54 in P0/P1 + 9 in P2 at γ = 1e-7). 62 were certified; P0 s7 at γ = 1e-7 hit the iteration cap. 14 of the certified points were degenerate, and all were FLAT MINIMUM.
 - **Zero start.** It moved in every (cell, γ) (‖x − 0‖ = 1.2–10.5) and never ended on the symmetric manifold, so no jittered start was triggered.
 - **No small-norm basin was found.** No certified cold endpoint at any γ has ‖θ*‖² below 0.5 × the warm-path minimum. Every cold endpoint has ‖θ*‖² ≥ 0.99 × the warm-path minimum.
 - **γ = 1e-3: one basin.** All 9 starts in each of P0 and P1 reach the warm-path branch: ‖θ*‖² within the warm range, predictions within 3e-10 of the output std.
