@@ -1028,12 +1028,30 @@ def arms():
     header("SECONDARY ARMS (a) mu*Q and (c) coercive Q, real seeds ind0-ind2 (descriptive, n = 3; no verdicts)")
     choices()
     blobs(sorted({n for m in ARM_SEEDS for n in input_names(m)}))
+    import close as CL
+    log(f"  close.py null basis vs synth.NB: max |diff| {float((CL.NB.double() - NB).abs().max()):.1e}")
+    # coercivity check for arm (c): Hessian of the committed smoothness penalty + the extended Q (unscaled), all 609 parameters
+    for m in ARM_SEEDS:
+        f, _, _ = build(m, "Qc", 1.0)
+        f.parts = lambda prm: dict(D2=FZ.SMOOTH * sum((FZ.D2(prm[c]) ** 2).sum() for c in ("layers.0.coef", "layers.1.coef")))
+        ev = np.linalg.eigvalsh(f.hessian(f.x0))
+        fq, _, _ = build(m, "Q", 1.0)
+        fq.parts = f.parts
+        evq = np.linalg.eigvalsh(fq.hessian(fq.x0))
+        log(f"  {m}: smallest eigenvalue of the penalty Hessian, smoothness + coercive Q {ev[0]:.3e} (positive definite: {bool(ev[0] > 0)}); "
+            f"smoothness + close.py Q {evq[0]:.3e} ({int((evq < 1e-12).sum())} zero directions)")
     out = {}
-    for kind, title in (("Q", "ARM (a): R = mu * Q (close.py's Q)"), ("Qc", "ARM (c): coercive Q (+ biases + salt embedding)")):
-        recs = run_workers(kind, ARM_SEEDS, 3)
+
+    def one(kind_title):
+        kind, title = kind_title
+        return kind, title, run_workers(kind, ARM_SEEDS, 3)
+    with ThreadPoolExecutor(2) as ex:          # the two arms run side by side; each has its own 8 h budget per model
+        res = list(ex.map(one, (("Q", "ARM (a): R = mu * Q (close.py's Q)"), ("Qc", "ARM (c): coercive Q (+ biases + salt embedding)"))))
+    for kind, title, recs in res:
         report_paths(recs, title)
         report_blocks(recs)
         out[kind] = recs
+    log("\n  arms (a) and (c) are descriptive, n = 3 (ind0, ind1, ind2); no verdicts depend on them")
     save_results("arms", out)
 
 
