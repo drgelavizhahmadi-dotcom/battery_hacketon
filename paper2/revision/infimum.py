@@ -5,6 +5,7 @@ Run from the repo root with the pinned interpreter, one phase at a time, appendi
   /usr/bin/python3 paper2/revision/infimum.py --phase 2 >> paper2/revision/infimum_output.txt   (real paths)
   /usr/bin/python3 paper2/revision/infimum.py --coldstart >> paper2/revision/infimum_output.txt (POST-HOC cold-start basin check)
   /usr/bin/python3 paper2/revision/infimum.py --arms    >> paper2/revision/infimum_output.txt   (secondary arms a, c; after phase 2)
+  /usr/bin/python3 paper2/revision/infimum.py --control >> paper2/revision/infimum_output.txt   (POST-HOC real-data control arm)
 Inputs SHA-verified against weights_manifest.txt and held in memory. Every path point runs in its own child process (hard-killed
 at the cap + 5 min; crash record 2 of the degeneracy follow-up) and is cached in gauge_weights/inf_* (SHA-indexed), so an
 interruption resumes. No weights in git."""
@@ -53,8 +54,9 @@ NEAR, SAT, DEG_NEAR, DEG_SAT, REL = 1e-8, 3.0, 3, 0.10, 1e-6
 CS = [1.01, 1.1, 1.5, 2, 5, 10]
 STEPS = 10 ** np.linspace(-3, 0, 13)
 NFLAT = 10
-BUDGET = {"L2": 12 * 3600, "Q": 8 * 3600, "Qc": 8 * 3600}               # real models only; synthetic: per-point caps only
+BUDGET = {"L2": 12 * 3600, "Q": 8 * 3600, "Qc": 8 * 3600, "L2mu": 12 * 3600}               # real models only; synthetic: per-point caps only
 SCAN_N, SCAN_MAX = 50, 100.0
+MU_CTL, CTL_SEEDS = 1e-4, ["R-ind0", "R-ind1"]                          # POST-HOC real-data control arm (closed loss)
 NB = SY.NB.double()
 W = SR.W_DIR
 LOGDIR = W / "inf_logs"
@@ -233,7 +235,7 @@ def q_close(prm):
 
 
 def make_reg(kind, coef, flat_sl):
-    if kind == "L2":
+    if kind in ("L2", "L2mu"):
         return lambda prm, v: coef * (v ** 2).sum()
     if kind == "Q":
         return lambda prm, v: coef * q_close(prm)
@@ -271,6 +273,9 @@ def build(model, kind=None, coef=None):
         rows = {}
         Xd = torch.tensor(sd["X"], dtype=torch.float64)
         zin = lambda prm: Xd
+    if kind == "L2mu":                         # control arm: the closed loss final.py + 1e-4 Q is the loss L of this path
+        open_parts = parts
+        parts = lambda prm: dict(open_parts(prm), muQ=MU_CTL * q_close(prm))
     flat = Flat(net, full, list(full), parts, None, rows)
     if kind is not None:
         flat.reg = make_reg(kind, coef, flat.sl)
@@ -511,10 +516,10 @@ def worker(kind, model):
     """runs one regularisation path sequentially; writes gauge_weights/inf_rec_<kind>_<model>.json"""
     lines = []
     wlog = lambda s: lines.append(s)
-    grid = GAMMAS if kind == "L2" else MU_GRID
+    grid = GAMMAS if kind in ("L2", "L2mu") else MU_GRID
     real = model.startswith("R-")
     budget = BUDGET[kind] if real else None
-    flat0, net, zin = build(model)
+    flat0, net, zin = build(model, kind, 0.0) if kind == "L2mu" else build(model)
     x = flat0.x0.copy()
     used = 0.0
     recs, consec, stopped = [], 0, None
@@ -981,6 +986,61 @@ def coldstart():
     log("\nwrote infimum_results.json (coldstart_posthoc)")
 
 
+
+# ------------------------------------------------------------------ POST-HOC real-data control arm (closed loss, mu = 1e-4 fixed)
+def control():
+    header("POST-HOC REAL-DATA CONTROL ARM (amendment 2026-10-19): closed loss final.py + 1e-4 Q, gamma path 1e-2..1e-7, ind0/ind1")
+    log("  POST-HOC: designed after the Phase 2 results; outcomes fixed in the prereg before running; changes no pre-registered verdict.")
+    log("  K1 L* = the closed loss (final.py loss + 1e-4 * close.py Q) without the gamma term; the bare data term is reported beside it")
+    log("  K2 same polishing, caps, certify_point, degenerate check and probes as the primary path; 12 h budget per seed")
+    blobs(sorted({n for m in CTL_SEEDS for n in input_names(m)}))
+    recs = run_workers("L2mu", CTL_SEEDS, 2)
+    report_paths(recs, "CONTROL ARM (closed loss)")
+    report_blocks(recs)
+    p2 = json.loads((HERE / "infimum_results.json").read_text())["phase2"]["models"]
+    log("\n  closed (mu = 1e-4) vs open (Phase 2 primary) paths, same seeds:")
+    log("    model   coef      closed: ||theta*||^2  L*(closed)    data          cert  | open: ||theta*||^2  L*(open)      data          cert")
+    for m in CTL_SEEDS:
+        for rc, ro in zip(recs[m]["path"], p2[m]["path"]):
+            c = (f"{rc['theta2']:.4e}  {rc['Lstar']:.6e}  {rc['terms']['data']:.6e}  {str(rc['certified'])[:5]:5s}" if rc.get("status") == "reached" else f"{rc['status']:60s}")
+            o = (f"{ro['theta2']:.4e}  {ro['Lstar']:.6e}  {ro['terms']['data']:.6e}  {str(ro['certified'])[:5]:5s}" if ro.get("status") == "reached" else ro["status"])
+            log(f"    {m}  {rc['coef']:.2e}  {c} | {o}")
+    rows, _ = evaluate(recs, CTL_SEEDS, [], 2, None)
+    log("\n  fixed outcome rule (prereg amendment 2026-10-19):")
+    for m, d in rows.items():
+        f = d["fit"]
+        log(f"    {m}: included {d['n_included']} (via probes {d['via_probes']}), smallest coef {fmt(d['smallest'], '.1e')}, ratio(2 smallest) {fmt(d['ratio'], '.3f')}, "
+            + (f"alpha {f['alpha']:+.3f} [{f['lo']:+.3f}, {f['hi']:+.3f}]" if f else "alpha -"))
+    plateau = all(rows[m]["ratio"] is not None and rows[m]["ratio"] <= 1.5 for m in CTL_SEEDS)
+    diverge = any(rows[m]["fit"] is not None and rows[m]["fit"]["alpha"] > 0.2 and rows[m]["fit"]["lo"] > 0 for m in CTL_SEEDS)
+    out = ("PLATEAU (both seeds ratio <= 1.5): the real-data contrast is complete" if plateau and not diverge else
+           "DIVERGENCE (alpha > 0.2, interval excluding 0, for at least one seed): mu = 1e-4 does not bound the real path over the tested range" if diverge and not plateau else
+           "BOTH CONDITIONS MET (reported as is)" if plateau and diverge else "NEITHER (reported as is)")
+    log(f"  CONTROL-ARM OUTCOME (POST-HOC): {out}")
+    save_results("control_posthoc", dict(models=recs, rows=rows, outcome=out))
+    fig, axs = plt.subplots(1, 3, figsize=(15, 4.5))
+    cols = {"R-ind0": "#000000", "R-ind1": "#D55E00"}
+    for m in CTL_SEEDS:
+        for src, ls, lab in ((recs[m], "-", "closed (mu = 1e-4)"), (p2[m], "--", "open (Phase 2)")):
+            rr = [r for r in src["path"] if r.get("status") == "reached"]
+            g = [r["coef"] for r in rr]
+            for ax, val in ((axs[0], lambda r: r["theta2"]), (axs[1], lambda r: r["Lstar"]), (axs[2], lambda r: r["terms"]["data"])):
+                ax.plot(g, [val(r) for r in rr], color=cols[m], ls=ls, lw=0.9, label=f"{m} {lab}")
+                for r in rr:
+                    mk = ("x" if r.get("class") == "PLATEAU" else "s" if r.get("class") == "FLAT MINIMUM" else "o" if r["certified"] else "v")
+                    if mk == "s":
+                        ax.scatter([r["coef"]], [val(r)], marker=mk, s=30, facecolors="none", edgecolors=cols[m], zorder=3)
+                    else:
+                        ax.scatter([r["coef"]], [val(r)], marker=mk, s=(30 if mk == "x" else 12), color=cols[m], zorder=3)
+    for ax, lab in ((axs[0], "||theta*||^2"), (axs[1], "L* (path loss without the gamma term)"), (axs[2], "data term (MSE)")):
+        ax.set_xscale("log"); ax.set_yscale("log"); ax.invert_xaxis(); ax.set_xlabel("gamma"); ax.set_ylabel(lab)
+    axs[0].legend(fontsize=7)
+    axs[0].set_title("o certified, s certified-degenerate (flat minimum), x plateau, v uncertified", fontsize=8)
+    fig.suptitle("POST-HOC real-data control: closed loss (final.py + 1e-4 Q) vs open loss, L2 path gamma = 1e-2 ... 1e-7", fontsize=9)
+    fig.tight_layout(); fig.savefig(FZ.FIG / "infimum_control.png", dpi=110); plt.close(fig)
+    log("\nwrote infimum_results.json (control_posthoc) and figs/infimum_control.png")
+
+
 # ------------------------------------------------------------------ Phase 1 / 2 / arms
 def phase(n):
     if n == 1:
@@ -1060,6 +1120,7 @@ if __name__ == "__main__":
     ap.add_argument("--phase", type=int)
     ap.add_argument("--arms", action="store_true")
     ap.add_argument("--coldstart", action="store_true")
+    ap.add_argument("--control", action="store_true")
     ap.add_argument("--worker", nargs=2)
     ap.add_argument("--child")
     a = ap.parse_args()
@@ -1071,6 +1132,8 @@ if __name__ == "__main__":
         arms()
     elif a.coldstart:
         coldstart()
+    elif a.control:
+        control()
     elif a.phase == 0:
         phase0()
     elif a.phase in (1, 2):
