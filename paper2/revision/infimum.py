@@ -58,7 +58,8 @@ BUDGET = {"L2": 12 * 3600, "Q": 8 * 3600, "Qc": 8 * 3600, "L2mu": 12 * 3600}    
 SCAN_N, SCAN_MAX = 50, 100.0
 MU_CTL, CTL_SEEDS = 1e-4, ["R-ind0", "R-ind1"]                          # POST-HOC real-data control arm (closed loss)
 NB = SY.NB.double()
-W = SR.W_DIR
+W = Path(os.environ["INF_W"]) if os.environ.get("INF_W") else SR.W_DIR    # INF_W: separate cache dir (from-scratch re-runs)
+INDEX = W / "sc_index.json" if os.environ.get("INF_W") else SR.INDEX
 LOGDIR = W / "inf_logs"
 SYN_ARCH = "gauge_weights_2026-10-03h.tar.gz"
 B_ARCH = "gauge_weights_2026-10-17k.tar.gz"
@@ -80,11 +81,15 @@ class _Locked:
         fcntl.flock(self.f, fcntl.LOCK_UN); self.f.close()
 
 
+def _index():
+    return json.loads(INDEX.read_text()) if INDEX.exists() else {}
+
+
 def cached(name, make):
     """as sc_run.cached (same index file), with the index read-modify-write under a file lock and atomic writes"""
     p = W / name
     with _Locked():
-        idx = SR._index()
+        idx = _index()
     if p.exists() and name in idx:
         data = p.read_bytes()
         if hashlib.sha256(data).hexdigest() != idx[name]:
@@ -94,14 +99,14 @@ def cached(name, make):
     buf = io.BytesIO(); torch.save(obj, buf); data = buf.getvalue()
     tmp = p.with_suffix(".tmp"); tmp.write_bytes(data); os.replace(tmp, p)
     with _Locked():
-        idx = SR._index(); idx[name] = hashlib.sha256(data).hexdigest()
-        t = SR.INDEX.with_suffix(".tmp"); t.write_text(json.dumps(idx, indent=1)); os.replace(t, SR.INDEX)
+        idx = _index(); idx[name] = hashlib.sha256(data).hexdigest()
+        t = INDEX.with_suffix(".tmp"); t.write_text(json.dumps(idx, indent=1)); os.replace(t, INDEX)
     return obj, False
 
 
 def has_cached(name):
     with _Locked():
-        return (W / name).exists() and name in SR._index()
+        return (W / name).exists() and name in _index()
 
 
 def npx(a):
