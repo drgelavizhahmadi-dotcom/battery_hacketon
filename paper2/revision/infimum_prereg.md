@@ -419,3 +419,80 @@ POST-HOC everywhere. It is reported separately and cannot change any pre-registe
   - The warm-started chain follows a lower-norm branch. At small γ, better regularised minima exist at larger norms. P1's weak divergence (α 0.362) is a property of its warm branch: its best minimum found at γ = 1e-7 has ‖θ*‖² ≈ 100.8, against 28.2 on the warm path.
   - This is consistent with the receding-minimum branch, and goes further in its direction. The cold starts found no small-norm basin.
   - In the control, the warm path is the best minimum found. The other P2 minima (s2: ‖θ*‖² 9.58, L* 8.04e-4) are worse local minima, not lower-objective ones.
+
+### PHASE 2 (recorded 2026-10-19 from `infimum_output.txt`; real KAN-delta [10, 6, 1], final.py loss, 609 parameters)
+
+| | Prediction | Verdict | Count |
+|---|---|---|---|
+| I1 | runaway: ‖θ*‖² increases as γ decreases | **HELD** | 6/6 |
+| I2 | runaway: α > 0.2, bootstrap 95% interval excluding 0 | **HELD** | 6/6 |
+| I3 | discrimination check | Phase 1's I3 (HELD, 8/8), as pre-registered; Phase 2 has no control models | — |
+| I4 | runaway: L* decreases as γ decreases | **HELD** | 6/6 |
+
+**Branch: RECEDING MINIMUM, for the tested range γ = 1e-2 to 1e-7 only.** All 6 models reached three decades of γ; there were 0 plateau-like models.
+
+| Model | Included (via probes) | Smallest included γ | α (95% interval) | ‖θ*‖²: 1e-2 → last reached | End of path |
+|---|---|---|---|---|---|
+| ind0 | 7 (0) | 1e-5 | +0.736 [+0.610, +0.863] | 0.90 → 596 (1e-6) | stopped at 1e-6 after two iteration caps (3.2e-6, 1e-6); norm still growing |
+| ind1 | 10 (2) | 3.2e-7 | +0.758 [+0.689, +0.822] | 0.89 → 2200 (1e-7) | 1e-7 at the iteration cap |
+| ind2 | 9 (1) | 1e-6 | +0.883 [+0.852, +0.916] | 0.90 → 2468 (1e-7) | stopped at 1e-7 after two iteration caps; norm still growing |
+| ind3 | 10 (2) | 3.2e-7 | +0.868 [+0.829, +0.906] | 0.90 → 2934 (1e-7) | 1e-7 at the iteration cap |
+| ind4 | 9 (2) | 3.2e-7 | +0.862 [+0.816, +0.908] | 0.90 → 2275 (1e-7) | 3.2e-6 and 1e-7 at the iteration cap |
+| ind5 | 10 (2) | 3.2e-7 | +0.867 [+0.841, +0.893] | 0.90 → 3052 (1e-7) | 1e-7 at the iteration cap |
+
+- **L\* falls** from 2.05e-2 (γ = 1e-2) to 8.7e-3–9.3e-3 (γ = 1e-7).
+- **Uncertified points:** 8, all at the 500-iteration cap. None failed on curvature, gradient, Newton decrement or null-space gradient.
+- **The 500-iteration cap was fixed in advance and was not raised after the results.**
+- **Degenerate points.** 9 certified points (all at γ ≤ 1e-6) were degenerate, with 42–109 near-flat directions and 4.5–14% saturation.
+  - All 9 were probe-validated FLAT MINIMA, with 0 PLATEAU, so the PLATEAU share is 0 at every γ.
+  - As in Phase 1, the restart probes stopped after 0 iterations (scipy: "bad approximation"). Admission rested on the scaling and flat-direction probes; the smallest relative loss changes were +1.7e-3 for scaling and +8.9e-9 for the flat-direction search.
+
+**Genuine replication: six distinct branches, unlike Phase 1's seed collapse.**
+
+The six real paths do not collapse onto one path. Raw parameter distance, no symmetry alignment (6 hidden units: 720 permutations × 64 sign patterns); the prediction differences do not depend on alignment.
+
+| γ | ‖θ*‖² spread (max − min)/median | Pairwise ‖xᵢ − xⱼ‖/‖xᵢ‖, median (max) | Prediction RMS difference / output std, median (max) |
+|---|---|---|---|
+| 1e-2 | 0.8% | 1.24 (1.56) | 5.0% (5.2%) |
+| 3.2e-3 | 1.0% | 1.23 (1.52) | 5.4% (6.4%) |
+| 1e-3 | 1.3% | 1.33 (1.54) | 7.1% (9.6%) |
+| 3.2e-4 | 5.1% | 1.32 (1.59) | 9.4% (11.3%) |
+| 1e-4 | 19.4% | 1.26 (1.64) | 13.7% (17.2%) |
+| 3.2e-5 | 24.2% | 1.32 (1.51) | 15.0% (18.2%) |
+| 1e-5 | 23.3% | 1.32 (1.55) | 15.2% (19.4%) |
+| 3.2e-6 | 22.5% | 1.42 (1.57) | 15.3% (18.0%) |
+| 1e-6 | 21.4% | 1.35 (1.55) | 16.3% (20.6%) |
+
+At small γ (≤ 1e-4) the six fitted functions differ by 14–16% of the output std (median), and up to 21% for the most different pair. The Phase 2 counts (6/6) are therefore six genuine replicates.
+
+**Per-block growth (early state → last reached point).**
+- **What grows:** the affine part of the RBF coefficients in both layers (layer 1: 2.0–3.0 → 177–1020; layer 2: 0.26–0.76 → 219–1050) and the SiLU weights of both layers (layer 1: 2.0–2.6 → 130–969; layer 2: 0.35–0.72 → 62–540).
+- **Smaller growth:** the biases (layer 2 up to 284 in ind5).
+- **What shrinks:** the curved RBF parts and the salt embedding.
+
+**Arm (b), descriptive: no straight escape route.** The loss rises within ×1.01 of the end-point norm, after at most a 6e-5 relative decrease.
+
+**Run notes.**
+- **Overnight sleep.** The machine was on battery and entered low-power sleep from 2026-10-19 00:10 to 08:06 (pmset log).
+  - The processes were suspended, not killed.
+  - Every cap and the budget use monotonic time, which excludes sleep. No point was cut short, and none stopped on the wall-clock timer.
+  - The 716.9 min elapsed includes about 7.9 h of sleep. The per-model budget used was 2.6–4.0 h of the 12 h.
+- **Interrupted arms run.** The arms run was interrupted at about 17:07 on 2026-10-19 when the controlling session ended. It was resumed from the cache and checkpoints, with cumulative caps and budget.
+
+### POST-HOC AMENDMENT (2026-10-19, written after the Phase 2 results; before running): real-data control arm
+
+POST-HOC everywhere. It is reported separately and changes no pre-registered verdict.
+
+- **Purpose.** Test closure under the fix. The null-space penalty stays fixed at μ = 1e-4 while γ decreases.
+- **Protocol.**
+  - Seeds ind0 and ind1, from their committed early-stopped starts (`delta_s0`, `delta_s1`).
+  - Loss: the final.py loss + 1e-4 × Q, with Q from `close.py` (the RBF null-space part of every edge + the squared SiLU base weights).
+  - Path: + γ‖θ‖², for γ from 1e-2 to 1e-7 (the 11 primary values), warm-started.
+  - Same polishing, caps, certification and degenerate probes as the primary path.
+  - Budget: 12 h per seed. An exhausted budget means missing, never uncertified.
+  - Runs after arms (a) and (c) finish.
+- **Recorded.** L* = the closed loss (final.py loss + 1e-4 Q) without the γ term, and also the bare data term. They are reported beside the same seeds' open-loss primary paths, in the same figure style.
+- **Outcomes, fixed before running:**
+  - **Plateau (expected):** the ‖θ*‖² ratio between the two smallest certified (incl. certified-degenerate) γ values is ≤ 1.5 for both seeds. The real-data contrast is then complete.
+  - **Divergence:** α > 0.2, with its bootstrap 95% interval excluding 0 (fit over the smallest four included γ values), for either seed. Then μ = 1e-4 does not bound the real path over the tested range; this is reported, and the caveat is carried to the paper's practical recommendation.
+  - **Neither:** report as is.
