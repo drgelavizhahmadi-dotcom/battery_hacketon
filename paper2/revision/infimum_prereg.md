@@ -496,3 +496,66 @@ POST-HOC everywhere. It is reported separately and changes no pre-registered ver
   - **Plateau (expected):** the ‖θ*‖² ratio between the two smallest certified (incl. certified-degenerate) γ values is ≤ 1.5 for both seeds. The real-data contrast is then complete.
   - **Divergence:** α > 0.2, with its bootstrap 95% interval excluding 0 (fit over the smallest four included γ values), for either seed. Then μ = 1e-4 does not bound the real path over the tested range; this is reported, and the caveat is carried to the paper's practical recommendation.
   - **Neither:** report as is.
+
+### SECONDARY ARMS (a) and (c) (recorded 2026-10-19; descriptive, n = 3: ind0, ind1, ind2; no verdicts)
+
+**Interpretation note.**
+- Both arms lower their penalty (μQ, or μ × the coercive Q) towards zero, so they approach the same unregularised loss as the primary path.
+- Divergence is therefore EXPECTED if the infimum lies at infinity, and does not by itself indicate a failure of the null-space fix.
+- Their value is descriptive: which parameter blocks carry the growth when the penalty follows the null-space geometry.
+- The test of closure under the fix is the real-data control arm below.
+
+**Checks.**
+- `close.py`'s null basis equals `synth.NB` (max |diff| 0).
+- Arm (c)'s penalty (smoothness + coercive Q) is positive definite on all 609 parameters (smallest Hessian eigenvalue 2.48e-4).
+- Smoothness + `close.py`'s Q has 15 zero directions: the 7 biases and the 8 used salt-embedding entries.
+
+| Arm | Model | Certified | Degenerate (all FLAT MINIMUM) | ‖θ*‖² at μ = 1e-4 → 1e-6 | L* at 1e-6 | Largest blocks at 1e-6 |
+|---|---|---|---|---|---|---|
+| (a) μQ | ind0 | 5/5 | 2 | 316 → 1016 | 9.66e-3 | salt emb 498, L2 affine 152, L1 affine 126 |
+| (a) μQ | ind1 | 5/5 | 2 | 336 → 1513 | 9.61e-3 | salt emb 896, L1 affine 245, L2 SiLU 100 |
+| (a) μQ | ind2 | 5/5 (μ 3e-6 and 1e-6 at the 2 h cap, certified) | 3 | 158 → 2045 | 9.64e-3 | salt emb 1420, L2 affine 218, L1 affine 169 |
+| (c) coercive Q | ind0 | 4/5 (1e-6 at the iteration cap) | 0 | 13.9 → 616 | 9.55e-3 | L1 affine 169, L2 affine 156, L1 SiLU 155 |
+| (c) coercive Q | ind1 | 5/5 | 0 | 16.2 → 487 | 9.48e-3 | L1 affine 203, L2 SiLU 103, L2 affine 87 |
+| (c) coercive Q | ind2 | 5/5 | 2 | 13.6 → 465 | 9.33e-3 | L2 affine 189, L1 affine 134, L2 SiLU 69 |
+
+- **No point was a PLATEAU.**
+- **Restarts.**
+  - In arm (a), R-ind2's two capped restarts were "restart stalled (wall-clock cap)"; their classification rests on the scaling and flat-direction probes.
+  - Arm (a) R-ind1 at μ = 1e-6: the restart hit the cap after 1 iteration. ‖θ‖² rose 3.4% while the loss changed by only −5e-16 (relative). That is an exactly flat direction, not a descent, so the point stays FLAT MINIMUM.
+- **Reading (descriptive).**
+  - With `close.py`'s Q, the biases and the salt embedding are unpenalised, and the growth goes mainly into the salt embedding (×44–×218). Q's null-space geometry moves the runaway into the parameters it leaves free.
+  - With the coercive Q, the salt embedding stays bounded (4.6–6.4). The growth returns to the affine RBF parts and the SiLU weights of both layers, as on the primary path, at a ‖θ*‖² about 2–4× below arm (a) at the same μ.
+  - Both arms keep growing as μ falls, as expected under a receding minimum.
+
+### POST-HOC REAL-DATA CONTROL ARM (recorded 2026-10-19; outcomes fixed in 349022b before the run)
+
+- **Runs.** Closed loss: the final.py loss + 1e-4 × Q (`close.py`), then + γ‖θ‖² for γ from 1e-2 to 1e-7, on ind0 and ind1. All 22 points were certified; none was degenerate, and there were no caps. The run took 25 min in total.
+- **Outcome: PLATEAU, by the fixed rule.** The ‖θ*‖² ratio between the two smallest certified γ is 1.092 (ind0) and 1.101 (ind1), both ≤ 1.5, so the real-data contrast is complete. The divergence condition is not met: α is +0.105 [+0.093, +0.118] and +0.124 [+0.109, +0.139], both below 0.2.
+
+| Model | ‖θ*‖² closed, 1e-2 → 1e-7 | ‖θ*‖² open (Phase 2), 1e-2 → last reached | L* closed at 1e-7 | Data term closed at 1e-7 | Data term open, last certified |
+|---|---|---|---|---|---|
+| ind0 | 0.90 → 27.7 | 0.90 → 596 (1e-6, uncertified) | 1.2825e-2 | 1.0926e-2 | 1.0300e-2 (1e-5) |
+| ind1 | 0.89 → 27.4 | 0.89 → 2200 (1e-7, uncertified) | 1.3033e-2 | 1.1224e-2 | 9.113e-3 (3.2e-7) |
+
+- **Caveat (descriptive).**
+  - The closed path's norm still rises slowly: α ≈ 0.1, with an interval excluding 0, and increments shrinking from about 3.3 to 2.3 per half-decade at the small-γ end.
+  - That growth sits in the curved RBF parts (penalised only by the smoothness term; 0.67 → 4.97 in layer 2), in the layer-1 biases (0.22–0.24 → 1.5–1.6) and in the salt embedding (11–13 → 14–15), all of which μQ leaves unpenalised or only weakly penalised.
+  - Over the tested range, μ = 1e-4 bounds the path in the sense of the pre-registered rule. It does not freeze the norm.
+- Figure: `figs/infimum_control.png`. Closed (solid) and open (dashed) paths, the same seeds, the same marker style.
+
+### POST-HOC cold-start basin check: summary (results in ef3b3c2; count corrected in aead10a)
+
+Each early-stopped start was polished independently, at γ = 1e-3, 1e-5 and 1e-7.
+
+- **P0.**
+  - **γ = 1e-3:** all 8 early-stopped starts, and the zero start, reached the warm path's branch.
+  - **γ = 1e-5:** 7 of 8 early-stopped starts (and the zero start) did. s3 reached another certified minimum at a larger norm (7.06 against 5.19–5.46).
+  - **γ = 1e-7:** s0–s4 reached the warm-path branch; s5, s6 and the zero start reached larger-norm minima (111–125); s7 hit the iteration cap. The best regularised objective found had ‖θ*‖² 101.5, against 87.6 on the warm path.
+- **P1.**
+  - **γ = 1e-3:** all 8 early-stopped starts, and the zero start, reached the warm path's branch.
+  - **γ = 1e-5:** 6 of 8 (and the zero start) did. s2 and s3 reached larger-norm minima (8.16 against 6.24–6.25).
+  - **γ = 1e-7:** only s4 stayed on the warm-path branch. The other 7 early-stopped starts and the zero start reached larger-norm certified minima (56–118) with a lower regularised objective; 8 of the 9 starts beat the best warm point.
+- **No small-norm basin was found** at any γ in either cell.
+- **The all-zeros start did not remain at the symmetric saddle.** It moved in every (cell, γ) (‖x‖ = 1.2–10.5), and never ended with identical hidden units.
+- **The jittered start was therefore not needed and was not run.** Its escape question does not arise.
