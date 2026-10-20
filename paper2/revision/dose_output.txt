@@ -1,0 +1,51 @@
+####################################################################################################
+paper2/revision/dose.py 2026-10-20 18:35:23: RUNTIME CHECKS AND REPLICATION GATE (rho = 0.95, P0 and P1, 16 models) (prereg dose_prereg.md, 1a18569)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  E1-E4 as recorded in the prereg (rho already a generator parameter, no edit; paired seeds c = 1 so rho = 0 is a new draw;
+        synth.run_trust used unchanged inside a hard-killed child; teacher acceptance not repeated)
+  G1 torch threads 4 and default BLAS threads, as synth.py; the committed polish (run_trust/FlatS) decides certification;
+     the degeneracy screen, probes and short path use infimum.py's Flat/analyse/probes/polish on the same cell loss
+  G2 runaway rate = least-squares slope of log ||theta||^2 per iteration over the last 100 polishing iterations (from
+     run_trust's per-iteration ||theta||^2; after a hard kill: from the checkpointed accepted iterates)
+  G3 hidden-unit correlation = largest |corr| between tanh(s_j) over unit pairs on the training rows
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/synth_correlated_P0_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1f1408efb29d
+  verified gauge_weights/synth_correlated_P0_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 f53f31bb6b39
+  verified gauge_weights/synth_correlated_P0_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 d62ac575e1a7
+  verified gauge_weights/synth_correlated_P0_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 b8e676d606c7
+  verified gauge_weights/synth_correlated_P0_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 e60a739ac3fd
+  verified gauge_weights/synth_correlated_P0_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 7568eb7a0a92
+  verified gauge_weights/synth_correlated_P0_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 0e900390e141
+  verified gauge_weights/synth_correlated_P0_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1eef4006b999
+  verified gauge_weights/synth_correlated_P1_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 df63c1d3b527
+  verified gauge_weights/synth_correlated_P1_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 985f2a3ec550
+  verified gauge_weights/synth_correlated_P1_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 5faeef4ae52a
+  verified gauge_weights/synth_correlated_P1_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 4e9077cdb639
+  verified gauge_weights/synth_correlated_P1_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 42b051ba3add
+  verified gauge_weights/synth_correlated_P1_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 34d8a9eb53ff
+  verified gauge_weights/synth_correlated_P1_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1b54238fd618
+  verified gauge_weights/synth_correlated_P1_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 ca99048ef919
+  16 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== RUNTIME CHECKS (E1): realised correlations, marginals, paired draws ====================
+  rho 0.00: corr(x1,x2)/corr(x3,x4) train 0.0360/-0.0210, val 0.0060/0.0226, test -0.0240/-0.0222 (|r - rho| <= 0.02: False) | std 0.3395, 0.3348, 0.3307, 0.3255 | clipped 0.0020, 0.0020, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 1.13, min eig 0.9322, VIF max 1.00 | sigma 2.8377e-02
+  rho 0.50: corr(x1,x2)/corr(x3,x4) train 0.5267/0.4926, val 0.4996/0.5206, test 0.4767/0.4930 (|r - rho| <= 0.02: False) | std 0.3395, 0.3405, 0.3307, 0.3240 | clipped 0.0020, 0.0040, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 3.37, min eig 0.4619, VIF max 1.39 | sigma 2.6456e-02
+  rho 0.80: corr(x1,x2)/corr(x3,x4) train 0.8107/0.8003, val 0.7973/0.8094, test 0.7882/0.8011 (|r - rho| <= 0.02: True) | std 0.3395, 0.3426, 0.3307, 0.3258 | clipped 0.0020, 0.0030, 0.0030, 0.0015 | x1, x3 identical to rho 0: True | Gram cond 10.10, min eig 0.1848, VIF max 2.93 | sigma 2.5262e-02
+  rho 0.90: corr(x1,x2)/corr(x3,x4) train 0.9049/0.9011, val 0.8982/0.9045, test 0.8942/0.9014 (|r - rho| <= 0.02: True) | std 0.3395, 0.3425, 0.3307, 0.3272 | clipped 0.0020, 0.0030, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 21.27, min eig 0.0928, VIF max 5.53 | sigma 2.4862e-02
+  rho 0.95: corr(x1,x2)/corr(x3,x4) train 0.9522/0.9509, val 0.9490/0.9521, test 0.9472/0.9511 (|r - rho| <= 0.02: True) | std 0.3395, 0.3420, 0.3307, 0.3284 | clipped 0.0020, 0.0025, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 43.56, min eig 0.0466, VIF max 10.74 | sigma 2.4674e-02
+  rho 0.99: corr(x1,x2)/corr(x3,x4) train 0.9903/0.9903, val 0.9898/0.9904, test 0.9895/0.9903 (|r - rho| <= 0.02: True) | std 0.3395, 0.3408, 0.3307, 0.3298 | clipped 0.0020, 0.0025, 0.0030, 0.0035 | x1, x3 identical to rho 0: True | Gram cond 221.34, min eig 0.0094, VIF max 52.14 | sigma 2.4542e-02
+  RUNTIME CHECKS: FAIL
+  data check: committed early data term correlated_P0_s0 6.5125670290e-04
+
+==================== REPLICATION GATE ====================
+
+  CRASH RECORD 1 (recorded 2026-10-20): the gate run above stopped at 18:42:24. The polish child of P0_r0.95_s1 (synth.run_trust,
+  unchanged) died with SIGBUS (EXC_BAD_ACCESS / KERN_PROTECTION_FAILURE) inside Apple Accelerate's cblas_dgemm, called from torch's
+  autograd backward (BmmBackward0 -> bmm -> addmm -> cpublas::gemm) during a Hessian evaluation, after 297 accepted iterates and
+  360.7 s (macOS crash report Python-2026-10-20-184224.ips). The worker reported the missing result and the gate stopped (7 of 16
+  records written; the other workers were cut off). No code of this study is in the crashing frames. Implementation-only fix
+  (separate commit): a committed polish (run_trust has no resume) restarts from the early state with its full caps, and the stale
+  heartbeat/checkpoint of the crashed attempt are discarded instead of shortening the restarted child's hard-kill budget. Same
+  protocol, same caps; thread settings unchanged (torch 4, default BLAS, as synth.py). The gate is re-run; cached models resume.

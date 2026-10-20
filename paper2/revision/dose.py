@@ -150,9 +150,17 @@ def run_child(spec, wlog):
     name = spec["name"]
     if not I.has_cached(name):
         ck = Path(spec["ck"]); hb = W / (ck.stem + ".hb.json")
-        e0 = float(json.loads(hb.read_text())["elapsed"]) if hb.exists() else 0.0
-        if spec["mode"] != "trust" and ck.exists():
-            e0 = max(e0, float(np.load(ck)["elapsed"]))
+        if spec["mode"] == "trust":
+            # synth.run_trust cannot resume: an interrupted committed polish restarts from the early state with its full caps,
+            # so stale heartbeat / checkpoint files of an earlier attempt are discarded (crash record 1)
+            e0 = 0.0
+            for fp in (hb, ck):
+                if fp.exists():
+                    fp.unlink()
+        else:
+            e0 = float(json.loads(hb.read_text())["elapsed"]) if hb.exists() else 0.0
+            if ck.exists():
+                e0 = max(e0, float(np.load(ck)["elapsed"]))
         spec = dict(spec, elapsed0=e0)
         LOGDIR.mkdir(exist_ok=True)
         with open(LOGDIR / f"{Path(name).stem}.log", "a") as lf:
