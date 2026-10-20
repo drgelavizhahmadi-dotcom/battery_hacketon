@@ -137,7 +137,16 @@ def child(spec):
             np.savez(ck.with_name(ck.stem + ".tmp.npz"), x=np.asarray(x), theta2=np.array(th)); os.replace(ck.with_name(ck.stem + ".tmp.npz"), ck)
             return orig(x)
         fl.hessian = hess
-        I.cached(spec["name"], lambda: (lambda r: dict(x=torch.tensor(r[0]), info=r[1], hist=r[2]))(SY.run_trust(fl)))
+        def run():
+            try:
+                return SY.run_trust(fl)
+            except (ValueError, np.linalg.LinAlgError) as e:
+                # the committed polish itself is unchanged; a non-finite trust-exact subproblem (crash record 2) stops it at the
+                # last accepted iterate (the checkpoint written at that iterate's Hessian evaluation)
+                z = np.load(ck)
+                return z["x"], dict(stop=f"solver error (trust-exact subproblem: {str(e)[:60]})", message=str(e), iters=int(len(z["theta2"]) - 1)), \
+                    dict(theta2=list(z["theta2"]))
+        I.cached(spec["name"], lambda: (lambda r: dict(x=torch.tensor(r[0]), info=r[1], hist=r[2]))(run()))
     else:
         f, _, _ = iflat(spec["key"], spec["kind"], spec["coef"])
         x0 = np.load(spec["start"])
@@ -220,6 +229,8 @@ def reason_trust(info, cert):
         return "iteration cap"
     if "2 h" in s:
         return "wall-clock cap"
+    if "solver error" in s:
+        return "solver error (trust-exact subproblem)"
     names = dict(a="gradient criterion (a)", b="negative curvature (b)", c="Newton decrement (c)", d="null-space gradient (d)")
     return ", ".join(names[k] for k, ok in cert["crit"].items() if not ok)
 

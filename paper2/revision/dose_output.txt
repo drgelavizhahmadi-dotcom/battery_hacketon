@@ -49,3 +49,103 @@ DISCREPANCIES / choices (files win):
   (separate commit): a committed polish (run_trust has no resume) restarts from the early state with its full caps, and the stale
   heartbeat/checkpoint of the crashed attempt are discarded instead of shortening the restarted child's hard-kill budget. Same
   protocol, same caps; thread settings unchanged (torch 4, default BLAS, as synth.py). The gate is re-run; cached models resume.
+####################################################################################################
+paper2/revision/dose.py 2026-10-20 19:18:23: RUNTIME CHECKS AND REPLICATION GATE (rho = 0.95, P0 and P1, 16 models) (prereg dose_prereg.md, 1a18569)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  E1-E4 as recorded in the prereg (rho already a generator parameter, no edit; paired seeds c = 1 so rho = 0 is a new draw;
+        synth.run_trust used unchanged inside a hard-killed child; teacher acceptance not repeated)
+  G1 torch threads 4 and default BLAS threads, as synth.py; the committed polish (run_trust/FlatS) decides certification;
+     the degeneracy screen, probes and short path use infimum.py's Flat/analyse/probes/polish on the same cell loss
+  G2 runaway rate = least-squares slope of log ||theta||^2 per iteration over the last 100 polishing iterations (from
+     run_trust's per-iteration ||theta||^2; after a hard kill: from the checkpointed accepted iterates)
+  G3 hidden-unit correlation = largest |corr| between tanh(s_j) over unit pairs on the training rows
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/synth_correlated_P0_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1f1408efb29d
+  verified gauge_weights/synth_correlated_P0_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 f53f31bb6b39
+  verified gauge_weights/synth_correlated_P0_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 d62ac575e1a7
+  verified gauge_weights/synth_correlated_P0_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 b8e676d606c7
+  verified gauge_weights/synth_correlated_P0_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 e60a739ac3fd
+  verified gauge_weights/synth_correlated_P0_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 7568eb7a0a92
+  verified gauge_weights/synth_correlated_P0_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 0e900390e141
+  verified gauge_weights/synth_correlated_P0_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1eef4006b999
+  verified gauge_weights/synth_correlated_P1_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 df63c1d3b527
+  verified gauge_weights/synth_correlated_P1_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 985f2a3ec550
+  verified gauge_weights/synth_correlated_P1_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 5faeef4ae52a
+  verified gauge_weights/synth_correlated_P1_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 4e9077cdb639
+  verified gauge_weights/synth_correlated_P1_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 42b051ba3add
+  verified gauge_weights/synth_correlated_P1_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 34d8a9eb53ff
+  verified gauge_weights/synth_correlated_P1_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1b54238fd618
+  verified gauge_weights/synth_correlated_P1_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 ca99048ef919
+  16 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+==================== RUNTIME CHECKS (E1): realised correlations, marginals, paired draws ====================
+  rho 0.00: corr(x1,x2)/corr(x3,x4) train 0.0360/-0.0210, val 0.0060/0.0226, test -0.0240/-0.0222 (|r - rho| <= 0.02: False) | std 0.3395, 0.3348, 0.3307, 0.3255 | clipped 0.0020, 0.0020, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 1.13, min eig 0.9322, VIF max 1.00 | sigma 2.8377e-02
+  rho 0.50: corr(x1,x2)/corr(x3,x4) train 0.5267/0.4926, val 0.4996/0.5206, test 0.4767/0.4930 (|r - rho| <= 0.02: False) | std 0.3395, 0.3405, 0.3307, 0.3240 | clipped 0.0020, 0.0040, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 3.37, min eig 0.4619, VIF max 1.39 | sigma 2.6456e-02
+  rho 0.80: corr(x1,x2)/corr(x3,x4) train 0.8107/0.8003, val 0.7973/0.8094, test 0.7882/0.8011 (|r - rho| <= 0.02: True) | std 0.3395, 0.3426, 0.3307, 0.3258 | clipped 0.0020, 0.0030, 0.0030, 0.0015 | x1, x3 identical to rho 0: True | Gram cond 10.10, min eig 0.1848, VIF max 2.93 | sigma 2.5262e-02
+  rho 0.90: corr(x1,x2)/corr(x3,x4) train 0.9049/0.9011, val 0.8982/0.9045, test 0.8942/0.9014 (|r - rho| <= 0.02: True) | std 0.3395, 0.3425, 0.3307, 0.3272 | clipped 0.0020, 0.0030, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 21.27, min eig 0.0928, VIF max 5.53 | sigma 2.4862e-02
+  rho 0.95: corr(x1,x2)/corr(x3,x4) train 0.9522/0.9509, val 0.9490/0.9521, test 0.9472/0.9511 (|r - rho| <= 0.02: True) | std 0.3395, 0.3420, 0.3307, 0.3284 | clipped 0.0020, 0.0025, 0.0030, 0.0020 | x1, x3 identical to rho 0: True | Gram cond 43.56, min eig 0.0466, VIF max 10.74 | sigma 2.4674e-02
+  rho 0.99: corr(x1,x2)/corr(x3,x4) train 0.9903/0.9903, val 0.9898/0.9904, test 0.9895/0.9903 (|r - rho| <= 0.02: True) | std 0.3395, 0.3408, 0.3307, 0.3298 | clipped 0.0020, 0.0025, 0.0030, 0.0035 | x1, x3 identical to rho 0: True | Gram cond 221.34, min eig 0.0094, VIF max 52.14 | sigma 2.4542e-02
+  RUNTIME CHECKS: FAIL
+  data check: committed early data term correlated_P0_s0 6.5125670290e-04
+
+==================== REPLICATION GATE ====================
+  P0_r0.95_s0: early weights max |diff| 0.0e+00 | best epoch 9988 vs 9988 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x146.425160 vs x146.425160
+  P0_r0.95_s1: early weights max |diff| 0.0e+00 | best epoch 6839 vs 6839 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x962.473278 vs x962.473278
+  P0_r0.95_s2: early weights max |diff| 0.0e+00 | best epoch 4755 vs 4755 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x41.028933 vs x41.028933
+  P0_r0.95_s3: early weights max |diff| 0.0e+00 | best epoch 10000 vs 10000 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x23.353079 vs x23.353079
+  P0_r0.95_s4: early weights max |diff| 0.0e+00 | best epoch 6849 vs 6849 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x62.058965 vs x62.058965
+  P0_r0.95_s5: early weights max |diff| 0.0e+00 | best epoch 6991 vs 6991 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x66.836677 vs x66.836677
+  P0_r0.95_s6: early weights max |diff| 0.0e+00 | best epoch 4599 vs 4599 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x64.586256 vs x64.586256
+  P0_r0.95_s7: early weights max |diff| 0.0e+00 | best epoch 4429 vs 4429 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x71.654116 vs x71.654116
+  P1_r0.95_s0: early weights max |diff| 0.0e+00 | best epoch 6768 vs 6768 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x27.616464 vs x27.616464
+  P1_r0.95_s1: early weights max |diff| 0.0e+00 | best epoch 4038 vs 4038 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x84.040748 vs x84.040748
+  P1_r0.95_s2: early weights max |diff| 0.0e+00 | best epoch 4208 vs 4208 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x428.389428 vs x428.389428
+  P1_r0.95_s3: early weights max |diff| 0.0e+00 | best epoch 7716 vs 7716 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x13.453940 vs x13.453940
+  P1_r0.95_s4: early weights max |diff| 0.0e+00 | best epoch 4842 vs 4842 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x21.495957 vs x21.495957
+  P1_r0.95_s5: early weights max |diff| 0.0e+00 | best epoch 4554 vs 4554 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x29.168899 vs x29.168899
+  P1_r0.95_s6: early weights max |diff| 0.0e+00 | best epoch 1681 vs 1681 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x36.728411 vs x36.728411
+  P1_r0.95_s7: early weights max |diff| 0.0e+00 | best epoch 1976 vs 1976 | stop 'iteration cap (500)' vs 'iteration cap (500)' | iters 500 vs 500 | certified False vs False | growth x35.089738 vs x35.089738
+  REPLICATION GATE: PASS (early weights identical and certification identical for all 16)
+####################################################################################################
+paper2/revision/dose.py 2026-10-20 19:54:03: FULL GRID (rho 0, 0.5, 0.8, 0.9, 0.95, 0.99 x P0, P1; P2 control at 0.99) (prereg dose_prereg.md, 1a18569)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  E1-E4 as recorded in the prereg (rho already a generator parameter, no edit; paired seeds c = 1 so rho = 0 is a new draw;
+        synth.run_trust used unchanged inside a hard-killed child; teacher acceptance not repeated)
+  G1 torch threads 4 and default BLAS threads, as synth.py; the committed polish (run_trust/FlatS) decides certification;
+     the degeneracy screen, probes and short path use infimum.py's Flat/analyse/probes/polish on the same cell loss
+  G2 runaway rate = least-squares slope of log ||theta||^2 per iteration over the last 100 polishing iterations (from
+     run_trust's per-iteration ||theta||^2; after a hard kill: from the checkpointed accepted iterates)
+  G3 hidden-unit correlation = largest |corr| between tanh(s_j) over unit pairs on the training rows
+
+==================== inputs (SHA-256 verified, held in memory) ====================
+  verified gauge_weights/synth_correlated_P0_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1f1408efb29d
+  verified gauge_weights/synth_correlated_P0_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 f53f31bb6b39
+  verified gauge_weights/synth_correlated_P0_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 d62ac575e1a7
+  verified gauge_weights/synth_correlated_P0_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 b8e676d606c7
+  verified gauge_weights/synth_correlated_P0_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 e60a739ac3fd
+  verified gauge_weights/synth_correlated_P0_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 7568eb7a0a92
+  verified gauge_weights/synth_correlated_P0_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 0e900390e141
+  verified gauge_weights/synth_correlated_P0_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1eef4006b999
+  verified gauge_weights/synth_correlated_P1_s0.pt (gauge_weights_2026-10-03h.tar.gz) sha256 df63c1d3b527
+  verified gauge_weights/synth_correlated_P1_s1.pt (gauge_weights_2026-10-03h.tar.gz) sha256 985f2a3ec550
+  verified gauge_weights/synth_correlated_P1_s2.pt (gauge_weights_2026-10-03h.tar.gz) sha256 5faeef4ae52a
+  verified gauge_weights/synth_correlated_P1_s3.pt (gauge_weights_2026-10-03h.tar.gz) sha256 4e9077cdb639
+  verified gauge_weights/synth_correlated_P1_s4.pt (gauge_weights_2026-10-03h.tar.gz) sha256 42b051ba3add
+  verified gauge_weights/synth_correlated_P1_s5.pt (gauge_weights_2026-10-03h.tar.gz) sha256 34d8a9eb53ff
+  verified gauge_weights/synth_correlated_P1_s6.pt (gauge_weights_2026-10-03h.tar.gz) sha256 1b54238fd618
+  verified gauge_weights/synth_correlated_P1_s7.pt (gauge_weights_2026-10-03h.tar.gz) sha256 ca99048ef919
+  16 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+
+  CRASH RECORD 2 (recorded 2026-10-20): the grid run above stopped at about 23:3x. The short-path child of P1_r0.99_s1 at gamma =
+  1e-7 (infimum.polish, trust-exact) raised ValueError ("array must not contain infs or NaNs") in scipy's trust-exact subproblem
+  (IterativeSubproblem.solve -> cho_solve) after 248 accepted iterates (287 s). The last accepted iterate is finite and healthy
+  (||theta||^2 60.58, loss 6.5517e-4, max|g| 1.6e-4, Hessian finite and positive definite, condition 2.0e9), so this is a breakdown
+  inside scipy's subproblem, not an overflow of the model. The worker reported the missing result and the grid stopped (93 of 104
+  records written). Implementation-only fix (separate commit): infimum.polish and the dose child around the unchanged synth.run_trust
+  catch the non-finite subproblem and stop at the last accepted iterate with stop reason 'solver error (trust-exact subproblem)',
+  which is then certified like any other stop (an uncertified point's reason reads 'solver error'). The crashed point produced no
+  result; its checkpoint and heartbeat were deleted so that it re-runs from its start under the fixed code (deterministic). The grid
+  is re-run; the 93 cached models resume unchanged.

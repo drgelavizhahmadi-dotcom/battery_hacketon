@@ -342,6 +342,11 @@ def polish(flat, x_start, ck, gtol, elapsed0):
             msg = str(res.message)
         except WallClock:
             out["stop"] = "wall-clock cap (2 h, cumulative; timer inside the trust-exact subproblem)"
+        except (ValueError, np.linalg.LinAlgError) as e:
+            # scipy's trust-exact subproblem can produce a non-finite Cholesky factor (dose-response crash record 2); the run stops
+            # at the last accepted iterate, which is then certified like any other stop
+            out["stop"] = f"solver error (trust-exact subproblem: {str(e)[:60]})"
+            msg = str(e)
         finally:
             signal.setitimer(signal.ITIMER_REAL, 0); signal.signal(signal.SIGALRM, old)
         if out["stop"] is None:
@@ -476,6 +481,8 @@ def uncert_reason(info):
         return "iteration cap"
     if "wall-clock" in s:
         return "wall-clock cap"
+    if "solver error" in s:
+        return "solver error (trust-exact subproblem)"
     names = dict(a="gradient criterion (a)", b="negative curvature (b)", c="Newton decrement (c)", d="null-space gradient (d)")
     return ", ".join(names[k] for k, ok in info["cert"]["crit"].items() if not ok)
 
