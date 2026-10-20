@@ -194,3 +194,43 @@ regardless.
 ## Verdicts
 
 (appended after the run; nothing above this line will be edited)
+
+### Verdicts (recorded 2026-10-21 from `dose_output.txt` / `dose_results.json`)
+
+**Gate and runs.**
+- The replication gate PASSED. All 16 ρ = 0.95 P0 and P1 models reproduce 34cc321 exactly: identical early-stopped weights (max |diff| 0), best epochs, stop reasons, iteration counts, certification, and growth to 6 decimals.
+- The run stopped twice before completing, both times implementation-only (commits d665db2 → 1d53d85, then 11e3663):
+  - **crash record 1:** SIGBUS in Apple Accelerate's dgemm during a polish Hessian;
+  - **crash record 2:** a non-finite Cholesky factor in scipy's trust-exact subproblem. The one affected point (P1 ρ = 0.99 s1, γ = 1e-7) is recorded as uncertified, with the reason "solver error".
+- No child was hard-killed, and no point hit the wall-clock cap.
+- The runtime correlation check failed its own tolerance at ρ = 0 and 0.5 (see the log's discrepancy summary): sampling noise, not a generator defect.
+
+| Prediction | P0 | P1 |
+|---|---|---|
+| **R1**, uncertified fraction non-decreasing (≤ 1 inversion) | **HELD**: 0.125, 0.625, 0.500, 1, 1, 1 (1 inversion) | **HELD**: 0.125, 0.500, 0.500, 0.625, 1, 1 (0 inversions) |
+| **R3**, median affine-RBF share non-decreasing (secondary) | **FAILED**: 0.715, 0.594, 0.612, 0.476, 0.394, 0.585 (3 inversions) | **FAILED**: 0.944, 0.982, 0.748, 0.934, 0.914, 0.952 (2 inversions) |
+| **R4**, Spearman(ρ, median D) ≥ 0.8 | **FAILED**: D 8.01, 15.05, 6.43, 9.52, 16.13, 16.72; Spearman +0.714 | **FAILED**: D 4.54, 4.88, 2.91, 3.00, 4.52, 14.54; Spearman +0.143 |
+| R4, certified-only variant | FAILED (Spearman +0.714; D at 0.99 is 19.55, n = 4) | FAILED (Spearman +0.143) |
+
+- R4 is not sensitive to certification: both variants give the same verdict.
+- **R2 HELD.** P2 at ρ = 0.99: 8/8 certified, median D 1.127 (range of growth ×0.88–×1.11).
+
+**Branch (fixed rule 5):** "R1 holds for both penalties but R4 fails for at least one", here for both P0 and P1. Non-convergence rises with input correlation, but path divergence does not rise with it. The fixed text continues: "the uncertified models may be budget-limited rather than diverging".
+
+**Descriptive (no verdicts).**
+- **Threshold ρ\*** (first uncertified fraction above 50%): P0 0.5, P1 0.9. P0 at ρ = 0.5 (0.625) is a bump above ρ = 0.8 (0.500).
+- **Runaway rate against log(1/(1 − ρ))** falls slightly:
+  - P0 slope −7.0e-4 [−1.36e-3, +1.1e-4], over 34 uncertified models;
+  - P1 slope −5.9e-4 [−1.11e-3, −7.6e-5], over 30 uncertified models.
+- **The median polished L\* falls with ρ** (Spearman −0.943 for both).
+- **The diagnostics rise monotonically with ρ:** Gram condition number 1.13 → 221, VIF max 1.00 → 52.1. The median hidden-unit correlation at the polished state goes from 0.05 (ρ = 0) to 0.82–0.96 (ρ ≥ 0.9).
+- **Growth factors** are reported in the log's per-cell table and enter no verdict.
+- **E2 reference.** The committed independent cells (seed 1000) certified 6/8 (P0) and 6/8 (P1). This study's ρ = 0 cells (seed 1001) certified 7/8 each.
+- **Within-cell path spread.**
+  - P1 collapses at ρ ≥ 0.8 for γ ≤ 1e-5: ‖θ*‖² spread ≤ 0.3% and prediction differences ≤ 1e-4 of the output std, apart from the solver-error point at 0.99 (γ = 1e-7); at γ = 1e-3 the ρ = 0.8 cell spreads 6%.
+  - P0 does not collapse at γ = 1e-7: spread 26–36% for ρ ≥ 0.8, 179% at ρ = 0 and 330% at 0.5.
+
+**Reading of the branch (POST-HOC, the author's to confirm; changes no verdict).**
+- R4 fails because D is already well above the control at every dose, not because the paths stop diverging. Median D is 6.4–16.7 (P0) and 2.9–14.5 (P1) at every ρ, including ρ = 0, where 7/8 models certify. The P2 control at 0.99 has 1.13.
+- Over the tested range, the regularised minimisers move outward at all correlations. What correlation governs is whether the unregularised polish certifies within the 500-iteration cap. The non-certifying models are therefore not merely budget-limited: they sit on paths that diverge at every dose.
+- The paper's framing should say that correlation amplifies non-certification, while the divergence of the regularised path is present even with independent inputs.
