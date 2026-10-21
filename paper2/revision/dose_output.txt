@@ -434,8 +434,9 @@ paper2/revision/dose_posthoc.py 2026-10-21 15:02:09: POST-HOC, DESCRIPTIVE check
   minimum by more than 1e-3). For P0 the certified minima are very distant (polish growth up to x1160): at gamma = 1e-7 the path has
   reached only about 1% of their squared norm (median norm ratio 0.008-0.012) at a loss about 1.2% above theirs, so the path is
   moving outward towards a distant finite minimum but is far from it; the relative distance shrinks only slightly (10 of 14 P0
-  trend flags). Two P0 models at rho 0.8 are UNCLASSIFIED: lower loss than their certified minimum (-3.5e-2 relative) at a much
-  smaller norm (ratio about 0.01), i.e. the certified minimum there is not the best point available. A high D at low rho is
+  trend flags). Two P0 models at rho 0.8 are UNCLASSIFIED: lower loss than their certified minimum at a much smaller norm (s4: -14%
+  relative at norm ratio 0.14; s5: -7.4% at 0.006; both certified-degenerate FLAT MINIMUM polishes), i.e. the certified minimum
+  there is not the best point available. [corrected 2026-10-21: an earlier version of this sentence quoted the cell median.] A high D at low rho is
   therefore explained by the path heading to a certified, distant finite minimum (or its valley), not by movement past it.
 
   RUN NOTES (2026-10-21)

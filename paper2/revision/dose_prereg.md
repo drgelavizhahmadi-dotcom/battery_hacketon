@@ -260,7 +260,7 @@ regardless.
 
 **Pooled.**
 - Of 32 certified models, 0 are APPROACHING, 11 FINITE (valley), 19 FINITE not yet reached, 0 RECEDING and 2 unclassified.
-- The two unclassified models are P0 ρ 0.8: lower loss than their certified minimum at about 1% of its squared norm, so that certified minimum is not the best point available.
+- The two unclassified models are P0 ρ 0.8: lower loss than their certified minimum at a much smaller norm (s4: −14% at a norm ratio of 0.14; s5: −7.4% at 0.006; both certified-degenerate FLAT MINIMUM polishes), so that certified minimum is not the best point available. (Corrected 2026-10-21: an earlier version quoted the cell median.)
 - In 26 of 32 the distance shrinks.
 - **The chosen reading is A**, since 30 of 32 read FINITE.
 
