@@ -234,3 +234,47 @@ regardless.
 - R4 fails because D is already well above the control at every dose, not because the paths stop diverging. Median D is 6.4–16.7 (P0) and 2.9–14.5 (P1) at every ρ, including ρ = 0, where 7/8 models certify. The P2 control at 0.99 has 1.13.
 - Over the tested range, the regularised minimisers move outward at all correlations. What correlation governs is whether the unregularised polish certifies within the 500-iteration cap. The non-certifying models are therefore not merely budget-limited: they sit on paths that diverge at every dose.
 - The paper's framing should say that correlation amplifies non-certification, while the divergence of the regularised path is present even with independent inputs.
+
+### POST-HOC check and reading (recorded 2026-10-21; `dose_posthoc.py`, commit 360a79c; weights from archive 16; changes no verdict)
+
+**Question.** Where the unregularised polish certified, is the short path approaching that certified minimum?
+
+**Rules (fixed before computing).**
+- **APPROACHING:** at γ = 1e-7, the norm is within 10% of the certified minimum's, the relative parameter distance is below 0.1, and the relative loss difference is within 1e-3.
+- **Otherwise, by the loss at γ = 1e-7:**
+  - matching (within 1e-3): FINITE, in the minimum's valley;
+  - higher: FINITE, NOT YET REACHED;
+  - lower, with a norm ratio above 1.1: RECEDING;
+  - anything else: unclassified.
+- **"Mostly"** means more than half of the certified models, pooled over ρ and both penalties.
+
+| Cell | Certified | APPROACHING | FINITE (valley) | FINITE, not yet reached | RECEDING | Unclassified | Distance shrinks | Medians, 1e-5 → 1e-7: norm ratio; distance; loss difference |
+|---|---|---|---|---|---|---|---|---|
+| P0 ρ 0 | 7 | 0 | 0 | 7 | 0 | 0 | 6/7 | 0.001 → 0.008; 0.999 → 0.958; +5.4e-2 → +1.2e-2 |
+| P0 ρ 0.5 | 3 | 0 | 0 | 3 | 0 | 0 | 2/3 | 0.002 → 0.011; 0.997 → 0.998; +5.2e-2 → +1.2e-2 |
+| P0 ρ 0.8 | 4 | 0 | 0 | 2 | 0 | 2 | 2/4 | 0.002 → 0.012; 0.998 → 1.002; +1.1e-2 → −3.5e-2 |
+| P1 ρ 0 | 7 | 0 | 6 | 1 | 0 | 0 | 7/7 | 0.178 → 0.808; 0.819 → 0.231; +3.2e-2 → +3.0e-4 |
+| P1 ρ 0.5 | 4 | 0 | 3 | 1 | 0 | 0 | 4/4 | 0.108 → 0.526; 0.909 → 0.511; +2.8e-2 → +6.6e-4 |
+| P1 ρ 0.8 | 4 | 0 | 0 | 4 | 0 | 0 | 3/4 | 0.093 → 0.272; 0.925 → 0.694; +2.4e-2 → +3.1e-3 |
+| P1 ρ 0.9 | 3 | 0 | 2 | 1 | 0 | 0 | 2/3 | 0.282 → 0.845; 0.732 → 0.180; +2.7e-2 → +2.0e-4 |
+
+**Pooled.**
+- Of 32 certified models, 0 are APPROACHING, 11 FINITE (valley), 19 FINITE not yet reached, 0 RECEDING and 2 unclassified.
+- The two unclassified models are P0 ρ 0.8: lower loss than their certified minimum at about 1% of its squared norm, so that certified minimum is not the best point available.
+- In 26 of 32 the distance shrinks.
+- **The chosen reading is A**, since 30 of 32 read FINITE.
+
+**Caveat.** The P0 paths are far from their very distant certified minima: about 1% of the squared norm, and loss about 1.2% higher. For P0, "heading to the minimum" rests on rising norm and falling loss, not on closeness.
+
+**Uncertified polishes (descriptive).** ‖θ*(1e-7)‖² / ‖θ‖² at the polished endpoint has medians 0.009–0.50 for P0 and 0.019–0.52 for P1. It rises with ρ to about 0.5 at ρ = 0.99.
+
+**POST-HOC reading below the Branch 5 verdict (reading A).**
+"The pre-registered 'budget-limited' gloss is not supported: D is high at every dose, including ρ = 0 where 7 of 8 models certify. At low ρ the short path is heading to the certified finite minimum (or its valley), so a high D there reflects a distant finite minimum, not divergence. Correlation controls whether training and polishing converge; the receding minimum is established only at ρ = 0.95 (infimum test, 4003b21)."
+
+This replaces the earlier POST-HOC reading paragraph above. That paragraph is kept as written, superseded.
+
+**Run notes.**
+- **(a)** The runtime correlation tolerance (0.02) was miscalibrated: it is below the sampling error at n = 2000 (about 0.022 at ρ = 0). Pairing and the x₁/x₃ identity passed. Future tolerances are derived from the sampling error of the quantity checked.
+- **(b)** "Solver error (trust-exact subproblem)" is a dated addition (2026-10-20) to the frozen stop-reason list (crash records: 1d53d85, 11e3663).
+- **(c)** Seed collapse: at ρ ≥ 0.8 the P1 paths collapse within each cell. The certification counts are genuine replicates, but the path-level results are effectively one path per cell.
+- **(d)** R3's failure stands as secondary, reported as found.

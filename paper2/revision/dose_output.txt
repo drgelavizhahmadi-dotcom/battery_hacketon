@@ -346,3 +346,105 @@ DISCREPANCIES / choices (files win):
   reference (E2): committed independent P1 cell (seed 1000) certified 6/8; this study's rho = 0 cell (seed 1001) certified 7/8
 
 wrote dose_results.json and figs/dose_response.png, figs/dose_anatomy.png
+
+####################################################################################################
+paper2/revision/dose_posthoc.py 2026-10-21 15:02:09: POST-HOC, DESCRIPTIVE check (no training; changes no verdict)
+####################################################################################################
+  Q: where the unregularised polish certified, does the short path (gamma 1e-5, 1e-7) approach that certified minimum?
+  rules fixed before computing: APPROACHING = |norm ratio - 1| <= 0.1, relative distance < 0.1, |relative loss diff| <= 0.001
+  at gamma = 1e-7; otherwise ELSEWHERE: matching loss (|rel| <= 1e-3) -> FINITE; higher (> +1e-3) -> FINITE, NOT YET REACHED;
+  lower (< -1e-3) with norm ratio > 1.1 -> RECEDING; anything else UNCLASSIFIED. Trend flag: relative distance shrank 1e-5 -> 1e-7.
+  'certified' = the polish was included (certified, incl. certified-degenerate FLAT MINIMUM); L = the committed cell loss
+  (no gamma term) at both points. 'Mostly' = more than half of the certified models pooled over rho and P0/P1 (fixed now).
+
+  inputs: 480 files from gauge_weights_2026-10-21p.tar.gz (SHA-256 verified, held in memory)
+  480 inputs held in memory (SHA-256 re-checked from memory)
+
+  per model (certified polishes):
+    key            norm ratio 1e-5 / 1e-7     rel. distance 1e-5 / 1e-7    rel. loss diff 1e-5 / 1e-7     shrinks  class
+    P0_r0.00_s0        0.001 /     0.007       0.999 /    0.995         +5.07e-02 / +5.29e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s1        0.001 /     0.008       0.999 /    0.958         +5.47e-02 / +1.19e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s2        0.001 /     0.008       0.999 /    0.958         +5.47e-02 / +1.19e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s3        0.001 /     0.008       0.999 /    0.958         +5.42e-02 / +1.19e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s4        0.001 /     0.008       0.999 /    0.958         +5.47e-02 / +1.19e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s5        0.001 /     0.006       0.999 /    0.986         +5.12e-02 / +6.68e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.00_s6        0.073 /     0.543       0.960 /    1.209         +4.60e-02 / +5.77e-03     False    ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.00_s0        0.178 /     0.807       0.818 /    0.231         +3.21e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s1        0.178 /     0.808       0.819 /    0.231         +3.21e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s2        0.178 /     0.808       0.819 /    0.231         +3.21e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s3        0.178 /     0.808       0.819 /    0.231         +3.21e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s4        0.178 /     0.808       0.819 /    0.231         +3.21e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s5        0.179 /     0.807       0.818 /    0.231         +3.20e-02 / +2.97e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.00_s6        0.080 /     0.361       0.941 /    0.592         +5.72e-02 / +2.48e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.50_s1        0.002 /     0.011       0.997 /    0.991         +4.58e-02 / +6.12e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.50_s2        0.001 /     0.004       0.999 /    0.998         +5.51e-02 / +1.35e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.50_s4        0.047 /     0.258       0.988 /    1.118         +5.19e-02 / +1.20e-02     False    ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.50_s1        0.108 /     0.527       0.909 /    0.510         +2.79e-02 / +6.61e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.50_s2        0.108 /     0.527       0.910 /    0.511         +2.79e-02 / +6.61e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.50_s4        0.049 /     0.241       0.969 /    0.650         +5.78e-02 / +2.98e-02     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.50_s7        0.108 /     0.526       0.909 /    0.511         +2.79e-02 / +6.61e-04     True     ELSEWHERE / matching loss (FINITE)
+    P0_r0.80_s2        0.002 /     0.013       0.997 /    0.984         +5.19e-02 / +3.72e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.80_s3        0.002 /     0.010       0.997 /    0.985         +5.58e-02 / +8.52e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P0_r0.80_s4        0.023 /     0.137       0.998 /    1.078         -1.03e-01 / -1.43e-01     False    UNCLASSIFIED
+    P0_r0.80_s5        0.001 /     0.006       1.002 /    1.019         -3.03e-02 / -7.37e-02     False    UNCLASSIFIED
+    P1_r0.80_s0        0.093 /     0.272       0.925 /    0.694         +2.42e-02 / +3.07e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.80_s1        0.093 /     0.272       1.013 /    1.227         +2.42e-02 / +3.07e-03     False    ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.80_s2        0.094 /     0.273       0.925 /    0.692         +2.42e-02 / +3.07e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.80_s3        0.093 /     0.272       0.925 /    0.693         +2.42e-02 / +3.07e-03     True     ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+    P1_r0.90_s0        0.283 /     0.846       0.731 /    0.179         +2.74e-02 / +1.99e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.90_s3        0.282 /     0.845       0.732 /    0.180         +2.74e-02 / +2.00e-04     True     ELSEWHERE / matching loss (FINITE)
+    P1_r0.90_s6        0.001 /     0.002       0.999 /    1.002         +3.48e-02 / +7.40e-03     False    ELSEWHERE / higher loss (FINITE, NOT YET REACHED)
+
+  per rho and penalty (certified polishes): n | APPROACHING | FINITE (valley) | FINITE not yet reached | RECEDING | unclassified | trend shrinks | medians at 1e-5 -> 1e-7 of norm ratio, rel. distance, rel. loss diff
+    P0 rho 0.00: n 7 | 0 | 0 | 7 | 0 | 0 | 6/7 | norm 0.001 -> 0.008, dist 0.999 -> 0.958, loss +5.42e-02 -> +1.19e-02
+    P0 rho 0.50: n 3 | 0 | 0 | 3 | 0 | 0 | 2/3 | norm 0.002 -> 0.011, dist 0.997 -> 0.998, loss +5.19e-02 -> +1.20e-02
+    P0 rho 0.80: n 4 | 0 | 0 | 2 | 0 | 2 | 2/4 | norm 0.002 -> 0.012, dist 0.998 -> 1.002, loss +1.08e-02 -> -3.50e-02
+    P0 rho 0.90: n 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | norm - -> -, dist - -> -, loss - -> -
+    P0 rho 0.95: n 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | norm - -> -, dist - -> -, loss - -> -
+    P0 rho 0.99: n 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | norm - -> -, dist - -> -, loss - -> -
+    P1 rho 0.00: n 7 | 0 | 6 | 1 | 0 | 0 | 7/7 | norm 0.178 -> 0.808, dist 0.819 -> 0.231, loss +3.21e-02 -> +2.97e-04
+    P1 rho 0.50: n 4 | 0 | 3 | 1 | 0 | 0 | 4/4 | norm 0.108 -> 0.526, dist 0.909 -> 0.511, loss +2.79e-02 -> +6.61e-04
+    P1 rho 0.80: n 4 | 0 | 0 | 4 | 0 | 0 | 3/4 | norm 0.093 -> 0.272, dist 0.925 -> 0.694, loss +2.42e-02 -> +3.07e-03
+    P1 rho 0.90: n 3 | 0 | 2 | 1 | 0 | 0 | 2/3 | norm 0.282 -> 0.845, dist 0.732 -> 0.180, loss +2.74e-02 -> +2.00e-04
+    P1 rho 0.95: n 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | norm - -> -, dist - -> -, loss - -> -
+    P1 rho 0.99: n 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | norm - -> -, dist - -> -, loss - -> -
+
+  uncertified polishes, descriptive: ||theta*(1e-7)||^2 / polished endpoint ||theta||^2, median (range, n) per cell
+    P0_r0.00: 0.009 (0.009-0.009, n 1)
+    P0_r0.50: 0.025 (0.011-0.259, n 5)
+    P0_r0.80: 0.066 (0.000-0.179, n 4)
+    P0_r0.90: 0.123 (0.017-0.329, n 8)
+    P0_r0.95: 0.170 (0.012-0.319, n 8)
+    P0_r0.99: 0.504 (0.047-1.129, n 8)
+    P1_r0.00: 0.055 (0.055-0.055, n 1)
+    P1_r0.50: 0.042 (0.003-0.063, n 4)
+    P1_r0.80: 0.019 (0.000-0.060, n 4)
+    P1_r0.90: 0.029 (0.004-0.142, n 5)
+    P1_r0.95: 0.142 (0.008-0.197, n 8)
+    P1_r0.99: 0.518 (0.086-0.806, n 8)
+
+  pooled over rho and P0/P1: certified 32; APPROACHING 0, FINITE (valley) 11, FINITE not yet reached 19, RECEDING 0, unclassified 2; trend shrinks 26
+  READING (rule fixed in the brief): mostly APPROACHING or FINITE -> sentence A
+  wrote dose_posthoc_results.json
+
+  POST-HOC PARAGRAPH (2026-10-21). Where the unregularised polish certified (32 models: P0 at rho 0, 0.5, 0.8; P1 at rho 0-0.9),
+  none of the short paths has reached the certified minimum at gamma = 1e-7 by the strict APPROACHING rule, and none reads
+  RECEDING. 30 of 32 read FINITE: 11 sit in the certified minimum's valley (matching loss within 1e-3; all P1, where the relative
+  distance shrinks strongly, median 0.82 -> 0.23 at rho 0), and 19 are FINITE, NOT YET REACHED (loss still above the certified
+  minimum by more than 1e-3). For P0 the certified minima are very distant (polish growth up to x1160): at gamma = 1e-7 the path has
+  reached only about 1% of their squared norm (median norm ratio 0.008-0.012) at a loss about 1.2% above theirs, so the path is
+  moving outward towards a distant finite minimum but is far from it; the relative distance shrinks only slightly (10 of 14 P0
+  trend flags). Two P0 models at rho 0.8 are UNCLASSIFIED: lower loss than their certified minimum (-3.5e-2 relative) at a much
+  smaller norm (ratio about 0.01), i.e. the certified minimum there is not the best point available. A high D at low rho is
+  therefore explained by the path heading to a certified, distant finite minimum (or its valley), not by movement past it.
+
+  RUN NOTES (2026-10-21)
+  a) The runtime correlation check failed because its tolerance (0.02) was miscalibrated: it is below the sampling error of a
+     correlation at n = 2000 (about 0.022 at rho = 0, 0.017 at rho = 0.5). Pairing and the identical x1/x3 checks passed, so the
+     data generation is sound. Future tolerances are derived from the sampling error of the quantity checked.
+  b) 'Solver error (trust-exact subproblem)' is a dated addition (2026-10-20) to the frozen stop-reason list, citing the
+     crash-record commits 1d53d85 (crash record 1) and 11e3663 (crash record 2, where it was introduced).
+  c) Seed collapse: at rho >= 0.8 the P1 paths collapse within each cell (||theta*||^2 spread <= 0.3%, predictions within 1e-4 of
+     the output std at gamma <= 1e-5), so the certification counts are genuine replicates but the path-level results are
+     effectively one path per cell.
+  d) R3's failure stands as secondary, reported as found.
