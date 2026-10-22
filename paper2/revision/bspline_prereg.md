@@ -208,3 +208,40 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
   - Step 0 (ii), polish stability, remains a gate. If it fails, stop and report.
   - Step 0 (ii) is not restarted on optimised code: polish stability is a property of the teacher, unaffected by speed. Its
     per-polish wall-clock times are logged as the pre-optimisation baseline.
+
+#### SUPPLEMENT to amendment cba2c07 (2026-10-22, written after the first Step 0 (ii) attempt hung; before the re-run)
+
+**The first attempt.**
+- The first Step 0 (ii) polish (independent, P0) did not return. It ran in-process from about 18:58 until it was killed at
+  21:03:14.
+- A stack sample showed the main thread in LAPACK `dpotrf`, inside scipy's unbounded trust-exact subproblem loop: the known hang.
+- The committed `run_trust` checks its 2 h cap only in its callback, so the cap could not fire.
+
+**The re-run.**
+- Step 0 (ii) is re-run as four independent child processes, at most two in parallel. Each child is hard-killed at 2 h + 5 min,
+  and the last checkpointed accepted iterate is kept.
+- The code is the same unoptimised code, with the solver-error handling of dose crash record 2 (11e3663).
+- This is an implementation-only crash-record commit.
+- Determinism is not assumed.
+
+**How each Step 0 (ii) polish ending is classified (fixed now):**
+- **NORMAL COMPLETION** (`run_trust` returns, including at the 500-iteration cap or the 2 h callback cap): the < 0.5σ stability
+  gate is evaluated at the returned point, as committed.
+- **A caught solver error** (non-finite Cholesky factor, 11e3663) ends the polish at its last accepted iterate. It is classified by
+  the three rules below, exactly like a kill.
+- **KILLED, STALLED-AT-MINIMUM:** the child is killed AND the last 10 accepted iterations show < 1e-6 relative change in both the
+  loss and ‖θ‖², which requires ≥ 10 accepted iterations. The gate is evaluated at the last accepted iterate; it counts toward
+  the gate, flagged STALLED-AT-MINIMUM.
+- **KILLED, SUBSTANTIAL:** killed without plateau evidence but after ≥ 250 accepted iterations (half the committed cap). The gate is
+  evaluated at the last accepted iterate; it counts toward the gate, flagged KILLED-SUBSTANTIAL.
+  - Rationale: the committed RBF Step 0 judged its non-certifying teacher polishes at the iteration cap, where they were also
+    still moving.
+- **KILLED-IN-MOTION:** killed without plateau evidence and after < 250 accepted iterations. The gate is uninformative for that
+  polish. Stop and report, as for a gate failure, under this distinct label.
+
+**Stop reasons and scope.**
+- A polish killed after hanging records "solver error (hang)" and the fact that it was ended by the 2 h + 5 min child kill. This is
+  consistent with the frozen failure-reason list (11e3663).
+- This supplement changes no polish, no teacher and no gate threshold.
+- The μ-calibration polishes of the regularised teacher run in the same hard-killed children (the same exposure). Their endpoint is
+  judged by the committed rule (< 0.5σ AND certified), with the ending recorded.
