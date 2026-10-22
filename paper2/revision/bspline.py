@@ -1,6 +1,7 @@
 """paper2/revision/bspline.py: revision step 5, B-spline replication of the synthetic 2 x 3 study. See bspline_prereg.md (5491481).
 Run from the repo root with the pinned interpreter:
-  /usr/bin/python3 paper2/revision/bspline.py --step0 >> paper2/revision/bspline_output.txt   (property gates, Step 0 calibration)
+  /usr/bin/python3 paper2/revision/bspline.py --step0 >> paper2/revision/bspline_output.txt   (property gates, Step 0 (i) descriptive, (ii) gate)
+  /usr/bin/python3 paper2/revision/bspline.py --mu    >> paper2/revision/bspline_output.txt   (mu calibration, after (ii) passed)
   /usr/bin/python3 paper2/revision/bspline.py --step1 >> paper2/revision/bspline_output.txt   (48 models; after the frozen mu is recorded)
 Edges from bspline_basis.py (0ce6d00); data, training, polish (synth.run_trust / FlatS), certification and the infimum-test
 probes / short path as committed. Every polish runs in its own child process (hard-killed at the cap + 5 min) and is cached in
@@ -167,7 +168,37 @@ def flats(key):
 
 
 # ------------------------------------------------------------------ child processes (as dose.py after crash records 1 and 2)
+def teacher_flat(spec):
+    d = data(spec["cond"])
+    return SY.FlatS(teacher(), d["X"], d["y"], spec["lev"], spec["mu"])
+
+
 def child(spec):
+    if spec["mode"] == "teacher":
+        # Step 0 teacher polish (committed synth.run_trust, unchanged) in a hard-killed child; every accepted iterate checkpointed
+        # with its loss, ||theta||^2 and wall-clock time (bspline crash record 1); non-finite subproblem caught (11e3663)
+        fl = teacher_flat(spec)
+        ck = Path(spec["ck"]); acc = dict(x=None, theta2=[], loss=[], t=[])
+        orig = fl.hessian
+
+        def hess(x):
+            x = np.asarray(x)
+            if acc["x"] is None or not np.array_equal(acc["x"], x):
+                acc["x"] = x.copy(); acc["theta2"].append(float((x ** 2).sum())); acc["loss"].append(float(fl.fun(x)[0])); acc["t"].append(time.time())
+                tmp = ck.with_name(ck.stem + ".tmp.npz")
+                np.savez(tmp, x=x, theta2=np.array(acc["theta2"]), loss=np.array(acc["loss"]), t=np.array(acc["t"])); os.replace(tmp, ck)
+            return orig(x)
+        fl.hessian = hess
+        t0 = time.time()
+        try:
+            x, info, hist = SY.run_trust(fl); ended = "returned"
+        except (ValueError, np.linalg.LinAlgError) as e:
+            z = np.load(ck); x = z["x"]
+            info = dict(stop=f"solver error (trust-exact subproblem: {str(e)[:60]})", message=str(e), iters=int(len(z["theta2"]) - 1))
+            hist = dict(theta2=list(z["theta2"])); ended = "solver error (caught)"
+        I.cached(spec["name"], lambda: dict(x=torch.tensor(np.asarray(x)), info=info, hist=hist, ended=ended, wall_s=time.time() - t0,
+                                            acc=dict(theta2=acc["theta2"], loss=acc["loss"], t=acc["t"])))
+        return
     if spec["mode"] == "trust":
         fl = flats(spec["key"])
         ck, th = Path(spec["ck"]), []
@@ -239,6 +270,53 @@ def run_child(spec, wlog):
             wlog(f"    {name}: child hard-killed at the cap + 5 min; last checkpointed iterate used")
     obj, _ = I.cached(name, lambda: (_ for _ in ()).throw(RuntimeError(name)))
     return obj
+
+
+def run_teacher(spec, wlog):
+    """teacher polish in a hard-killed child; returns dict(x, info, ended, wall_s, acc); a kill keeps the last checkpointed iterate"""
+    name = spec["name"]
+    if not I.has_cached(name):
+        ck = Path(spec["ck"])
+        if ck.exists():
+            ck.unlink()
+        LOGDIR.mkdir(exist_ok=True)
+        with open(LOGDIR / f"{Path(name).stem}.log", "a") as lf:
+            pr = subprocess.Popen([sys.executable, str(Path(__file__)), "--child", json.dumps(spec)], cwd=REPO, stdout=lf, stderr=lf)
+            t0 = time.monotonic(); killed = False
+            while pr.poll() is None:
+                try:
+                    pr.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    pass
+                if time.monotonic() - t0 > SY.WALL + HARD:
+                    pr.kill(); pr.wait(); killed = True
+            el = time.monotonic() - t0
+        if not I.has_cached(name):
+            if not killed:
+                raise SystemExit(f"teacher child {name} exited with code {pr.returncode} without a result (see {LOGDIR})")
+            z = np.load(ck) if ck.exists() else None
+            fl = teacher_flat(spec)
+            x = z["x"] if z is not None else fl.x0
+            acc = dict(theta2=z["theta2"].tolist(), loss=z["loss"].tolist(), t=z["t"].tolist()) if z is not None else dict(theta2=[], loss=[], t=[])
+            I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop="solver error (hang); ended by the 2 h + 5 min child kill", message="killed",
+                                                                    iters=max(len(acc["theta2"]) - 1, 0)),
+                                        hist=dict(theta2=acc["theta2"]), ended="killed", wall_s=el, acc=acc))
+            wlog(f"    {name}: child hard-killed at 2 h + 5 min (hang); last checkpointed accepted iterate kept")
+    obj, _ = I.cached(name, lambda: (_ for _ in ()).throw(RuntimeError(name)))
+    return obj
+
+
+def classify_ending(obj):
+    """supplement to cba2c07 (4b3f20a)"""
+    if obj["ended"] == "returned":
+        return "NORMAL COMPLETION"
+    L, th = obj["acc"]["loss"], obj["acc"]["theta2"]
+    n_acc = len(th) - 1
+    if n_acc >= 10 and abs(L[-1] - L[-11]) / abs(L[-11]) < 1e-6 and abs(th[-1] - th[-11]) / abs(th[-11]) < 1e-6:
+        return "STALLED-AT-MINIMUM"
+    if n_acc >= 250:
+        return "KILLED-SUBSTANTIAL"
+    return "KILLED-IN-MOTION"
 
 
 def run_point_bsp(spec, flat, wlog):
@@ -400,59 +478,118 @@ def step0():
         rows[cond] = dict(sha={k: sha(d[k]) for k in ref}, identical=same, fidelity_rms=fid, sigma=d["sigma"], sigma_rbf=float(sig_r), fid_ok=fid < 0.1 * d["sigma"])
         log(f"  {cond}: inputs X/Xv/Xt/Xo SHA-256 {', '.join(sha(d[k])[:12] for k in ref)} (identical to synth.make_inputs: {all(same.values())}); "
             f"sigma {d['sigma']:.4e} (RBF teacher {sig_r:.4e})")
-    log("\n==================== STEP 0 (i): refit fidelity ====================")
+    log("\n==================== STEP 0 (i): refit fidelity (gate WITHDRAWN as mis-specified, amendment cba2c07; DESCRIPTIVE) ====================")
     for cond, r in rows.items():
         log(f"  {cond}: RMS(B-spline teacher - committed RBF teacher) on the training inputs {r['fidelity_rms']:.3e} = {r['fidelity_rms'] / r['sigma']:.4f} sigma "
             f"(needs < 0.1 sigma) -> {'ok' if r['fid_ok'] else 'FAIL'}")
     with torch.no_grad():
         d2, si, q = SY.penalty_terms({k: v for k, v in T.named_parameters()})
     log(f"  refitted teacher: D2 term {float(d2):.3e}, SiLU term {float(si):.3e}, Q {float(q):.3f}")
-    log("\n==================== STEP 0 (ii): polish stability (synth.run_trust under P0 and P1) ====================")
-    stab, ok2 = {}, True
-    for cond, _ in CONDS:
+    log("  per-edge RMS error against the analytic teacher functions on 401 points of [-1, 1] (DESCRIPTIVE; amendment cba2c07):")
+    L1f, L2f = committed_edge_functions(_D["scale"])
+    g = torch.linspace(-1, 1, 401, dtype=torch.float64); edge_err = []
+    for (lay, key_, f) in [(0, k, f) for k, f in L1f.items()] + [(1, (j, 0), f) for j, f in L2f.items()]:
+        i, j = key_
+        tru = f(g.numpy())
+        with torch.no_grad():
+            eb = T.layers[lay].edge(i, g)[:, j].numpy(); er = Tr.double().layers[lay].edge(i, g)[:, j].numpy()
+        edge_err.append(dict(layer=lay + 1, edge=[i, j], bspline=float(np.sqrt(np.mean((eb - tru) ** 2))), rbf=float(np.sqrt(np.mean((er - tru) ** 2)))))
+        log(f"    layer {lay + 1} edge {key_}: B-spline {edge_err[-1]['bspline']:.2e}, RBF {edge_err[-1]['rbf']:.2e}")
+    for ci, (cond, rho) in enumerate(CONDS):
         d = data(cond)
-        for lev in ("P0", "P1"):
-            fl = SY.FlatS(T, d["X"], d["y"], lev, 0.0)
-            x, info, hist = SY.run_trust(fl)
-            dp = float(np.sqrt(np.mean((SY.predict(fl.to_net(x), d["X"]) - d["y0"]) ** 2)))
-            rc, _, _ = certify_point(fl, x)
-            stab[f"{cond}_{lev}"] = dict(dpred=dp, ok=dp < 0.5 * d["sigma"], stop=info["stop"], iters=info["iters"], certified=rc["certified"],
-                                         growth=hist["theta2"][-1] / hist["theta2"][0])
-            ok2 &= dp < 0.5 * d["sigma"]
-            log(f"  {cond:11s} {lev}: RMS prediction change {dp:.2e} vs 0.5 sigma {0.5 * d['sigma']:.2e} -> {'ok' if dp < 0.5 * d['sigma'] else 'FAIL'}; "
-                f"{info['stop']} after {info['iters']} iters; certified {rc['certified']}; ||theta||^2 growth x{hist['theta2'][-1] / hist['theta2'][0]:.2f}")
-    acc = all(r["fid_ok"] for r in rows.values()) and ok2
-    log(f"  TEACHER ACCEPTANCE: {'PASS' if acc else 'FAIL'}")
-    s0 = dict(data=rows, stability=stab, acceptance=acc)
-    if not acc:
-        save_res("step0", s0); log("STOP: teacher acceptance failed; Step 1 not run (prereg F4)"); return
-    log("\n==================== STEP 0: mu calibration (synth.py Step 0 mirrored exactly; every mu evaluated) ====================")
-    calib = []
+        ana = analytic_predict(d["X"])
+        rows[cond]["analytic_rms_bspline"] = float(np.sqrt(np.mean((d["y0"] - ana) ** 2)))
+        rows[cond]["analytic_rms_rbf"] = float(np.sqrt(np.mean((SY.predict(Tr, d["X"]) - ana) ** 2)))
+        log(f"  {cond}: prediction RMS against the analytic-edge network: B-spline {rows[cond]['analytic_rms_bspline'] / d['sigma']:.4f} sigma, "
+            f"RBF {rows[cond]['analytic_rms_rbf'] / d['sigma']:.4f} sigma")
+    log("  STEP 0 (i): WITHDRAWN as mis-specified (amendment cba2c07); reported descriptively above")
+    log("\n==================== STEP 0 (ii): polish stability (synth.run_trust under P0 and P1; hard-killed children, at most 2 in parallel) ====================")
+    lines = []
+    specs = [dict(mode="teacher", cond=c, lev=l, mu=0.0, name=f"bsp_teacher_{c}_{l}.pt", ck=str(W / f"bsp_teacher_{c}_{l}_ck.npz"))
+             for c, _ in CONDS for l in ("P0", "P1")]
+    with ThreadPoolExecutor(2) as ex:
+        objs = list(ex.map(lambda s: run_teacher(s, lines.append), specs))
+    stab, gate_ok, motion = {}, True, []
+    for sp, obj in zip(specs, objs):
+        d = data(sp["cond"]); fl = teacher_flat(sp); x = I.npx(obj["x"])
+        dp = float(np.sqrt(np.mean((SY.predict(fl.to_net(x), d["X"]) - d["y0"]) ** 2)))
+        rc, _, _ = certify_point(fl, x)
+        cls = classify_ending(obj)
+        ts = np.array(obj["acc"]["t"]); it_t = np.diff(ts) if len(ts) > 1 else np.array([])
+        r = dict(ending=cls, ended=obj["ended"], stop=obj["info"]["stop"], n_accepted=len(obj["acc"]["theta2"]) - 1, wall_s=obj["wall_s"],
+                 iter_time_median=(float(np.median(it_t)) if len(it_t) else None), iter_time_max=(float(it_t.max()) if len(it_t) else None),
+                 dpred=dp, ok=dp < 0.5 * d["sigma"], certified=bool(rc["certified"]),
+                 growth=(obj["acc"]["theta2"][-1] / obj["acc"]["theta2"][0]) if obj["acc"]["theta2"] else None)
+        stab[f"{sp['cond']}_{sp['lev']}"] = r
+        if cls == "KILLED-IN-MOTION":
+            motion.append(f"{sp['cond']}_{sp['lev']}")
+        else:
+            gate_ok &= r["ok"]
+        log(f"  {sp['cond']:11s} {sp['lev']}: ending {cls} ({r['stop'][:60]}); {r['n_accepted']} accepted iterations; wall {r['wall_s']:.0f} s; "
+            f"per-iteration median {I.fmt(r['iter_time_median'], '.2f')} s (max {I.fmt(r['iter_time_max'], '.1f')} s) | RMS prediction change {dp:.2e} vs "
+            f"0.5 sigma {0.5 * d['sigma']:.2e} -> {'ok' if r['ok'] else 'FAIL'}; certified {r['certified']}")
+    for l in lines:
+        log("   " + l)
+    hung = [k for k, r in stab.items() if r["ended"] == "killed"]
+    log(f"  HANG CENSUS: {len(hung)}/4 polishes hung (" + (", ".join(f"{k} after {stab[k]['n_accepted']} accepted iterations" for k in hung) if hung else "none") + ")")
+    s0 = dict(data=rows, edge_errors=edge_err, stability=stab)
+    if motion:
+        s0["acceptance"] = False; save_res("step0", s0)
+        log(f"  STOP: KILLED-IN-MOTION for {', '.join(motion)}: the polish-stability gate is uninformative (supplement 4b3f20a)"); return
+    s0["acceptance"] = bool(gate_ok)
+    log(f"  STEP 0 (ii) POLISH-STABILITY GATE: {'PASS' if gate_ok else 'FAIL'}")
+    save_res("step0", s0)
+    if not gate_ok:
+        log("STOP: Step 0 (ii) failed; Step 1 not run (prereg)")
+
+
+def analytic_predict(X):
+    """the network with the exact analytic teacher edge functions (descriptive reference)"""
+    L1f, L2f = committed_edge_functions(_D["scale"])
+    s = np.zeros((len(X), 3))
+    for (i, j), f in L1f.items():
+        s[:, j] += f(X[:, i])
+    h = np.tanh(s)
+    return sum(f(h[:, j]) for j, f in L2f.items())
+
+
+def mu_calibration():
+    s0 = load_res().get("step0", {})
+    if not s0.get("acceptance"):
+        raise SystemExit("Step 0 (ii) has not passed; no mu calibration")
+    header("STEP 0: mu calibration (synth.py Step 0 mirrored exactly; teacher polishes in hard-killed children; every mu evaluated)")
+    choices()
+    T = teacher(); calib = []; lines = []
     for mu in SY.MU_GRID:
         row = dict(mu=mu); okt = True
-        for cond, _ in CONDS:
-            d = data(cond)
-            fl = SY.FlatS(T, d["X"], d["y"], "P2", mu)
-            x, info, _ = SY.run_trust(fl)
+        specs = [dict(mode="teacher", cond=c, lev="P2", mu=mu, name=f"bsp_teacher_{c}_P2_m{mu:g}.pt", ck=str(W / f"bsp_teacher_{c}_P2_m{mu:g}_ck.npz")) for c, _ in CONDS]
+        with ThreadPoolExecutor(2) as ex:
+            objs = list(ex.map(lambda s: run_teacher(s, lines.append), specs))
+        for sp, obj in zip(specs, objs):
+            d = data(sp["cond"]); fl = teacher_flat(sp); x = I.npx(obj["x"])
             dp = float(np.sqrt(np.mean((SY.predict(fl.to_net(x), d["X"]) - d["y0"]) ** 2)))
             rc, _, _ = certify_point(fl, x)
-            row[f"{cond}_dpred"], row[f"{cond}_cert"] = dp, bool(rc["certified"])
+            row[f"{sp['cond']}_dpred"], row[f"{sp['cond']}_cert"], row[f"{sp['cond']}_ending"] = dp, bool(rc["certified"]), classify_ending(obj)
             okt &= dp < 0.5 * d["sigma"] and rc["certified"]
-            log(f"  mu {mu:g} regularised teacher {cond:11s}: RMS change {dp:.2e} (0.5 sigma {0.5 * d['sigma']:.2e}); certified {rc['certified']}")
+            log(f"  mu {mu:g} regularised teacher {sp['cond']:11s}: RMS change {dp:.2e} (0.5 sigma {0.5 * d['sigma']:.2e}); certified {rc['certified']}; "
+                f"ending {classify_ending(obj)} ({obj['info']['stop'][:50]}), {len(obj['acc']['theta2']) - 1} accepted iterations")
         row["teacher_ok"] = bool(okt)
         if okt:
             keys = [f"pilot_m{mu:g}_s{sd}" for sd in PILOT]
-            recs = run_workers(keys, 4, path=False)
+            recs = run_workers(keys, 2, path=False)
             gr = [r["growth"] for r in recs.values()]
             ncert = sum(r["certified"] for r in recs.values())
             row.update(pilot_max_growth=float(max(gr)), pilot_growth=gr, pilot_certified=ncert,
-                       growth_ok=bool(max(gr) <= 3), cert_ok=bool(ncert == len(PILOT)))
+                       growth_ok=bool(max(gr) <= 3), cert_ok=bool(ncert == len(PILOT)),
+                       pilot_stops={k: r["polish"]["pinfo"]["stop"] for k, r in recs.items()})
             log(f"  mu {mu:g} pilot (seeds {PILOT[0]}-{PILOT[-1]}, correlated-P2): max ||theta||^2 growth x{max(gr):.2f} -> {'ok' if max(gr) <= 3 else 'FAIL'} "
                 f"(committed rule); certified {ncert}/{len(PILOT)} incl. certified-degenerate (descriptive criterion: {'ok' if ncert == len(PILOT) else 'FAIL'})")
         else:
             row.update(growth_ok=False, cert_ok=False)
             log(f"  mu {mu:g}: regularised-teacher check failed; no pilot (as committed)")
         calib.append(row)
+    for l in lines:
+        log("   " + l)
     pick_g = next((r["mu"] for r in calib if r["teacher_ok"] and r["growth_ok"]), None)
     pick_c = next((r["mu"] for r in calib if r["teacher_ok"] and r["cert_ok"]), None)
     s0.update(calibration=calib, mu_growth=pick_g, mu_cert=pick_c, mu_frozen=pick_g, disagree=(pick_g != pick_c))
@@ -581,6 +718,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--step0", action="store_true")
     ap.add_argument("--step1", action="store_true")
+    ap.add_argument("--mu", action="store_true")
     ap.add_argument("--worker")
     ap.add_argument("--nopath", action="store_true")
     ap.add_argument("--child")
@@ -593,3 +731,5 @@ if __name__ == "__main__":
         step0()
     elif a.step1:
         step1()
+    elif a.mu:
+        mu_calibration()

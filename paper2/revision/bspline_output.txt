@@ -1,0 +1,47 @@
+####################################################################################################
+paper2/revision/bspline.py 2026-10-22 18:57:46: PROPERTY GATES AND STEP 0 (teacher refit, acceptance, mu calibration; calibration only, no results) (prereg bspline_prereg.md, 5491481; basis 0ce6d00)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  F1 mu calibration mirrors synth.py Step 0 exactly (grid 1e-6..1e-3 increasing; regularised teacher < 0.5 sigma AND certified in
+     both conditions; pilot correlated-P2 seeds 100-107, max ||theta||^2 growth <= 3); the certification criterion (all 8 pilot
+     models certified incl. certified-degenerate) is reported beside it; every mu is evaluated so both selections are known
+  F2 P1 = P0 + LAM * K_SILU * sum w_silu^2 as committed; lambda kept, so the D2 strength relative to curvature differs from RBF
+  F3 inputs clipped to [-1, 1] and layer-2 inputs tanh(s): no edge is evaluated outside [-1, 1]
+  F4 no teacher smoothing rounds (stop if acceptance fails); committed frequency scale used
+  F5 labels from the refitted B-spline teacher; inputs and noise draws as 34cc321
+  H1 training = freeze.train_early_generic(BSynthKAN, ...) (synth.train_early with the model constructor as a parameter;
+     identical otherwise, determinism-checked in revision step 2); polish = synth.run_trust on synth.FlatS, unchanged
+
+==================== PROPERTY TESTS (tests/test_bspline.py, committed 0ce6d00) ====================
+  test_a_partition_of_unity: PASS
+  test_b_exact_affine_reproduction: PASS
+  test_c_penalty_null_space: PASS
+  test_d_null_basis_orthonormal: PASS
+  (a) max |sum_j B_j(x) - 1| on [-1, 1] (10,001 points + knots): 4.44e-16
+  (b) Greville abscissae -1.40, -1.00, -0.60, -0.20, 0.20, 0.60, 1.00, 1.40; max affine-reproduction error 1.78e-15
+  (c) D2 singular values 3.817e+00, 3.305e+00, 2.559e+00, 1.719e+00, 9.383e-01, 3.520e-01 -> null-space dimension 2
+  (d) ||NB'NB - I||_max 3.33e-16; NB equals synth.NB: True
+  (e) DESCRIPTIVE: null-space basis functions' max deviation from affinity on [-1, 1]: 3.89e-16, 5.55e-16
+  PROPERTY GATES: PASS
+
+==================== DATA (34cc321 generator and seeds; labels from the refitted teacher, F5) ====================
+  independent: inputs X/Xv/Xt/Xo SHA-256 2b93d6ddb5e1, 257c78b2287f, 0bc3474fcd60, 422981430215 (identical to synth.make_inputs: True); sigma 2.8563e-02 (RBF teacher 2.8583e-02)
+  correlated: inputs X/Xv/Xt/Xo SHA-256 7c0643ae6805, f12289be03d1, 50d10adb9cd8, 044c2e953fa9 (identical to synth.make_inputs: True); sigma 2.4505e-02 (RBF teacher 2.4674e-02)
+
+==================== STEP 0 (i): refit fidelity ====================
+  independent: RMS(B-spline teacher - committed RBF teacher) on the training inputs 1.310e-02 = 0.4586 sigma (needs < 0.1 sigma) -> FAIL
+  correlated: RMS(B-spline teacher - committed RBF teacher) on the training inputs 1.044e-02 = 0.4261 sigma (needs < 0.1 sigma) -> FAIL
+  refitted teacher: D2 term 1.348e-03, SiLU term 2.431e-05, Q 32.409
+
+==================== STEP 0 (ii): polish stability (synth.run_trust under P0 and P1) ====================
+
+  CRASH RECORD 1 (recorded 2026-10-22): the Step 0 run above hung in its first Step 0 (ii) polish (independent P0, the refitted
+  teacher; synth.run_trust in-process). Started about 18:58; no polish returned; killed at 21:03:14. A stack sample (macOS
+  `sample`, 20:54) showed the main thread in LAPACK dpotrf (f2py _flapack) inside scipy's trust-exact subproblem loop: the known
+  unbounded-loop hang (cf. step-2 crash record 1, degeneracy crash record 2). The committed run_trust checks its 2 h cap only in its
+  callback, so it could not fire. Profiling for comparison: B-spline Hessian about 1.0 s (RBF 0.44 s), loss 7 ms, gradient 23 ms,
+  so a 500-iteration polish takes minutes, not hours. Implementation-only fix (separate commit): every Step 0 teacher polish (the
+  four (ii) polishes and the mu-calibration regularised-teacher polishes) runs in a hard-killed child (2 h + 5 min, at most two in
+  parallel), with the solver-error handling of 11e3663 and every accepted iterate checkpointed with its loss, ||theta||^2 and
+  wall-clock time; endings classified by the supplement to cba2c07 (4b3f20a). Step 0 (ii) is re-run on the same unoptimised code;
+  the mu calibration is a separate stage, run after (ii) passes.
