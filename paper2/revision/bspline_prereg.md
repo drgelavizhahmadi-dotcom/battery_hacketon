@@ -189,3 +189,22 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
 ## Verdicts
 
 (appended after the run; nothing above this line will be edited)
+
+### AMENDMENT (2026-10-22, written after the Step 0 (i) failure, while Step 0 (ii) was still running; before any further run)
+
+- **Step 0 (i), refit fidelity: FAILED.** The refitted B-spline teacher differs from the committed RBF teacher's predictions on
+  the training inputs by 0.46σ RMS (independent) and 0.43σ RMS (correlated), against a required < 0.1σ.
+- **Cause.** The gate compared two approximations of the same analytic teacher functions (`synth.build_teacher`'s edge
+  functions), and the committed RBF teacher's own approximation error dominates the gap. The B-spline refit is closer to the
+  analytic functions:
+  - the linear edges are exact to about 1e-16, against an RBF error of 6.6e-3;
+  - the curved edges have RMS errors of 1.9e-3 to 4.8e-3, against 6.3e-3 to 1.65e-2 for RBF.
+
+  The per-edge errors of both teachers against the analytic functions are reported with the results.
+- **The refit-fidelity gate is WITHDRAWN as mis-specified.** It is not replaced by a new gate, because its outcome is now known.
+  The comparison of both teachers with the analytic functions is reported descriptively.
+- **Unchanged.**
+  - The labels stay from the refitted B-spline teacher (F5 unchanged).
+  - Step 0 (ii), polish stability, remains a gate. If it fails, stop and report.
+  - Step 0 (ii) is not restarted on optimised code: polish stability is a property of the teacher, unaffected by speed. Its
+    per-polish wall-clock times are logged as the pre-optimisation baseline.
