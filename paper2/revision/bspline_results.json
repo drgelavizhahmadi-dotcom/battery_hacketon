@@ -1,0 +1,255 @@
+{
+ "properties": {
+  "ok": true,
+  "pu": 4.440892098500626e-16,
+  "affine": 1.7763568394002505e-15,
+  "d2_sv": [
+   3.817420901457137,
+   3.3045404136947263,
+   2.5586798100674417,
+   1.7193309990425136,
+   0.9383257913280538,
+   0.35201359347297595
+  ],
+  "affinity_dev": [
+   3.885780586188048e-16,
+   5.551115123125783e-16
+  ]
+ },
+ "step0": {
+  "data": {
+   "independent": {
+    "sha": {
+     "X": "2b93d6ddb5e123869a50fa776dd08ea5772f29e2b7c7d22c6e07ecd54a2cb3fd",
+     "Xv": "257c78b2287f770d57af8611920a1e211c1e08506012b689faa5301bf9504995",
+     "Xt": "0bc3474fcd606a0d1a2b787df62ed45be130435ba1eb933b0260b52ff34a3258",
+     "Xo": "422981430215c77ffa278d2dc0788e7620c271cec33b7c768db08859738fc4e2"
+    },
+    "identical": {
+     "X": true,
+     "Xv": true,
+     "Xt": true,
+     "Xo": true
+    },
+    "fidelity_rms": 0.013097889833471854,
+    "sigma": 0.028562625572576317,
+    "sigma_rbf": 0.028583203987978808,
+    "fid_ok": false,
+    "analytic_rms_bspline": 0.005389537892777109,
+    "analytic_rms_rbf": 0.012771132857407965
+   },
+   "correlated": {
+    "sha": {
+     "X": "7c0643ae6805871cdcea01f0d674ae6280ef23e2409528ebc970ded6cb3aad60",
+     "Xv": "f12289be03d18191393a23ec7d7582afaf0838637bb7aafc46b7f2c1c98be7fc",
+     "Xt": "50d10adb9cd87a2a6f0246e9c60f78193e93d9a62cf35fee18da67917bf3ece4",
+     "Xo": "044c2e953fa94c6c3ff3f11cb7eb0ea4c02793bdb6958e443002299379f545bb"
+    },
+    "identical": {
+     "X": true,
+     "Xv": true,
+     "Xt": true,
+     "Xo": true
+    },
+    "fidelity_rms": 0.010441802210326803,
+    "sigma": 0.024504965322648342,
+    "sigma_rbf": 0.024674458524140047,
+    "fid_ok": false,
+    "analytic_rms_bspline": 0.006481395172173094,
+    "analytic_rms_rbf": 0.00933406299148579
+   }
+  },
+  "edge_errors": [
+   {
+    "layer": 1,
+    "edge": [
+     0,
+     0
+    ],
+    "bspline": 0.0047496181357611035,
+    "rbf": 0.009751848724948853
+   },
+   {
+    "layer": 1,
+    "edge": [
+     1,
+     0
+    ],
+    "bspline": 0.0023922852208144063,
+    "rbf": 0.012780808292407578
+   },
+   {
+    "layer": 1,
+    "edge": [
+     2,
+     0
+    ],
+    "bspline": 0.0039797868956896205,
+    "rbf": 0.00751773727384527
+   },
+   {
+    "layer": 1,
+    "edge": [
+     3,
+     0
+    ],
+    "bspline": 1.027073586835388e-16,
+    "rbf": 0.006616069882742916
+   },
+   {
+    "layer": 1,
+    "edge": [
+     0,
+     1
+    ],
+    "bspline": 0.0023922852208144063,
+    "rbf": 0.012780808292407578
+   },
+   {
+    "layer": 1,
+    "edge": [
+     1,
+     1
+    ],
+    "bspline": 0.0023828154423054344,
+    "rbf": 0.009081246933100695
+   },
+   {
+    "layer": 1,
+    "edge": [
+     2,
+     1
+    ],
+    "bspline": 1.027073586835388e-16,
+    "rbf": 0.006616069882742916
+   },
+   {
+    "layer": 1,
+    "edge": [
+     3,
+     1
+    ],
+    "bspline": 0.0019242583513617584,
+    "rbf": 0.007376090277664006
+   },
+   {
+    "layer": 1,
+    "edge": [
+     0,
+     2
+    ],
+    "bspline": 0.0033164890797416505,
+    "rbf": 0.006264781061537953
+   },
+   {
+    "layer": 1,
+    "edge": [
+     1,
+     2
+    ],
+    "bspline": 1.027073586835388e-16,
+    "rbf": 0.006616069882742916
+   },
+   {
+    "layer": 1,
+    "edge": [
+     2,
+     2
+    ],
+    "bspline": 0.0035622136018206517,
+    "rbf": 0.007313886543711839
+   },
+   {
+    "layer": 1,
+    "edge": [
+     3,
+     2
+    ],
+    "bspline": 0.0023922852208144063,
+    "rbf": 0.012780808292407578
+   },
+   {
+    "layer": 2,
+    "edge": [
+     0,
+     0
+    ],
+    "bspline": 3.0786455984563117e-16,
+    "rbf": 0.01654017470685577
+   },
+   {
+    "layer": 2,
+    "edge": [
+     1,
+     0
+    ],
+    "bspline": 0.004749618135761104,
+    "rbf": 0.009751848724948855
+   },
+   {
+    "layer": 2,
+    "edge": [
+     2,
+     0
+    ],
+    "bspline": 0.0028707422649773863,
+    "rbf": 0.015336969950888835
+   }
+  ],
+  "stability": {
+   "independent_P0": {
+    "ending": "KILLED-IN-MOTION",
+    "ended": "killed",
+    "stop": "solver error (hang); ended by the 2 h + 5 min child kill",
+    "n_accepted": 48,
+    "wall_s": 7501.99192375,
+    "iter_time_median": 0.8092005252838135,
+    "iter_time_max": 1.2097651958465576,
+    "dpred": 0.011850259756091296,
+    "ok": true,
+    "certified": true,
+    "growth": 91.07171673262813
+   },
+   "independent_P1": {
+    "ending": "KILLED-IN-MOTION",
+    "ended": "killed",
+    "stop": "solver error (hang); ended by the 2 h + 5 min child kill",
+    "n_accepted": 21,
+    "wall_s": 7501.9912594160005,
+    "iter_time_median": 1.0420029163360596,
+    "iter_time_max": 1.3145499229431152,
+    "dpred": 0.013844937852290821,
+    "ok": true,
+    "certified": true,
+    "growth": 1.2687841289311506
+   },
+   "correlated_P0": {
+    "ending": "NORMAL COMPLETION",
+    "ended": "returned",
+    "stop": "iteration cap (500)",
+    "n_accepted": 500,
+    "wall_s": 513.1077952384949,
+    "iter_time_median": 1.0164695978164673,
+    "iter_time_max": 1.444978952407837,
+    "dpred": 0.008980979382735396,
+    "ok": true,
+    "certified": false,
+    "growth": 65.17616728744244
+   },
+   "correlated_P1": {
+    "ending": "NORMAL COMPLETION",
+    "ended": "returned",
+    "stop": "iteration cap (500)",
+    "n_accepted": 500,
+    "wall_s": 512.816211938858,
+    "iter_time_median": 1.0145363807678223,
+    "iter_time_max": 1.1913490295410156,
+    "dpred": 0.01060570677987673,
+    "ok": true,
+    "certified": false,
+    "growth": 32.171637293607446
+   }
+  },
+  "acceptance": false
+ }
+}
