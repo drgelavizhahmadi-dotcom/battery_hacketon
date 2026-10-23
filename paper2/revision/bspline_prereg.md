@@ -296,3 +296,13 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
   - the fidelity gate, withdrawn (cba2c07);
   - the polish-ending classification (4b3f20a);
   - this amendment.
+
+#### NOTE to supplement 4b3f20a (2026-10-23, after the hang census, before first use): staleness watchdog
+
+- **Adopted now** as insurance against hangs that certification-based termination does not preempt.
+- **Rule.** Every child polish (μ-calibration teacher polishes, pilots, Step 1 polishes, path points, restart probes) is killed when
+  no new accepted iterate has been checkpointed for 10 minutes.
+- **Recorded as** "solver error (hang); ended by the staleness watchdog", with the same classification as a hard kill.
+- **Unchanged:** the 2 h + 5 min hard kill still applies.
+- **Commit and tests.** This is a separate implementation-only crash-handling commit. Its tests check that the watchdog does not
+  fire on a progressing child and does fire on a synthetic stalled one.
