@@ -187,3 +187,40 @@ paper2/revision/bspline.py 2026-10-23 17:18:58: VALIDATION OF CERTIFICATION-BASE
   independent P1: stopped at accepted iteration 21 (must be <= 21); ending CONVERGED; per-iterate loss and ||theta||^2 vs the f28515c checkpoints: max relative deviation 0.0e+00 over 22 iterates (<= 1e-12 required); wall 22.2 s -> PASS
   (the checkpoints record each accepted iterate's loss and ||theta||^2; the comparison is iterate by iterate on these)
   VALIDATION: PASS
+####################################################################################################
+paper2/revision/bspline.py 2026-10-23 17:26:19: STEP 0: mu calibration (synth.py Step 0 mirrored exactly; teacher polishes in hard-killed children; every mu evaluated) (prereg bspline_prereg.md, 5491481; basis 0ce6d00)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  F1 mu calibration mirrors synth.py Step 0 exactly (grid 1e-6..1e-3 increasing; regularised teacher < 0.5 sigma AND certified in
+     both conditions; pilot correlated-P2 seeds 100-107, max ||theta||^2 growth <= 3); the certification criterion (all 8 pilot
+     models certified incl. certified-degenerate) is reported beside it; every mu is evaluated so both selections are known
+  F2 P1 = P0 + LAM * K_SILU * sum w_silu^2 as committed; lambda kept, so the D2 strength relative to curvature differs from RBF
+  F3 inputs clipped to [-1, 1] and layer-2 inputs tanh(s): no edge is evaluated outside [-1, 1]
+  F4 no teacher smoothing rounds (stop if acceptance fails); committed frequency scale used
+  F5 labels from the refitted B-spline teacher; inputs and noise draws as 34cc321
+  H1 training = freeze.train_early_generic(BSynthKAN, ...) (synth.train_early with the model constructor as a parameter;
+     identical otherwise, determinism-checked in revision step 2); polish = synth.run_trust on synth.FlatS, unchanged
+  mu 1e-06 regularised teacher independent: RMS change 1.37e-02 (0.5 sigma 1.43e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 21 accepted iterations
+  mu 1e-06 regularised teacher correlated : RMS change 1.02e-02 (0.5 sigma 1.23e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 97 accepted iterations
+  mu 1e-06 pilot (seeds 100-107, correlated-P2): max ||theta||^2 growth x2.34 -> ok (committed rule); certified 8/8 incl. certified-degenerate (descriptive criterion: ok)
+  mu 1e-05 regularised teacher independent: RMS change 1.24e-02 (0.5 sigma 1.43e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 20 accepted iterations
+  mu 1e-05 regularised teacher correlated : RMS change 9.75e-03 (0.5 sigma 1.23e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 46 accepted iterations
+  mu 1e-05 pilot (seeds 100-107, correlated-P2): max ||theta||^2 growth x1.04 -> ok (committed rule); certified 8/8 incl. certified-degenerate (descriptive criterion: ok)
+  mu 0.0001 regularised teacher independent: RMS change 1.23e-02 (0.5 sigma 1.43e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 26 accepted iterations
+  mu 0.0001 regularised teacher correlated : RMS change 1.53e-02 (0.5 sigma 1.23e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 92 accepted iterations
+  mu 0.0001: regularised-teacher check failed; no pilot (as committed)
+  mu 0.001 regularised teacher independent: RMS change 1.81e-02 (0.5 sigma 1.43e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 29 accepted iterations
+  mu 0.001 regularised teacher correlated : RMS change 2.07e-02 (0.5 sigma 1.23e-02); certified True; ending CONVERGED (certified (terminated at the first accepted iterat), 56 accepted iterations
+  mu 0.001: regularised-teacher check failed; no pilot (as committed)
+  FROZEN: mu = 1e-06 (committed growth criterion); the certification criterion would select 1e-06 (agree)
+
+  STEP 1 ESTIMATE (2026-10-23, before Step 1; method stated). Inputs: the optimised build; certification-based termination; pilot
+  timings with two workers: early stopping 23-65 s, polish 0.75-0.9 s per accepted iteration, 14-198 iterations to the first
+  certifying iterate; Step 0 (ii) and calibration hang census after termination: 0 of 26 polishes (the two (ii) hangs struck at
+  convergence and are now preempted). Per model (4 parallel workers, per-iteration time scaled by 1.3 for the extra contention to
+  about 1.1 s): early <= 1.1 min; polish <= 500 iterations (an uncertified correlated P0/P1 polish runs to the cap) <= 9 min;
+  degenerate-point probes (restart <= 500 iterations + scans) <= 10 min; three short-path points <= 3 x 9 min plus their probes
+  (<= 3 x 10 min). Typical (certifying polishes at 50-200 iterations, few degenerate points): about 6-15 min per model; worst case
+  (every polish and path point to the cap, every point degenerate): about 77 min. Residual hangs: at most the watchdog's 10 min each;
+  allowing 10% of the about 200 polishes: about 0.3 h of worker time. Step 1 = 48 models / 4 workers: typical 1.2-3 h, worst case about
+  16 h. Far below the 3-day checkpoint: Step 1 proceeds.

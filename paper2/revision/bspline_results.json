@@ -327,7 +327,105 @@
    }
   },
   "acceptance": false,
-  "acceptance_amended": true
+  "acceptance_amended": true,
+  "calibration": [
+   {
+    "mu": 1e-06,
+    "independent_dpred": 0.013657215916461697,
+    "independent_cert": true,
+    "independent_ending": "CONVERGED",
+    "correlated_dpred": 0.010169270600849297,
+    "correlated_cert": true,
+    "correlated_ending": "CONVERGED",
+    "teacher_ok": true,
+    "pilot_max_growth": 2.342751787296538,
+    "pilot_growth": [
+     1.7178378658981137,
+     2.191151737642656,
+     1.2751234203435178,
+     1.822453246254721,
+     1.4296304798777606,
+     2.342751787296538,
+     1.7791657257543632,
+     1.9587770622652687
+    ],
+    "pilot_certified": 8,
+    "growth_ok": true,
+    "cert_ok": true,
+    "pilot_stops": {
+     "pilot_m1e-06_s100": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s101": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s102": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s103": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s104": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s105": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s106": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-06_s107": "certified (terminated at the first accepted iterate that certifies)"
+    }
+   },
+   {
+    "mu": 1e-05,
+    "independent_dpred": 0.012400590560496423,
+    "independent_cert": true,
+    "independent_ending": "CONVERGED",
+    "correlated_dpred": 0.009752063553940073,
+    "correlated_cert": true,
+    "correlated_ending": "CONVERGED",
+    "teacher_ok": true,
+    "pilot_max_growth": 1.0441525380636665,
+    "pilot_growth": [
+     0.9624442171125546,
+     1.0432107516099032,
+     0.9824613717610525,
+     1.022253130020919,
+     0.9395338154697718,
+     1.0441525380636665,
+     0.9743193546018513,
+     0.9980367190167171
+    ],
+    "pilot_certified": 8,
+    "growth_ok": true,
+    "cert_ok": true,
+    "pilot_stops": {
+     "pilot_m1e-05_s100": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s101": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s102": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s103": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s104": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s105": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s106": "certified (terminated at the first accepted iterate that certifies)",
+     "pilot_m1e-05_s107": "certified (terminated at the first accepted iterate that certifies)"
+    }
+   },
+   {
+    "mu": 0.0001,
+    "independent_dpred": 0.012261463533585943,
+    "independent_cert": true,
+    "independent_ending": "CONVERGED",
+    "correlated_dpred": 0.015261603369483859,
+    "correlated_cert": true,
+    "correlated_ending": "CONVERGED",
+    "teacher_ok": false,
+    "growth_ok": false,
+    "cert_ok": false
+   },
+   {
+    "mu": 0.001,
+    "independent_dpred": 0.018124484809804057,
+    "independent_cert": true,
+    "independent_ending": "CONVERGED",
+    "correlated_dpred": 0.020720930312564747,
+    "correlated_cert": true,
+    "correlated_ending": "CONVERGED",
+    "teacher_ok": false,
+    "growth_ok": false,
+    "cert_ok": false
+   }
+  ],
+  "mu_growth": 1e-06,
+  "mu_cert": 1e-06,
+  "mu_frozen": 1e-06,
+  "disagree": false
  },
  "termination_validation": {
   "rows": {

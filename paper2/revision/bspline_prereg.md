@@ -306,3 +306,18 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
 - **Unchanged:** the 2 h + 5 min hard kill still applies.
 - **Commit and tests.** This is a separate implementation-only crash-handling commit. Its tests check that the watchdog does not
   fire on a progressing child and does fire on a synthetic stalled one.
+
+### AMENDMENT (dated 2026-10-23): frozen μ (Step 0 μ calibration, as pre-registered)
+
+**Frozen μ = 1e-6**, under the committed growth criterion, with the teacher-check criterion and pilot seeds 100–107.
+
+| μ | Regularised teacher, RMS change (gate 0.5σ: 1.43e-2 independent, 1.23e-2 correlated) | Pilot max growth (rule ≤ 3) | Pilot certified |
+|---|---|---|---|
+| 1e-6 | 1.37e-2 / 1.02e-2, both certified | ×2.34 | 8/8 |
+| 1e-5 | 1.24e-2 / 9.75e-3, both certified | ×1.04 | 8/8 |
+| 1e-4 | the correlated change, 1.53e-2, exceeds 0.5σ | no pilot | — |
+| 1e-3 | both changes exceed 0.5σ | no pilot | — |
+
+- **The two criteria agree.** The certification criterion would also select 1e-6, so the growth rule did not need to decide.
+- **Contrast with RBF.** The committed RBF μ was 1e-5.
+- **How the polishes ended.** All 24 calibration polishes ended CONVERGED, with no hang and no watchdog kill.
