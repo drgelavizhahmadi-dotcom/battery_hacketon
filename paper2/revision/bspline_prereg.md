@@ -245,3 +245,54 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
 - This supplement changes no polish, no teacher and no gate threshold.
 - The μ-calibration polishes of the regularised teacher run in the same hard-killed children (the same exposure). Their endpoint is
   judged by the committed rule (< 0.5σ AND certified), with the ending recorded.
+
+### AMENDMENT (POST-HOC, 2026-10-23, written after the null-space diagnostic; the author's decision, made after seeing its results)
+
+**1. Diagnostic outcome** (commits baaa898, e2a2160).
+- Criteria (i), (iii) and (iv) held.
+- Criterion (ii) FAILED as worded at the two correlated end points: near-null counts 31 and 18, against 15.
+- The wording of (ii) required the constructed space to span all near-flat directions. That contradicted step 2b of the same
+  diagnostic, where extra directions were anticipated and excluded from the null set.
+- The intent of (ii), that the constructed space accounts for the EXACT zeros, holds at all six points: 15 float-zero eigenvalues,
+  all inside the constructed space.
+- The extras are near-flat, not exact (1e-10 to 1e-8 relative). They occur only at the two non-certifying end points, and load on
+  the outer basis functions, the SiLU weights and the layer-2 coefficients.
+- The decision to proceed was made after seeing these results.
+
+**2. The null set.**
+- The null set is the 15-dimensional constant-shift space, constructed analytically from the parameterisation (never fitted from
+  observed flat directions), per the shared-curve Step 0 precedent.
+- Exact invariance implies exactly zero gradient along these directions, so training cannot drift along them and they cannot run
+  away; the runaway directions are approximate and data-dependent and remain in the complement under certification, the
+  degeneracy screen, and all probes.
+
+**3. Where it applies.**
+- **Certification of the γ = 0 training objectives** (data loss + P0 or P1) is null-set-aware: λ_min, the Newton decrement (a
+  complement-restricted solve) and the null-space-gradient criterion are evaluated in the complement.
+- **The degeneracy count, everywhere** (P0, P1, P2, and every regularisation-path point) is computed in the complement of the
+  constructed space. Along the path the L2 term lifts these directions only by 2γ, which at small γ falls below the near-flat
+  threshold for a reason unrelated to the runaway.
+- **P2 and the regularised path have no certification null set.** The directions are not flat there: the curvature is about 1.8μ
+  under P2 (diagnostic item 5) and 2γ on the path.
+- **All probes run in the complement.**
+
+**4. Step 0 (ii).**
+- The two hung polishes' last accepted iterates are re-certified with null-set-aware certification. If they pass, they are recorded
+  as CONVERGED-AT-KILL and the stability gate is evaluated there.
+- The 10-iteration plateau window of supplement 4b3f20a is recorded as unable to detect quadratic convergence.
+
+**5. Polish termination.**
+- All subsequent polishes terminate at the first accepted iterate that certifies (null-set-aware where applicable). The report
+  states how many polishes stopped this way.
+- **Validation before first use.** The two hung independent polishes are re-run under the new termination:
+  - their accepted iterates must match f28515c's checkpoints to 1e-12, iterate by iterate, up to the stop;
+  - the stop must occur at or before accepted iteration 48 (P0) and 21 (P1), returning CONVERGED.
+
+  The iteration at which each stopped is reported.
+
+**6. Unchanged.**
+- B1–B3, their thresholds and the interpretation rules are UNCHANGED.
+- Amendments to Step 0 made after outcomes were known, to be stated in the paper next to the B-spline results:
+  - the fidelity gate, withdrawn (cba2c07);
+  - the polish-ending classification (4b3f20a);
+  - this amendment.
