@@ -224,3 +224,125 @@ DISCREPANCIES / choices (files win):
   (every polish and path point to the cap, every point degenerate): about 77 min. Residual hangs: at most the watchdog's 10 min each;
   allowing 10% of the about 200 polishes: about 0.3 h of worker time. Step 1 = 48 models / 4 workers: typical 1.2-3 h, worst case about
   16 h. Far below the 3-day checkpoint: Step 1 proceeds.
+####################################################################################################
+paper2/revision/bspline.py 2026-10-23 17:48:20: STEP 1 (48 models; frozen mu = 1e-06) (prereg bspline_prereg.md, 5491481; basis 0ce6d00)
+####################################################################################################
+DISCREPANCIES / choices (files win):
+  F1 mu calibration mirrors synth.py Step 0 exactly (grid 1e-6..1e-3 increasing; regularised teacher < 0.5 sigma AND certified in
+     both conditions; pilot correlated-P2 seeds 100-107, max ||theta||^2 growth <= 3); the certification criterion (all 8 pilot
+     models certified incl. certified-degenerate) is reported beside it; every mu is evaluated so both selections are known
+  F2 P1 = P0 + LAM * K_SILU * sum w_silu^2 as committed; lambda kept, so the D2 strength relative to curvature differs from RBF
+  F3 inputs clipped to [-1, 1] and layer-2 inputs tanh(s): no edge is evaluated outside [-1, 1]
+  F4 no teacher smoothing rounds (stop if acceptance fails); committed frequency scale used
+  F5 labels from the refitted B-spline teacher; inputs and noise draws as 34cc321
+  H1 training = freeze.train_early_generic(BSynthKAN, ...) (synth.train_early with the model constructor as a parameter;
+     identical otherwise, determinism-checked in revision step 2); polish = synth.run_trust on synth.FlatS, unchanged
+
+  CORRECTIONS (author's review, recorded 2026-10-23 while Step 1 runs)
+  1. Validation (amendment 03638f8 item 5): the P0 stop at accepted iteration 47 is WITHIN SPECIFICATION (the rule is a stop at or
+     before 48); P1 stopped at 21 (at or before 21). Neither is a deviation.
+  2. STEP 1 ESTIMATE, CORRECTED (supersedes the estimate above). The degeneracy screen and probes apply only to CERTIFIED points, so
+     the correlated P0/P1 polishes, expected not to certify (B1), trigger no probes. Upper bound: probes on every certified short-
+     path point of the correlated models (gamma = 1e-3, 1e-5, 1e-7) plus any correlated P0/P1 polish that certifies; each probe
+     bounded by the caps (500 iterations, 2 h); residual hangs at the watchdog's 10 min. End-to-end anchors: a 500-iteration polish
+     513 s unoptimised -> 513 / 1.18 = about 435 s on the optimised build; polishes to the first certifying iterate 22-39 s (validation)
+     and 14-198 iterations (pilots, 12-173 s). Correlated P0/P1 model (16): polish to the cap 435 s + 3 path points x (435 s + restart
+     probe 435 s + scans about 60 s) = about 3.2e3 s (54 min) worst case; other models (32): polish (typically 40-200 s, at most 435 s)
+     and the same path bound = about 55 min worst case. Worst case 48 x 55 min / 4 workers = about 11 h (plus 10 min per residual
+     hang); typical 1.5-3 h. Check against the run itself: 28 of 48 models completed in the first 70 min (about 10 min per model per
+     worker), i.e. about 2 h in total. Far below the 3-day checkpoint.
+  all 48 models done (194.8 min this run)
+
+==================== PER-MODEL ====================
+  independent_P0_s0    early ep  5459 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x99.98 | D 4.313 | hidden corr 0.858 | cancel L1 1.36 L2 1.85 | off-RMSE 0.0463 -> 0.0376
+  independent_P0_s1    early ep  4283 | certified (terminated at the  27 it | cert True  degen False -            | included True                             | growth x3.90 | D 4.297 | hidden corr 0.074 | cancel L1 1.94 L2 3.04 | off-RMSE 0.0142 -> 0.0134
+  independent_P0_s2    early ep  9119 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x292.68 | D 4.297 | hidden corr 0.337 | cancel L1 5.76 L2 1.63 | off-RMSE 0.0310 -> 0.0328
+  independent_P0_s3    early ep  9999 | certified (terminated at the  37 it | cert True  degen False -            | included True                             | growth x1.84 | D 4.313 | hidden corr 0.074 | cancel L1 2.16 L2 2.57 | off-RMSE 0.0146 -> 0.0134
+  independent_P0_s4    early ep  5921 | certified (terminated at the  26 it | cert True  degen False -            | included True                             | growth x2.43 | D 4.090 | hidden corr 0.081 | cancel L1 2.88 L2 2.56 | off-RMSE 0.0142 -> 0.0130
+  independent_P0_s5    early ep  7218 | certified (terminated at the  24 it | cert True  degen False -            | included True                             | growth x7.87 | D 4.172 | hidden corr 0.085 | cancel L1 4.45 L2 1.08 | off-RMSE 0.0135 -> 0.0128
+  independent_P0_s6    early ep  6524 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x89.93 | D 4.401 | hidden corr 0.481 | cancel L1 3.00 L2 1.11 | off-RMSE 0.0303 -> 0.0279
+  independent_P0_s7    early ep  5831 | certified (terminated at the  33 it | cert True  degen False -            | included True                             | growth x2.98 | D 4.172 | hidden corr 0.085 | cancel L1 3.14 L2 2.55 | off-RMSE 0.0143 -> 0.0128
+  independent_P1_s0    early ep  5487 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x26.86 | D 1.231 | hidden corr 0.439 | cancel L1 1.64 L2 6.34 | off-RMSE 0.0463 -> 0.0446
+  independent_P1_s1    early ep  3375 | certified (terminated at the  18 it | cert True  degen False -            | included True                             | growth x15.98 | D 1.234 | hidden corr 0.074 | cancel L1 1.40 L2 4.81 | off-RMSE 0.0152 -> 0.0151
+  independent_P1_s2    early ep  4607 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x5861.80 | D 1.234 | hidden corr 0.091 | cancel L1 3.95 L2 4.04 | off-RMSE 0.0327 -> 0.0336
+  independent_P1_s3    early ep  7964 | certified (terminated at the   9 it | cert True  degen False -            | included True                             | growth x1.01 | D 1.231 | hidden corr 0.074 | cancel L1 1.85 L2 1.86 | off-RMSE 0.0152 -> 0.0151
+  independent_P1_s4    early ep  5333 | certified (terminated at the  17 it | cert True  degen False -            | included True                             | growth x1.02 | D 1.228 | hidden corr 0.074 | cancel L1 1.91 L2 1.69 | off-RMSE 0.0152 -> 0.0151
+  independent_P1_s5    early ep  7479 | certified (terminated at the  12 it | cert True  degen False -            | included True                             | growth x1.40 | D 1.228 | hidden corr 0.074 | cancel L1 2.81 L2 2.19 | off-RMSE 0.0152 -> 0.0151
+  independent_P1_s6    early ep  3402 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x30.83 | D 1.230 | hidden corr 0.811 | cancel L1 1.45 L2 1.39 | off-RMSE 0.0310 -> 0.0325
+  independent_P1_s7    early ep  5532 | solver error (hang); ended b  11 it | cert False degen -     -            | included False solver error               | growth x0.98 | D 1.228 | hidden corr 0.074 | cancel L1 1.87 L2 2.25 | off-RMSE 0.0152 -> 0.0151
+       bsp_pol_independent_P1_s7.pt: child killed (staleness watchdog); last checkpointed iterate used
+  independent_P2_s0    early ep  5185 | certified (terminated at the  53 it | cert True  degen False -            | included True                             | growth x1.48 | D 1.222 | hidden corr 0.595 | cancel L1 1.43 L2 2.85 | off-RMSE 0.0463 -> 0.0466
+  independent_P2_s1    early ep  3379 | certified (terminated at the  17 it | cert True  degen False -            | included True                             | growth x1.01 | D 1.226 | hidden corr 0.073 | cancel L1 1.93 L2 1.85 | off-RMSE 0.0151 -> 0.0150
+  independent_P2_s2    early ep  4698 | certified (terminated at the  53 it | cert True  degen False -            | included True                             | growth x1.49 | D 1.226 | hidden corr 0.055 | cancel L1 1.36 L2 1.10 | off-RMSE 0.0327 -> 0.0335
+  independent_P2_s3    early ep  7820 | certified (terminated at the  11 it | cert True  degen False -            | included True                             | growth x0.91 | D 1.222 | hidden corr 0.073 | cancel L1 1.93 L2 1.85 | off-RMSE 0.0150 -> 0.0150
+  independent_P2_s4    early ep  5351 | certified (terminated at the  17 it | cert True  degen False -            | included True                             | growth x0.94 | D 1.220 | hidden corr 0.073 | cancel L1 1.93 L2 1.85 | off-RMSE 0.0150 -> 0.0150
+  independent_P2_s5    early ep  7211 | certified (terminated at the  14 it | cert True  degen False -            | included True                             | growth x0.93 | D 1.220 | hidden corr 0.073 | cancel L1 1.93 L2 1.85 | off-RMSE 0.0150 -> 0.0150
+  independent_P2_s6    early ep  3360 | certified (terminated at the 139 it | cert True  degen False -            | included True                             | growth x2.75 | D 1.222 | hidden corr 0.679 | cancel L1 1.82 L2 1.26 | off-RMSE 0.0309 -> 0.0315
+  independent_P2_s7    early ep  5577 | certified (terminated at the  12 it | cert True  degen False -            | included True                             | growth x0.87 | D 1.220 | hidden corr 0.073 | cancel L1 1.93 L2 1.85 | off-RMSE 0.0151 -> 0.0150
+  correlated_P0_s0     early ep 10000 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x39.10 | D 7.572 | hidden corr 0.996 | cancel L1 1.72 L2 5.91 | off-RMSE 0.0566 -> 0.0547
+  correlated_P0_s1     early ep  3412 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x13.36 | D 10.032 | hidden corr 0.817 | cancel L1 1.58 L2 1.34 | off-RMSE 0.0749 -> 0.0980
+  correlated_P0_s2     early ep 10000 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x6.42 | D 3.721 | hidden corr 0.975 | cancel L1 1.58 L2 2.17 | off-RMSE 0.0615 -> 0.0686
+  correlated_P0_s3     early ep 10000 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x6.41 | D 9.728 | hidden corr 0.775 | cancel L1 1.55 L2 2.71 | off-RMSE 0.0734 -> 0.0932
+  correlated_P0_s4     early ep  9989 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x9.46 | D 9.457 | hidden corr 0.988 | cancel L1 1.72 L2 4.02 | off-RMSE 0.0610 -> 0.0701
+       bsp_path_correlated_P0_s4_g2_rs.pt: child killed (staleness watchdog); last checkpointed iterate used
+  correlated_P0_s5     early ep  2985 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x13.47 | D 9.457 | hidden corr 0.986 | cancel L1 1.51 L2 3.48 | off-RMSE 0.0769 -> 0.0704
+  correlated_P0_s6     early ep  9996 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x6.43 | D 10.032 | hidden corr 0.993 | cancel L1 1.43 L2 6.93 | off-RMSE 0.0605 -> 0.0671
+  correlated_P0_s7     early ep 10000 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x6.02 | D 7.572 | hidden corr 0.991 | cancel L1 1.44 L2 12.15 | off-RMSE 0.0643 -> 0.0713
+  correlated_P1_s0     early ep  6144 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x19.69 | D 8.965 | hidden corr 0.881 | cancel L1 1.39 L2 3.59 | off-RMSE 0.0770 -> 0.1180
+  correlated_P1_s1     early ep  3694 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x20.94 | D 8.892 | hidden corr 0.861 | cancel L1 1.47 L2 2.55 | off-RMSE 0.0822 -> 0.1129
+  correlated_P1_s2     early ep  7675 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x17.08 | D 8.943 | hidden corr 0.879 | cancel L1 1.46 L2 3.32 | off-RMSE 0.0742 -> 0.1173
+  correlated_P1_s3     early ep  4452 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x19.10 | D 8.973 | hidden corr 0.870 | cancel L1 1.32 L2 2.73 | off-RMSE 0.0788 -> 0.1151
+  correlated_P1_s4     early ep  2625 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x31.06 | D 8.965 | hidden corr 0.998 | cancel L1 1.33 L2 3.45 | off-RMSE 0.0751 -> 0.0975
+  correlated_P1_s5     early ep  3770 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x20.93 | D 8.965 | hidden corr 0.868 | cancel L1 1.55 L2 2.91 | off-RMSE 0.0805 -> 0.1159
+  correlated_P1_s6     early ep  6127 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x16.41 | D 8.892 | hidden corr 0.875 | cancel L1 1.51 L2 3.50 | off-RMSE 0.0763 -> 0.1170
+  correlated_P1_s7     early ep  5741 | iteration cap (500)          500 it | cert False degen -     -            | included False iteration cap              | growth x16.40 | D 9.022 | hidden corr 0.872 | cancel L1 1.43 L2 2.84 | off-RMSE 0.0764 -> 0.1164
+  correlated_P2_s0     early ep  6576 | certified (terminated at the 117 it | cert True  degen False -            | included True                             | growth x1.48 | D 2.224 | hidden corr 0.667 | cancel L1 1.49 L2 1.71 | off-RMSE 0.0756 -> 0.0699
+  correlated_P2_s1     early ep  3907 | certified (terminated at the 235 it | cert True  degen False -            | included True                             | growth x2.10 | D 2.239 | hidden corr 0.667 | cancel L1 1.49 L2 1.70 | off-RMSE 0.0810 -> 0.0699
+  correlated_P2_s2     early ep  6723 | certified (terminated at the 144 it | cert True  degen False -            | included True                             | growth x1.56 | D 2.226 | hidden corr 0.667 | cancel L1 1.49 L2 1.70 | off-RMSE 0.0774 -> 0.0699
+  correlated_P2_s3     early ep  4500 | certified (terminated at the 166 it | cert True  degen False -            | included True                             | growth x1.74 | D 2.226 | hidden corr 0.667 | cancel L1 1.49 L2 1.70 | off-RMSE 0.0781 -> 0.0699
+  correlated_P2_s4     early ep  6197 | certified (terminated at the  46 it | cert True  degen False -            | included True                             | growth x1.41 | D 2.224 | hidden corr 0.972 | cancel L1 1.42 L2 4.40 | off-RMSE 0.0759 -> 0.0822
+  correlated_P2_s5     early ep  4508 | certified (terminated at the 183 it | cert True  degen False -            | included True                             | growth x1.70 | D 2.224 | hidden corr 0.667 | cancel L1 1.49 L2 1.71 | off-RMSE 0.0793 -> 0.0699
+  correlated_P2_s6     early ep  5987 | certified (terminated at the 138 it | cert True  degen False -            | included True                             | growth x1.47 | D 2.239 | hidden corr 0.667 | cancel L1 1.49 L2 1.69 | off-RMSE 0.0753 -> 0.0699
+  correlated_P2_s7     early ep  5462 | certified (terminated at the 149 it | cert True  degen False -            | included True                             | growth x1.52 | D 2.212 | hidden corr 0.667 | cancel L1 1.49 L2 1.70 | off-RMSE 0.0752 -> 0.0699
+
+==================== PER-CELL TABLE (generated from bspline_results.json) ====================
+  cell             cert  failure reasons / probe classes                     median D (cert-only, n)   affine (L1+L2)  hid.corr  cancel L1/L2  growth med (range)        off-RMSE
+  independent_P0   5/8   iteration cap 3                                        4.297 (4.297, 8)      0.659           0.085     2.94/2.20     x5.88 (x1.84-x292.68)  0.0134
+  independent_P1   4/8   iteration cap 3; solver error 1                        1.230 (1.230, 8)      0.661           0.074     1.86/2.22     x8.69 (x0.98-x5861.80)  0.0151
+  independent_P2   8/8                                                          1.222 (1.222, 8)      0.797           0.073     1.93/1.85     x0.98 (x0.87-x2.75)  0.0150
+  correlated_P0    0/8   iteration cap 8                                        9.457 (9.457, 8)      0.360           0.987     1.56/3.75     x7.94 (x6.02-x39.10)  0.0702
+  correlated_P1    0/8   iteration cap 8                                        8.965 (8.965, 8)      0.992           0.874     1.44/3.12     x19.40 (x16.40-x31.06)  0.1162
+  correlated_P2    8/8                                                          2.225 (2.225, 8)      0.909           0.667     1.49/1.70     x1.54 (x1.41-x2.10)  0.0699
+  (anatomy shares use anatomy_synth.delta_shares; its 'affine RBF' / 'curved RBF' labels are the affine (null-space) and curved
+   parts of the B-spline coefficients here)
+  NOTE (prereg F2): lambda is kept as committed, so the strength of the second-difference penalty relative to the curvature it
+  measures differs between the B-spline and RBF bases.
+
+==================== VERDICTS (pre-registered B1-B3) ====================
+  B1 correlated P0: certified 0/8 (needs <= 2) -> HELD
+  B1 correlated P1: certified 0/8 (needs <= 2) -> HELD
+  B2 independent P2: certified 8/8 (needs >= 7), median D 1.222 (certified-only 1.222) (needs <= 1.5) -> HELD
+  B2 correlated P2: certified 8/8 (needs >= 7), median D 2.225 (certified-only 2.225) (needs <= 1.5) -> FAILED
+  B3 independent P0: certified 5/8 (needs >= 6) -> FAILED
+  B3 independent P1: certified 4/8 (needs >= 6) -> FAILED
+  BRANCH 3. B1 HOLDS, B2 FAILS: the runaway carries over but the null-space fix at this mu does not close it; failed leg(s): correlated (D)
+  BRANCH 4. B3 FAILS: the B-spline basis is less benign on independent inputs than the RBF basis
+  DESCRIPTIVE caveat: median D alone does not separate a distant finite minimum from a receding one (dose POST-HOC, 75b778b).
+
+wrote bspline_results.json and figs/bspline_theta_trajectories.png, figs/bspline_offmanifold_vs_cancellation.png
+
+  IMPLEMENTATION NOTE (recorded 2026-10-23 after Step 1; descriptive, changes no record). scipy 1.13.1's trust-exact constructs an
+  IterativeSubproblem at every PROPOSED point (x_proposed = x + p) before the acceptance test, and that constructor evaluates the
+  Hessian (Gershgorin bounds, norms). The checkpoint and termination hooks of this study wrap flat.hessian, so they act at every
+  trust-region iterate at which the Hessian is evaluated, accepted or proposed: (a) 'accepted iterations' in the Step 0 teacher logs,
+  the termination counts and the validation are trust-region iterations (the unit of the committed 500-iteration cap); the
+  validation compared like with like; (b) certification-based termination stopped at the first evaluated point that certifies, which
+  may be a proposal; every CONVERGED record is a certified point (certification is a property of the point); (c) a kill keeps the
+  last evaluated point. B1 and B3 rest on uncertified polishes that reached the iteration cap without any evaluated point
+  certifying (more points checked can only certify more), and B2's D uses certified path points either way.
+
+  STEP 1 COUNTS: polishes stopped by certification-based termination: 25 of 48 Step 1 polishes, 144 of 144 short-path points, 6 of
+  7 restart probes; watchdog kills: 2 (Step 1 polish independent_P1_s7 after 11 iterations, recorded as solver error; restart probe
+  of correlated_P0_s4 at gamma = 1e-7, recorded as stalled, wall-clock type); iteration cap: 22 Step 1 polishes. Failure reasons of
+  the 23 uncertified Step 1 polishes: iteration cap 22 (correlated P0 8, correlated P1 8, independent P0 3, independent P1 3),
+  solver error 1 (independent P1, watchdog). Degenerate certified points: 7 (all correlated P0 at gamma = 1e-7), all FLAT MINIMUM.
