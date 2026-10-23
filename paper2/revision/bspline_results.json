@@ -208,7 +208,26 @@
     "dpred": 0.011850259756091296,
     "ok": true,
     "certified": true,
-    "growth": 91.07171673262813
+    "growth": 91.07171673262813,
+    "cert_null_aware": {
+     "grad": 3.680378484610669e-15,
+     "mineig": 1.802969383449945e-06,
+     "maxeig": 11.943869367621303,
+     "n_null": 0,
+     "newton": 6.483268422778062e-25,
+     "gnull": 0.0,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "certified": true,
+     "null_aware": true,
+     "grad_along_null": 7.484391975878413e-19
+    },
+    "certified_null_aware": true,
+    "ending_amended": "CONVERGED-AT-KILL"
    },
    "independent_P1": {
     "ending": "KILLED-IN-MOTION",
@@ -221,7 +240,26 @@
     "dpred": 0.013844937852290821,
     "ok": true,
     "certified": true,
-    "growth": 1.2687841289311506
+    "growth": 1.2687841289311506,
+    "cert_null_aware": {
+     "grad": 4.6183753858990845e-10,
+     "mineig": 5.803065852574159e-05,
+     "maxeig": 11.612252060319415,
+     "n_null": 0,
+     "newton": 3.4761169821513534e-19,
+     "gnull": 0.0,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "certified": true,
+     "null_aware": true,
+     "grad_along_null": 1.1091395948580686e-18
+    },
+    "certified_null_aware": true,
+    "ending_amended": "CONVERGED-AT-KILL"
    },
    "correlated_P0": {
     "ending": "NORMAL COMPLETION",
@@ -234,7 +272,26 @@
     "dpred": 0.008980979382735396,
     "ok": true,
     "certified": false,
-    "growth": 65.17616728744244
+    "growth": 65.17616728744244,
+    "cert_null_aware": {
+     "grad": 0.007498777541585401,
+     "mineig": -2.6216942442925523e-05,
+     "maxeig": 2046.3328096185162,
+     "n_null": 16,
+     "newton": 1.2060350104960493e-07,
+     "gnull": 1.926875851892439e-07,
+     "crit": {
+      "a": false,
+      "b": false,
+      "c": false,
+      "d": false
+     },
+     "certified": false,
+     "null_aware": true,
+     "grad_along_null": 1.0660083643136081e-17
+    },
+    "certified_null_aware": false,
+    "ending_amended": "NORMAL COMPLETION"
    },
    "correlated_P1": {
     "ending": "NORMAL COMPLETION",
@@ -247,9 +304,52 @@
     "dpred": 0.01060570677987673,
     "ok": true,
     "certified": false,
-    "growth": 32.171637293607446
+    "growth": 32.171637293607446,
+    "cert_null_aware": {
+     "grad": 0.00011889300024971313,
+     "mineig": -3.6084045561519806e-06,
+     "maxeig": 364.2044504979796,
+     "n_null": 3,
+     "newton": 2.0402031818093475e-10,
+     "gnull": 9.145983434124874e-07,
+     "crit": {
+      "a": false,
+      "b": true,
+      "c": false,
+      "d": false
+     },
+     "certified": false,
+     "null_aware": true,
+     "grad_along_null": 3.161972293111193e-18
+    },
+    "certified_null_aware": false,
+    "ending_amended": "NORMAL COMPLETION"
    }
   },
-  "acceptance": false
+  "acceptance": false,
+  "acceptance_amended": true
+ },
+ "termination_validation": {
+  "rows": {
+   "P0": {
+    "stop_iteration": 47,
+    "limit": 48,
+    "max_rel_dev": 0.0,
+    "ending": "CONVERGED",
+    "stop": "certified (terminated at the first accepted iterate that certifies)",
+    "wall_s": 39.034703969955444,
+    "pass_": true
+   },
+   "P1": {
+    "stop_iteration": 21,
+    "limit": 21,
+    "max_rel_dev": 0.0,
+    "ending": "CONVERGED",
+    "stop": "certified (terminated at the first accepted iterate that certifies)",
+    "wall_s": 22.211925983428955,
+    "pass_": true
+   }
+  },
+  "passed": true
  }
 }
