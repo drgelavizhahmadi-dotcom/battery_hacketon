@@ -48,6 +48,7 @@ SEEDS = list(range(8))
 PILOT = list(SY.PILOT)                         # 100-107, as committed
 PATH_G = [1e-3, 1e-5, 1e-7]
 HARD = 300
+STALE = 600                                    # staleness watchdog (note to supplement 4b3f20a, 5bf5acd): no new accepted iterate for 10 min
 W = I.W
 LOGDIR = W / "bsp_logs"
 RES = HERE / "bspline_results.json"
@@ -169,6 +170,30 @@ def flats(key):
 
 
 # ------------------------------------------------------------------ child processes (as dose.py after crash records 1 and 2)
+def supervise(pr, ck, cap_s, stale_s, hb=None, e0=0.0, poll=5.0):
+    """wait for child pr; kill it at the cumulative cap (monotonic, e0 already used) or when no new accepted iterate has been
+    checkpointed (ck mtime) for stale_s seconds (counted from the later of the child's start and the last checkpoint).
+    Returns None (exited), 'cap' or 'stale'."""
+    t0m, t0w = time.monotonic(), time.time()
+    while pr.poll() is None:
+        try:
+            pr.wait(timeout=poll)
+        except subprocess.TimeoutExpired:
+            pass
+        if pr.poll() is not None:
+            break
+        el = e0 + time.monotonic() - t0m
+        if hb is not None:
+            hb.write_text(json.dumps(dict(elapsed=el)))
+        last = max(t0w, ck.stat().st_mtime if ck.exists() else 0.0)
+        if el > cap_s:
+            pr.kill(); pr.wait(); return "cap"
+        if time.time() - last > stale_s:
+            pr.kill(); pr.wait(); return "stale"
+    return None
+
+
+
 def teacher_flat(spec):
     d = data(spec["cond"])
     return SY.FlatS(teacher(), d["X"], d["y"], spec["lev"], spec["mu"])
@@ -268,32 +293,26 @@ def run_child(spec, wlog):
         LOGDIR.mkdir(exist_ok=True)
         with open(LOGDIR / f"{Path(name).stem}.log", "a") as lf:
             pr = subprocess.Popen([sys.executable, str(Path(__file__)), "--child", json.dumps(spec)], cwd=REPO, stdout=lf, stderr=lf)
-            t0 = time.monotonic(); killed = False
-            while pr.poll() is None:
-                try:
-                    pr.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    pass
-                el = e0 + time.monotonic() - t0
-                hb.write_text(json.dumps(dict(elapsed=el)))
-                if el > SY.WALL + HARD:
-                    pr.kill(); pr.wait(); killed = True
+            why = supervise(pr, ck, SY.WALL + HARD, STALE, hb=hb, e0=e0)
+            killed = why is not None
         if not I.has_cached(name):
             if not killed:
                 raise SystemExit(f"child for {name} exited with code {pr.returncode} without a result (see {LOGDIR})")
             z = np.load(ck) if ck.exists() else None
             if spec["mode"] == "trust":
                 fl = flats(spec["key"]); x = z["x"] if z is not None else fl.x0
-                I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop="2 h cap (hard kill; last checkpointed iterate)", message="killed",
+                I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop=("solver error (hang); ended by the staleness watchdog (no new accepted iterate for 10 min)"
+                                                                             if why == "stale" else "2 h cap (hard kill; last checkpointed iterate)"), message="killed",
                                                                         iters=int(len(z["theta2"])) if z is not None else 0),
                                             hist=dict(theta2=list(z["theta2"]) if z is not None else [])))
             else:
                 f, _, _ = iflat(spec["key"], spec["kind"], spec["coef"]); x = z["x"] if z is not None else np.load(spec["start"])
                 cert, _, _ = certify_point(f, x)
-                I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop="wall-clock cap (2 h, cumulative; hard kill, last checkpointed iterate)",
+                I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop=("solver error (hang); ended by the staleness watchdog (no new accepted iterate for 10 min)"
+                                                                             if why == "stale" else "wall-clock cap (2 h, cumulative; hard kill, last checkpointed iterate)"),
                                                                         iters=int(z["iters"]) if z is not None else 0, wall_s=float(SY.WALL + HARD),
                                                                         message="killed", cert=cert, resumed=False)))
-            wlog(f"    {name}: child hard-killed at the cap + 5 min; last checkpointed iterate used")
+            wlog(f"    {name}: child killed ({'staleness watchdog' if why == 'stale' else 'cap + 5 min'}); last checkpointed iterate used")
     obj, _ = I.cached(name, lambda: (_ for _ in ()).throw(RuntimeError(name)))
     return obj
 
@@ -308,14 +327,9 @@ def run_teacher(spec, wlog):
         LOGDIR.mkdir(exist_ok=True)
         with open(LOGDIR / f"{Path(name).stem}.log", "a") as lf:
             pr = subprocess.Popen([sys.executable, str(Path(__file__)), "--child", json.dumps(spec)], cwd=REPO, stdout=lf, stderr=lf)
-            t0 = time.monotonic(); killed = False
-            while pr.poll() is None:
-                try:
-                    pr.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    pass
-                if time.monotonic() - t0 > SY.WALL + HARD:
-                    pr.kill(); pr.wait(); killed = True
+            t0 = time.monotonic()
+            why = supervise(pr, ck, SY.WALL + HARD, STALE)
+            killed = why is not None
             el = time.monotonic() - t0
         if not I.has_cached(name):
             if not killed:
@@ -324,10 +338,12 @@ def run_teacher(spec, wlog):
             fl = teacher_flat(spec)
             x = z["x"] if z is not None else fl.x0
             acc = dict(theta2=z["theta2"].tolist(), loss=z["loss"].tolist(), t=z["t"].tolist()) if z is not None else dict(theta2=[], loss=[], t=[])
-            I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop="solver error (hang); ended by the 2 h + 5 min child kill", message="killed",
+            stop_txt = ("solver error (hang); ended by the staleness watchdog (no new accepted iterate for 10 min)" if why == "stale"
+                        else "solver error (hang); ended by the 2 h + 5 min child kill")
+            I.cached(name, lambda: dict(x=torch.tensor(x), info=dict(stop=stop_txt, message="killed",
                                                                     iters=max(len(acc["theta2"]) - 1, 0)),
                                         hist=dict(theta2=acc["theta2"]), ended="killed", wall_s=el, acc=acc))
-            wlog(f"    {name}: child hard-killed at 2 h + 5 min (hang); last checkpointed accepted iterate kept")
+            wlog(f"    {name}: child killed ({'staleness watchdog' if why == 'stale' else '2 h + 5 min cap'}); last checkpointed accepted iterate kept")
     obj, _ = I.cached(name, lambda: (_ for _ in ()).throw(RuntimeError(name)))
     return obj
 
