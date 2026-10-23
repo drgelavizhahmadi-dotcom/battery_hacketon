@@ -23,6 +23,24 @@ def greville(dtype=torch.float64):
     return torch.stack([t[j + 1:j + K + 1].mean() for j in range(N_B)])   # -1.4, -1.0, ..., 1.4
 
 
+CACHE = True                                   # implementation-only speed-up (bspline crash record 1 follow-up): cache the basis of fixed inputs
+_CACHE = []                                    # [(tensor, version, basis)], strong references so no freed memory can alias a cached input
+
+
+def basis_cached(x):
+    """basis(x), cached for inputs that do not require grad (the fixed layer-1 inputs): hit only for the identical tensor object at
+    an unchanged version; otherwise identical to basis(x)"""
+    if not CACHE or x.requires_grad:
+        return basis(x)
+    for ref, ver, b in _CACHE:
+        if ref is x and ver == x._version:
+            return b
+    b = basis(x)
+    _CACHE.append((x, x._version, b))
+    del _CACHE[:-8]
+    return b
+
+
 def basis(x):
     """B_0..B_7 at x (any shape) -> x.shape + (8,), Cox-de Boor as efficient-kan's b_splines"""
     t = knots(x.dtype)
@@ -42,17 +60,17 @@ class BSplineLayer(nn.Module):
         self.coef = nn.Parameter(torch.randn(d_out, d_in, N_B) * 0.1)
 
     def rbf(self, x):                          # name kept for code that reads layer.rbf (degeneracy.hidden); returns the B-spline basis
-        return basis(x)
+        return basis_cached(x)
 
     def forward(self, x):
-        return self.base(F.silu(x)) + torch.einsum("bik,oik->bo", basis(x), self.coef)
+        return self.base(F.silu(x)) + torch.einsum("bik,oik->bo", basis_cached(x), self.coef)
 
     def smoothness(self):
         d2 = self.coef[..., 2:] - 2 * self.coef[..., 1:-1] + self.coef[..., :-2]
         return (d2 ** 2).sum()
 
     def edge(self, i, x):
-        return F.silu(x)[:, None] * self.base.weight[:, i] + basis(x) @ self.coef[:, i, :].T
+        return F.silu(x)[:, None] * self.base.weight[:, i] + basis_cached(x) @ self.coef[:, i, :].T
 
 
 class BSynthKAN(nn.Module):

@@ -42,6 +42,25 @@ from kan import WD
 
 torch.set_num_threads(4)                       # as synth.py (34cc321)
 
+# ---------------- implementation-only speed-up (after Step 0 (ii); equivalence-tested in tests/test_bspline_opt.py):
+# the exact Hessian computed with torch's vectorised Jacobian (vmap over the same vector-Jacobian products) and the layer-1
+# B-spline basis of the fixed inputs cached (bspline_basis.basis_cached). Same loss, gradient and Hessian within 1e-12.
+_HESS_ORIG = {SY.FlatS: SY.FlatS.hessian, I.Flat: I.Flat.hessian}
+
+
+def _hessian_vectorised(self, x):
+    H = torch.autograd.functional.hessian(self.loss_t, torch.tensor(x), vectorize=True).numpy()
+    return (H + H.T) / 2
+
+
+def set_optimised(on=True):
+    BS.CACHE = bool(on); BS._CACHE.clear()
+    for cls, orig in _HESS_ORIG.items():
+        cls.hessian = _hessian_vectorised if on else orig
+
+
+set_optimised(True)
+
 CONDS = list(SY.CONDS.items())                 # [("independent", 0.0), ("correlated", 0.95)]
 LEVS = ["P0", "P1", "P2"]
 SEEDS = list(range(8))
