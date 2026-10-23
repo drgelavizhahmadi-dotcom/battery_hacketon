@@ -681,7 +681,7 @@ def analytic_predict(X):
 
 def mu_calibration():
     s0 = load_res().get("step0", {})
-    if not s0.get("acceptance"):
+    if not (s0.get("acceptance") or s0.get("acceptance_amended")):        # amended classification of amendment 03638f8, item 4
         raise SystemExit("Step 0 (ii) has not passed; no mu calibration")
     header("STEP 0: mu calibration (synth.py Step 0 mirrored exactly; teacher polishes in hard-killed children; every mu evaluated)")
     choices()
