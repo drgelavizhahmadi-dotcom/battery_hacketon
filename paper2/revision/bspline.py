@@ -33,6 +33,7 @@ import torch
 
 import anatomy_synth as AN
 import bspline_basis as BS
+import bspline_null as BN
 import freeze as FZ
 import infimum as I
 import synth as SY
@@ -178,20 +179,30 @@ def child(spec):
         # Step 0 teacher polish (committed synth.run_trust, unchanged) in a hard-killed child; every accepted iterate checkpointed
         # with its loss, ||theta||^2 and wall-clock time (bspline crash record 1); non-finite subproblem caught (11e3663)
         fl = teacher_flat(spec)
-        ck = Path(spec["ck"]); acc = dict(x=None, theta2=[], loss=[], t=[])
-        orig = fl.hessian
+        ck = Path(spec["ck"]); acc = dict(theta2=[], loss=[], t=[])
 
-        def hess(x):
-            x = np.asarray(x)
-            if acc["x"] is None or not np.array_equal(acc["x"], x):
-                acc["x"] = x.copy(); acc["theta2"].append(float((x ** 2).sum())); acc["loss"].append(float(fl.fun(x)[0])); acc["t"].append(time.time())
-                tmp = ck.with_name(ck.stem + ".tmp.npz")
-                np.savez(tmp, x=x, theta2=np.array(acc["theta2"]), loss=np.array(acc["loss"]), t=np.array(acc["t"])); os.replace(tmp, ck)
-            return orig(x)
-        fl.hessian = hess
+        def record(x):
+            acc["theta2"].append(float((x ** 2).sum())); acc["loss"].append(float(fl.fun(x)[0])); acc["t"].append(time.time())
+            tmp = ck.with_name(ck.stem + ".tmp.npz")
+            np.savez(tmp, x=x, theta2=np.array(acc["theta2"]), loss=np.array(acc["loss"]), t=np.array(acc["t"])); os.replace(tmp, ck)
+        if spec.get("terminate"):
+            fl.hessian = BN.terminating_hessian(fl, null_aware=spec["lev"] != "P2", on_accept=record)
+        else:
+            orig = fl.hessian; last = dict(x=None)
+
+            def hess(x):
+                x = np.asarray(x)
+                if last["x"] is None or not np.array_equal(last["x"], x):
+                    last["x"] = x.copy(); record(x)
+                return orig(x)
+            fl.hessian = hess
         t0 = time.time()
         try:
             x, info, hist = SY.run_trust(fl); ended = "returned"
+        except BN.CertifiedStop as e:
+            x = e.x
+            info = dict(stop="certified (terminated at the first accepted iterate that certifies)", message="certified", iters=len(acc["theta2"]) - 1)
+            hist = dict(theta2=list(acc["theta2"])); ended = "certified"
         except (ValueError, np.linalg.LinAlgError) as e:
             z = np.load(ck); x = z["x"]
             info = dict(stop=f"solver error (trust-exact subproblem: {str(e)[:60]})", message=str(e), iters=int(len(z["theta2"]) - 1))
@@ -202,17 +213,19 @@ def child(spec):
     if spec["mode"] == "trust":
         fl = flats(spec["key"])
         ck, th = Path(spec["ck"]), []
-        orig = fl.hessian
+        lev = parse(spec["key"])[1]
 
-        def hess(x):
+        def record(x):
             th.append(float((np.asarray(x) ** 2).sum()))
             np.savez(ck.with_name(ck.stem + ".tmp.npz"), x=np.asarray(x), theta2=np.array(th)); os.replace(ck.with_name(ck.stem + ".tmp.npz"), ck)
-            return orig(x)
-        fl.hessian = hess
+        fl.hessian = BN.terminating_hessian(fl, null_aware=lev != "P2", on_accept=record)
 
         def run():
             try:
                 return SY.run_trust(fl)
+            except BN.CertifiedStop as e:
+                return e.x, dict(stop="certified (terminated at the first accepted iterate that certifies)", message="certified",
+                                 iters=int(len(th) - 1)), dict(theta2=list(th))
             except (ValueError, np.linalg.LinAlgError) as e:
                 z = np.load(ck)
                 return z["x"], dict(stop=f"solver error (trust-exact subproblem: {str(e)[:60]})", message=str(e), iters=int(len(z["theta2"]) - 1)), \
@@ -221,8 +234,21 @@ def child(spec):
     else:
         f, _, _ = iflat(spec["key"], spec["kind"], spec["coef"])
         x0 = np.load(spec["start"])
-        I.cached(spec["name"], lambda: dict(zip(("x", "info"), (lambda r: (torch.tensor(r[0]), r[1]))(
-            I.polish(f, x0, Path(spec["ck"]), spec["gtol"], spec["elapsed0"])))))
+        na = spec["kind"] is None and parse(spec["key"])[1] != "P2"          # gamma = 0 objective of P0/P1: null-set-aware
+        f.hessian = BN.terminating_hessian(f, null_aware=na, gtol=spec["gtol"])
+        ck = Path(spec["ck"])
+
+        def run():
+            try:
+                x, info = I.polish(f, x0, ck, spec["gtol"], spec["elapsed0"])
+            except BN.CertifiedStop as e:
+                z = np.load(ck) if ck.exists() else None
+                x = e.x
+                info = dict(stop="certified (terminated at the first accepted iterate that certifies)", iters=int(z["iters"]) if z is not None else 0,
+                            wall_s=round(float(z["elapsed"]), 1) if z is not None else 0.0, message="certified", resumed=False)
+            info["cert"] = BN.certify_na(f, x, na)[0]
+            return torch.tensor(x), info
+        I.cached(spec["name"], lambda: dict(zip(("x", "info"), run())))
 
 
 def run_child(spec, wlog):
@@ -307,9 +333,11 @@ def run_teacher(spec, wlog):
 
 
 def classify_ending(obj):
-    """supplement to cba2c07 (4b3f20a)"""
+    """supplement to cba2c07 (4b3f20a); 'CONVERGED' = terminated at the first certifying iterate (amendment 03638f8)"""
     if obj["ended"] == "returned":
         return "NORMAL COMPLETION"
+    if obj["ended"] == "certified":
+        return "CONVERGED"
     L, th = obj["acc"]["loss"], obj["acc"]["theta2"]
     n_acc = len(th) - 1
     if n_acc >= 10 and abs(L[-1] - L[-11]) / abs(L[-11]) < 1e-6 and abs(th[-1] - th[-11]) / abs(th[-11]) < 1e-6:
@@ -335,6 +363,8 @@ def reason(info, cert):
         return "wall-clock cap"
     if "solver error" in s:
         return "solver error"
+    if "certified" in s:
+        return None
     names = dict(a="criterion a (gradient)", b="criterion b (curvature)", c="criterion c (Newton decrement)", d="criterion d (null-space gradient)")
     return ", ".join(names[k] for k, ok in cert["crit"].items() if not ok)
 
@@ -357,12 +387,12 @@ def worker(key, with_path=True):
     pol = run_child(dict(mode="trust", key=key, name=f"bsp_pol_{key}.pt", ck=str(W / f"bsp_pol_{key}_ck.npz")), wlog)
     xP, pinfo, hist = I.npx(pol["x"]), pol["info"], pol["hist"]
     fl = flats(key)
-    cert, _, _ = certify_point(fl, xP)
+    cert = BN.certify_na(fl, xP, null_aware=lev != "P2")[0]
     netP = fl.to_net(xP)
     f, _, zin = iflat(key)
     info = dict(stop=pinfo["stop"], iters=pinfo["iters"], wall_s=time.monotonic() - t0, cert=cert, resumed=False)
     spec = dict(key=key, kind=None, coef=None, gtol=I.GRAD_TOL, elapsed0=0.0)
-    a = I.analyse(f, f.net, zin, xP, info, spec, f"bsp_pol_{key}", wlog)
+    a = BN.analyse_c(f, f.net, zin, xP, info, spec, f"bsp_pol_{key}", wlog, run_point_bsp)
     a.pop("wall_s", None)
     rec["polish"] = dict(pinfo=pinfo, **a)
     rec["polish"]["reason"] = None if a["certified"] else reason(pinfo, cert)
@@ -387,7 +417,7 @@ def worker(key, with_path=True):
             sp = dict(key=key, kind="L2", coef=g, start=str(st), name=f"bsp_path_{key}_g{k}.pt", ck=str(W / f"bsp_path_{key}_g{k}_ck.npz"),
                       gtol=I.GRAD_TOL, elapsed0=0.0)
             xk, inf_ = run_point_bsp(sp, fg, wlog)
-            r = I.analyse(fg, fg.net, zin, xk, inf_, sp, f"bsp_path_{key}_g{k}", wlog)
+            r = BN.analyse_c(fg, fg.net, zin, xk, inf_, sp, f"bsp_path_{key}_g{k}", wlog, run_point_bsp)
             r.update(coef=g); path.append(r); x = xk
         rec["path"] = path
         rec["D"] = path[2]["theta2"] / path[1]["theta2"]
@@ -543,6 +573,67 @@ def step0():
         log("STOP: Step 0 (ii) failed; Step 1 not run (prereg)")
 
 
+def recert():
+    """amendment 03638f8 item 4: re-certify the two hung Step 0 (ii) records null-set-aware; CONVERGED-AT-KILL if they pass"""
+    header("STEP 0 (ii) RE-CERTIFICATION (POST-HOC amendment 03638f8, item 4; no new polish)")
+    s0 = load_res()["step0"]; stab = s0["stability"]
+    gate_ok, motion = True, []
+    for k, r in stab.items():
+        cond, lev = k.split("_")
+        sp = dict(mode="teacher", cond=cond, lev=lev, mu=0.0, name=f"bsp_teacher_{cond}_{lev}.pt")
+        obj, _ = I.cached(sp["name"], lambda: (_ for _ in ()).throw(RuntimeError(sp["name"])))
+        fl = teacher_flat(sp); x = I.npx(obj["x"])
+        c_na = BN.certify_na(fl, x, True)[0]; c_pl = certify_point(fl, x)[0]
+        r["cert_null_aware"] = c_na; r["certified_null_aware"] = bool(c_na["certified"])
+        if r["ending"] == "KILLED-IN-MOTION" and c_na["certified"]:
+            r["ending_amended"] = "CONVERGED-AT-KILL"
+        else:
+            r["ending_amended"] = r["ending"]
+        if r["ending_amended"] == "KILLED-IN-MOTION":
+            motion.append(k)
+        else:
+            gate_ok &= r["ok"]
+        log(f"  {k:14s}: original ending {r['ending']:18s} -> {r['ending_amended']:18s} | null-set-aware certification {c_na['certified']} "
+            f"(crit {c_na['crit']}; max|g| {c_na['grad']:.1e}; complement lambda_min/max {c_na['mineig']:+.2e}/{c_na['maxeig']:.2e}; complement near-null "
+            f"{c_na['n_null']}; Newton {c_na['newton']:.1e}; ||g along null set|| {c_na['grad_along_null']:.1e}); plain certify_point {c_pl['certified']} "
+            f"(n_null {c_pl['n_null']}) | RMS prediction change {r['dpred']:.2e} -> {'ok' if r['ok'] else 'FAIL'}")
+    log("  the 10-iteration plateau window of supplement 4b3f20a is recorded as unable to detect quadratic convergence (amendment 03638f8)")
+    s0["acceptance_amended"] = bool(gate_ok and not motion)
+    log(f"  STEP 0 (ii) POLISH-STABILITY GATE (amended classification): {'PASS' if s0['acceptance_amended'] else 'FAIL'}"
+        + (f" (still KILLED-IN-MOTION: {motion})" if motion else ""))
+    save_res("step0", s0)
+
+
+def validate():
+    """amendment 03638f8 item 5: the two hung independent polishes re-run with certification-based termination"""
+    header("VALIDATION OF CERTIFICATION-BASED TERMINATION (amendment 03638f8, item 5)")
+    lines = []
+    specs = [dict(mode="teacher", cond="independent", lev=l, mu=0.0, terminate=True, name=f"bsp_teacher_independent_{l}_term.pt",
+                  ck=str(W / f"bsp_teacher_independent_{l}_term_ck.npz")) for l in ("P0", "P1")]
+    with ThreadPoolExecutor(2) as ex:
+        objs = list(ex.map(lambda s: run_teacher(s, lines.append), specs))
+    out, ok = {}, True
+    for sp, new, lim in zip(specs, objs, (48, 21)):
+        old, _ = I.cached(f"bsp_teacher_independent_{sp['lev']}.pt", lambda: None)
+        n = len(new["acc"]["theta2"])
+        Lo, To = np.array(old["acc"]["loss"][:n]), np.array(old["acc"]["theta2"][:n])
+        Ln, Tn = np.array(new["acc"]["loss"]), np.array(new["acc"]["theta2"])
+        m = min(len(Lo), n)
+        dev = float(max((np.abs(Ln[:m] - Lo[:m]) / np.maximum(1, np.abs(Lo[:m]))).max(), (np.abs(Tn[:m] - To[:m]) / np.maximum(1, np.abs(To[:m]))).max()))
+        stop_it = n - 1
+        cls = classify_ending(new)
+        good = dev <= 1e-12 and m == n and stop_it <= lim and cls == "CONVERGED"
+        ok &= good
+        out[sp["lev"]] = dict(stop_iteration=stop_it, limit=lim, max_rel_dev=dev, ending=cls, stop=new["info"]["stop"], wall_s=new["wall_s"], pass_=good)
+        log(f"  independent {sp['lev']}: stopped at accepted iteration {stop_it} (must be <= {lim}); ending {cls}; per-iterate loss and ||theta||^2 vs the "
+            f"f28515c checkpoints: max relative deviation {dev:.1e} over {m} iterates (<= 1e-12 required); wall {new['wall_s']:.1f} s -> {'PASS' if good else 'FAIL'}")
+    for l in lines:
+        log("   " + l)
+    log("  (the checkpoints record each accepted iterate's loss and ||theta||^2; the comparison is iterate by iterate on these)")
+    log(f"  VALIDATION: {'PASS' if ok else 'FAIL'}")
+    save_res("termination_validation", dict(rows=out, passed=ok))
+
+
 def analytic_predict(X):
     """the network with the exact analytic teacher edge functions (descriptive reference)"""
     L1f, L2f = committed_edge_functions(_D["scale"])
@@ -562,13 +653,14 @@ def mu_calibration():
     T = teacher(); calib = []; lines = []
     for mu in SY.MU_GRID:
         row = dict(mu=mu); okt = True
-        specs = [dict(mode="teacher", cond=c, lev="P2", mu=mu, name=f"bsp_teacher_{c}_P2_m{mu:g}.pt", ck=str(W / f"bsp_teacher_{c}_P2_m{mu:g}_ck.npz")) for c, _ in CONDS]
+        specs = [dict(mode="teacher", cond=c, lev="P2", mu=mu, terminate=True, name=f"bsp_teacher_{c}_P2_m{mu:g}.pt",
+                      ck=str(W / f"bsp_teacher_{c}_P2_m{mu:g}_ck.npz")) for c, _ in CONDS]
         with ThreadPoolExecutor(2) as ex:
             objs = list(ex.map(lambda s: run_teacher(s, lines.append), specs))
         for sp, obj in zip(specs, objs):
             d = data(sp["cond"]); fl = teacher_flat(sp); x = I.npx(obj["x"])
             dp = float(np.sqrt(np.mean((SY.predict(fl.to_net(x), d["X"]) - d["y0"]) ** 2)))
-            rc, _, _ = certify_point(fl, x)
+            rc = BN.certify_na(fl, x, False)[0]
             row[f"{sp['cond']}_dpred"], row[f"{sp['cond']}_cert"], row[f"{sp['cond']}_ending"] = dp, bool(rc["certified"]), classify_ending(obj)
             okt &= dp < 0.5 * d["sigma"] and rc["certified"]
             log(f"  mu {mu:g} regularised teacher {sp['cond']:11s}: RMS change {dp:.2e} (0.5 sigma {0.5 * d['sigma']:.2e}); certified {rc['certified']}; "
@@ -719,6 +811,8 @@ if __name__ == "__main__":
     ap.add_argument("--step0", action="store_true")
     ap.add_argument("--step1", action="store_true")
     ap.add_argument("--mu", action="store_true")
+    ap.add_argument("--recert", action="store_true")
+    ap.add_argument("--validate", action="store_true")
     ap.add_argument("--worker")
     ap.add_argument("--nopath", action="store_true")
     ap.add_argument("--child")
@@ -733,3 +827,7 @@ if __name__ == "__main__":
         step1()
     elif a.mu:
         mu_calibration()
+    elif a.recert:
+        recert()
+    elif a.validate:
+        validate()
