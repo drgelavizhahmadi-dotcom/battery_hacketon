@@ -118,3 +118,56 @@ DISCREPANCIES / choices (files win):
   set in at machine-precision gradients, i.e. at the converged point. Baseline timings (unoptimised, two children in parallel):
   0.81-1.04 s median per accepted iteration; the correlated polishes ran their 500 iterations in 513 s each; hang census 2/4
   (both independent), each costing the full 2 h + 5 min (7502 s).
+
+####################################################################################################
+paper2/revision/bspline_nullspace_diag.py 2026-10-23 13:46:47: DESCRIPTIVE diagnostic after the Step 0 (ii) stop
+  (no training; no mu calibration, Step 1 or optimisation; changes no record)
+####################################################################################################
+  stated before results: the exact constant-shift space has dimension sum of in-degrees = 3 x 4 + 1 x 3 = 15; confirmation needs
+  (i) relative loss change <= 1e-12 along every basis direction at steps (0.001, 0.1) at all tested points, (ii) every principal
+  angle cosine between the constructed space and the near-null eigenspace >= 0.999 with near-null count = 15, (iii) the RBF
+  shift only approximate, (iv) both hangs at gradients below the certification threshold (max|g| < 1e-7)
+  inputs: the four Step 0 (ii) end points from the SHA-indexed cache (gauge_weights/bsp_teacher_*.pt; verified against
+  sc_index.json on load; not yet archived)
+
+  constructed space: 15 orthonormal directions (||Q'Q - I||_max 4.4e-16)
+
+==================== (1)+(2) near-null Hessian eigenvalues, exactness and completeness ====================
+  independent_P0    : near-null 15 (|lambda| < 1e-8 x 1.194e+01); values -4.7e-16, -3.3e-16, -1.7e-16, -6.1e-17, -2.1e-17, -1.2e-17, +1.7e-17, +3.3e-17, +4.7e-17, +1.1e-16, +2.3e-16, +2.7e-16, +3.0e-16, +5.2e-16, +9.2e-16
+                      exactness: step 1e-3 max rel. loss change 3.9e-15 (median 1.5e-15); step 1e-1 max 4.1e-15 (median 1.9e-15) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+  independent_P1    : near-null 15 (|lambda| < 1e-8 x 1.161e+01); values -6.0e-16, -3.0e-16, -1.3e-16, -5.9e-17, -4.2e-17, -3.3e-17, -1.9e-17, +5.0e-18, +5.1e-17, +6.9e-17, +1.4e-16, +2.8e-16, +3.8e-16, +7.5e-16, +1.0e-15
+                      exactness: step 1e-3 max rel. loss change 3.1e-16 (median 0.0e+00); step 1e-1 max 3.1e-16 (median 0.0e+00) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+  correlated_P0     : near-null 31 (|lambda| < 1e-8 x 2.046e+03); values -4.7e-06, -8.7e-07, -1.3e-13, -1.3e-13, -7.6e-14, -6.6e-16, -2.5e-17, -2.1e-17, +2.6e-17, +7.4e-17, +1.7e-16, +4.6e-16, +5.7e-15, +3.3e-14, +7.0e-14, +8.4e-14, +9.0e-14, +4.7e-07, +1.1e-06, +1.2e-06 ...
+                      exactness: step 1e-3 max rel. loss change 4.3e-15 (median 3.3e-16); step 1e-1 max 4.6e-15 (median 6.6e-16) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+                      16 EXTRA near-null directions outside the constructed space (NOT in the null set): block loadings layers.0.coef 0.48, layers.0.base.weight 0.26, layers.1.coef 0.13, layers.1.base.weight 0.12; share by basis-function index L1 0.20 0.12 0.06 0.02 0.00 0.04 0.16 0.39 | L2 0.28 0.15 0.06 0.01 0.01 0.05 0.15 0.30
+  correlated_P1     : near-null 18 (|lambda| < 1e-8 x 3.642e+02); values -3.6e-06, -2.2e-14, -1.7e-14, -1.3e-14, -5.3e-15, -4.4e-15, -2.7e-15, -1.2e-15, -2.4e-16, -8.7e-17, +7.7e-16, +3.4e-15, +1.0e-14, +1.0e-14, +1.5e-14, +1.6e-14, +8.3e-08, +2.6e-07
+                      exactness: step 1e-3 max rel. loss change 2.4e-15 (median 6.1e-16); step 1e-1 max 2.4e-15 (median 6.1e-16) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+                      3 EXTRA near-null directions outside the constructed space (NOT in the null set): block loadings layers.0.coef 0.01, layers.1.coef 0.75, layers.1.base.bias 0.23; share by basis-function index L1 0.22 0.12 0.05 0.02 0.03 0.09 0.17 0.29 | L2 0.28 0.15 0.06 0.02 0.02 0.06 0.14 0.27
+  random_init_P0    : near-null 15 (|lambda| < 1e-8 x 5.258e+00); values -3.2e-16, -1.9e-16, -1.8e-16, -1.7e-16, -6.4e-17, -4.6e-17, -2.8e-17, +8.0e-18, +3.4e-17, +6.5e-17, +7.5e-17, +1.1e-16, +1.9e-16, +3.5e-16, +5.6e-16
+                      exactness: step 1e-3 max rel. loss change 0.0e+00 (median 0.0e+00); step 1e-1 max 0.0e+00 (median 0.0e+00) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+  random_init_P1    : near-null 15 (|lambda| < 1e-8 x 5.258e+00); values -3.5e-16, -3.4e-16, -1.9e-16, -1.4e-16, -9.1e-17, -8.9e-17, -5.3e-17, -4.4e-17, +8.4e-18, +5.5e-17, +7.6e-17, +9.7e-17, +1.6e-16, +2.6e-16, +4.4e-16
+                      exactness: step 1e-3 max rel. loss change 0.0e+00 (median 0.0e+00); step 1e-1 max 0.0e+00 (median 0.0e+00) | principal-angle cosines (constructed vs near-null): min 1.000000, max 1.000000 over 15
+
+==================== (3) RBF contrast: the same shifts at the committed synthetic teacher (34cc321) ====================
+  RBF teacher, P0 objective on the correlated inputs (the committed correlated labels: RBF teacher + noise, seed 5001): step 1e-3 max rel. loss change 9.6e-05 (median 1.4e-05); step 1e-1 max 4.6e-01; the 8 RBFs sum to 1.386-1.773 on [-1, 1] (no partition of unity)
+  contrast: RBF / B-spline worst relative change >= 1e3 at both steps -> True (B-spline worst 4.6e-15)
+
+==================== (4) gradient at the hung polishes' last accepted iterates ====================
+  independent_P0: max|g| 3.68e-15, ||g|| 1.13e-14 (certification threshold max|g| < 1e-7) -> below
+  independent_P1: max|g| 4.62e-10, ||g|| 1.06e-09 (certification threshold max|g| < 1e-7) -> below
+
+==================== (5) P2 objective along the constructed directions (descriptive) ====================
+  mu 1e-05: v'Hv along the 15 directions 1.78e-05-1.88e-05 (median 1.82e-05; / mu 1.82); under P0 2.8e-16; P2 near-null count 0
+  mu 0.0001: v'Hv along the 15 directions 1.78e-04-1.88e-04 (median 1.82e-04; / mu 1.82); under P0 2.8e-16; P2 near-null count 0
+
+  CONFIRMATION CRITERIA (fixed before results): (i) exactness True, (ii) completeness False, (iii) RBF approximate only True, (iv) hangs below the gradient threshold True -> NOT ALL HOLD: report and stop
+  wrote bspline_nullspace_diag.json
+
+  DIAGNOSTIC SUMMARY (DESCRIPTIVE, 2026-10-23). Eigenvalue structure of the near-null set (|lambda| / largest): at every tested point
+  exactly 15 eigenvalues lie below 1e-14 (float zero; 15 = the constructed constant-shift space, principal-angle cosines 1.000000);
+  at the two correlated end points the remaining near-null eigenvalues lie four or more orders of magnitude higher, in 1e-10..1e-8
+  (correlated P0: 16, correlated P1: 3), with nothing between 1e-14 and 1e-10. Those extra directions are near-flat, not exact:
+  correlated P0 loads layer-1 coefficients 0.49, layer-1 SiLU weights 0.26, layer-2 coefficients 0.13, layer-2 SiLU 0.12, by basis
+  index concentrated on the outer functions B_0 and B_7 (L1 shares 0.20 ... 0.39; L2 0.28 ... 0.30); correlated P1 loads layer-2
+  coefficients 0.75 and the output bias 0.23, again on B_0/B_7. Criterion (ii) as fixed (near-null count = 15 everywhere) fails at
+  the two correlated end points only; criteria (i), (iii), (iv) hold. Per the brief: report and stop.
