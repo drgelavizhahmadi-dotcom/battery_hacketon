@@ -410,3 +410,47 @@ B1 held; B2 failed on the D leg; B3 failed; branches 3 and 4 stand. Everything b
   uses all of them, flagged.
 
 New weights are archived with manifest entries, and a backup bundle is made. Step 6 is not started.
+
+### POST-HOC results (recorded 2026-10-24; addendum ff5bd20; no verdict changes; one implementation-only crash fix, 831f026)
+
+**Check 1: P2 path extension** (μ = 1e-6; all 32 new points certified, all by certification-based termination).
+
+| Condition | Median D' = ‖θ*(1e-9)‖² / ‖θ*(1e-7)‖² | Median norm ratio ‖θ*(1e-9)‖ / ‖θ_polish‖ | Median relative distance | Median relative loss difference |
+|---|---|---|---|---|
+| independent | 1.003 | 1.000 | 0.000 | +4.6e-10 |
+| correlated | 1.035 | 0.911 | 0.594 | +4.6e-3 |
+
+- **Reading: BOTH HOLD.** The path is bounded at μ = 1e-6, and B2's D failure is a μ-versus-window effect.
+- **Descriptive detail.**
+  - Independent: 5 of 8 paths end exactly at the certified polish minimum. The other 3 end at a smaller norm (ratio 0.54–0.71)
+    with a loss 32–54% LOWER than that polish minimum, which is therefore a poorer local minimum.
+  - Correlated: 1 of 8 ends at the polish minimum. The other 7 settle about 0.6 away (relative) at a norm ratio of 0.91 and a loss
+    0.45–0.49% higher, consistent with a settled point of the same valley. ‖θ*‖² goes 75.95 → 78.35 → 78.61 over γ = 1e-7, 1e-8,
+    1e-9.
+  - The correlated norm ratio (0.911) is just inside the [0.9, 1.1] band.
+
+**Check 2: P2 at μ = 1e-5** (16 new models, the Step 1 protocol end to end).
+
+| Condition | Certified | Median D (certified-only) | Prediction (≥ 7/8 and D ≤ 1.5) |
+|---|---|---|---|
+| independent | 8/8 | 1.167 (1.167) | held |
+| correlated | 8/8 | 1.309 (1.309) | held |
+
+**Reading: the prediction holds.** The fix carries to B-splines at the main study's μ. With check 1, the D-leg failure reads as a
+calibration / window lesson.
+
+**Check 3: the 7 non-certifying independent P0/P1 models** (descriptive). Norm growth is over the last 100 polish iterations.
+
+| Model | Ending | Norm growth | Largest hidden-unit correlation | Short-path D | Class |
+|---|---|---|---|---|---|
+| P0 s0 | iteration cap | +16.5% | 0.858 | 4.31 | runaway-like |
+| P0 s2 | iteration cap | +1.6% | 0.337 | 4.30 | mixed |
+| P0 s6 | iteration cap | +5.7% | 0.481 | 4.40 | mixed |
+| P1 s0 | iteration cap | +2.9% | 0.439 | 1.23 | mixed |
+| P1 s2 | iteration cap | +126% | 0.091 | 1.23 | mixed |
+| P1 s6 | iteration cap | +17.2% | 0.811 | 1.23 | runaway-like |
+| P1 s7 | solver error (watchdog), 10 iterations | −0.8% | 0.074 | 1.23 | slow convergence |
+
+- **Counts:** 2 runaway-like, 4 mixed, 1 slow convergence.
+- **Observation.** Most non-certifying independent models are still growing at the cap, several with hidden-unit correlations below
+  0.5. The most extreme is P1 s2: +126% at a correlation of 0.09.

@@ -360,3 +360,45 @@ paper2/revision/bspline_posthoc.py 2026-10-24 19:22:35: POST-HOC follow-up (adde
   21:2x). The extensions ran their analysis as Python threads of one process (torch / OpenMP used from several threads at once).
   Killed at about 21:24. Implementation-only fix (separate commit): each model's extension runs in its own worker process, as in
   Step 1. Cached points are reused (SHA-indexed); nothing else changes.
+
+####################################################################################################
+paper2/revision/bspline_posthoc.py 2026-10-24 21:22:02: POST-HOC follow-up (addendum ff5bd20; no verdict changes)
+####################################################################################################
+  inputs: 80 archive-17 files, SHA-256 verified against weights_manifest.txt
+
+==================== 1. P2 path extension (gamma 1e-8, 1e-9; mu = 1e-6 as frozen) ====================
+  independent_P2_s0  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.45, 39.67, 39.78, 39.8 | D' 1.003 | vs polish: norm ratio 0.7051, rel. distance 0.758, rel. loss diff -5.36e-01 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s1  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.31, 39.61, 39.73, 39.74 | D' 1.003 | vs polish: norm ratio 1.0000, rel. distance 0.000, rel. loss diff +4.67e-10 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s2  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.31, 39.61, 39.73, 39.74 | D' 1.003 | vs polish: norm ratio 0.6827, rel. distance 0.808, rel. loss diff -4.02e-01 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s3  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.45, 39.67, 39.78, 39.8 | D' 1.003 | vs polish: norm ratio 1.0000, rel. distance 0.000, rel. loss diff +4.62e-10 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s4  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.64, 39.81, 39.92, 39.93 | D' 1.003 | vs polish: norm ratio 1.0000, rel. distance 0.000, rel. loss diff +4.61e-10 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s5  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.62, 39.8, 39.91, 39.92 | D' 1.003 | vs polish: norm ratio 1.0000, rel. distance 0.000, rel. loss diff +4.60e-10 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s6  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.45, 39.66, 39.77, 39.78 | D' 1.003 | vs polish: norm ratio 0.5370, rel. distance 0.848, rel. loss diff -3.24e-01 | certified [True, True] | certified (terminated , certified (terminated 
+  independent_P2_s7  ||theta*||^2 1e-5/1e-7/1e-8/1e-9 32.62, 39.8, 39.91, 39.92 | D' 1.003 | vs polish: norm ratio 1.0000, rel. distance 0.000, rel. loss diff +4.60e-10 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s0   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.15, 75.95, 78.35, 78.61 | D' 1.035 | vs polish: norm ratio 0.9114, rel. distance 0.571, rel. loss diff +4.58e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s1   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 33.92, 75.95, 78.34, 78.6 | D' 1.035 | vs polish: norm ratio 0.9112, rel. distance 0.571, rel. loss diff +4.54e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s2   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.24, 76.23, 78.63, 78.89 | D' 1.035 | vs polish: norm ratio 0.9124, rel. distance 0.617, rel. loss diff +4.85e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s3   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.12, 75.95, 78.35, 78.6 | D' 1.035 | vs polish: norm ratio 0.9114, rel. distance 0.617, rel. loss diff +4.54e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s4   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.15, 75.95, 78.35, 78.61 | D' 1.035 | vs polish: norm ratio 0.9998, rel. distance 0.000, rel. loss diff +1.62e-08 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s5   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.15, 75.95, 78.35, 78.61 | D' 1.035 | vs polish: norm ratio 0.9114, rel. distance 0.617, rel. loss diff +4.58e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s6   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 33.92, 75.95, 78.34, 78.6 | D' 1.035 | vs polish: norm ratio 0.9108, rel. distance 0.617, rel. loss diff +4.51e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  correlated_P2_s7   ||theta*||^2 1e-5/1e-7/1e-8/1e-9 34.46, 76.23, 78.63, 78.89 | D' 1.035 | vs polish: norm ratio 0.9125, rel. distance 0.569, rel. loss diff +4.85e-03 | certified [True, True] | certified (terminated , certified (terminated 
+  independent: median D' 1.003 (<= 1.5: True); median norm ratio 1.0000 (in [0.9, 1.1]: True); median rel. distance 0.000; median rel. loss diff +4.60e-10
+  correlated: median D' 1.035 (<= 1.5: True); median norm ratio 0.9114 (in [0.9, 1.1]: True); median rel. distance 0.594; median rel. loss diff +4.56e-03
+  READING (check 1): BOTH HOLD: the path is bounded at mu = 1e-6; B2's D failure is a mu-versus-window effect
+
+==================== 2. P2 at the RBF study's mu = 1e-5 (16 new models, the Step 1 protocol end to end) ====================
+  independent P2 (mu 1e-5): certified 8/8 ; median D 1.167 (certified-only 1.167); D per seed 1.167, 1.170, 1.170, 1.167, 1.165, 1.167, 1.169, 1.167 -> prediction held
+  correlated P2 (mu 1e-5): certified 8/8 ; median D 1.309 (certified-only 1.309); D per seed 1.309, 1.306, 1.311, 1.309, 1.309, 1.309, 1.306, 1.312 -> prediction held
+  READING (check 2): PREDICTION HOLDS: the fix carries to B-splines at the main study's mu; with check 1, the D-leg failure reads as a calibration/window lesson
+
+==================== 3. the non-certifying independent P0/P1 models (descriptive) ====================
+  independent_P0_s0  iteration cap    500 it | ||theta|| growth over the last 100 iterations +16.51% | ||theta||^2 70.79 -> 7078 | largest hidden-unit corr. 0.858 | short-path D 4.313 -> runaway-like
+  independent_P0_s2  iteration cap    500 it | ||theta|| growth over the last 100 iterations +1.63% | ||theta||^2 124.3 -> 3.637e+04 | largest hidden-unit corr. 0.337 | short-path D 4.297 -> mixed
+  independent_P0_s6  iteration cap    500 it | ||theta|| growth over the last 100 iterations +5.72% | ||theta||^2 72.24 -> 6497 | largest hidden-unit corr. 0.481 | short-path D 4.401 -> mixed
+  independent_P1_s0  iteration cap    500 it | ||theta|| growth over the last 100 iterations +2.89% | ||theta||^2 58.02 -> 1558 | largest hidden-unit corr. 0.439 | short-path D 1.231 -> mixed
+  independent_P1_s2  iteration cap    500 it | ||theta|| growth over the last 100 iterations +125.86% | ||theta||^2 59.03 -> 3.46e+05 | largest hidden-unit corr. 0.091 | short-path D 1.234 -> mixed
+  independent_P1_s6  iteration cap    500 it | ||theta|| growth over the last 100 iterations +17.24% | ||theta||^2 52.02 -> 1604 | largest hidden-unit corr. 0.811 | short-path D 1.230 -> runaway-like
+  independent_P1_s7  solver error      10 it | ||theta|| growth over the last all (short) iterations -0.82% | ||theta||^2 47.21 -> 46.43 | largest hidden-unit corr. 0.074 | short-path D 1.228 -> slow convergence
+  classification counts: {'runaway-like': 2, 'mixed': 4, 'slow convergence': 1}
+  wrote bspline_posthoc_results.json

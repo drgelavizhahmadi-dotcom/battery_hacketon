@@ -1,0 +1,5665 @@
+{
+ "check1": {
+  "rows": {
+   "independent_P2_s0": {
+    "D_prime": 1.0031443164020095,
+    "norm_ratio": 0.7051340398888523,
+    "dist": 0.7584276804315088,
+    "rel_loss": -0.5358030006178474,
+    "theta2": [
+     32.454072458156475,
+     39.671649812516335,
+     39.784549281843354,
+     39.79639003171661
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s1": {
+    "D_prime": 1.0031814168296707,
+    "norm_ratio": 0.9999831714243572,
+    "dist": 7.835369658277203e-05,
+    "rel_loss": 4.670952968455715e-10,
+    "theta2": [
+     32.306800235900354,
+     39.61337346335385,
+     39.72744146659251,
+     39.73940011637019
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s2": {
+    "D_prime": 1.0031814167751913,
+    "norm_ratio": 0.6826934656327991,
+    "dist": 0.807690321903187,
+    "rel_loss": -0.40216067174306275,
+    "theta2": [
+     32.30679998429615,
+     39.61337346550643,
+     39.72744146659257,
+     39.73940011637151
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s3": {
+    "D_prime": 1.0031443164019767,
+    "norm_ratio": 0.9999833636229885,
+    "dist": 7.822539998470233e-05,
+    "rel_loss": 4.6247358011574576e-10,
+    "theta2": [
+     32.45407245821465,
+     39.67164981251646,
+     39.7845492818434,
+     39.79639003171543
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s4": {
+    "D_prime": 1.0031202135295687,
+    "norm_ratio": 0.99998348339702,
+    "dist": 7.811081032343815e-05,
+    "rel_loss": 4.606258324474452e-10,
+    "theta2": [
+     32.63625631511933,
+     39.81009491396686,
+     39.92251757195926,
+     39.93431091073083
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s5": {
+    "D_prime": 1.0031131334520915,
+    "norm_ratio": 0.9999835162406654,
+    "dist": 7.825827258268081e-05,
+    "rel_loss": 4.595464813591079e-10,
+    "theta2": [
+     32.620726751181365,
+     39.797233518368685,
+     39.90936197614752,
+     39.921127617335415
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s6": {
+    "D_prime": 1.0031357034693997,
+    "norm_ratio": 0.5369758157923481,
+    "dist": 0.8479834478332133,
+    "rel_loss": -0.3239077325462965,
+    "theta2": [
+     32.44532831609288,
+     39.65942041570782,
+     39.77197293717488,
+     39.783780597899735
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "independent_P2_s7": {
+    "D_prime": 1.0031131334521175,
+    "norm_ratio": 0.9999835162474224,
+    "dist": 7.825833464066785e-05,
+    "rel_loss": 4.595460274592914e-10,
+    "theta2": [
+     32.620726751181365,
+     39.7972335183685,
+     39.9093619761479,
+     39.92112761733627
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s0": {
+    "D_prime": 1.0349587815412038,
+    "norm_ratio": 0.9114313465304351,
+    "dist": 0.5710120364685576,
+    "rel_loss": 0.004581479086586396,
+    "theta2": [
+     34.154005825750055,
+     75.95004644917606,
+     78.34603830699056,
+     78.60516753103708
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s1": {
+    "D_prime": 1.0349797308748183,
+    "norm_ratio": 0.911240796614689,
+    "dist": 0.5707752566286565,
+    "rel_loss": 0.004543488112411958,
+    "theta2": [
+     33.91984221045708,
+     75.94546256316757,
+     78.34275060021446,
+     78.60201440479075
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s2": {
+    "D_prime": 1.0348606489652235,
+    "norm_ratio": 0.9124272482227064,
+    "dist": 0.6171933879995466,
+    "rel_loss": 0.004851798237793704,
+    "theta2": [
+     34.24235320560361,
+     76.2301047157781,
+     78.62818065367335,
+     78.88753563685707
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s3": {
+    "D_prime": 1.0349541387794967,
+    "norm_ratio": 0.911350593921674,
+    "dist": 0.6168736883927801,
+    "rel_loss": 0.004542150651625693,
+    "theta2": [
+     34.115867289276494,
+     75.94990567005044,
+     78.34557352601557,
+     78.60466921313107
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s4": {
+    "D_prime": 1.0349587816284003,
+    "norm_ratio": 0.9998153209505865,
+    "dist": 0.00025519590268851297,
+    "rel_loss": 1.6174667057162062e-08,
+    "theta2": [
+     34.15400581402555,
+     75.95004644277722,
+     78.34603830699086,
+     78.60516753103713
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s5": {
+    "D_prime": 1.034958763926574,
+    "norm_ratio": 0.9114313465995402,
+    "dist": 0.6170429171311415,
+    "rel_loss": 0.004581479086586519,
+    "theta2": [
+     34.15400539848752,
+     75.95004774181889,
+     78.34603830699012,
+     78.60516753103717
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s6": {
+    "D_prime": 1.0349797308719961,
+    "norm_ratio": 0.9107892134663201,
+    "dist": 0.616510622715506,
+    "rel_loss": 0.004512443852993672,
+    "theta2": [
+     33.91984177676235,
+     75.94546256337514,
+     78.34275060021389,
+     78.60201440479126
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   },
+   "correlated_P2_s7": {
+    "D_prime": 1.0348363094341229,
+    "norm_ratio": 0.9125339175391883,
+    "dist": 0.5690077392540229,
+    "rel_loss": 0.0048502884493199835,
+    "theta2": [
+     34.460172361110544,
+     76.23403385943774,
+     78.63055067789317,
+     78.88974625237651
+    ],
+    "cert": [
+     true,
+     true
+    ],
+    "stop": [
+     "certified (terminated at the first accepted iterate that certifies)",
+     "certified (terminated at the first accepted iterate that certifies)"
+    ],
+    "degenerate": [
+     false,
+     false
+    ],
+    "polish_certified": true
+   }
+  },
+  "cells": {
+   "independent": {
+    "D_prime_med": 1.0031400099356882,
+    "norm_ratio_med": 0.9999832675236728,
+    "D_ok": true,
+    "norm_ok": true,
+    "rel_loss_med": 4.595462544091997e-10,
+    "dist_med": 7.830601561171994e-05
+   },
+   "correlated": {
+    "D_prime_med": 1.034958772733889,
+    "norm_ratio_med": 0.9114313465649877,
+    "D_ok": true,
+    "norm_ok": true,
+    "rel_loss_med": 0.004562483599499177,
+    "dist_med": 0.5937613295920319
+   }
+  },
+  "reading": "BOTH HOLD: the path is bounded at mu = 1e-6; B2's D failure is a mu-versus-window effect"
+ },
+ "check2": {
+  "cells": {
+   "independent": {
+    "certified": 8,
+    "D_med": 1.1671601749231078,
+    "D_cert_med": 1.1671601749231078,
+    "reasons": {},
+    "ok": true,
+    "D_per_seed": [
+     1.1671601795491173,
+     1.169998926418123,
+     1.1699989227185505,
+     1.1671601702970982,
+     1.1647369106041081,
+     1.1666035139211304,
+     1.168751569028266,
+     1.1666035139210724
+    ],
+    "growth_med": 0.9733896131094077
+   },
+   "correlated": {
+    "certified": 8,
+    "D_med": 1.3085478701379158,
+    "D_cert_med": 1.3085478701379158,
+    "reasons": {},
+    "ok": true,
+    "D_per_seed": [
+     1.3085478701392137,
+     1.3061845022698928,
+     1.3113233703571827,
+     1.3085968699414907,
+     1.3085478701366178,
+     1.308547860211823,
+     1.3061845028585948,
+     1.3120778187472113
+    ],
+    "growth_med": 0.99037618151559
+   }
+  },
+  "reading": "PREDICTION HOLDS: the fix carries to B-splines at the main study's mu; with check 1, the D-leg failure reads as a calibration/window lesson",
+  "models": {
+   "independent_P2m1e-05_s0": {
+    "key": "independent_P2m1e-05_s0",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 0,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 2690,
+     "stopped_epoch": 2790,
+     "val": 0.0010463137878105044
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 20
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 20,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 1.6110990688246452e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.14365413144825,
+     "blocks": {
+      "L1 RBF affine": 18.64905891504539,
+      "L1 RBF curved": 1.2888724493385766,
+      "L1 SiLU": 0.025702920437006647,
+      "L1 bias": 0.1952557659925466,
+      "L2 RBF affine": 12.014389734929805,
+      "L2 RBF curved": 0.80542462368801,
+      "L2 SiLU": 0.02071809011925247,
+      "L2 bias": 0.14423163189766136
+     },
+     "Lstar": 0.0017363911923340843,
+     "terms": {
+      "data": 0.0008918504536958873,
+      "D2": 0.0005173419485075911,
+      "SiLU": 2.0564303630853826e-05,
+      "muQ": 0.00030663448649975196
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.494252537240408e-05,
+      0.00024738674797652365,
+      0.0007253467516425848,
+      0.0015913560548501888,
+      0.003907615563129848,
+      0.009244322763110435,
+      0.019844540002775666,
+      0.02659661865208442,
+      0.032906921572150624,
+      0.1276003391158889,
+      12.516749764382809
+     ],
+     "min_max": 5.987379054717361e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 1.0614690988791464,
+    "trust_theta2": [
+     31.224323125794385,
+     33.17655923462543,
+     31.561359805389813,
+     31.90246276569497,
+     31.865012773892396,
+     32.316447350429044,
+     32.019272460949765,
+     32.47468819761371,
+     33.36410418991692,
+     34.01908876733377,
+     34.62833330980804,
+     34.07898067291431,
+     34.07514931879612,
+     34.09578688029373,
+     33.82162401647925,
+     33.86139898179727,
+     33.687124990747876,
+     33.402243704386386,
+     33.147040969684085,
+     33.143567171939964,
+     33.14365413144825
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.3329106181063773,
+      "L1 curved RBF": 0.01573540854717728,
+      "L1 SiLU": 0.021512750983088157,
+      "L1 bias": 0.03198285546283222,
+      "L2 affine RBF": 0.5141062018266009,
+      "L2 curved RBF": 0.04133365052953359,
+      "L2 SiLU": 0.041763154507795885,
+      "L2 bias": 0.0006553600365948439
+     },
+     "layer1": 0.402141633099475,
+     "pair": {
+      "x1/x2": 0.5488205725661424,
+      "x3/x4": 0.4511794274338577
+     },
+     "unit_max": 0.35947383911036684,
+     "unit_eff": 2.96851296720803,
+     "total": 4.55798320637789
+    },
+    "hidden_corr": {
+     "early": 0.09936942306152671,
+     "polished": 0.0658984302285913
+    },
+    "cancel": {
+     "early": {
+      "within": 1.2959457400175602,
+      "between": 1.2763294391696378,
+      "cross": 1.655680659116501,
+      "layer2": 1.668181504057841,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.3302232028751666,
+      "between": 1.4400112990689842,
+      "cross": 1.9508526062708946,
+      "layer2": 1.8222711962139848,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.014632512340108797,
+     "polished": 0.01387988736873556
+    },
+    "rmse_in": {
+     "polished": 0.012414488241552338
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 15,
+      "wall_s": 17.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 7.776623903209615e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.151051992419543,
+      "blocks": {
+       "L1 RBF affine": 0.8847491943002423,
+       "L1 RBF curved": 0.7509074314191919,
+       "L1 SiLU": 0.7047292308215221,
+       "L1 bias": 0.013070761054655192,
+       "L2 RBF affine": 0.7425948454133942,
+       "L2 RBF curved": 1.3242416793301015,
+       "L2 SiLU": 0.6884467555162628,
+       "L2 bias": 0.042312094564172724
+      },
+      "Lstar": 0.004762259719710886,
+      "terms": {
+       "data": 0.0018467472425858099,
+       "D2": 0.0022820681985458845,
+       "SiLU": 0.0006171708381820551,
+       "muQ": 1.6273440397136366e-05,
+       "reg": 0.005151051992419543
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007255757033204392,
+       0.00226305445098448,
+       0.002942436467148671,
+       0.0039990102723688,
+       0.006736212465602646,
+       0.014930285296208906,
+       0.0226297115645545,
+       0.03218301620789499,
+       0.03976169731900629,
+       0.161086103323722,
+       17.033280151672404
+      ],
+      "min_max": 4.2597532410643695e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 26,
+      "wall_s": 35.8,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.4845540719514257e-13,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.34499717497709,
+      "blocks": {
+       "L1 RBF affine": 15.047377617733584,
+       "L1 RBF curved": 1.2082594699130809,
+       "L1 SiLU": 0.054228454945587506,
+       "L1 bias": 0.1057399665511651,
+       "L2 RBF affine": 10.93732971373035,
+       "L2 RBF curved": 0.8252725781339372,
+       "L2 SiLU": 0.04803736246422213,
+       "L2 bias": 0.11875201150516398
+      },
+      "Lstar": 0.0017586751494333274,
+      "terms": {
+       "data": 0.0008865546457406683,
+       "D2": 0.0005669701227793178,
+       "SiLU": 4.530330759870164e-05,
+       "muQ": 0.00025984707331463936,
+       "reg": 0.0002834499717497709
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.025395993941159e-05,
+       0.0002688482661037489,
+       0.0007598515553989093,
+       0.0016345855826276534,
+       0.003996625968481632,
+       0.009488062835597326,
+       0.0196783213955311,
+       0.02664941751292668,
+       0.03345506938258841,
+       0.132945816586482,
+       13.094262684803022
+      ],
+      "min_max": 6.892633981152585e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 8,
+      "wall_s": 14.0,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 5.88852035697064e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.08315199206549,
+      "blocks": {
+       "L1 RBF affine": 18.603045725768013,
+       "L1 RBF curved": 1.2878108026591093,
+       "L1 SiLU": 0.025922254241219314,
+       "L1 bias": 0.19288926057409833,
+       "L2 RBF affine": 12.00337744426975,
+       "L2 RBF curved": 0.8057198062151141,
+       "L2 SiLU": 0.020930511603525166,
+       "L2 bias": 0.14345618673465876
+      },
+      "Lstar": 0.0017363942140437023,
+      "terms": {
+       "data": 0.0008917441289493201,
+       "D2": 0.0005178302840681509,
+       "SiLU": 2.075556932585371e-05,
+       "muQ": 0.0003060642317003777,
+       "reg": 3.308315199206549e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.511400416828423e-05,
+       0.00024760780363379775,
+       0.000725716402779355,
+       0.0015918649870261053,
+       0.0039086635941140615,
+       0.009247101714881197,
+       0.019841431055943406,
+       0.026598338578301385,
+       0.032914402014315315,
+       0.12767027318967908,
+       12.524113427026029
+      ],
+      "min_max": 5.997550613538381e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1671601795491173,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s1": {
+    "key": "independent_P2m1e-05_s1",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 1,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 4089,
+     "stopped_epoch": 4189,
+     "val": 0.0010321851586923003
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 18
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 18,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 3.5981332637772395e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.00059923600797,
+     "blocks": {
+      "L1 RBF affine": 18.672023397816353,
+      "L1 RBF curved": 1.2844023044609294,
+      "L1 SiLU": 0.025656072191497424,
+      "L1 bias": 0.2231646174001986,
+      "L2 RBF affine": 11.845562968155717,
+      "L2 RBF curved": 0.8134505444745308,
+      "L2 SiLU": 0.02299283489933568,
+      "L2 bias": 0.11334649660940814
+     },
+     "Lstar": 0.001735395655403352,
+     "terms": {
+      "data": 0.0008913403658676023,
+      "D2": 0.000517328173873175,
+      "SiLU": 2.1551252002854078e-05,
+      "muQ": 0.00030517586365972076
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.51332895960943e-05,
+      0.00024760235544621633,
+      0.0007229740602982534,
+      0.0015961490299354084,
+      0.003921938785447678,
+      0.009194848727732602,
+      0.01943002104147531,
+      0.026720150183644476,
+      0.03293282484613347,
+      0.12740063997944892,
+      12.523853055920371
+     ],
+     "min_max": 5.999215198439007e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9770931925876541,
+    "trust_theta2": [
+     33.774259698414085,
+     35.3265141645633,
+     34.04622051675044,
+     33.85228161055791,
+     33.925616368222144,
+     33.99274499389772,
+     33.69176860304741,
+     33.5350757580972,
+     33.559373017284244,
+     33.21977527618323,
+     33.46966016834266,
+     33.22951978954859,
+     33.23703064490691,
+     33.175952813205626,
+     33.062836101109575,
+     32.94353421156998,
+     32.999468335128554,
+     33.0005352936531,
+     33.00059923600797
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.3921029721485552,
+      "L1 curved RBF": 0.0005813659809512202,
+      "L1 SiLU": 0.0005659390511214229,
+      "L1 bias": 0.07633001367269089,
+      "L2 affine RBF": 0.4291255131357401,
+      "L2 curved RBF": 0.04080941115500956,
+      "L2 SiLU": 0.004807826582678888,
+      "L2 bias": 0.05567695827325294
+     },
+     "layer1": 0.4695802908533187,
+     "pair": {
+      "x1/x2": 0.7649915537145727,
+      "x3/x4": 0.2350084462854273
+     },
+     "unit_max": 0.4721932439219659,
+     "unit_eff": 2.751200836564222,
+     "total": 2.59108383466053
+    },
+    "hidden_corr": {
+     "early": 0.05949052188294559,
+     "polished": 0.065348351075606
+    },
+    "cancel": {
+     "early": {
+      "within": 1.3167208667449448,
+      "between": 1.3792696575653882,
+      "cross": 1.7720814780001406,
+      "layer2": 1.7695163954875994,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.331162623203691,
+      "between": 1.435355808500703,
+      "cross": 1.941655123599515,
+      "layer2": 1.874203956693822,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.014016410878240454,
+     "polished": 0.013880599093363907
+    },
+    "rmse_in": {
+     "polished": 0.01241929881045546
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 13,
+      "wall_s": 15.8,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.5087736080572796e-09,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.1592166508317145,
+      "blocks": {
+       "L1 RBF affine": 0.9055464470417354,
+       "L1 RBF curved": 0.7282621342293567,
+       "L1 SiLU": 0.7233510382681038,
+       "L1 bias": 0.053404813701593855,
+       "L2 RBF affine": 0.728828262222973,
+       "L2 RBF curved": 1.306577453369416,
+       "L2 SiLU": 0.69282611484964,
+       "L2 bias": 0.02042038714889555
+      },
+      "Lstar": 0.004717119793088121,
+      "terms": {
+       "data": 0.0017884778511475339,
+       "D2": 0.0022849379408849914,
+       "SiLU": 0.0006273602539629489,
+       "muQ": 1.6343747092647087e-05,
+       "reg": 0.005159216650831714
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0011973804675596595,
+       0.0022631465477509828,
+       0.0029410242210719207,
+       0.00396839257507687,
+       0.006674937895804348,
+       0.01468055257877748,
+       0.022805001374416992,
+       0.031815038433647844,
+       0.03878387920516684,
+       0.1605910372302475,
+       17.33108699574741
+      ],
+      "min_max": 6.90885959924767e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 24,
+      "wall_s": 37.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.3354576708260284e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.153354966134962,
+      "blocks": {
+       "L1 RBF affine": 15.10781734448298,
+       "L1 RBF curved": 1.200080815945432,
+       "L1 SiLU": 0.05430937974531783,
+       "L1 bias": 0.13415165601099033,
+       "L2 RBF affine": 10.67905773144276,
+       "L2 RBF curved": 0.8427693056760077,
+       "L2 SiLU": 0.05360426288398823,
+       "L2 bias": 0.0815644699474919
+      },
+      "Lstar": 0.0017578951425045808,
+      "terms": {
+       "data": 0.0008850526428405457,
+       "D2": 0.0005671684795591002,
+       "SiLU": 4.7805269345677395e-05,
+       "muQ": 0.00025786875075925746,
+       "reg": 0.00028153354966134974
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.011573670021593e-05,
+       0.0002694442478015642,
+       0.0007568082654756681,
+       0.0016405553702397025,
+       0.00400696725545853,
+       0.009417555613411994,
+       0.01936509713228826,
+       0.026805042425565667,
+       0.033454433962845156,
+       0.13249559605090572,
+       13.085975442747444
+      ],
+      "min_max": 6.886436329831277e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 6,
+      "wall_s": 8.9,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.582114758350086e-09,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 32.939395085446236,
+      "blocks": {
+       "L1 RBF affine": 18.626353854101154,
+       "L1 RBF curved": 1.2832991637456423,
+       "L1 SiLU": 0.025875589614970544,
+       "L1 bias": 0.22071533338044155,
+       "L2 RBF affine": 11.833523131406508,
+       "L2 RBF curved": 0.8138422641682759,
+       "L2 SiLU": 0.023235821132325085,
+       "L2 bias": 0.1125499278969209
+      },
+      "Lstar": 0.0017353987121354018,
+      "terms": {
+       "data": 0.0008912252280173258,
+       "D2": 0.0005178185751732871,
+       "SiLU": 2.1756139089712058e-05,
+       "muQ": 0.00030459876985507666,
+       "reg": 3.2939395085446236e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.530189780157644e-05,
+       0.0002478265806949507,
+       0.0007233319221425525,
+       0.0015966814698699643,
+       0.003922937359627844,
+       0.009197160337695352,
+       0.019426886216400444,
+       0.026721493384744846,
+       0.03293995412268245,
+       0.12746803121694414,
+       12.531093301372957
+      ],
+      "min_max": 6.00920414448802e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.169998926418123,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s2": {
+    "key": "independent_P2m1e-05_s2",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 2,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 4956,
+     "stopped_epoch": 5056,
+     "val": 0.0019287047907710075
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 16
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 16,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 3.72770842514171e-11,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 44.33174765889278,
+     "blocks": {
+      "L1 RBF affine": 17.394879853976555,
+      "L1 RBF curved": 2.451546815435435,
+      "L1 SiLU": 0.05277242143274646,
+      "L1 bias": 2.0956130046928605,
+      "L2 RBF affine": 20.962999119237946,
+      "L2 RBF curved": 0.39920709985707603,
+      "L2 SiLU": 0.015349532801619385,
+      "L2 bias": 0.9593798114585447
+     },
+     "Lstar": 0.002833765035747228,
+     "terms": {
+      "data": 0.0017963107111664297,
+      "D2": 0.0006236978085558389,
+      "SiLU": 3.017772629281423e-05,
+      "muQ": 0.000383578789732145
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      4.998182496642019e-05,
+      0.00025615674150565506,
+      0.0007214612109618048,
+      0.0017397659739520313,
+      0.00374485707206667,
+      0.009883032359519803,
+      0.018378378760258975,
+      0.02714126328453072,
+      0.035210116626595796,
+      0.13915854756916288,
+      15.967254954263607
+     ],
+     "min_max": 3.1302703632895862e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.999302530586501,
+    "trust_theta2": [
+     44.362689277764574,
+     41.588881405400684,
+     44.0348639501846,
+     44.26843922306965,
+     44.07081642272436,
+     44.08016273591865,
+     44.07942076507364,
+     44.055953391581205,
+     43.95205452222374,
+     43.64041413076496,
+     43.170472500857784,
+     43.61026665020842,
+     44.23403207176001,
+     44.30940701042857,
+     44.32793700686656,
+     44.33169778343605,
+     44.33174765889278
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.36076348622698323,
+      "L1 curved RBF": 0.0005070480316230285,
+      "L1 SiLU": 2.2136605327828867e-05,
+      "L1 bias": 0.1409060161871472,
+      "L2 affine RBF": 0.3849587800487139,
+      "L2 curved RBF": 0.011119109134098642,
+      "L2 SiLU": 0.0008986898341957086,
+      "L2 bias": 0.10082473393191044
+     },
+     "layer1": 0.5021986870510813,
+     "pair": {
+      "x1/x2": 0.7635542001635555,
+      "x3/x4": 0.23644579983644437
+     },
+     "unit_max": 0.49792222085010013,
+     "unit_eff": 2.535344789350509,
+     "total": 6.2215927031041
+    },
+    "hidden_corr": {
+     "early": 0.09614333408690848,
+     "polished": 0.11087995232188462
+    },
+    "cancel": {
+     "early": {
+      "within": 1.2767264036329538,
+      "between": 1.2929860767453991,
+      "cross": 1.520714874319357,
+      "layer2": 1.7480496427718153,
+      "sat95": 0.001,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1368350112856866,
+      "between": 1.1463411768285299,
+      "cross": 1.3644527223207445,
+      "layer2": 1.228028701541899,
+      "sat95": 0.001,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.032636228355862676,
+     "polished": 0.03261064770055882
+    },
+    "rmse_in": {
+     "polished": 0.032962851786060975
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 28,
+      "wall_s": 38.8,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 6.259398305664271e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.1592166563142,
+      "blocks": {
+       "L1 RBF affine": 0.9055464475618756,
+       "L1 RBF curved": 0.7282621348914896,
+       "L1 SiLU": 0.7233510387497266,
+       "L1 bias": 0.05340481348538685,
+       "L2 RBF affine": 0.7288282636009579,
+       "L2 RBF curved": 1.3065774519808278,
+       "L2 SiLU": 0.6928261184661111,
+       "L2 bias": 0.020420387577823704
+      },
+      "Lstar": 0.004717119787605636,
+      "terms": {
+       "data": 0.001788477848436659,
+       "D2": 0.0022849379362789623,
+       "SiLU": 0.0006273602557783865,
+       "muQ": 1.6343747111628337e-05,
+       "reg": 0.0051592166563142
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0011973805373636417,
+       0.0022631465477921304,
+       0.0029410241993621735,
+       0.0039683925558429345,
+       0.006674937908070158,
+       0.014680552585710428,
+       0.022805001404520894,
+       0.03181503842782843,
+       0.03878387922810396,
+       0.16059103741360278,
+       17.33108699606792
+      ],
+      "min_max": 6.90886000188738e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 23,
+      "wall_s": 26.3,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.2777244836646782e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.153354966163214,
+      "blocks": {
+       "L1 RBF affine": 15.107817344501296,
+       "L1 RBF curved": 1.2000808159456788,
+       "L1 SiLU": 0.05430937974531622,
+       "L1 bias": 0.13415165601500398,
+       "L2 RBF affine": 10.679057731436501,
+       "L2 RBF curved": 0.8427693056878169,
+       "L2 SiLU": 0.05360426288378854,
+       "L2 bias": 0.08156446994780968
+      },
+      "Lstar": 0.001757895142504298,
+      "terms": {
+       "data": 0.0008850526428393477,
+       "D2": 0.0005671684795599841,
+       "SiLU": 4.7805269345588226e-05,
+       "muQ": 0.00025786875075937797,
+       "reg": 0.00028153354966163206
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.011573669609142e-05,
+       0.0002694442478017273,
+       0.0007568082654718929,
+       0.001640555370238738,
+       0.004006967255459441,
+       0.009417555613413283,
+       0.019365097132283255,
+       0.026805042425584947,
+       0.03345443396286633,
+       0.13249559605087702,
+       13.085975442743266
+      ],
+      "min_max": 6.886436329518291e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 6,
+      "wall_s": 5.3,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 8.542114292594099e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 32.939394981323915,
+      "blocks": {
+       "L1 RBF affine": 18.62635367074837,
+       "L1 RBF curved": 1.2832991541892582,
+       "L1 SiLU": 0.025875589475749475,
+       "L1 bias": 0.22071531321424542,
+       "L2 RBF affine": 11.833523223069903,
+       "L2 RBF curved": 0.8138422736615354,
+       "L2 SiLU": 0.023235822521428293,
+       "L2 bias": 0.11254993444343152
+      },
+      "Lstar": 0.0017353987121457985,
+      "terms": {
+       "data": 0.0008912252332733897,
+       "D2": 0.0005178185702908217,
+       "SiLU": 2.175613964340435e-05,
+       "muQ": 0.00030459876893818277,
+       "reg": 3.2939394981323915e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.530171647126914e-05,
+       0.00024782657889978806,
+       0.0007233318404265768,
+       0.0015966814701964722,
+       0.003922937514940827,
+       0.009197160313136056,
+       0.019426885991995695,
+       0.026721493202589906,
+       0.03293995428911532,
+       0.12746803311062552,
+       12.531093461605423
+      ],
+      "min_max": 6.009189597219863e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1699989227185505,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s3": {
+    "key": "independent_P2m1e-05_s3",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 3,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 7650,
+     "stopped_epoch": 7750,
+     "val": 0.0010355530539527535
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 10
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 10,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 4.694976135297124e-11,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.14365456040642,
+     "blocks": {
+      "L1 RBF affine": 18.6490594480629,
+      "L1 RBF curved": 1.2888724664739648,
+      "L1 SiLU": 0.025702921070860106,
+      "L1 bias": 0.19525582854957163,
+      "L2 RBF affine": 12.014389551005427,
+      "L2 RBF curved": 0.8054246412771189,
+      "L2 SiLU": 0.020718087648098703,
+      "L2 bias": 0.14423161631847345
+     },
+     "Lstar": 0.0017363911923340813,
+     "terms": {
+      "data": 0.0008918504524753077,
+      "D2": 0.0005173419470511525,
+      "SiLU": 2.0564302816937864e-05,
+      "muQ": 0.0003066344899906833
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.494250813936243e-05,
+      0.00024738674729940703,
+      0.0007253467401278251,
+      0.0015913560500367186,
+      0.003907615528438194,
+      0.009244322634848496,
+      0.01984453986012342,
+      0.026596618794978162,
+      0.03290692138344142,
+      0.12760033611504024,
+      12.516749472973343
+     ],
+     "min_max": 5.98737781731441e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9448461289483858,
+    "trust_theta2": [
+     35.07836201572346,
+     36.462057637634736,
+     35.04455620387973,
+     34.96064482334718,
+     34.66309076642514,
+     34.03752234670392,
+     33.31362192908156,
+     33.14368641445172,
+     33.14436207888172,
+     33.14364960078823,
+     33.14365456040642
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.12654300709828004,
+      "L1 curved RBF": 0.0003746932262598905,
+      "L1 SiLU": 7.249697019591665e-06,
+      "L1 bias": 0.05751223834515372,
+      "L2 affine RBF": 0.7350675819079586,
+      "L2 curved RBF": 0.015077960649823675,
+      "L2 SiLU": 0.00010979766471404382,
+      "L2 bias": 0.0653074714107904
+     },
+     "layer1": 0.18443718836671322,
+     "pair": {
+      "x1/x2": 0.6073077531355399,
+      "x3/x4": 0.39269224686446
+     },
+     "unit_max": 0.7996132981323123,
+     "unit_eff": 1.512197095231941,
+     "total": 2.266763281937485
+    },
+    "hidden_corr": {
+     "early": 0.06580643494268969,
+     "polished": 0.06589842366777282
+    },
+    "cancel": {
+     "early": {
+      "within": 1.3321160119870052,
+      "between": 1.501064009369841,
+      "cross": 2.0248803252555154,
+      "layer2": 1.6040760085831596,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.330223203927923,
+      "between": 1.4400112917888992,
+      "cross": 1.9508525840950588,
+      "layer2": 1.822271213177543,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.014054184176617105,
+     "polished": 0.013879887192154435
+    },
+    "rmse_in": {
+     "polished": 0.012414488072429388
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 16,
+      "wall_s": 22.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 3.2228898185198557e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.151052000363471,
+      "blocks": {
+       "L1 RBF affine": 0.8847491930111802,
+       "L1 RBF curved": 0.7509074294686076,
+       "L1 SiLU": 0.7047292298765717,
+       "L1 bias": 0.013070761642401708,
+       "L2 RBF affine": 0.7425948497482596,
+       "L2 RBF curved": 1.3242416857781487,
+       "L2 SiLU": 0.6884467564234824,
+       "L2 bias": 0.042312094414819444
+      },
+      "Lstar": 0.0047622597117669575,
+      "terms": {
+       "data": 0.001846747225321542,
+       "D2": 0.002282068207852481,
+       "SiLU": 0.0006171708381653405,
+       "muQ": 1.62734404275944e-05,
+       "reg": 0.005151052000363471
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007255760479852373,
+       0.00226305445085018,
+       0.002942436473162385,
+       0.003999010275956719,
+       0.00673621242839699,
+       0.014930285285640093,
+       0.022629711574408386,
+       0.03218301620657205,
+       0.039761697329169884,
+       0.1610861038724872,
+       17.033280221210234
+      ],
+      "min_max": 4.2597552471527665e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 24,
+      "wall_s": 17.4,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.1107493346455702e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.344997179726047,
+      "blocks": {
+       "L1 RBF affine": 15.047377610719286,
+       "L1 RBF curved": 1.2082594691011384,
+       "L1 SiLU": 0.054228454930523674,
+       "L1 bias": 0.10573996835247196,
+       "L2 RBF affine": 10.937329725344938,
+       "L2 RBF curved": 0.8252725792609592,
+       "L2 SiLU": 0.048037362023869115,
+       "L2 bias": 0.1187520099928618
+      },
+      "Lstar": 0.001758675149385838,
+      "terms": {
+       "data": 0.0008865546455876181,
+       "D2": 0.0005669701230406236,
+       "SiLU": 4.530330739695398e-05,
+       "muQ": 0.0002598470733606423,
+       "reg": 0.0002834499717972605
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.025395339992515e-05,
+       0.00026884826618205705,
+       0.000759851550673004,
+       0.0016345855825790736,
+       0.003996625966747384,
+       0.009488062828374545,
+       0.019678321391375014,
+       0.02664941750501004,
+       0.03345506939225457,
+       0.1329458166921166,
+       13.094262695538339
+      ],
+      "min_max": 6.892633476085503e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 7,
+      "wall_s": 4.1,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.106358265347509e-09,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.08315173535982,
+      "blocks": {
+       "L1 RBF affine": 18.60304574255476,
+       "L1 RBF curved": 1.2878108165066742,
+       "L1 SiLU": 0.02592225482798303,
+       "L1 bias": 0.19288918945994413,
+       "L2 RBF affine": 12.003377422492623,
+       "L2 RBF curved": 0.8057196380323273,
+       "L2 SiLU": 0.020930511323697033,
+       "L2 bias": 0.14345616016181623
+      },
+      "Lstar": 0.001736394214069406,
+      "terms": {
+       "data": 0.0008917441442945488,
+       "D2": 0.0005178302686625584,
+       "SiLU": 2.0755569461824823e-05,
+       "muQ": 0.00030606423165047386,
+       "reg": 3.3083151735359817e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.511420939377985e-05,
+       0.0002476078021423385,
+       0.0007257165599161522,
+       0.0015918649802829515,
+       0.003908663543842901,
+       0.009247101637723125,
+       0.01984143134758647,
+       0.026598338480047796,
+       0.0329144017767961,
+       0.1276702712754897,
+       12.524113318005156
+      ],
+      "min_max": 5.997567052175479e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1671601702970982,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s4": {
+    "key": "independent_P2m1e-05_s4",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 4,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 5419,
+     "stopped_epoch": 5519,
+     "val": 0.0010298904962837696
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 16
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 16,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 1.3732817134978412e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.30876152610432,
+     "blocks": {
+      "L1 RBF affine": 18.674421320096386,
+      "L1 RBF curved": 1.2891057260998409,
+      "L1 SiLU": 0.025702124208741118,
+      "L1 bias": 0.20034903620075478,
+      "L2 RBF affine": 12.132860229646553,
+      "L2 RBF curved": 0.8219671939756719,
+      "L2 SiLU": 0.017818352884231517,
+      "L2 bias": 0.1465375429921442
+     },
+     "Lstar": 0.0017377919889108718,
+     "terms": {
+      "data": 0.0008910553457622582,
+      "D2": 0.0005193844475951455,
+      "SiLU": 1.927938005603878e-05,
+      "muQ": 0.0003080728154974294
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.711125468786616e-05,
+      0.00024759636344506294,
+      0.0007544456909589661,
+      0.0015638739526860075,
+      0.0039011762408915043,
+      0.009248256719261123,
+      0.019815523764440977,
+      0.026600545845956693,
+      0.032876898419010765,
+      0.12718433295895193,
+      12.507430800126803
+     ],
+     "min_max": 6.165235364491034e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9696860336311612,
+    "trust_theta2": [
+     34.350047717376896,
+     35.51526409714447,
+     34.47939433416411,
+     34.37388683771906,
+     34.315557119499516,
+     34.21619450667819,
+     34.29277964119156,
+     34.15951810266064,
+     34.06156823070626,
+     34.089167674580644,
+     33.914563100367076,
+     33.57532909353645,
+     33.21230458218565,
+     33.32169143216221,
+     33.306433293117756,
+     33.308816607582905,
+     33.30876152610432
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.22017888877874592,
+      "L1 curved RBF": 0.0003230386514059352,
+      "L1 SiLU": 2.22521888535135e-05,
+      "L1 bias": 0.12029544255543638,
+      "L2 affine RBF": 0.5525181307222519,
+      "L2 curved RBF": 0.0747733914594792,
+      "L2 SiLU": 0.0026430629221905347,
+      "L2 bias": 0.029245792721636542
+     },
+     "layer1": 0.3408196221744418,
+     "pair": {
+      "x1/x2": 0.7515850484017474,
+      "x3/x4": 0.2484149515982525
+     },
+     "unit_max": 0.3561758549270302,
+     "unit_eff": 2.975124769460102,
+     "total": 2.2756286267015207
+    },
+    "hidden_corr": {
+     "early": 0.060350326718398566,
+     "polished": 0.06381327577529246
+    },
+    "cancel": {
+     "early": {
+      "within": 1.3390941399296687,
+      "between": 1.4720078497056486,
+      "cross": 1.9412158169185072,
+      "layer2": 1.668700505025723,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.3313733270510189,
+      "between": 1.437238201639188,
+      "cross": 1.9487389457163273,
+      "layer2": 1.8236458460763365,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.013892989352135655,
+     "polished": 0.013838742346163871
+    },
+    "rmse_in": {
+     "polished": 0.012356444498243541
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 17,
+      "wall_s": 15.0,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 5.508860184157399e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.152817262021444,
+      "blocks": {
+       "L1 RBF affine": 0.8766779821418488,
+       "L1 RBF curved": 0.7519031529425887,
+       "L1 SiLU": 0.6972439618742966,
+       "L1 bias": 0.013442025966380096,
+       "L2 RBF affine": 0.7646701448964043,
+       "L2 RBF curved": 1.3702908325084544,
+       "L2 SiLU": 0.6312476006852425,
+       "L2 bias": 0.0473415610062278
+      },
+      "Lstar": 0.004859699733193659,
+      "terms": {
+       "data": 0.0019044169598861716,
+       "D2": 0.0023503533692656176,
+       "SiLU": 0.0005885159227714875,
+       "muQ": 1.641348127038253e-05,
+       "reg": 0.005152817262021444
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0006792685741651326,
+       0.0022633242880661913,
+       0.002952597680437121,
+       0.004010953526586236,
+       0.006714408341481477,
+       0.014888660705603999,
+       0.02272480355019188,
+       0.03214310958988739,
+       0.039612294338221624,
+       0.16138315369657028,
+       17.22600245239872
+      ],
+      "min_max": 3.943274570186447e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 28,
+      "wall_s": 39.8,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 8.3527504913237e-13,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.54604140957529,
+      "blocks": {
+       "L1 RBF affine": 15.086645549098744,
+       "L1 RBF curved": 1.2095444588370583,
+       "L1 SiLU": 0.054295901211988226,
+       "L1 bias": 0.11105604225457032,
+       "L2 RBF affine": 11.063838891363194,
+       "L2 RBF curved": 0.8569639607101642,
+       "L2 SiLU": 0.041560067554712386,
+       "L2 bias": 0.12213653854485294
+      },
+      "Lstar": 0.0017598980901950775,
+      "terms": {
+       "data": 0.0008847379945824428,
+       "D2": 0.0005711914783834426,
+       "SiLU": 4.246377282457256e-05,
+       "muQ": 0.0002615048444046194,
+       "reg": 0.0002854604140957528
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.289234612764313e-05,
+       0.00026917208111444646,
+       0.0007647592747660384,
+       0.0015900013251553826,
+       0.003991809448483845,
+       0.009492871909509714,
+       0.01966723550508102,
+       0.026681106013617253,
+       0.03346483666953707,
+       0.1324821115258268,
+       13.083746594774533
+      ],
+      "min_max": 7.099827672047932e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 7,
+      "wall_s": 12.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 5.044344301508874e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.248628081365666,
+      "blocks": {
+       "L1 RBF affine": 18.628567097654205,
+       "L1 RBF curved": 1.288050856038339,
+       "L1 SiLU": 0.025921727728852966,
+       "L1 bias": 0.19796881910008482,
+       "L2 RBF affine": 12.12193239605928,
+       "L2 RBF curved": 0.8224201520026444,
+       "L2 SiLU": 0.017997446157292533,
+       "L2 bias": 0.1457695866249629
+      },
+      "Lstar": 0.001737794992163341,
+      "terms": {
+       "data": 0.0008909397764297009,
+       "D2": 0.0005198942198135799,
+       "SiLU": 1.9456000982925284e-05,
+       "muQ": 0.00030750499493713485,
+       "reg": 3.3248628081365657e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.728869464892598e-05,
+       0.00024781813890558253,
+       0.0007547535387962432,
+       0.001564172534252985,
+       0.0039022353387744907,
+       0.009251058015466752,
+       0.019812454985980495,
+       0.026602358502522537,
+       0.03288464057993967,
+       0.12725360847971787,
+       12.514759402480056
+      ],
+      "min_max": 6.1758034783800674e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1647369106041081,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s5": {
+    "key": "independent_P2m1e-05_s5",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 5,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 6738,
+     "stopped_epoch": 6838,
+     "val": 0.0010325585026293993
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 15
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 15,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 2.268597094033653e-13,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.30273741403066,
+     "blocks": {
+      "L1 RBF affine": 18.71117029020949,
+      "L1 RBF curved": 1.287631880331645,
+      "L1 SiLU": 0.02574766439484803,
+      "L1 bias": 0.23866482135145348,
+      "L2 RBF affine": 12.074310548536316,
+      "L2 RBF curved": 0.823713477173392,
+      "L2 SiLU": 0.018272627970589553,
+      "L2 bias": 0.12322610406292435
+     },
+     "Lstar": 0.001737638936458541,
+     "terms": {
+      "data": 0.000890799381049889,
+      "D2": 0.0005194839509964129,
+      "SiLU": 1.950079602478101e-05,
+      "muQ": 0.0003078548083874581
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.775984490069307e-05,
+      0.00024747481426975917,
+      0.0007505871062977059,
+      0.0015663120009658553,
+      0.003950991269694051,
+      0.00923788306094063,
+      0.019586717044254177,
+      0.026810370138362967,
+      0.03288059093519422,
+      0.1269632361004264,
+      12.484018043645266
+     ],
+     "min_max": 6.228751402700441e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9652499358859133,
+    "trust_theta2": [
+     34.50167275428531,
+     35.496276042458184,
+     34.523446480711925,
+     34.47561998233802,
+     34.38225813550784,
+     34.21354553644266,
+     33.648194890184456,
+     34.090115031601535,
+     33.88818623813542,
+     33.495740176490955,
+     33.23027548666762,
+     33.288515038162096,
+     33.305704330022586,
+     33.30251908781928,
+     33.30273814040662,
+     33.30273741403066
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.42599534391090277,
+      "L1 curved RBF": 0.0011481523423089303,
+      "L1 SiLU": 3.5147581277030437e-05,
+      "L1 bias": 0.2288653385927776,
+      "L2 affine RBF": 0.23611136409936428,
+      "L2 curved RBF": 0.059058340195940084,
+      "L2 SiLU": 0.0006600231672377602,
+      "L2 bias": 0.04812629011019154
+     },
+     "layer1": 0.6560439824272662,
+     "pair": {
+      "x1/x2": 0.3902964746374261,
+      "x3/x4": 0.609703525362574
+     },
+     "unit_max": 0.4515376584382401,
+     "unit_eff": 2.7655469611872716,
+     "total": 2.0355016287896976
+    },
+    "hidden_corr": {
+     "early": 0.06549671264868617,
+     "polished": 0.0647117526113972
+    },
+    "cancel": {
+     "early": {
+      "within": 1.345650579964372,
+      "between": 1.4821153573225188,
+      "cross": 1.946458625007272,
+      "layer2": 1.6282395993886485,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.3283577370051411,
+      "between": 1.4423957163260366,
+      "cross": 1.9543268234605176,
+      "layer2": 1.8634130173941197,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.013971151328215805,
+     "polished": 0.013821860698257256
+    },
+    "rmse_in": {
+     "polished": 0.012346315604316985
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 15,
+      "wall_s": 25.3,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.7107578525929644e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.146454863584389,
+      "blocks": {
+       "L1 RBF affine": 0.8957116821479499,
+       "L1 RBF curved": 0.7549358453782543,
+       "L1 SiLU": 0.707876169482457,
+       "L1 bias": 0.030918305571273442,
+       "L2 RBF affine": 0.7339962201437982,
+       "L2 RBF curved": 1.3423824541754623,
+       "L2 SiLU": 0.6496737479418042,
+       "L2 bias": 0.030960438743389596
+      },
+      "Lstar": 0.004816147586907466,
+      "terms": {
+       "data": 0.001850021762961575,
+       "D2": 0.0023484400986736745,
+       "SiLU": 0.000601388646249298,
+       "muQ": 1.6297079022917482e-05,
+       "reg": 0.00514645486358439
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007333226404120602,
+       0.0022648165908075017,
+       0.002973904949505027,
+       0.00397707325546306,
+       0.006681571486458641,
+       0.014711483962328289,
+       0.022579506676983777,
+       0.03226586201845448,
+       0.0393987651309442,
+       0.16073175121850558,
+       17.132453934842392
+      ],
+      "min_max": 4.280312926572047e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 26,
+      "wall_s": 37.9,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 9.110380557304066e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.494826458935453,
+      "blocks": {
+       "L1 RBF affine": 15.134389823525746,
+       "L1 RBF curved": 1.2060191208347408,
+       "L1 SiLU": 0.054543295471301254,
+       "L1 bias": 0.14432344973081207,
+       "L2 RBF affine": 10.957147673517934,
+       "L2 RBF curved": 0.8612050501912805,
+       "L2 SiLU": 0.0427775104366389,
+       "L2 bias": 0.0944205352270025
+      },
+      "Lstar": 0.001759973031111529,
+      "terms": {
+       "data": 0.0008839700184738406,
+       "D2": 0.0005719749484278649,
+       "SiLU": 4.311268923938638e-05,
+       "muQ": 0.0002609153749704368,
+       "reg": 0.00028494826458935453
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.46787507799534e-05,
+       0.00026926906050777277,
+       0.0007655257764996884,
+       0.0016046582583326982,
+       0.004032571117067157,
+       0.009482653018244452,
+       0.01952108911864645,
+       0.027190524447983096,
+       0.03343409880042065,
+       0.1320547724076983,
+       13.038181199480345
+      ],
+      "min_max": 7.261653242227294e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 4,
+      "wall_s": 4.9,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.625110349314063e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.2421646755669,
+      "blocks": {
+       "L1 RBF affine": 18.665439904278788,
+       "L1 RBF curved": 1.2865526069021485,
+       "L1 SiLU": 0.025968689748913164,
+       "L1 bias": 0.2360945025402819,
+       "L2 RBF affine": 12.063031556151268,
+       "L2 RBF curved": 0.824177189713156,
+       "L2 SiLU": 0.018454690521323994,
+       "L2 bias": 0.12244553571102586
+      },
+      "Lstar": 0.0017376419616638781,
+      "terms": {
+       "data": 0.0008906795729189003,
+       "D2": 0.0005199983119458607,
+       "SiLU": 1.9679362194816818e-05,
+       "muQ": 0.0003072847146043006,
+       "reg": 3.3242164675566904e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.794280772219472e-05,
+       0.0002476977796754597,
+       0.0007509334550604217,
+       0.0015667208647478744,
+       0.00395186257732488,
+       0.00924067098218613,
+       0.019584285654536165,
+       0.026815768323739855,
+       0.032887228814499354,
+       0.12702970236298153,
+       12.491071053473052
+      ],
+      "min_max": 6.239881863495067e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1666035139211304,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s6": {
+    "key": "independent_P2m1e-05_s6",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 6,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 5929,
+     "stopped_epoch": 6029,
+     "val": 0.0017680543242022395
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 25
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 25,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 7.821996522716645e-12,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 41.2249337996778,
+     "blocks": {
+      "L1 RBF affine": 14.911544409405918,
+      "L1 RBF curved": 2.0751443031838743,
+      "L1 SiLU": 0.04824736997044446,
+      "L1 bias": 1.318872487936433,
+      "L2 RBF affine": 21.117781147436155,
+      "L2 RBF curved": 1.0849706537434294,
+      "L2 SiLU": 0.04162610305694106,
+      "L2 bias": 0.6267473249445988
+     },
+     "Lstar": 0.002703501282656502,
+     "terms": {
+      "data": 0.001629557711077257,
+      "D2": 0.0006738367625024485,
+      "SiLU": 3.9813553508375954e-05,
+      "muQ": 0.0003602932555684208
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.2374069988377117e-05,
+      0.0002556822922831693,
+      0.0008248296018341257,
+      0.0016103751165460558,
+      0.004181231983794454,
+      0.010625041017641355,
+      0.017774791409119566,
+      0.028413738143906977,
+      0.03588530478052277,
+      0.1480518882893979,
+      17.479039426114824
+     ],
+     "min_max": 1.280051462951036e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9945621592923303,
+    "trust_theta2": [
+     41.450334113868706,
+     40.991819486623115,
+     41.18563546420649,
+     41.40519373088881,
+     41.26718826546218,
+     40.93302961897149,
+     41.58434429975476,
+     40.94819563801725,
+     40.90481312407061,
+     40.826874336294175,
+     40.68825854401744,
+     40.436366009818684,
+     40.21126326377805,
+     42.17002441101475,
+     40.41553559074103,
+     40.20742508759403,
+     40.213525003784206,
+     40.237155274154546,
+     40.337012558257776,
+     40.84191494371067,
+     41.19094924480863,
+     41.267226141561366,
+     41.24246091459056,
+     41.22537628995799,
+     41.22494722413376,
+     41.2249337996778
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.16175530898370244,
+      "L1 curved RBF": 0.014959935333735784,
+      "L1 SiLU": 0.00027260800467807,
+      "L1 bias": 0.056217122209192866,
+      "L2 affine RBF": 0.6247582873930712,
+      "L2 curved RBF": 0.0021803542884524323,
+      "L2 SiLU": 5.2855171703034096e-05,
+      "L2 bias": 0.1398035286154643
+     },
+     "layer1": 0.23320497453130917,
+     "pair": {
+      "x1/x2": 0.5167483102642135,
+      "x3/x4": 0.48325168973578647
+     },
+     "unit_max": 0.5718289268145018,
+     "unit_eff": 2.1267574505845666,
+     "total": 6.937093295816033
+    },
+    "hidden_corr": {
+     "early": 0.550484174191369,
+     "polished": 0.6133492180465687
+    },
+    "cancel": {
+     "early": {
+      "within": 1.3532335942785916,
+      "between": 1.3701009021452413,
+      "cross": 1.8218804530072963,
+      "layer2": 1.5910029499665026,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.254526523892273,
+      "between": 1.180557399805484,
+      "cross": 1.4553786041993129,
+      "layer2": 1.2955094614579743,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.030855570878042308,
+     "polished": 0.031140372245191297
+    },
+    "rmse_in": {
+     "polished": 0.02983704394007246
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 36,
+      "wall_s": 50.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.562204223403904e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.140465334367159,
+      "blocks": {
+       "L1 RBF affine": 0.901501372083739,
+       "L1 RBF curved": 0.7531770286508161,
+       "L1 SiLU": 0.7135544602217079,
+       "L1 bias": 0.02960179814167421,
+       "L2 RBF affine": 0.7142442774767929,
+       "L2 RBF curved": 1.3003400308591213,
+       "L2 SiLU": 0.7005698741467941,
+       "L2 bias": 0.027476492786513287
+      },
+      "Lstar": 0.00472790201637013,
+      "terms": {
+       "data": 0.0018043170564158823,
+       "D2": 0.0022809766391783536,
+       "SiLU": 0.0006264508642802888,
+       "muQ": 1.6157456495605322e-05,
+       "reg": 0.005140465334367158
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007729020337616766,
+       0.0022645373203035763,
+       0.002943717441459547,
+       0.003973638165487908,
+       0.006708520567352747,
+       0.014741625584212097,
+       0.022563767327612613,
+       0.03228883631517535,
+       0.039593351813948734,
+       0.16054274049751463,
+       16.97273979491236
+      ],
+      "min_max": 4.553784734232223e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 25,
+      "wall_s": 20.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 6.437456286011666e-13,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.306097206485934,
+      "blocks": {
+       "L1 RBF affine": 15.09487498129445,
+       "L1 RBF curved": 1.2049196414559482,
+       "L1 SiLU": 0.0544825715028919,
+       "L1 bias": 0.13892677642508652,
+       "L2 RBF affine": 10.84288534821733,
+       "L2 RBF curved": 0.8298095117815816,
+       "L2 SiLU": 0.04876273879762037,
+       "L2 bias": 0.09143563701102776
+      },
+      "Lstar": 0.0017587483527205317,
+      "terms": {
+       "data": 0.0008857285773126329,
+       "D2": 0.0005679049534689016,
+       "SiLU": 4.573721864387934e-05,
+       "muQ": 0.0002593776032951178,
+       "reg": 0.00028306097206485934
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.141591001464229e-05,
+       0.0002691401839973383,
+       0.000759073561282064,
+       0.0016275365461159228,
+       0.004036121193681053,
+       0.00947739481108709,
+       0.01954090843679258,
+       0.027187488038012877,
+       0.03344706798457013,
+       0.13246718292532195,
+       13.049964182637593
+      ],
+      "min_max": 7.005069802127669e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 7,
+      "wall_s": 4.4,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.2366750108142934e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.08279552314705,
+      "blocks": {
+       "L1 RBF affine": 18.63978976282675,
+       "L1 RBF curved": 1.2863800663981948,
+       "L1 SiLU": 0.025970775880514888,
+       "L1 bias": 0.23095870537842073,
+       "L2 RBF affine": 11.950621293905197,
+       "L2 RBF curved": 0.8075028410990193,
+       "L2 SiLU": 0.021255235710129584,
+       "L2 bias": 0.12031684194882457
+      },
+      "Lstar": 0.0017362713075280939,
+      "terms": {
+       "data": 0.0008914714011973934,
+       "D2": 0.0005179748802127114,
+       "SiLU": 2.0920915550669515e-05,
+       "muQ": 0.00030590411056731953,
+       "reg": 3.3082795523147054e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.555305911225601e-05,
+       0.0002476736764342749,
+       0.0007247932489407054,
+       0.0015945639634013012,
+       0.0039572957249186195,
+       0.009236546874357151,
+       0.019603366401031212,
+       0.02681056366427463,
+       0.032926093765076644,
+       0.12739417244919776,
+       12.500737717617298
+      ],
+      "min_max": 6.043888034366086e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.168751569028266,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "independent_P2m1e-05_s7": {
+    "key": "independent_P2m1e-05_s7",
+    "cond": "independent",
+    "lev": "P2",
+    "seed": 7,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 6010,
+     "stopped_epoch": 6110,
+     "val": 0.0010360691230744123
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 10
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 10,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 2.0889377467386838e-14,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 33.30273741405828,
+     "blocks": {
+      "L1 RBF affine": 18.71117029026314,
+      "L1 RBF curved": 1.287631880333663,
+      "L1 SiLU": 0.025747664394923812,
+      "L1 bias": 0.23866482136377354,
+      "L2 RBF affine": 12.074310548497994,
+      "L2 RBF curved": 0.8237134771734524,
+      "L2 SiLU": 0.01827262797090837,
+      "L2 bias": 0.12322610406042046
+     },
+     "Lstar": 0.0017376389364585408,
+     "terms": {
+      "data": 0.0008907993810507333,
+      "D2": 0.0005194839509952404,
+      "SiLU": 1.9500796024955814e-05,
+      "muQ": 0.0003078548083876114
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      7.775984490238366e-05,
+      0.00024747481426926,
+      0.0007505871062979945,
+      0.001566312000965329,
+      0.0039509912697271434,
+      0.009237883060926912,
+      0.019586717044165744,
+      0.026810370138364674,
+      0.03288059093520798,
+      0.12696323610000174,
+      12.484018043605811
+     ],
+     "min_max": 6.228751402855547e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9261679640898092,
+    "trust_theta2": [
+     35.95755705800783,
+     36.84428831498147,
+     35.82753876296613,
+     35.85822739342416,
+     35.52142641717642,
+     34.83781395473939,
+     33.816257812749676,
+     33.302880889251384,
+     33.30272378681373,
+     33.30273728098447,
+     33.30273741405828
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.15093429782596482,
+      "L1 curved RBF": 0.00030762113607178877,
+      "L1 SiLU": 9.545821715550781e-06,
+      "L1 bias": 0.054844442738258455,
+      "L2 affine RBF": 0.7888007940596108,
+      "L2 curved RBF": 0.005023933136618732,
+      "L2 SiLU": 7.785259377687291e-05,
+      "L2 bias": 1.5126879829719914e-06
+     },
+     "layer1": 0.20609590752201062,
+     "pair": {
+      "x1/x2": 0.7128185652503606,
+      "x3/x4": 0.2871814347496395
+     },
+     "unit_max": 0.5293290919486637,
+     "unit_eff": 2.5516768938499026,
+     "total": 3.1688811569755084
+    },
+    "hidden_corr": {
+     "early": 0.06579236380823346,
+     "polished": 0.06471175261145298
+    },
+    "cancel": {
+     "early": {
+      "within": 1.3031668467796,
+      "between": 1.5064001203870594,
+      "cross": 1.918061324948634,
+      "layer2": 1.80591128993746,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.328357737004597,
+      "between": 1.4423957163268148,
+      "cross": 1.954326823460269,
+      "layer2": 1.8634130173982302,
+      "sat95": 0.0,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.014071884980100183,
+     "polished": 0.013821860698246388
+    },
+    "rmse_in": {
+     "polished": 0.01234631560435429
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 17,
+      "wall_s": 28.7,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.1940427176892624e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 5.146454863430982,
+      "blocks": {
+       "L1 RBF affine": 0.895711682138942,
+       "L1 RBF curved": 0.7549358453463798,
+       "L1 SiLU": 0.707876169474434,
+       "L1 bias": 0.030918305591871968,
+       "L2 RBF affine": 0.7339962201426568,
+       "L2 RBF curved": 1.3423824541965268,
+       "L2 SiLU": 0.6496737478218069,
+       "L2 bias": 0.030960438718363435
+      },
+      "Lstar": 0.004816147587060874,
+      "terms": {
+       "data": 0.0018500217632060258,
+       "D2": 0.0023484400986394454,
+       "SiLU": 0.0006013886461925856,
+       "muQ": 1.629707902281599e-05,
+       "reg": 0.005146454863430982
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007333226402549886,
+       0.002264816590806374,
+       0.002973904949578879,
+       0.003977073255409833,
+       0.006681571486239362,
+       0.014711483961868083,
+       0.02257950667608835,
+       0.032265862018220695,
+       0.039398765129927286,
+       0.16073175121937916,
+       17.13245393518837
+      ],
+      "min_max": 4.280312925568802e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 26,
+      "wall_s": 26.0,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 9.106542103413256e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 28.494826458936878,
+      "blocks": {
+       "L1 RBF affine": 15.134389823525952,
+       "L1 RBF curved": 1.2060191208346591,
+       "L1 SiLU": 0.05454329547130252,
+       "L1 bias": 0.14432344973114133,
+       "L2 RBF affine": 10.957147673519144,
+       "L2 RBF curved": 0.8612050501913746,
+       "L2 SiLU": 0.042777510436548,
+       "L2 bias": 0.09442053522675627
+      },
+      "Lstar": 0.0017599730311115146,
+      "terms": {
+       "data": 0.000883970018473845,
+       "D2": 0.0005719749484278718,
+       "SiLU": 4.311268923934668e-05,
+       "muQ": 0.000260915374970451,
+       "reg": 0.00028494826458936884
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       9.467875077969948e-05,
+       0.0002692690605078306,
+       0.0007655257764994165,
+       0.0016046582583325824,
+       0.004032571117066749,
+       0.009482653018243265,
+       0.019521089118648714,
+       0.027190524447985632,
+       0.033434098800420364,
+       0.13205477240769556,
+       13.038181199480185
+      ],
+      "min_max": 7.261653242207908e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 4,
+      "wall_s": 3.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.625111278473075e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 33.24216467556691,
+      "blocks": {
+       "L1 RBF affine": 18.665439904278788,
+       "L1 RBF curved": 1.2865526069021485,
+       "L1 SiLU": 0.025968689748913126,
+       "L1 bias": 0.2360945025403,
+       "L2 RBF affine": 12.063031556151268,
+       "L2 RBF curved": 0.8241771897131542,
+       "L2 SiLU": 0.018454690521324084,
+       "L2 bias": 0.12244553571101183
+      },
+      "Lstar": 0.0017376419616638786,
+      "terms": {
+       "data": 0.0008906795729189004,
+       "D2": 0.0005199983119458609,
+       "SiLU": 1.967936219481684e-05,
+       "muQ": 0.0003072847146043006,
+       "reg": 3.324216467556691e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       7.794280772222696e-05,
+       0.00024769777967544515,
+       0.0007509334550603183,
+       0.0015667208647479262,
+       0.003951862577324746,
+       0.009240670982185725,
+       0.019584285654536168,
+       0.026815768323739875,
+       0.03288722881449926,
+       0.12702970236298136,
+       12.49107105347307
+      ],
+      "min_max": 6.23988186349764e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.1666035139210724,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s0": {
+    "key": "correlated_P2m1e-05_s0",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 0,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 6869,
+     "stopped_epoch": 6969,
+     "val": 0.0006956561701372266
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 16
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 16,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 9.945168443110941e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.21152400667464,
+     "blocks": {
+      "L1 RBF affine": 16.899924132793707,
+      "L1 RBF curved": 0.527626027672035,
+      "L1 SiLU": 0.020493089578533057,
+      "L1 bias": 0.24255596296500825,
+      "L2 RBF affine": 17.31692238713688,
+      "L2 RBF curved": 0.17281053408591518,
+      "L2 SiLU": 0.017784405373072614,
+      "L2 bias": 0.013407467069484
+     },
+     "Lstar": 0.0013185390487773572,
+     "terms": {
+      "data": 0.0006647460900585068,
+      "D2": 0.00029466773150637547,
+      "SiLU": 1.6956762013169037e-05,
+      "muQ": 0.0003421684651993059
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.2340025816475324e-05,
+      0.0002208365315185933,
+      0.0006060136203928721,
+      0.0012489931966127314,
+      0.0026055511999704484,
+      0.006455239229023305,
+      0.014039884605238027,
+      0.02221185148969525,
+      0.03107384076975073,
+      0.06080424328008376,
+      14.834697456766909
+     ],
+     "min_max": 1.5059306656965105e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9846699156777103,
+    "trust_theta2": [
+     35.75972358456783,
+     37.55629642051407,
+     35.866242070448315,
+     35.71290454243198,
+     35.530298786748055,
+     35.45238018841009,
+     35.77730652754934,
+     35.49905695744663,
+     35.4542446703196,
+     35.429887940549264,
+     35.38705396047109,
+     35.3095032893388,
+     35.21446010231642,
+     35.19663388486058,
+     35.20681299156102,
+     35.21139896652162,
+     35.21152400667464
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.11696262151718796,
+      "L1 curved RBF": 0.0016562161792946283,
+      "L1 SiLU": 4.442765116756167e-05,
+      "L1 bias": 0.05625941427713007,
+      "L2 affine RBF": 0.748072182563126,
+      "L2 curved RBF": 0.04428172638199175,
+      "L2 SiLU": 0.00017718228634499482,
+      "L2 bias": 0.03254622914375693
+     },
+     "layer1": 0.17492267962478025,
+     "pair": {
+      "x1/x2": 0.8007989585439647,
+      "x3/x4": 0.19920104145603543
+     },
+     "unit_max": 0.751481717652102,
+     "unit_eff": 1.6719689914067266,
+     "total": 1.3348790837043127
+    },
+    "hidden_corr": {
+     "early": 0.938582944499334,
+     "polished": 0.9320898085292096
+    },
+    "cancel": {
+     "early": {
+      "within": 1.174386537834039,
+      "between": 1.2861307158268336,
+      "cross": 1.4131530607742337,
+      "layer2": 2.4784770285983977,
+      "sat95": 0.0011666666666666668,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1102734737708189,
+      "between": 1.3229874670011808,
+      "cross": 1.579198977245759,
+      "layer2": 2.456015569210949,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06787426470585273,
+     "polished": 0.06852315318726
+    },
+    "rmse_in": {
+     "polished": 0.010251609944179868
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 29,
+      "wall_s": 23.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.4893912519313782e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.511707521211334,
+      "blocks": {
+       "L1 RBF affine": 0.5920515708250097,
+       "L1 RBF curved": 0.5907645298427718,
+       "L1 SiLU": 0.492031847849741,
+       "L1 bias": 0.015743620062262334,
+       "L2 RBF affine": 0.46527020191740254,
+       "L2 RBF curved": 0.9725406717744322,
+       "L2 SiLU": 0.37807731244176707,
+       "L2 bias": 0.005227766497946333
+      },
+      "Lstar": 0.003756765731720814,
+      "terms": {
+       "data": 0.0014967219625354133,
+       "D2": 0.0018640160180514603,
+       "SiLU": 0.00038545453340651647,
+       "muQ": 1.0573217727424123e-05,
+       "reg": 0.0035117075212113334
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0003318494878859162,
+       0.002228534248833561,
+       0.0025866907997800235,
+       0.0035736172916792674,
+       0.004852957280486968,
+       0.010060370863014187,
+       0.016834840431324608,
+       0.024383133469109076,
+       0.033759915708561766,
+       0.05882822040246055,
+       14.911553965666087
+      ],
+      "min_max": 2.2254520799777203e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 58,
+      "wall_s": 70.2,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.0205203902187338e-08,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.809412385398808,
+      "blocks": {
+       "L1 RBF affine": 12.972260193119723,
+       "L1 RBF curved": 0.6281353019157283,
+       "L1 SiLU": 0.05138888312112737,
+       "L1 bias": 0.11595430604937926,
+       "L2 RBF affine": 12.724195256476458,
+       "L2 RBF curved": 0.25009746118601406,
+       "L2 SiLU": 0.04985940601008376,
+       "L2 bias": 0.017521577520298166
+      },
+      "Lstar": 0.001354889282874509,
+      "terms": {
+       "data": 0.0006753316129283666,
+       "D2": 0.0003777405684063083,
+       "SiLU": 4.485254704387226e-05,
+       "muQ": 0.00025696455449596183,
+       "reg": 0.0002680941238539882
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.7332530118908198e-05,
+       0.00022805474369158577,
+       0.0006641216526458764,
+       0.0012548969512624635,
+       0.002691985773341609,
+       0.006529404626375258,
+       0.013954144455256974,
+       0.022243866874834567,
+       0.030886911384965764,
+       0.05778715638500106,
+       13.879826277626153
+      ],
+      "min_max": 1.9692271050227323e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 17,
+      "wall_s": 26.8,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 8.968718507229073e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.08139947659747,
+      "blocks": {
+       "L1 RBF affine": 16.846021482057477,
+       "L1 RBF curved": 0.5292786126519893,
+       "L1 SiLU": 0.020764484252710633,
+       "L1 bias": 0.2394919123379757,
+       "L2 RBF affine": 17.24065578535725,
+       "L2 RBF curved": 0.1737731903153268,
+       "L2 SiLU": 0.018042533539820077,
+       "L2 bias": 0.013371476084920649
+      },
+      "Lstar": 0.0013185455403071677,
+      "terms": {
+       "data": 0.0006647982595367254,
+       "D2": 0.0002956891697921369,
+       "SiLU": 1.719133830415817e-05,
+       "muQ": 0.0003408667726741473,
+       "reg": 3.508139947659747e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.241792752574394e-05,
+       0.0002210137382726369,
+       0.0006066669621316446,
+       0.0012486721064540324,
+       0.0026067874461034586,
+       0.0064567577143841495,
+       0.01403793949700106,
+       0.022212178925551357,
+       0.031070013398397628,
+       0.06073938146911854,
+       14.813558342364495
+      ],
+      "min_max": 1.513338457083071e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3085478701392137,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s1": {
+    "key": "correlated_P2m1e-05_s1",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 1,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 5022,
+     "stopped_epoch": 5122,
+     "val": 0.0007395863067358732
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 76
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 76,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 2.5382708738683202e-11,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 34.93253587121983,
+     "blocks": {
+      "L1 RBF affine": 16.872057785333112,
+      "L1 RBF curved": 0.5264118073312005,
+      "L1 SiLU": 0.02043567766646231,
+      "L1 bias": 0.2975387174404599,
+      "L2 RBF affine": 17.018027242040944,
+      "L2 RBF curved": 0.17097914886496568,
+      "L2 SiLU": 0.023936697049349965,
+      "L2 bias": 0.003148795493339642
+     },
+     "Lstar": 0.0013156380017107418,
+     "terms": {
+      "data": 0.0006634027968423962,
+      "D2": 0.00029367758763620136,
+      "SiLU": 1.9656766958403727e-05,
+      "muQ": 0.0003389008502737406
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.194125506835668e-05,
+      0.00022114447907820825,
+      0.0006477676480792365,
+      0.0012265500007350692,
+      0.002620582076514499,
+      0.006482179311955428,
+      0.01404953460218227,
+      0.022238666468255664,
+      0.03096458969352137,
+      0.06125251532454067,
+      14.823771495294144
+     ],
+     "min_max": 1.4801398601780933e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 1.0289879358066232,
+    "trust_theta2": [
+     33.94844065284035,
+     36.14021861830586,
+     34.39746913070809,
+     33.99815418316616,
+     34.046287082004746,
+     34.151557155018274,
+     34.48553952363294,
+     34.22841944177522,
+     34.522923266597466,
+     34.74042501267492,
+     34.54307108921927,
+     34.55999005942837,
+     34.644178967843935,
+     34.83616503307367,
+     35.30962195085385,
+     36.25652165730624,
+     35.47913133877548,
+     35.88078334726357,
+     35.85924961582829,
+     35.87575296333004,
+     35.88859186978672,
+     35.91482207843063,
+     35.954103704084524,
+     36.09502199447297,
+     35.92275476098888,
+     36.031007762915806,
+     36.07624453705718,
+     36.04407659489833,
+     36.009838498877556,
+     35.533632049759206,
+     35.94342633940772,
+     35.90466317192259,
+     35.939759135439004,
+     35.95687812549302,
+     35.93422421039352,
+     35.87529964703131,
+     35.62651050461078,
+     34.58558011025578,
+     35.492372336350144,
+     35.00650447815391,
+     35.3642500686357,
+     35.48509170952708,
+     35.46987489889902,
+     35.4109595472913,
+     35.26194858307437,
+     34.72701306806155,
+     35.17632539636731,
+     35.046069930211544,
+     34.47907986344004,
+     34.93916071082478,
+     34.79937656559828,
+     34.91968817336809,
+     34.860544072588326,
+     34.75486441934002,
+     34.35089016601803,
+     34.698925868433435,
+     34.642323172524826,
+     34.43502553599788,
+     34.61221299591669,
+     34.60899622835355,
+     34.600796026949084,
+     34.5363194944715,
+     34.6094571178473,
+     34.615386676098,
+     34.295605223519075,
+     34.59506686466274,
+     34.54393946380004,
+     34.559694359573506,
+     34.5973895294762,
+     34.6729249612621,
+     34.80279645154781,
+     34.875597597245346,
+     34.93273652112501,
+     34.92480847730683,
+     34.93276174420319,
+     34.93251962749345,
+     34.93253587121983
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.45128661976384593,
+      "L1 curved RBF": 0.028476094125091604,
+      "L1 SiLU": 0.0008876253622453014,
+      "L1 bias": 0.02114992542811601,
+      "L2 affine RBF": 0.48055613741442577,
+      "L2 curved RBF": 0.014531601563371856,
+      "L2 SiLU": 5.4115729465321677e-05,
+      "L2 bias": 0.0030578806134381525
+     },
+     "layer1": 0.5018002646792988,
+     "pair": {
+      "x1/x2": 0.22352146208945933,
+      "x3/x4": 0.7764785379105406
+     },
+     "unit_max": 0.4996489303040806,
+     "unit_eff": 2.540221902771106,
+     "total": 12.13190921188308
+    },
+    "hidden_corr": {
+     "early": 0.6587518064565949,
+     "polished": 0.93596716547077
+    },
+    "cancel": {
+     "early": {
+      "within": 1.1094919804404104,
+      "between": 1.4201445789288154,
+      "cross": 1.8799297765593501,
+      "layer2": 1.6917136663298808,
+      "sat95": 0.0008333333333333334,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1117664014513675,
+      "between": 1.3249530187569214,
+      "cross": 1.5801407386392112,
+      "layer2": 2.423000551763355,
+      "sat95": 0.0008333333333333334,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.08009363333270789,
+     "polished": 0.06830914597841589
+    },
+    "rmse_in": {
+     "polished": 0.010210705448608979
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 26,
+      "wall_s": 26.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.813983262990122e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.485262671396785,
+      "blocks": {
+       "L1 RBF affine": 0.6159622721905859,
+       "L1 RBF curved": 0.5737785520368778,
+       "L1 SiLU": 0.5094173828015682,
+       "L1 bias": 0.035539301565679596,
+       "L2 RBF affine": 0.42839326754112556,
+       "L2 RBF curved": 0.9361992175505736,
+       "L2 SiLU": 0.38538606962034805,
+       "L2 bias": 0.0005866080900261329
+      },
+      "Lstar": 0.003721929005303838,
+      "terms": {
+       "data": 0.0014828904599239294,
+       "D2": 0.0018322009937071378,
+       "SiLU": 0.00039639399627545323,
+       "muQ": 1.0443555397317116e-05,
+       "reg": 0.0034852626713967848
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007142721954844431,
+       0.0022254714998359766,
+       0.0025628569128408824,
+       0.003570782209438524,
+       0.004884588153432565,
+       0.009816821324607226,
+       0.01685854886415204,
+       0.024367613843070984,
+       0.03421634369842368,
+       0.05693070763103481,
+       14.91591624724318
+      ],
+      "min_max": 4.788657858121574e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 70,
+      "wall_s": 93.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.7859832394891166e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.645374474312298,
+      "blocks": {
+       "L1 RBF affine": 12.992157401517655,
+       "L1 RBF curved": 0.6287648264406336,
+       "L1 SiLU": 0.051836709761881636,
+       "L1 bias": 0.20562229605517293,
+       "L2 RBF affine": 12.46658743337458,
+       "L2 RBF curved": 0.23932249796908067,
+       "L2 SiLU": 0.058739073274824596,
+       "L2 bias": 0.0023442359184667094
+      },
+      "Lstar": 0.0013514249024453356,
+      "terms": {
+       "data": 0.000672220286356624,
+       "D2": 0.00037563258189518756,
+       "SiLU": 4.898458584460184e-05,
+       "muQ": 0.0002545874483489224,
+       "reg": 0.00026645374474312296
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       3.078610797791436e-05,
+       0.0002288988995212606,
+       0.0007015427108891654,
+       0.0012399906986691365,
+       0.0027171029942589385,
+       0.006543916372574558,
+       0.013982281447350819,
+       0.02233485777649443,
+       0.030624087186013893,
+       0.05877727850096541,
+       13.888042996475699
+      ],
+      "min_max": 2.216734782987553e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 13,
+      "wall_s": 16.4,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.6020612986274875e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 34.803775195524516,
+      "blocks": {
+       "L1 RBF affine": 16.818708008337534,
+       "L1 RBF curved": 0.5280576730305881,
+       "L1 SiLU": 0.020708153229941666,
+       "L1 bias": 0.2948394369902448,
+       "L2 RBF affine": 16.942188343993305,
+       "L2 RBF curved": 0.17191909507702618,
+       "L2 SiLU": 0.024246989572412347,
+       "L2 bias": 0.003107495293464552
+      },
+      "Lstar": 0.0013156444252927376,
+      "terms": {
+       "data": 0.0006634375585563262,
+       "D2": 0.00029468297255394346,
+       "SiLU": 1.991493065915927e-05,
+       "muQ": 0.00033760896352330843,
+       "reg": 3.4803775195524506e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2035182477393335e-05,
+       0.0002213057893858656,
+       0.0006485862377342545,
+       0.0012265378991907383,
+       0.0026219120172114373,
+       0.006483490840180915,
+       0.01404809086345859,
+       0.022239635805804937,
+       0.030959046571772522,
+       0.06119055094033047,
+       14.803051081525165
+      ],
+      "min_max": 1.4885568087307472e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3061845022698928,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s2": {
+    "key": "correlated_P2m1e-05_s2",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 2,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 7738,
+     "stopped_epoch": 7838,
+     "val": 0.000743802054785192
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 54
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 54,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 1.0702750534788419e-12,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.30581313852301,
+     "blocks": {
+      "L1 RBF affine": 16.98293614095843,
+      "L1 RBF curved": 0.5170644441654311,
+      "L1 SiLU": 0.020156255349689005,
+      "L1 bias": 0.24271468274635916,
+      "L2 RBF affine": 17.346703764705744,
+      "L2 RBF curved": 0.1720893426925869,
+      "L2 SiLU": 0.015779321797851832,
+      "L2 bias": 0.008369186106921766
+     },
+     "Lstar": 0.0013194419556472135,
+     "terms": {
+      "data": 0.0006645217361340538,
+      "D2": 0.00029570451773654806,
+      "SiLU": 1.5919302719969783e-05,
+      "muQ": 0.0003432963990566418
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.207094505965019e-05,
+      0.0002165217430292495,
+      0.0006136090611320756,
+      0.0012345115146232932,
+      0.002608414616605227,
+      0.006463036328837552,
+      0.01406439092460572,
+      0.02220263185482124,
+      0.03115392902943283,
+      0.061111332004998,
+      14.786590222153876
+     ],
+     "min_max": 1.4926324952579395e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9775319787863117,
+    "trust_theta2": [
+     36.117297341370005,
+     39.33731494913225,
+     36.42004219201996,
+     36.1491186311336,
+     36.16787823263467,
+     36.48561611073561,
+     36.20683915531304,
+     36.173436506801835,
+     36.197700482785066,
+     36.18498216042894,
+     36.127757737345966,
+     36.300673354997144,
+     36.11665441537672,
+     36.01140502660337,
+     36.04840673720775,
+     35.96840934323998,
+     36.023088575661994,
+     35.95929931041122,
+     35.82445414346286,
+     35.58350041248478,
+     35.1641290997968,
+     34.18318728389435,
+     34.875589437536696,
+     35.1033764690123,
+     35.02256265631237,
+     34.76909869430179,
+     34.97679176706517,
+     34.90036906468566,
+     34.74917071618715,
+     34.60819153747711,
+     34.701953483363816,
+     34.61588257693194,
+     34.67253423280652,
+     34.60378551265274,
+     34.59136984486444,
+     34.76841092043636,
+     34.61261336802725,
+     34.66641648871931,
+     34.96350188920514,
+     34.61045329651699,
+     34.893928457216504,
+     34.89386213172861,
+     34.90141864000069,
+     34.94051276132607,
+     35.017405372836116,
+     35.16291090377619,
+     35.27480345338516,
+     34.79816772411675,
+     35.21921315553229,
+     35.19866497052428,
+     35.220271894613084,
+     35.29406087309989,
+     35.305961867796384,
+     35.30581320739,
+     35.30581313852301
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.6729915514693176,
+      "L1 curved RBF": 0.026074207087739432,
+      "L1 SiLU": 0.0006950206625861197,
+      "L1 bias": 0.06640207179719504,
+      "L2 affine RBF": 0.21339620443713084,
+      "L2 curved RBF": 0.008638864065882844,
+      "L2 SiLU": 0.0001908303741603976,
+      "L2 bias": 0.011611250105987745
+     },
+     "layer1": 0.7661628510168381,
+     "pair": {
+      "x1/x2": 0.6096100036703479,
+      "x3/x4": 0.39038999632965204
+     },
+     "unit_max": 0.7249357815516057,
+     "unit_eff": 1.7604406570631488,
+     "total": 4.527868298926463
+    },
+    "hidden_corr": {
+     "early": 0.8818950695406508,
+     "polished": 0.9335795810985301
+    },
+    "cancel": {
+     "early": {
+      "within": 1.1513566857140076,
+      "between": 1.3620425163978758,
+      "cross": 1.419453576277207,
+      "layer2": 1.9081237099479416,
+      "sat95": 0.001,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1124401054007649,
+      "between": 1.3261521620869747,
+      "cross": 1.5735270069137053,
+      "layer2": 2.4534504023869292,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.0747395188064482,
+     "polished": 0.068407085052624
+    },
+    "rmse_in": {
+     "polished": 0.010244311130917748
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 20,
+      "wall_s": 30.4,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 6.003408011055582e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.4626887707850895,
+      "blocks": {
+       "L1 RBF affine": 0.6143167622097148,
+       "L1 RBF curved": 0.5720883772970977,
+       "L1 SiLU": 0.5097136094483119,
+       "L1 bias": 0.04321447634786397,
+       "L2 RBF affine": 0.4147866491550219,
+       "L2 RBF curved": 0.9242631811698614,
+       "L2 SiLU": 0.38387248482407377,
+       "L2 bias": 0.00043323033314363377
+      },
+      "Lstar": 0.003722699319373289,
+      "terms": {
+       "data": 0.0014806010238893018,
+       "D2": 0.001835952549404178,
+       "SiLU": 0.00039585471196616176,
+       "muQ": 1.0291034113647368e-05,
+       "reg": 0.0034626887707850888
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0002306312463300386,
+       0.002219735673479339,
+       0.0025662547398290097,
+       0.0035123036767645676,
+       0.00491505955139228,
+       0.009866365498321893,
+       0.016792170580796982,
+       0.024016687637347156,
+       0.03366104981175324,
+       0.05478337088147265,
+       14.931708549278266
+      ],
+      "min_max": 1.5445737208766128e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 67,
+      "wall_s": 63.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.4380127481917527e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.824594161573,
+      "blocks": {
+       "L1 RBF affine": 13.097081781964954,
+       "L1 RBF curved": 0.6139157368858985,
+       "L1 SiLU": 0.05076492626352412,
+       "L1 bias": 0.12231018182196829,
+       "L2 RBF affine": 12.630231363466942,
+       "L2 RBF curved": 0.25345314564159693,
+       "L2 SiLU": 0.04662613510812125,
+       "L2 bias": 0.010210890419994427
+      },
+      "Lstar": 0.0013562445928926594,
+      "terms": {
+       "data": 0.0006743216963303471,
+       "D2": 0.0003815059530069967,
+       "SiLU": 4.3143812100996846e-05,
+       "muQ": 0.000257273131454319,
+       "reg": 0.00026824594161572996
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.762578726376135e-05,
+       0.00021640852900209744,
+       0.0006557040923120137,
+       0.0012419079607471285,
+       0.0026905165187623785,
+       0.006529184914248608,
+       0.013980139331020805,
+       0.022232025251477276,
+       0.03102647188951806,
+       0.0574722828691813,
+       13.785384219361358
+      ],
+      "min_max": 2.003991098409964e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 18,
+      "wall_s": 14.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 5.865895551226249e-13,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.17571722441751,
+      "blocks": {
+       "L1 RBF affine": 16.930108210487504,
+       "L1 RBF curved": 0.5186317260488948,
+       "L1 SiLU": 0.02042363535515046,
+       "L1 bias": 0.23974595802389093,
+       "L2 RBF affine": 17.269409247331737,
+       "L2 RBF curved": 0.1730472512935215,
+       "L2 SiLU": 0.01601741102533335,
+       "L2 bias": 0.008333784851479533
+      },
+      "Lstar": 0.0013194484462236368,
+      "terms": {
+       "data": 0.0006645666719159464,
+       "D2": 0.0002967433763611464,
+       "SiLU": 1.6143223368351543e-05,
+       "muQ": 0.00034199517457819245,
+       "reg": 3.517571722441751e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2149693812689824e-05,
+       0.00021655445185565938,
+       0.0006141202333698761,
+       0.0012345134096429658,
+       0.0026095673999964888,
+       0.006464551620380711,
+       0.01406240763478663,
+       0.022202825933608495,
+       0.031150685894849924,
+       0.06104456264186346,
+       14.765064188329681
+      ],
+      "min_max": 1.500142060350605e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3113233703571827,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s3": {
+    "key": "correlated_P2m1e-05_s3",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 3,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 8113,
+     "stopped_epoch": 8213,
+     "val": 0.0006985181826166809
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 15
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 15,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 5.510475588202737e-11,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.14016480015981,
+     "blocks": {
+      "L1 RBF affine": 16.892013977920314,
+      "L1 RBF curved": 0.5299024485602288,
+      "L1 SiLU": 0.020579999810426474,
+      "L1 bias": 0.30084678802904424,
+      "L2 RBF affine": 17.196953408610646,
+      "L2 RBF curved": 0.1769334259266664,
+      "L2 SiLU": 0.01864771953678729,
+      "L2 bias": 0.004287031765692882
+     },
+     "Lstar": 0.001318127069502322,
+     "terms": {
+      "data": 0.0006642473371031298,
+      "D2": 0.0002956123512902118,
+      "SiLU": 1.7377707243670803e-05,
+      "muQ": 0.0003408896738653096
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.218492404460646e-05,
+      0.00022109370504031428,
+      0.000646095123088532,
+      0.001244016290956125,
+      0.002610667867357024,
+      0.006472626443011858,
+      0.014038764133490195,
+      0.022238575798978887,
+      0.030945230198330394,
+      0.06100155542591951,
+      14.83514147892148
+     ],
+     "min_max": 1.495430567758853e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9366905833766175,
+    "trust_theta2": [
+     37.515232269641515,
+     36.6711329668981,
+     37.062160607625486,
+     37.38823951853005,
+     37.13925547735492,
+     36.517747699596285,
+     35.63447741384253,
+     34.20445313144272,
+     35.04608131549024,
+     35.545448176094034,
+     35.40112654218234,
+     35.18986244711415,
+     35.14537148250698,
+     35.13566358126431,
+     35.14009681997912,
+     35.14016480015981
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.19545638721458586,
+      "L1 curved RBF": 0.0015007676369917507,
+      "L1 SiLU": 1.973458707496167e-05,
+      "L1 bias": 0.12866000832767366,
+      "L2 affine RBF": 0.6452416348086364,
+      "L2 curved RBF": 0.013577708418348877,
+      "L2 SiLU": 4.191506057971303e-05,
+      "L2 bias": 0.015501843946108956
+     },
+     "layer1": 0.3256368977663262,
+     "pair": {
+      "x1/x2": 0.5940194321188903,
+      "x3/x4": 0.4059805678811095
+     },
+     "unit_max": 0.7356953244716767,
+     "unit_eff": 1.7108568146748873,
+     "total": 3.35591420366048
+    },
+    "hidden_corr": {
+     "early": 0.929010475291411,
+     "polished": 0.9354110790632957
+    },
+    "cancel": {
+     "early": {
+      "within": 1.065650819605242,
+      "between": 1.270473924013963,
+      "cross": 1.4699181213670933,
+      "layer2": 2.2299107119985333,
+      "sat95": 0.0005,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1100961849483966,
+      "between": 1.3215512652462824,
+      "cross": 1.5857415073839012,
+      "layer2": 2.4453180049121515,
+      "sat95": 0.0008333333333333334,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06736038347536923,
+     "polished": 0.06829455857811566
+    },
+    "rmse_in": {
+     "polished": 0.010245997456105589
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 25,
+      "wall_s": 35.7,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.0688172232503095e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.512149118493264,
+      "blocks": {
+       "L1 RBF affine": 0.6065439025038003,
+       "L1 RBF curved": 0.576687642212459,
+       "L1 SiLU": 0.5032334858121178,
+       "L1 bias": 0.02128867770737817,
+       "L2 RBF affine": 0.4566747339567767,
+       "L2 RBF curved": 0.9647579323987698,
+       "L2 SiLU": 0.3804463349341778,
+       "L2 bias": 0.002516408967784043
+      },
+      "Lstar": 0.003740399924438424,
+      "terms": {
+       "data": 0.0015009854227019984,
+       "D2": 0.00183731603903426,
+       "SiLU": 0.0003914662763375596,
+       "muQ": 1.0632186364605772e-05,
+       "reg": 0.003512149118493264
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0004577536473633001,
+       0.00222954310488563,
+       0.0025567845859001174,
+       0.003572723624313306,
+       0.004826823605037533,
+       0.009942918897532786,
+       0.01684614785491686,
+       0.02423864046802606,
+       0.033768182391165,
+       0.059021511529580885,
+       15.003743693920029
+      ],
+      "min_max": 3.0509295326658753e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 61,
+      "wall_s": 58.0,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.1875079525980856e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.753638417885952,
+      "blocks": {
+       "L1 RBF affine": 12.983671609937511,
+       "L1 RBF curved": 0.6330911769607912,
+       "L1 SiLU": 0.052173697113027634,
+       "L1 bias": 0.21018397610761072,
+       "L2 RBF affine": 12.572163628894772,
+       "L2 RBF curved": 0.2485190873052563,
+       "L2 SiLU": 0.05087721567997144,
+       "L2 bias": 0.002958025887008854
+      },
+      "Lstar": 0.0013543559401267102,
+      "terms": {
+       "data": 0.0006742420140344466,
+       "D2": 0.0003789044723014071,
+       "SiLU": 4.565110140253369e-05,
+       "muQ": 0.00025555835238832286,
+       "reg": 0.00026753638417885954
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       3.013440904903842e-05,
+       0.0002280644545042303,
+       0.0007005558512082153,
+       0.0012564392469693224,
+       0.002702562618601479,
+       0.006539047293806947,
+       0.013962611959758573,
+       0.022331164243441986,
+       0.030559067839764635,
+       0.05855392938660057,
+       13.904884701169744
+      ],
+      "min_max": 2.1671815118685143e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 13,
+      "wall_s": 11.1,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 8.630456562793841e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.009727493191974,
+      "blocks": {
+       "L1 RBF affine": 16.838227072980146,
+       "L1 RBF curved": 0.5315785454800448,
+       "L1 SiLU": 0.020854500009267068,
+       "L1 bias": 0.2981186887857899,
+       "L2 RBF affine": 17.11984865815599,
+       "L2 RBF curved": 0.17795207947300895,
+       "L2 SiLU": 0.018918517453652146,
+       "L2 bias": 0.004229430854075813
+      },
+      "Lstar": 0.0013181335765164212,
+      "terms": {
+       "data": 0.0006642896381334251,
+       "D2": 0.00029664390915958797,
+       "SiLU": 1.7619271912046754e-05,
+       "muQ": 0.0003395807573113614,
+       "reg": 3.5009727493191973e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2272304269895852e-05,
+       0.00022126766078891524,
+       0.0006467387816185079,
+       0.0012436674403234372,
+       0.0026119890063255095,
+       0.0064740681830733875,
+       0.014037147811026383,
+       0.022239519701047584,
+       0.03093946558056978,
+       0.060939964057215856,
+       14.814121583408005
+      ],
+      "min_max": 1.5034508893757901e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3085968699414907,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s4": {
+    "key": "correlated_P2m1e-05_s4",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 4,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 6392,
+     "stopped_epoch": 6492,
+     "val": 0.0006979149766266346
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 14
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 14,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 5.261608618419011e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.21152409041658,
+     "blocks": {
+      "L1 RBF affine": 16.89992372787538,
+      "L1 RBF curved": 0.5276260319205548,
+      "L1 SiLU": 0.020493089370323896,
+      "L1 bias": 0.24255591700315937,
+      "L2 RBF affine": 17.31692293361938,
+      "L2 RBF curved": 0.17281051693166205,
+      "L2 SiLU": 0.01778440607466182,
+      "L2 bias": 0.01340746762146113
+     },
+     "Lstar": 0.0013185390487773592,
+     "terms": {
+      "data": 0.0006647460911653096,
+      "D2": 0.0002946677287653677,
+      "SiLU": 1.6956762231734228e-05,
+      "muQ": 0.0003421684666149476
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.2340029885429885e-05,
+      0.000220836529608575,
+      0.0006060135505707625,
+      0.0012489932072473704,
+      0.002605551206282193,
+      0.00645523923908236,
+      0.014039884620056254,
+      0.022211851508643386,
+      0.03107384081682705,
+      0.06080424400452554,
+      14.834697730817053
+     ],
+     "min_max": 1.5059309121628768e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 1.0031175403067627,
+    "trust_theta2": [
+     35.10209190405402,
+     34.66799953751424,
+     34.860040482627994,
+     35.08025841021188,
+     35.14901865166686,
+     35.100832436608336,
+     35.020271746998944,
+     35.1077641141254,
+     35.12519692032852,
+     35.13624558096993,
+     35.11324526874459,
+     35.20443764939897,
+     35.207173276481726,
+     35.211551156032804,
+     35.21152409041658
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.3549090428336625,
+      "L1 curved RBF": 0.0015870347107186412,
+      "L1 SiLU": 3.190146879130828e-05,
+      "L1 bias": 0.1995023528631274,
+      "L2 affine RBF": 0.3939676793584731,
+      "L2 curved RBF": 0.044015695939035614,
+      "L2 SiLU": 0.0010572068410963668,
+      "L2 bias": 0.00492908598509509
+     },
+     "layer1": 0.5560303318762998,
+     "pair": {
+      "x1/x2": 0.8202930192982701,
+      "x3/x4": 0.17970698070173005
+     },
+     "unit_max": 0.7964290932555999,
+     "unit_eff": 1.522445306642616,
+     "total": 0.9994498368955027
+    },
+    "hidden_corr": {
+     "early": 0.9220344986124341,
+     "polished": 0.9320898131268496
+    },
+    "cancel": {
+     "early": {
+      "within": 1.1016923824988485,
+      "between": 1.3561299454110574,
+      "cross": 1.5590449515609426,
+      "layer2": 2.460666855428374,
+      "sat95": 0.0003333333333333333,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1102734573232933,
+      "between": 1.3229874784981517,
+      "cross": 1.5791990802942903,
+      "layer2": 2.4560156000953475,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06735252881285866,
+     "polished": 0.06852314911204313
+    },
+    "rmse_in": {
+     "polished": 0.010251609680201723
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 24,
+      "wall_s": 15.0,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.1245669796468754e-09,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.5117075241133695,
+      "blocks": {
+       "L1 RBF affine": 0.592051569381527,
+       "L1 RBF curved": 0.5907645249148507,
+       "L1 SiLU": 0.4920318471453904,
+       "L1 bias": 0.015743621891330092,
+       "L2 RBF affine": 0.4652702059473012,
+       "L2 RBF curved": 0.9725406816323382,
+       "L2 SiLU": 0.37807730712308885,
+       "L2 bias": 0.005227766077543925
+      },
+      "Lstar": 0.0037567657288187805,
+      "terms": {
+       "data": 0.0014967219488034368,
+       "D2": 0.001864016031523714,
+       "SiLU": 0.00038545453073834116,
+       "muQ": 1.0573217753288283e-05,
+       "reg": 0.00351170752411337
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0003318502623475717,
+       0.002228534250367991,
+       0.002586690862442724,
+       0.003573617317615242,
+       0.0048529572860569374,
+       0.010060370839463222,
+       0.016834840352689683,
+       0.024383133389562033,
+       0.03375991558795809,
+       0.05882822047157418,
+       14.911554113676097
+      ],
+      "min_max": 2.22545725159e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 58,
+      "wall_s": 53.2,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.0202484309715516e-08,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.809412385452006,
+      "blocks": {
+       "L1 RBF affine": 12.97226019294918,
+       "L1 RBF curved": 0.6281353019129838,
+       "L1 SiLU": 0.05138888312089636,
+       "L1 bias": 0.11595430604534467,
+       "L2 RBF affine": 12.724195256733024,
+       "L2 RBF curved": 0.25009746115538256,
+       "L2 SiLU": 0.04985940601240524,
+       "L2 bias": 0.017521577522788184
+      },
+      "Lstar": 0.001354889282873977,
+      "terms": {
+       "data": 0.0006753316129317545,
+       "D2": 0.00037774056840060203,
+       "SiLU": 4.4852547044798326e-05,
+       "muQ": 0.0002569645544968221,
+       "reg": 0.00026809412385452004
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.7332530138701627e-05,
+       0.00022805474372451857,
+       0.0006641216524503852,
+       0.0012548969512658948,
+       0.0026919857733673737,
+       0.006529404626279274,
+       0.013954144455294158,
+       0.022243866874903193,
+       0.030886911385252444,
+       0.05778715638510713,
+       13.879826277756298
+      ],
+      "min_max": 1.9692271064303253e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 17,
+      "wall_s": 21.7,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 8.968719520801932e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.08139947659748,
+      "blocks": {
+       "L1 RBF affine": 16.84602148205749,
+       "L1 RBF curved": 0.5292786126519893,
+       "L1 SiLU": 0.02076448425271063,
+       "L1 bias": 0.23949191233797462,
+       "L2 RBF affine": 17.24065578535724,
+       "L2 RBF curved": 0.1737731903153268,
+       "L2 SiLU": 0.01804253353982,
+       "L2 bias": 0.013371476084922054
+      },
+      "Lstar": 0.0013185455403071677,
+      "terms": {
+       "data": 0.0006647982595367254,
+       "D2": 0.0002956891697921368,
+       "SiLU": 1.7191338304158137e-05,
+       "muQ": 0.0003408667726741473,
+       "reg": 3.5081399476597473e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2417927525710794e-05,
+       0.00022101373827268262,
+       0.0006066669621313858,
+       0.0012486721064538988,
+       0.0026067874461033276,
+       0.00645675771438402,
+       0.014037939497001113,
+       0.022212178925551315,
+       0.031070013398397572,
+       0.06073938146911901,
+       14.813558342364475
+      ],
+      "min_max": 1.5133384570808356e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3085478701366178,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s5": {
+    "key": "correlated_P2m1e-05_s5",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 5,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 7136,
+     "stopped_epoch": 7236,
+     "val": 0.0006968275411054492
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 15
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 15,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 2.415321870459508e-11,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.2115243825943,
+     "blocks": {
+      "L1 RBF affine": 16.899923985783055,
+      "L1 RBF curved": 0.5276260197583724,
+      "L1 SiLU": 0.020493089494328865,
+      "L1 bias": 0.24255596485218367,
+      "L2 RBF affine": 17.316922935997567,
+      "L2 RBF curved": 0.17281050888058402,
+      "L2 SiLU": 0.017784406248636843,
+      "L2 bias": 0.013407471579572892
+     },
+     "Lstar": 0.0013185390487773562,
+     "terms": {
+      "data": 0.0006647460919604549,
+      "D2": 0.000294667725235357,
+      "SiLU": 1.6956762363738054e-05,
+      "muQ": 0.00034216846921780627
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.234001511447238e-05,
+      0.00022083653289880456,
+      0.0006060135555794243,
+      0.0012489932096036043,
+      0.0026055511512738543,
+      0.006455239176250816,
+      0.01403988464381649,
+      0.022211851515216898,
+      0.031073840910247126,
+      0.060804244194424095,
+      14.834697692650563
+     ],
+     "min_max": 1.5059299203340098e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9920890876459224,
+    "trust_theta2": [
+     35.49230086397375,
+     35.01566302821547,
+     35.164121321732146,
+     35.4439316021432,
+     35.378134617443735,
+     35.19675665464052,
+     35.114474609026765,
+     34.01317096985657,
+     34.69244060173125,
+     35.0591366673854,
+     35.059552676576324,
+     35.09534397839291,
+     35.149624816332434,
+     35.21165734400721,
+     35.21151459229192,
+     35.2115243825943
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.5152426027432547,
+      "L1 curved RBF": 0.003677868786282547,
+      "L1 SiLU": 2.1116762789864888e-05,
+      "L1 bias": 0.24582515457758172,
+      "L2 affine RBF": 0.21660977594174816,
+      "L2 curved RBF": 0.01216312962080436,
+      "L2 SiLU": 0.00020171146800866533,
+      "L2 bias": 0.006258640099530126
+     },
+     "layer1": 0.7647667428699089,
+     "pair": {
+      "x1/x2": 0.6336569885755916,
+      "x3/x4": 0.36634301142440834
+     },
+     "unit_max": 0.5042571224131459,
+     "unit_eff": 2.5811794355267996,
+     "total": 1.3835639843260197
+    },
+    "hidden_corr": {
+     "early": 0.926837727333271,
+     "polished": 0.9320898069095284
+    },
+    "cancel": {
+     "early": {
+      "within": 1.0675306725437226,
+      "between": 1.3534526787264385,
+      "cross": 1.3862850292122544,
+      "layer2": 2.830028381489166,
+      "sat95": 0.0005,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1102734687741949,
+      "between": 1.3229874655249623,
+      "cross": 1.5791989754492042,
+      "layer2": 2.4560156394867323,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06806266219434737,
+     "polished": 0.06852315330683878
+    },
+    "rmse_in": {
+     "polished": 0.010251609996901036
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 26,
+      "wall_s": 22.9,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 2.7192009196619696e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.5117075211112865,
+      "blocks": {
+       "L1 RBF affine": 0.5920515707214201,
+       "L1 RBF curved": 0.5907645292805345,
+       "L1 SiLU": 0.4920318478125626,
+       "L1 bias": 0.015743620219481034,
+       "L2 RBF affine": 0.4652702022384998,
+       "L2 RBF curved": 0.9725406724773722,
+       "L2 SiLU": 0.3780773118961773,
+       "L2 bias": 0.005227766465238946
+      },
+      "Lstar": 0.0037567657318208604,
+      "terms": {
+       "data": 0.0014967219621672624,
+       "D2": 0.001864016018775646,
+       "SiLU": 0.0003854545331483527,
+       "muQ": 1.05732177295992e-05,
+       "reg": 0.0035117075211112867
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.00033184955034024945,
+       0.0022285342487901594,
+       0.0025866908018382538,
+       0.0035736172913828964,
+       0.004852957281665324,
+       0.010060370860206943,
+       0.016834840432872793,
+       0.024383133461246164,
+       0.03375991570946538,
+       0.05882822040060329,
+       14.911553978324031
+      ],
+      "min_max": 2.225452496920427e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 52,
+      "wall_s": 54.9,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.28630786149825e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.809412581358842,
+      "blocks": {
+       "L1 RBF affine": 12.972259610650939,
+       "L1 RBF curved": 0.6281352920069487,
+       "L1 SiLU": 0.05138888235043423,
+       "L1 bias": 0.11595429589822424,
+       "L2 RBF affine": 12.724196146708579,
+       "L2 RBF curved": 0.25009735487334694,
+       "L2 SiLU": 0.04985941334162162,
+       "L2 bias": 0.017521585528746445
+      },
+      "Lstar": 0.001354889280914874,
+      "terms": {
+       "data": 0.0006753316247015323,
+       "D2": 0.00037774054868944885,
+       "SiLU": 4.485254995029763e-05,
+       "muQ": 0.0002569645575735952,
+       "reg": 0.00026809412581358847
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.733256786389118e-05,
+       0.00022805488262316953,
+       0.00066412090313637,
+       0.0012548969607298263,
+       0.002691985877557299,
+       0.006529404271244398,
+       0.013954144604657924,
+       0.0222438671274501,
+       0.03088691237927968,
+       0.057787156839253714,
+       13.879826719081802
+      ],
+      "min_max": 1.9692297618034904e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 17,
+      "wall_s": 20.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 7.733625450247984e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.08139946687304,
+      "blocks": {
+       "L1 RBF affine": 16.84602148399085,
+       "L1 RBF curved": 0.5292786128770466,
+       "L1 SiLU": 0.020764484253786984,
+       "L1 bias": 0.2394919119800521,
+       "L2 RBF affine": 17.240655773332627,
+       "L2 RBF curved": 0.17377319096198107,
+       "L2 SiLU": 0.018042533519471743,
+       "L2 bias": 0.013371475957217166
+      },
+      "Lstar": 0.0013185455403081402,
+      "terms": {
+       "data": 0.0006647982594914033,
+       "D2": 0.0002956891699478813,
+       "SiLU": 1.719133829562077e-05,
+       "muQ": 0.00034086677257323477,
+       "reg": 3.5081399466873035e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2417927070971774e-05,
+       0.00022101373851614154,
+       0.0006066669614781197,
+       0.00124867210644543,
+       0.0026067874465128013,
+       0.006456757715363552,
+       0.014037939496394569,
+       0.022212178925279873,
+       0.031070013394729007,
+       0.06073938144668368,
+       14.813558337527013
+      ],
+      "min_max": 1.5133384268775384e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.308547860211823,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s6": {
+    "key": "correlated_P2m1e-05_s6",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 6,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 8576,
+     "stopped_epoch": 8676,
+     "val": 0.000694829213898629
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 11
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 11,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 1.5995700857612816e-12,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.46612012198194,
+     "blocks": {
+      "L1 RBF affine": 17.003720715920224,
+      "L1 RBF curved": 0.5227475668046253,
+      "L1 SiLU": 0.020390923699539938,
+      "L1 bias": 0.3037217505206256,
+      "L2 RBF affine": 17.420127726930883,
+      "L2 RBF curved": 0.18188110510117994,
+      "L2 SiLU": 0.010974695987343203,
+      "L2 bias": 0.002555637017514275
+     },
+     "Lstar": 0.0013216045471225986,
+     "terms": {
+      "data": 0.0006648628716322284,
+      "D2": 0.00029860835940951404,
+      "SiLU": 1.3894831652345016e-05,
+      "muQ": 0.0003442384844285111
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.2245595460785133e-05,
+      0.00021644115019892515,
+      0.0006359086384827713,
+      0.0012412528400869882,
+      0.002605862978239737,
+      0.006470592336150261,
+      0.014050328386595463,
+      0.022230429749420064,
+      0.031007878067123122,
+      0.06086875457494481,
+      14.79494215811615
+     ],
+     "min_max": 1.5035946219351546e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 1.0015400543162303,
+    "trust_theta2": [
+     35.411584358645854,
+     38.011426670657684,
+     35.81096289628933,
+     35.447008146456284,
+     35.39392057698443,
+     35.45768039929125,
+     35.431958554400566,
+     35.42661292410923,
+     35.46768946972903,
+     35.46581949086885,
+     35.46612269939125,
+     35.46612012198194
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.39263807665110917,
+      "L1 curved RBF": 0.004431910499343885,
+      "L1 SiLU": 3.146574169378124e-05,
+      "L1 bias": 0.15115423937870026,
+      "L2 affine RBF": 0.34180427486374554,
+      "L2 curved RBF": 0.018361813776334158,
+      "L2 SiLU": 0.0002672471850747453,
+      "L2 bias": 0.0913109719039985
+     },
+     "layer1": 0.5482556922708471,
+     "pair": {
+      "x1/x2": 0.6368004155261612,
+      "x3/x4": 0.3631995844738388
+     },
+     "unit_max": 0.5760839555086199,
+     "unit_eff": 2.3608197371706843,
+     "total": 0.5120928932316189
+    },
+    "hidden_corr": {
+     "early": 0.9408413211287953,
+     "polished": 0.936209487938874
+    },
+    "cancel": {
+     "early": {
+      "within": 1.0795549218507343,
+      "between": 1.369597194330148,
+      "cross": 1.4506690254539503,
+      "layer2": 2.4737891159348915,
+      "sat95": 0.0008333333333333334,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1105615820738106,
+      "between": 1.324401839643017,
+      "cross": 1.5850141024784965,
+      "layer2": 2.4554983522573166,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06746229592137191,
+     "polished": 0.06815687690386227
+    },
+    "rmse_in": {
+     "polished": 0.01027483550958732
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 25,
+      "wall_s": 26.6,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 9.476355477774402e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.4852626714632824,
+      "blocks": {
+       "L1 RBF affine": 0.6159622715890616,
+       "L1 RBF curved": 0.5737785605390064,
+       "L1 SiLU": 0.5094173807870882,
+       "L1 bias": 0.03553930424361053,
+       "L2 RBF affine": 0.428393265100179,
+       "L2 RBF curved": 0.9361992098176586,
+       "L2 SiLU": 0.3853860712434069,
+       "L2 bias": 0.0005866081432710532
+      },
+      "Lstar": 0.0037219290052373385,
+      "terms": {
+       "data": 0.001482890452262144,
+       "D2": 0.0018322010015062466,
+       "SiLU": 0.0003963939961020553,
+       "muQ": 1.0443555366892405e-05,
+       "reg": 0.0034852626714632824
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0007142732623266624,
+       0.002225471500908392,
+       0.002562856919742263,
+       0.003570782245966897,
+       0.004884588254048973,
+       0.009816821409877111,
+       0.016858548957175448,
+       0.02436761407345653,
+       0.03421634381968768,
+       0.0569307073341115,
+       14.915916091252603
+      ],
+      "min_max": 4.788665060576105e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 72,
+      "wall_s": 57.3,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 9.030457465538717e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.645374462303657,
+      "blocks": {
+       "L1 RBF affine": 12.992157304976214,
+       "L1 RBF curved": 0.6287648293041386,
+       "L1 SiLU": 0.05183670965885025,
+       "L1 bias": 0.20562229560810466,
+       "L2 RBF affine": 12.466587521292025,
+       "L2 RBF curved": 0.23932249156897534,
+       "L2 SiLU": 0.05873907426847759,
+       "L2 bias": 0.0023442356268728996
+      },
+      "Lstar": 0.001351424902565422,
+      "terms": {
+       "data": 0.0006722202872622571,
+       "D2": 0.00037563258080133935,
+       "SiLU": 4.898458623914329e-05,
+       "muQ": 0.0002545874482626824,
+       "reg": 0.0002664537446230366
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       3.0786139531503904e-05,
+       0.00022889889762769565,
+       0.000701542718822966,
+       0.00123999069519878,
+       0.0027171030167283676,
+       0.006543916358175157,
+       0.013982281444224188,
+       0.022334857799897422,
+       0.030624087146201975,
+       0.05877727869312514,
+       13.88804306269526
+      ],
+      "min_max": 2.216737044414753e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 13,
+      "wall_s": 8.1,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 4.601682158832007e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 34.8037751955252,
+      "blocks": {
+       "L1 RBF affine": 16.818708008337712,
+       "L1 RBF curved": 0.5280576730305846,
+       "L1 SiLU": 0.020708153229941698,
+       "L1 bias": 0.2948394369902205,
+       "L2 RBF affine": 16.942188343993887,
+       "L2 RBF curved": 0.17191909507697645,
+       "L2 SiLU": 0.024246989572408784,
+       "L2 bias": 0.003107495293467991
+      },
+      "Lstar": 0.0013156444252927376,
+      "terms": {
+       "data": 0.0006634375585563297,
+       "D2": 0.0002946829725539341,
+       "SiLU": 1.9914930659157706e-05,
+       "muQ": 0.000337608963523316,
+       "reg": 3.4803775195525188e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2035182477438035e-05,
+       0.00022130578938592385,
+       0.000648586237734074,
+       0.0012265378991907284,
+       0.0026219120172109585,
+       0.006483490840180526,
+       0.01404809086345857,
+       0.022239635805804764,
+       0.030959046571772914,
+       0.06119055094033233,
+       14.8030510815252
+      ],
+      "min_max": 1.4885568087337633e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3061845028585948,
+    "D_both_certified": true,
+    "worker_log": []
+   },
+   "correlated_P2m1e-05_s7": {
+    "key": "correlated_P2m1e-05_s7",
+    "cond": "correlated",
+    "lev": "P2",
+    "seed": 7,
+    "mu": 1e-05,
+    "early": {
+     "best_epoch": 6234,
+     "stopped_epoch": 6334,
+     "val": 0.0006939664017409086
+    },
+    "polish": {
+     "pinfo": {
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "message": "certified",
+      "iters": 12
+     },
+     "status": "reached",
+     "stop": "certified (terminated at the first accepted iterate that certifies)",
+     "iters": 12,
+     "certified": true,
+     "crit": {
+      "a": true,
+      "b": true,
+      "c": true,
+      "d": true
+     },
+     "grad": 1.597273688097242e-10,
+     "resumed": false,
+     "cert_null_aware": false,
+     "theta2": 35.53555223392514,
+     "blocks": {
+      "L1 RBF affine": 17.009759666030163,
+      "L1 RBF curved": 0.5204631852901258,
+      "L1 SiLU": 0.020303589783680322,
+      "L1 bias": 0.24606605268567316,
+      "L2 RBF affine": 17.540804026448143,
+      "L2 RBF curved": 0.17784438518900103,
+      "L2 SiLU": 0.010124327242826707,
+      "L2 bias": 0.01018700125552683
+     },
+     "Lstar": 0.001322013623892792,
+     "terms": {
+      "data": 0.000665360279206225,
+      "D2": 0.0002976682742662727,
+      "SiLU": 1.3479433495511185e-05,
+      "muQ": 0.00034550563692478306
+     },
+     "n_near_flat": 0,
+     "eig_deciles": [
+      2.2403874340210735e-05,
+      0.00021657981035891254,
+      0.0005928936472715973,
+      0.0012447000230109866,
+      0.0025990857536606258,
+      0.006452766125064943,
+      0.0140509148226273,
+      0.02220339464803623,
+      0.031141585026207445,
+      0.06074716025956254,
+      14.796000337910554
+     ],
+     "min_max": 1.5141844977393764e-06,
+     "sat": 0.0,
+     "degeneracy_in_complement": true,
+     "degenerate": false,
+     "class": null,
+     "included": true,
+     "reason": null
+    },
+    "certified": true,
+    "growth": 0.9886632753852576,
+    "trust_theta2": [
+     35.94302844927442,
+     38.13874219857267,
+     36.220068360813165,
+     35.911202673999526,
+     35.78005994485258,
+     35.59276112438758,
+     35.4805385626444,
+     34.03328635624757,
+     34.96955358974547,
+     35.48125459912797,
+     35.53464229346748,
+     35.535636448548516,
+     35.53555223392514
+    ],
+    "anatomy": {
+     "shares": {
+      "L1 affine RBF": 0.27690482447845344,
+      "L1 curved RBF": 0.0026345293766010833,
+      "L1 SiLU": 6.047188694930383e-05,
+      "L1 bias": 0.11527862375112066,
+      "L2 affine RBF": 0.6027933467135487,
+      "L2 curved RBF": 0.0020510902908967266,
+      "L2 SiLU": 1.1916286043454657e-05,
+      "L2 bias": 0.00026519721638672695
+     },
+     "layer1": 0.3948784494931245,
+     "pair": {
+      "x1/x2": 0.676282124030695,
+      "x3/x4": 0.32371787596930496
+     },
+     "unit_max": 0.6306131677673625,
+     "unit_eff": 2.1060063976059067,
+     "total": 1.2056686924264295
+    },
+    "hidden_corr": {
+     "early": 0.9340883900970651,
+     "polished": 0.9329098402384314
+    },
+    "cancel": {
+     "early": {
+      "within": 1.1063830850289806,
+      "between": 1.3393793031365242,
+      "cross": 1.4174231260801855,
+      "layer2": 3.188153659587259,
+      "sat95": 0.0005,
+      "sat_s3": 0.0
+     },
+     "polished": {
+      "within": 1.1107178386432512,
+      "between": 1.3242833756406656,
+      "cross": 1.5787206759149608,
+      "layer2": 2.4737715077841362,
+      "sat95": 0.0006666666666666666,
+      "sat_s3": 0.0
+     }
+    },
+    "rmse_off": {
+     "early": 0.06793802628734387,
+     "polished": 0.06838827136666065
+    },
+    "rmse_in": {
+     "polished": 0.0102804436728302
+    },
+    "path": [
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 28,
+      "wall_s": 32.5,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 3.3608794458399316e-12,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 3.4810702194477936,
+      "blocks": {
+       "L1 RBF affine": 0.6055701816988158,
+       "L1 RBF curved": 0.57869407455879,
+       "L1 SiLU": 0.5022832456595685,
+       "L1 bias": 0.03255772467714715,
+       "L2 RBF affine": 0.43461866680660816,
+       "L2 RBF curved": 0.9407810604673681,
+       "L2 SiLU": 0.384799171191674,
+       "L2 bias": 0.0017660943878225748
+      },
+      "Lstar": 0.003736531848794036,
+      "terms": {
+       "data": 0.001488388043445751,
+       "D2": 0.0018447683054074384,
+       "SiLU": 0.0003929736114557921,
+       "muQ": 1.040188848505424e-05,
+       "reg": 0.0034810702194477943
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       0.0006921907832109939,
+       0.0022233413056724346,
+       0.0025852728131492086,
+       0.003562619675454344,
+       0.004900268264157197,
+       0.009860370662688285,
+       0.0169414127754897,
+       0.02425588538265142,
+       0.034372332977294875,
+       0.05656788521495652,
+       14.932085951516745
+      ],
+      "min_max": 4.635593348836059e-05,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 0.001
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 75,
+      "wall_s": 72.2,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.2053334269264762e-11,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 26.98317389467954,
+      "blocks": {
+       "L1 RBF affine": 13.113014722378903,
+       "L1 RBF curved": 0.6182102815045525,
+       "L1 SiLU": 0.05108849374279255,
+       "L1 bias": 0.12526742794535078,
+       "L2 RBF affine": 12.766545246530757,
+       "L2 RBF curved": 0.26052694605087723,
+       "L2 SiLU": 0.036995921073850455,
+       "L2 bias": 0.011524855452458585
+      },
+      "Lstar": 0.0013591161602313493,
+      "terms": {
+       "data": 0.0006760640510629723,
+       "D2": 0.0003852355008943803,
+       "SiLU": 3.902100858490012e-05,
+       "muQ": 0.00025879559968909664,
+       "reg": 0.00026983173894679546
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.651450868074202e-05,
+       0.0002156429741574636,
+       0.0006392600383043143,
+       0.0012457210313531009,
+       0.002680116483103339,
+       0.006524964325243586,
+       0.013957017198968214,
+       0.022229054275945685,
+       0.031022698474336273,
+       0.05711928551096022,
+       13.788246775935669
+      ],
+      "min_max": 1.922978977067427e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-05
+     },
+     {
+      "status": "reached",
+      "stop": "certified (terminated at the first accepted iterate that certifies)",
+      "iters": 18,
+      "wall_s": 16.3,
+      "certified": true,
+      "crit": {
+       "a": true,
+       "b": true,
+       "c": true,
+       "d": true
+      },
+      "grad": 1.8442251537008206e-10,
+      "resumed": false,
+      "cert_null_aware": false,
+      "theta2": 35.40402394660782,
+      "blocks": {
+       "L1 RBF affine": 16.95660569612715,
+       "L1 RBF curved": 0.5220602481157925,
+       "L1 SiLU": 0.020572998578119787,
+       "L1 bias": 0.2430414422110022,
+       "L2 RBF affine": 17.462423910135087,
+       "L2 RBF curved": 0.17887250391989795,
+       "L2 SiLU": 0.010313252519339096,
+       "L2 bias": 0.010133895001434927
+      },
+      "Lstar": 0.001322020185568502,
+      "terms": {
+       "data": 0.0006654122709334621,
+       "D2": 0.00029873514509810183,
+       "SiLU": 1.3682473474315532e-05,
+       "muQ": 0.00034419029606262236,
+       "reg": 3.540402394660782e-06
+      },
+      "n_near_flat": 0,
+      "eig_deciles": [
+       2.2475656057898793e-05,
+       0.00021660837252307778,
+       0.0005933873908191134,
+       0.0012444332437118405,
+       0.0026002445854609165,
+       0.0064543377911926905,
+       0.014048732146341905,
+       0.022203572239636295,
+       0.031138370374739842,
+       0.060675496202544726,
+       14.774074321260825
+      ],
+      "min_max": 1.5212903068691692e-06,
+      "sat": 0.0,
+      "degeneracy_in_complement": true,
+      "degenerate": false,
+      "class": null,
+      "included": true,
+      "coef": 1e-07
+     }
+    ],
+    "D": 1.3120778187472113,
+    "D_both_certified": true,
+    "worker_log": []
+   }
+  }
+ },
+ "check3": {
+  "rows": {
+   "independent_P0_s0": {
+    "growth_last100": 0.16511598623243826,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.8584583590389842,
+    "D": 4.312735292477967,
+    "cls": "runaway-like",
+    "reason": "iteration cap",
+    "theta2_last": 7077.923720295957,
+    "theta2_early": 70.79004411216134
+   },
+   "independent_P0_s2": {
+    "growth_last100": 0.016265211749172313,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.3372222466873613,
+    "D": 4.296896030268485,
+    "cls": "mixed",
+    "reason": "iteration cap",
+    "theta2_last": 36371.646646614885,
+    "theta2_early": 124.2702303105433
+   },
+   "independent_P0_s6": {
+    "growth_last100": 0.057188877894088434,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.48056279905006083,
+    "D": 4.400770317132877,
+    "cls": "mixed",
+    "reason": "iteration cap",
+    "theta2_last": 6496.8954572782495,
+    "theta2_early": 72.24214135840097
+   },
+   "independent_P1_s0": {
+    "growth_last100": 0.02889408367764922,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.4389832509016145,
+    "D": 1.2305564234253066,
+    "cls": "mixed",
+    "reason": "iteration cap",
+    "theta2_last": 1558.2826230436044,
+    "theta2_early": 58.02294132560874
+   },
+   "independent_P1_s2": {
+    "growth_last100": 1.258571128571543,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.09110456044915992,
+    "D": 1.2344405221719856,
+    "cls": "mixed",
+    "reason": "iteration cap",
+    "theta2_last": 345994.9300361376,
+    "theta2_early": 59.02539648765146
+   },
+   "independent_P1_s6": {
+    "growth_last100": 0.17239845626020675,
+    "short": false,
+    "n_iter": 500,
+    "hidden_corr": 0.8108876079191953,
+    "D": 1.2302825963876496,
+    "cls": "runaway-like",
+    "reason": "iteration cap",
+    "theta2_last": 1603.685381713217,
+    "theta2_early": 52.022128860436794
+   },
+   "independent_P1_s7": {
+    "growth_last100": -0.008233526424067845,
+    "short": true,
+    "n_iter": 10,
+    "hidden_corr": 0.07408041887228803,
+    "D": 1.2278933146083744,
+    "cls": "slow convergence",
+    "reason": "solver error",
+    "theta2_last": 46.43294426225489,
+    "theta2_early": 47.207105955931056
+   }
+  },
+  "counts": {
+   "runaway-like": 2,
+   "mixed": 4,
+   "slow convergence": 1
+  }
+ }
+}
