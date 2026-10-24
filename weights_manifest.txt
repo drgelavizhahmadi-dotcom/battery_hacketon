@@ -6324,3 +6324,19 @@ gauge_weights/bsp_rec_independent_P2m1e-05_s5.json  a8a51beead17c7477ffaf33a5373
 gauge_weights/bsp_rec_independent_P2m1e-05_s6.json  73383a15ca44be60da53fa463c6cce60c741f2828aacf07f692ad47dededf73a  paper2/revision/bspline_posthoc.py  831f026  gauge_weights_2026-10-24r.tar.gz
 gauge_weights/bsp_rec_independent_P2m1e-05_s7.json  5011c4584b5f95e5cafb8f657383e96717aa4bb8dbed642f6a0a52e09f8d56ec  paper2/revision/bspline_posthoc.py  831f026  gauge_weights_2026-10-24r.tar.gz
 gauge_weights/sc_index.json  1efa9ddfd92b156258724a30a8fab8d4278e0c463470371eb68ae85ac422daa4  paper2/revision/bspline_posthoc.py  831f026  gauge_weights_2026-10-24r.tar.gz
+# --- nineteenth archive (appended; earlier archives unchanged): /Users/gelavizhahmadi/Projects/battery_hacketon_weights/gauge_weights_2026-10-25s.tar.gz
+# archive sha256: 2add8f62674fd48aa519b05fd839737f78b67919dfc9e3c1b15e2b027a739dee
+# LATE ARCHIVING (2026-10-25, applicability-domain plan ec769ad, G2): the mu = 1e-4 fold A polishes written by certify.py (36f295b)
+# to gauge_weights/ were never archived; archived now, before use. Integrity is checked by reproducing the logged fold A ensemble
+# RMSE 0.3345 (bias +0.2256) in appdomain.py.
+# columns for these entries: path  sha256  producing_script  producing_commit  archive
+gauge_weights/certify_foldA_0.0001_s0.json  d3cf250239cdb549f4172a5a36516066b7b13317c9962cfb194d38df18b5e0b6  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s0.pt  407510f9dacd2c22e9c4d5babb6d896f8e8fae23a68b4fe34db9284bc600a4cd  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s1.json  abf79de7b4bd40fef68b24c26d5210a2ae58c3a3ea46bae90dd042988301e202  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s1.pt  ba98f52a1c9e0da914866c45381dc3f18b0ca03f2fbef45095e97139fd7ee0a3  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s2.json  2448c360a3330f7d0ec97b0fca41f28e8a58aa8553a1fabcf07bea8a2ade6d9d  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s2.pt  e2af2a869be59c49d5c2765df910143004b6b62c0a664628b89e706f7fe33329  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s3.json  8f0a77320f394c9510848fa12ae37aaf7332a8ffc3293ff4f1dc4ba4b23d157f  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s3.pt  e3822cb5471eb9c9f619185ac48f07495c91d5825fd5a3364ea922002339b145  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s4.json  e716c35c82a04ebb3715fbb299a8d9f990ddb6d3403c4b482d0c0a6038c5117e  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
+gauge_weights/certify_foldA_0.0001_s4.pt  59aecf8c3f8c7a354c6850ced36433fb75487891765bc8434615f7f249293f86  certify.py  36f295b  gauge_weights_2026-10-25s.tar.gz
