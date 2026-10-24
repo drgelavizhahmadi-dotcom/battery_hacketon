@@ -346,3 +346,17 @@ wrote bspline_results.json and figs/bspline_theta_trajectories.png, figs/bspline
   of correlated_P0_s4 at gamma = 1e-7, recorded as stalled, wall-clock type); iteration cap: 22 Step 1 polishes. Failure reasons of
   the 23 uncertified Step 1 polishes: iteration cap 22 (correlated P0 8, correlated P1 8, independent P0 3, independent P1 3),
   solver error 1 (independent P1, watchdog). Degenerate certified points: 7 (all correlated P0 at gamma = 1e-7), all FLAT MINIMUM.
+
+####################################################################################################
+paper2/revision/bspline_posthoc.py 2026-10-24 19:22:35: POST-HOC follow-up (addendum ff5bd20; no verdict changes)
+####################################################################################################
+  inputs: 80 archive-17 files, SHA-256 verified against weights_manifest.txt
+
+==================== 1. P2 path extension (gamma 1e-8, 1e-9; mu = 1e-6 as frozen) ====================
+
+  CRASH RECORD (POST-HOC run, recorded 2026-10-24): the run above (started 19:22:35) deadlocked in check 1. 14 of 16 P2 extensions
+  finished by about 19:24; correlated_P2_s6 and s7 had their gamma = 1e-8 points cached and then made no progress: no child process
+  alive, the parent at about 0.3% CPU for 2 h, its threads parked in condition waits including libomp's kmp wait (macOS sample,
+  21:2x). The extensions ran their analysis as Python threads of one process (torch / OpenMP used from several threads at once).
+  Killed at about 21:24. Implementation-only fix (separate commit): each model's extension runs in its own worker process, as in
+  Step 1. Cached points are reused (SHA-indexed); nothing else changes.

@@ -3,6 +3,7 @@
 independent P0/P1 models (descriptive). Run from the repo root with the pinned interpreter:
   /usr/bin/python3 paper2/revision/bspline_posthoc.py >> paper2/revision/bspline_output.txt"""
 import hashlib
+import subprocess
 import json
 import sys
 import time
@@ -72,8 +73,23 @@ def main():
     # ---------------- 1. P2 path extension
     log("\n==================== 1. P2 path extension (gamma 1e-8, 1e-9; mu = 1e-6 as frozen) ====================")
     lines = []
+    # crash record 1 (POST-HOC run): the extensions ran as Python threads of one process and deadlocked in libomp after 14 of 16
+    # models; each model now runs in its own worker process (as Step 1), writing gauge_weights/bsp_ext_<key>.json
+
+    def one(k):
+        f = I.W / f"bsp_ext_{k}.json"
+        if not f.exists():
+            BP.LOGDIR.mkdir(exist_ok=True)
+            with open(BP.LOGDIR / f"ext_{k}.log", "a") as lf:
+                r = subprocess.run([sys.executable, str(Path(__file__)), "--extend", k], cwd=REPO, stdout=lf, stderr=lf)
+            if r.returncode != 0:
+                raise SystemExit(f"extension worker {k} failed (code {r.returncode})")
+        return json.loads(f.read_text())
     with ThreadPoolExecutor(4) as ex:
-        ext = dict(zip(p2, ex.map(lambda k: extend(k, lines.append), p2)))
+        got = dict(zip(p2, ex.map(one, p2)))
+    ext = {k: [(v["r"][j], np.array(v["x"][j])) for j in range(2)] for k, v in got.items()}
+    for v in got.values():
+        lines.extend(v["log"])
     rows = {}
     for k in p2:
         rec = json.loads((I.W / f"bsp_rec_{k}.json").read_text())
@@ -158,5 +174,14 @@ def main():
     log("  wrote bspline_posthoc_results.json")
 
 
+def extend_worker(key):
+    lines = []
+    pts = extend(key, lines.append)
+    (I.W / f"bsp_ext_{key}.json").write_text(json.dumps(dict(r=[r for r, _ in pts], x=[x.tolist() for _, x in pts], log=lines), default=float))
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 3 and sys.argv[1] == "--extend":
+        extend_worker(sys.argv[2])
+    else:
+        main()
