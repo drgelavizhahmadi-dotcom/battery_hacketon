@@ -361,3 +361,52 @@ No cell is SENSITIVE TO CERTIFICATION: the as-reached and certified-only D give 
 - Certification-based termination ended 25/48 Step 1 polishes, 144/144 path points and 6/7 restart probes.
 - There were 2 watchdog kills.
 - There were 7 degenerate certified points, all FLAT MINIMUM.
+
+### POST-HOC ADDENDUM (2026-10-24, written after the Step 1 verdicts, before computing; no verdict changes)
+
+B1 held; B2 failed on the D leg; B3 failed; branches 3 and 4 stand. Everything below is POST-HOC.
+
+**1. P2 path extension** (no new training; archive-17 weights).
+- **What runs.** For all 16 P2 models, the short path continues from the γ = 1e-7 point to 1e-8 and then 1e-9, with the same
+  protocol:
+  - caps, certification-based termination, the watchdog;
+  - no certification null set on the path;
+  - the degeneracy count in the complement of the constructed space.
+- **Reported per model:**
+  - D' = ‖θ*(1e-9)‖² / ‖θ*(1e-7)‖²;
+  - the γ = 1e-9 point against the certified P2 polish minimum: the norm ratio, the relative parameter distance, and the
+    relative loss difference (the P2 loss without the γ term).
+- **Predictions (fixed now):**
+  - median D' ≤ 1.5 in both conditions;
+  - median norm ratio ‖θ*(1e-9)‖ / ‖θ_polish‖ within [0.9, 1.1] in both conditions.
+- **Readings (fixed now):**
+  - **Both hold:** the path is bounded at μ = 1e-6, and B2's D failure is a μ-versus-window effect (the curvature 1.8μ = 1.8e-6
+    sits between the window's two γ values).
+  - **D' > 1.5:** the window explanation fails, and the branch-3 qualification stands unmodified.
+  - **D' ≤ 1.5 but the norm approach fails:** a plateau elsewhere. Report the loss differences; a matching loss still reads
+    bounded, per the settling-check taxonomy.
+
+**2. P2 at the RBF study's μ = 1e-5** (new training, small).
+- **What runs.** Correlated and independent, seeds 0–7 each, with the same protocol end to end: polish, certification, the
+  degeneracy screen and probes, and the short path at γ = 1e-3, 1e-5, 1e-7.
+- **Why this μ.** 1e-5 is the main study's frozen value, the natural comparison point. This is the only added cell, not a grid
+  search.
+- **Reported:** certified counts and median D per cell.
+- **Prediction (fixed now):** ≥ 7/8 certified and median D ≤ 1.5 in both conditions.
+- **Readings (fixed now):**
+  - **The prediction holds:** the fix carries to B-splines at the main study's μ. Together with check 1, the D-leg failure reads
+    as a calibration / window lesson.
+  - **It fails while check 1 passes:** boundedness stands (check 1 is decisive there), but D ≤ 1.5 is not portable across bases at
+    a fixed μ. Report it as criterion sensitivity.
+  - **Both fail:** the branch-3 qualification stands unmodified.
+
+**3. The 7 non-certifying independent P0/P1 models** (descriptive only; feeds the B3 language; changes no verdict).
+- **Reported:** the norm trajectory over the last 100 polish iterations, the largest hidden-unit correlation, and the short-path D.
+- **Classification rule (fixed now):**
+  - **runaway-like:** relative norm growth over the last 100 iterations > 1% AND largest hidden-unit correlation > 0.5;
+  - **slow convergence:** growth ≤ 1% AND correlation ≤ 0.5;
+  - **anything else:** reported as mixed.
+- **Units.** "Norm" is ‖θ‖ (not squared), and the iterations are trust-region iterations. A polish with fewer than 100 iterations
+  uses all of them, flagged.
+
+New weights are archived with manifest entries, and a backup bundle is made. Step 6 is not started.
