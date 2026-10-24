@@ -321,3 +321,43 @@ Verdicts are appended below the Verdicts heading; nothing above it is edited.
 - **The two criteria agree.** The certification criterion would also select 1e-6, so the growth rule did not need to decide.
 - **Contrast with RBF.** The committed RBF μ was 1e-5.
 - **How the polishes ended.** All 24 calibration polishes ended CONVERGED, with no hang and no watchdog kill.
+
+### Verdicts, Step 1 (recorded 2026-10-24 from `bspline_output.txt` / `bspline_results.json`, commit ffa6e64; frozen μ = 1e-6)
+
+| Prediction | Cell | Result | Verdict |
+|---|---|---|---|
+| **B1** (≤ 2 of 8 certified) | correlated P0 | 0/8 (8 iteration cap) | **HELD** |
+| | correlated P1 | 0/8 (8 iteration cap) | **HELD** |
+| **B2** (≥ 7 of 8 certified AND median D ≤ 1.5) | independent P2 | 8/8, D 1.222 (certified-only 1.222) | **HELD** |
+| | correlated P2 | 8/8, D **2.225** (certified-only 2.225) | **FAILED** (the D leg; certification held) |
+| **B3** (≥ 6 of 8 certified) | independent P0 | 5/8 (3 iteration cap) | **FAILED** |
+| | independent P1 | 4/8 (3 iteration cap, 1 solver error via the watchdog) | **FAILED** |
+
+No cell is SENSITIVE TO CERTIFICATION: the as-reached and certified-only D give the same readings.
+
+**Branches (fixed rules, all matches reported):**
+- **3. B1 holds, B2 fails.** The runaway carries over to B-spline KANs, but the null-space fix at μ = 1e-6 does not close it in
+  the correlated condition. The failed leg is D: all 8 certify, but the median D is 2.225 against ≤ 1.5. The paper's
+  recommendation for B-splines is qualified accordingly.
+- **4. B3 fails.** The B-spline basis is less benign on independent inputs than the RBF basis: 5/8 and 4/8 against the RBF
+  reference of 6/8 and 6/8.
+
+**Caveats, stated next to the results.**
+- **μ is the grid floor.** The frozen μ = 1e-6 is the smallest value of the committed grid (the RBF μ was 1e-5). B2's D-leg
+  failure is therefore at a weaker penalty than the RBF fix.
+- **λ is kept as committed (F2),** so the strength of the second-difference penalty relative to the curvature it measures differs
+  between the bases.
+- **D alone does not separate** a distant finite minimum from a receding one (75b778b).
+- **The hook implementation note** in the log: termination and checkpoints act at every evaluated trust-region point, accepted or
+  proposed. No verdict depends on this.
+- **Amendments to Step 0 made after outcomes were known:**
+  - the fidelity gate, withdrawn (cba2c07);
+  - the polish-ending classification (4b3f20a);
+  - the analytic null set, null-set-aware certification and certification-based termination (03638f8);
+  - the staleness watchdog (5bf5acd);
+  - the frozen μ (9cc112c).
+
+**Counts.**
+- Certification-based termination ended 25/48 Step 1 polishes, 144/144 path points and 6/7 restart probes.
+- There were 2 watchdog kills.
+- There were 7 degenerate certified points, all FLAT MINIMUM.
