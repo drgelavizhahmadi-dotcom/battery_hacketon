@@ -154,6 +154,8 @@ def parse(key):
     a, b, c = key.split("_")
     if a == "pilot":
         return "correlated", "P2", int(c[1:]), float(b[1:])
+    if b.startswith("P2m"):                    # P2 at an explicit mu, e.g. "correlated_P2m1e-05_s3" (POST-HOC addendum ff5bd20, check 2)
+        return a, "P2", int(c[1:]), float(b[3:])
     return a, b, int(c[1:]), (frozen_mu() if b == "P2" else 0.0)
 
 
