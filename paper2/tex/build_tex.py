@@ -305,13 +305,9 @@ FIG_REFS = [  # (exact draft substring, replacement); each inserted reference is
 ]
 FIG_AFTER = {  # place the figure after the paragraph that starts with (order = order of first reference = figure number)
     "fig:mechanism": "**Step 2: a direction the data cannot see.**",
-    "fig:synthetic": "- **Independent inputs are not fully safe.**",
-    "fig:where": "**Where the runaway lives.**",
-    "fig:applicability": "**Extrapolation suffered.**",
     "fig:paths": "**A certified regularisation path.**",
     "fig:corrdose": "**Correlation drives non-convergence.**",
     "fig:bspline": "**The fix carries over, with a lesson about calibration.**",
-    "fig:dose": "Under a second-order certificate",
     "fig:uniqueness": "**Convergence is not uniqueness.**",
 }
 TABLE_CAPTIONS = [  # CAPTION-DRAFT: short titles only; the draft's own notes stay in the text
@@ -383,9 +379,17 @@ def merge_table(label, typed_rows):
     return [head, typed_rows[1]] + merged
 
 
+IN_E = ["fig:synthetic", "fig:where", "fig:applicability", "fig:dose"]   # draft rev 58: moved to Appendix E (supplementary figures), in this order
+
+
+def fref(lab, suffix):
+    f = f"Figure~\\ref{{{lab}}}{suffix}"
+    return f"Appendix~\\ref{{app:supp}}, {f}" if lab in IN_E else f
+
+
 def refs(s):
-    s = re.sub("\x01([^|]+)\\|([^\x01]*)\x01", lambda m: f"(Figure~\\ref{{{m.group(1)}}}{m.group(2)})", s)
-    return re.sub("\x02([^|]+)\\|([^\x02]*)\x02", lambda m: f"Figure~\\ref{{{m.group(1)}}}{m.group(2)}", s)
+    s = re.sub("\x01([^|]+)\\|([^\x01]*)\x01", lambda m: f"({fref(m.group(1), m.group(2))})", s)
+    return re.sub("\x02([^|]+)\\|([^\x02]*)\x02", lambda m: fref(m.group(1), m.group(2)), s)
 
 
 def table_tex(rows, label, caption):
@@ -396,7 +400,7 @@ def table_tex(rows, label, caption):
         spec = "l p{0.24\\linewidth} l l p{0.16\\linewidth}"
     if label == "tab:dose":
         spec = "l l p{0.18\\linewidth} l p{0.16\\linewidth}"
-    out = [f"\\begin{{table}}[t]\n  \\centering\n  % CAPTION-DRAFT: review\n  \\caption{{{caption}}}\n  \\label{{{label}}}\n  \\small\n  \\begin{{tabular}}{{{spec}}}\n  \\toprule"]
+    out = [f"\\begin{{table}}[{'h' if label == 'tab:alternatives' else 't'}]\n  \\centering\n  % CAPTION-DRAFT: review\n  \\caption{{{caption}}}\n  \\label{{{label}}}\n  \\small\n  \\begin{{tabular}}{{{spec}}}\n  \\toprule"]
     out.append("  " + " & ".join(inline(c) for c in cells(head)) + " \\\\\n  \\midrule")
     for r in body:
         out.append("  " + " & ".join(inline(c) for c in cells(r)) + " \\\\")
@@ -431,7 +435,18 @@ def build_body(cap):
             continue                                  # byline: dropped (author handled by the tmlr \author block)
         if first.startswith("## References"):
             done = True
+        if first.startswith("## Appendix F"):
+            done = False
+            out.append("\x03APPF\x03")
+            out.append(f"\\section{{{inline(first.split(':', 1)[1].strip())}}}\\label{{app:F}}\n")
+            continue
         if done:
+            continue
+        mf = re.match(r"\*\*F\.(\d) (.+?)\.\*\*\s*(.*)", " ".join(blk), re.S)
+        if mf:                                        # "**F.n Title.** text" -> subsection F.n
+            out.append(f"\\subsection{{{inline(mf.group(2))}}}\\label{{app:F{mf.group(1)}}}\n")
+            if mf.group(3).strip():
+                out.append(refs(inline(mf.group(3).strip())) + "\n")
             continue
         if first.startswith("## Abstract"):
             in_abs = True; continue
@@ -463,9 +478,10 @@ def build_body(cap):
                 name, c = cap[lab]
                 out.append(figure(lab, name, c)); placed.add(lab)
     body = "\n".join(out)
+    body, appf = body.split("\x03APPF\x03") if "\x03APPF\x03" in body else (body, "")
     body = "\\begin{abstract}\n" + body if not body.startswith("\\begin{abstract}") else body
     assert placed == set(FIG_AFTER), placed
-    return title, body
+    return title, body, appf
 
 
 # ------------------------------------------------------------------ appendix A: pre-registered predictions (generated)
@@ -761,7 +777,7 @@ def appendix_c():
                "fig6": "fig:corrdose", "fig7": "fig:bspline", "fig8": "fig:dose", "fig9": "fig:uniqueness",
                "figS1": "fig:S1", "figS2": "fig:S2", "figS3": "fig:S3"}[c[0].split("_")[0]]
         fname = tex_escape(c[0]).replace("\\_", "\\_\\allowbreak{}")
-        rows.append([f"Figure~\\ref{{{lab}}} \\figname{{{fname}}}", inline(c[1]), inline(c[2]), inline(c[3])])
+        rows.append([f"Figure~\\ref{{{lab}}} \\figname{{{fname}}}", inline(c[2]), inline(c[3]), inline(c[4])])   # c[1]: paper number (the \\ref gives it)
     o = ["\\section{Reproducibility map}\\label{app:repro}\n",
          "Generated from \\texttt{paper2/figures/MANIFEST.md}. Every figure is rebuilt by its script from committed results; "
          "each figure's sidecar JSON lists the data files (path, commit, SHA-256), any archived weights (SHA-256, archive) and every plotted number. "
@@ -862,9 +878,13 @@ def after_outcome():
 
 def appendix_e(cap):
     o = ["\\section{Supplementary figures}\\label{app:supp}\n"]
+    for lab in IN_E:                                  # moved from the main text in draft rev 58; captions and sidecars unchanged
+        name, c = cap[lab]
+        o.append(figure(lab, name, c).replace("[t]", "[htbp]"))
     for lab in ["fig:S1", "fig:S2", "fig:S3"]:
         name, c = cap[lab]
         o.append(figure(lab, name, c, width="0.5\\linewidth" if lab == "fig:S2" else "\\linewidth").replace("[t]", "[h]"))
+    o.append("\\clearpage  % flush Appendix E's figures before Appendix F")
     return "\n".join(o)
 
 
@@ -908,7 +928,7 @@ def anonymise(texts):
 
 def main():
     cap = captions()
-    title, body = build_body(cap)
+    title, body, appf = build_body(cap)
     (TEX / "title.tex").write_text(f"\\title{{{inline(title)}}}\n")
     (TEX / "body.tex").write_text("% GENERATED by build_tex.py from paper2/draft/paper2_draft.md -- do not edit by hand\n" + body)
     apps = {"appendixA": appendix_a(), "appendixB": appendix_b(), "appendixC": appendix_c(), "appendixD": appendix_d(), "appendixE": appendix_e(cap)}
@@ -917,9 +937,11 @@ def main():
         (TEX / f"{k}.tex").write_text("% GENERATED by build_tex.py (preprint: real commit hashes)\n" + apps[k])
         (TEX / f"{k}_anon.tex").write_text("% GENERATED by build_tex.py (anonymous: commit hashes replaced by labels, see commitmap.json)\n" + anon[k])
     print(f"anonymised {n} distinct commit hashes")
+    assert not re.search(r"(?<![0-9a-zA-Z])[0-9a-f]{7,40}(?![0-9a-zA-Z])", appf), "Appendix F must carry no commit hashes (one file serves both builds)"
+    (TEX / "appendixF.tex").write_text("% GENERATED by build_tex.py from paper2/draft/paper2_draft.md (Appendix F) -- do not edit by hand\n" + appf)
     (TEX / "table_diffs.json").write_text(json.dumps(TABLE_DIFFS, indent=1, ensure_ascii=False))
     print(f"tables generated from committed results; {len(TABLE_DIFFS)} differences from the draft's typed values (table_diffs.json)")
-    print("wrote title.tex body.tex appendixA.tex appendixB.tex appendixC.tex appendixE.tex")
+    print("wrote title.tex body.tex appendixA.tex appendixB.tex appendixC.tex appendixD.tex appendixE.tex appendixF.tex")
 
 
 if __name__ == "__main__":

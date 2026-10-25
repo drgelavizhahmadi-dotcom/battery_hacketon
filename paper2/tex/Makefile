@@ -10,7 +10,7 @@ TEXBIN := $(HOME)/Library/TinyTeX/bin/universal-darwin
 # torch 2.8.0, scipy 1.13.1, pandas 2.3.3). Do not rely on `python3` from PATH.
 PYTHON := /usr/bin/python3
 LATEXMK = PATH="$(TEXBIN):$$PATH" latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error
-GEN = title.tex body.tex $(foreach x,A B C D E,appendix$(x).tex appendix$(x)_anon.tex)
+GEN = title.tex body.tex appendixF.tex $(foreach x,A B C D E,appendix$(x).tex appendix$(x)_anon.tex)
 SRC = main.tex references.bib tmlr.sty tmlr.bst fancyhdr.sty $(GEN)
 
 all: anonymous.pdf preprint.pdf
