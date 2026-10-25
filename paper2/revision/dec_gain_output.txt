@@ -1,0 +1,20 @@
+paper2/revision/dec_gain.py: learned DEC gain from the archived 5 final KAN-delta seeds (delta_s0-4)
+  inputs: delta_s0-4.pt SHA-256 verified against weights_manifest.txt, held in memory
+  check: the 5 archived seeds vs submission_kan.csv on the 5313 anchored test rows: max |difference| 2.22e-16 -> REPRODUCED (float32 tolerance 1e-5)
+
+  delta log10 k vs pure PC, binary PC+DEC, x_DEC = 0.7, 1 mol/kg (x_co * h, as in kan.py's figure)
+    salt                   T [K]   seed 0   seed 1   seed 2   seed 3   seed 4     mean   min    max
+    LiBF4                    233   +0.535  +0.977  +0.957  +0.640  +0.714   +0.765  +0.535  +0.977
+    LiBF4                    273   +0.370  +0.401  +0.656  +0.386  +0.304   +0.424  +0.304  +0.656
+    LiBF4                    313   +0.241  +0.144  +0.393  -0.009  +0.065   +0.167  -0.009  +0.393
+    LiPF6                    233   -0.008  +0.550  +1.002  +0.893  +0.674   +0.622  -0.008  +1.002
+    LiPF6                    273   +0.237  +0.118  +0.432  +0.400  +0.322   +0.302  +0.118  +0.432
+    LiPF6                    313   +0.455  -0.010  +0.175  +0.189  +0.003   +0.162  -0.010  +0.455
+    LiBOB                    233   +0.654  +0.904  +1.003  +0.810  +0.834   +0.841  +0.654  +1.003
+    LiBOB                    273   +0.473  +0.388  +0.447  +0.135  +0.484   +0.385  +0.135  +0.484
+    LiBOB                    313   +0.361  +0.143  +0.243  -0.108  +0.113   +0.151  -0.108  +0.361
+
+  SUMMARY STATISTIC the paper would quote: the 5-seed mean per salt (the figure's line), with its range over the test salts:
+    233 K: 5-seed mean delta log10 k from +0.62 to +0.84 over the 3 test salts (per-seed range -0.01 to +1.00)
+    273 K: 5-seed mean delta log10 k from +0.30 to +0.42 over the 3 test salts (per-seed range +0.12 to +0.66)
+    313 K: 5-seed mean delta log10 k from +0.15 to +0.17 over the 3 test salts (per-seed range -0.11 to +0.46)

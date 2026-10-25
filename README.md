@@ -62,8 +62,10 @@ it held.
 
 ![KAN-delta: conductivity gain from DEC](figs/kan_delta_vs_xDEC.png)
 
-Replacing PC with DEC **raises** conductivity, and much more at low temperature (+0.6 to +0.85
-log10 at 233 K versus about +0.15 at 313 K, at 1 mol/kg). At low temperature, conductivity is
+Replacing PC with DEC **raises** conductivity, and much more at low temperature: at x_DEC = 0.7 and
+1 mol/kg, the 5-seed mean gain is +0.62 to +0.84 log10 at 233 K versus +0.15 to +0.17 at 313 K, over
+the three test salts (individual seeds range from -0.01 to +1.00 at 233 K). The numbers are computed,
+per seed, by `paper2/revision/dec_gain.py`; see `paper2/revision/dec_gain_output.txt`. At low temperature, conductivity is
 limited by viscosity, and DEC (0.75 cP) is far less viscous than PC (2.53 cP). The measured PC+EA
 data in train shows the same trend. The shaded bands show the spread over 5 seeds, which grows
 at high DEC fraction.
