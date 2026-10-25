@@ -19,23 +19,69 @@ Commit & Date & Kind & Commit subject \\
 S-02 & 2026-09-23 & pre-registration & Pre-register KAN identifiability study (before any experiment) \\
 S-05 & 2026-09-23 & pre-registration & Pre-register corrected 2x2 control (before writing or running it) \\
 S-07 & 2026-09-23 & pre-registration & Pre-register control 3: reachable teacher (before writing code) \\
-S-09 & 2026-09-29 & pre-registration & Pre-register fiber completeness test (before writing or running F-41) \\
+S-09 & 2026-09-29 & pre-registration & Pre-register fiber completeness test (before writing or running F-44) \\
 S-11 & 2026-09-29 & pre-registration & Pre-register fiber2: certified convergence + teacher-known fiber analysis (before writing code) \\
-S-13 & 2026-09-29 & pre-registration & Pre-register support study: near-null space, where models differ, Hessian (before F-42 exists) \\
+S-13 & 2026-09-29 & pre-registration & Pre-register support study: near-null space, where models differ, Hessian (before F-45 exists) \\
 S-15 & 2026-09-29 & pre-registration & Close-out: electrolyte case study summary (all pre-registered predictions) \\
-S-16 & 2026-09-29 & pre-registration & Pre-register basis-size rule intervention (before F-43 exists) \\
-S-18 & 2026-09-29 & pre-registration & Pre-register rank-constrained layer-1 intervention (before F-44 exists) \\
-S-20 & 2026-09-30 & pre-registration & Pre-register trust-region Newton polishing, stage 1 (before F-45 exists) \\
-S-22 & 2026-09-30 & pre-registration & Pre-register stage 2: trust-exact check, runaway diagnostic, coercivity (before F-46 exists) \\
-S-23 & 2026-09-30 & crash record / fix & F-46 as first run (crashed with AttributeError in callback) \\
+S-16 & 2026-09-29 & pre-registration & Pre-register basis-size rule intervention (before F-46 exists) \\
+S-18 & 2026-09-29 & pre-registration & Pre-register rank-constrained layer-1 intervention (before F-47 exists) \\
+S-20 & 2026-09-30 & pre-registration & Pre-register trust-region Newton polishing, stage 1 (before F-48 exists) \\
+S-22 & 2026-09-30 & pre-registration & Pre-register stage 2: trust-exact check, runaway diagnostic, coercivity (before F-49 exists) \\
+S-23 & 2026-09-30 & crash record / fix & F-49 as first run (crashed with AttributeError in callback) \\
 S-24 & 2026-09-30 & crash record / fix & stage2: fix AttributeError (implementation only, post-prereg) \\
 S-25 & 2026-10-02 & crash record / fix & stage2: hold verified inputs in memory (implementation only, post-prereg) \\
-S-29 & 2026-10-02 & pre-registration & Pre-register targeted null-space penalty intervention (before F-47 exists) \\
-S-31 & 2026-10-03 & pre-registration & Pre-register second-order certification and regularised fold A accuracy (before F-48 exists) \\
-S-35 & 2026-10-03 & pre-registration & paper2: pre-register synthetic 2x3 runaway test (before F-49 exists) \\
+S-29 & 2026-10-02 & pre-registration & Pre-register targeted null-space penalty intervention (before F-50 exists) \\
+S-31 & 2026-10-03 & pre-registration & Pre-register second-order certification and regularised fold A accuracy (before F-51 exists) \\
+S-35 & 2026-10-03 & pre-registration & paper2: pre-register synthetic 2x3 runaway test (before F-10 exists) \\
 S-38 & 2026-10-03 & pre-registration & arch: pre-register SC-KAN-$\delta$ (shared-curve KAN-$\delta$) before any script exists; decisions C (centring), mu null-space term, tanh salt embedding, full beta term \\
 S-39 & 2026-10-03 & crash record / fix & arch sc\_run: fix log() call (crash record 1, after the first fold A polish); resume from cache \\
 S-41 & 2026-10-04 & pre-registration & arch: pre-register EX-KAN (two-anchor excess model) before any script exists; decision B (x\_co-independent g, [7,6,1]), full set for E3-E5, E4 mean rule \\
 S-42 & 2026-10-04 & amendment & arch ex\_prereg: Amendment 1 (after Step 0, before training): primary separability rule by fixed-composition groups (EA, EC, Methylene chloride separable); committed rule reported as secondary \\
+S-48 & 2026-10-16 & pre-registration & Revision step 2: pre-register the composition test (frozen layer 1, one-layer control) and the weight-decay arms D/E, before F-52 exists; draft rev 37 \\
+S-49 & 2026-10-17 & pre-registration & Revision step 2: decision record - F-52 run stopped by the pre-registered rule (Z2 failed in Arm A); the author decided to resume (option 2) \\
+S-50 & 2026-10-17 & crash record / fix & Revision step 2: crash record 1 (trust-exact subproblem hang in Arm B-R) and implementation-only fix (timer-enforced 2 h cap); part-1 verdicts and post-hoc note in the prereg \\
+S-52 & 2026-10-18 & crash record / fix & Post-hoc degeneracy follow-up: crash record 2 (trust-exact subproblem hang in the B-R ind0 restart probe; timer did not fire) and implementation-only fix (restart probes in a killable child process with checkpoints) \\
+S-53 & 2026-10-18 & pre-registration & Pre-register infimum test: certified L2 regularisation path (before F-53 exists) \\
+S-55 & 2026-10-19 & pre-registration & Infimum test: Phase 2 verdicts; pre-register POST-HOC real-data control arm (before it runs) \\
+S-57 & 2026-10-20 & pre-registration & Pre-register dose-response study (before F-54 exists) \\
+S-58 & 2026-10-20 & crash record / fix & F-54 as it ran the replication gate (attempt 1, stopped by crash record 1) \\
+S-59 & 2026-10-20 & crash record / fix & F-54: crash record 1 (SIGBUS in Accelerate dgemm during a polish Hessian) and implementation-only fix (a committed polish restarts from the early state; stale heartbeat discarded) \\
+S-60 & 2026-10-20 & crash record / fix & dose/infimum: crash record 2 (non-finite trust-exact subproblem in scipy) and implementation-only fix (stop at the last accepted iterate with reason 'solver error') \\
+S-64 & 2026-10-22 & pre-registration & Pre-register B-spline replication (before F-55 exists) \\
+S-65 & 2026-10-22 & crash record / fix & B-spline basis (efficient-kan-style extended uniform knots, G = 5, k = 3) and property tests (a)-(e), implementation only \\
+S-66 & 2026-10-22 & amendment & B-spline prereg: amendment after Step 0 (i) failure; fidelity gate withdrawn as mis-specified (before any further run) \\
+S-68 & 2026-10-22 & crash record / fix & bspline: crash record 1 (Step 0 (ii) teacher polish hung in scipy's trust-exact subproblem) and implementation-only fix (teacher polishes in hard-killed children with checkpoints; ending classification per S-67; mu calibration as its own stage) \\
+S-71 & 2026-10-23 & amendment & B-spline prereg: POST-HOC amendment after the null-space diagnostic (analytic 15-dim constant-shift null set; null-set-aware certification, degeneracy count and probes; certification-based termination; B1-B3 unchanged) \\
+S-72 & 2026-10-23 & amendment & B-spline: null-set-aware certification, complement degeneracy count and probes, certification-based termination (amendment S-71); re-certification and validation stages; tests \\
+S-74 & 2026-10-23 & crash record / fix & B-spline: staleness watchdog (kill a child with no new accepted iterate for 10 min; 'solver error (hang)'), implementation-only crash handling (note S-73); tests \\
+S-75 & 2026-10-23 & crash record / fix & B-spline speed-up, implementation only: layer-1 basis cache for fixed inputs + vectorised exact Hessian (switchable) \\
+S-76 & 2026-10-23 & crash record / fix & F-55: the mu-calibration stage reads the amended Step 0 (ii) gate (S-71 item 4); implementation only \\
+S-77 & 2026-10-23 & amendment & B-spline: frozen mu = $10^{-6}$ (dated amendment; growth and certification criteria agree); Step 1 estimate 1.2-3 h typical, 16 h worst case (below the 3-day checkpoint) \\
+S-81 & 2026-10-24 & crash record / fix & F-55: model keys may carry an explicit P2 mu ('<cond>\_P2m<mu>\_s<seed>'), implementation only (POST-HOC addendum S-80, check 2) \\
+S-82 & 2026-10-24 & crash record / fix & bspline\_posthoc: crash record (thread deadlock in libomp during check 1) and implementation-only fix (one worker process per model) \\
+\bottomrule
+\end{longtable}}
+\subsection*{Changes made after an outcome was known}
+% DRAFT-TEXT: review (one provenance sentence; the table is generated)
+Generated from the committed files: each entry quotes the committed wording, with the date and commit of the quoted text.
+{\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{longtable}{R{0.18\linewidth} R{0.54\linewidth} R{0.10\linewidth} R{0.08\linewidth}}
+\toprule
+Change & Committed wording & Date & Commit \\
+\midrule
+\endhead
+B-spline replication, calibration step (Step 0) & the fidelity gate, withdrawn & 2026-10-22 & S-66 \\
+B-spline replication, calibration step (Step 0) & the polish-ending classification & 2026-10-22 & S-67 \\
+B-spline replication, calibration step (Step 0) & the analytic null set, null-set-aware certification and certification-based termination & 2026-10-23 & S-71 \\
+B-spline replication, calibration step (Step 0) & the staleness watchdog & 2026-10-23 & S-73 \\
+B-spline replication, calibration step (Step 0) & the frozen $\mu$ & 2026-10-23 & S-77 \\
+Dose-response: runtime correlation tolerance & \textbf{(a)} The runtime correlation tolerance (0.02) was miscalibrated: it is below the sampling error at n = 2000 (about 0.022 at $\rho$ = 0). Pairing and the $x_{1}$/$x_{3}$ identity passed. Future tolerances are derived from the sampling error of the quantity checked. & 2026-10-21 & S-63 \\
+Dose-response: added stop reason & \textbf{(b)} "Solver error (trust-exact subproblem)" is a dated addition (2026-10-20) to the frozen stop-reason list (crash records: S-59, S-60). & 2026-10-21 & S-63 \\
+B-spline replication: added stop reason (hang) & A polish killed after hanging records "solver error (hang)" and the fact that it was ended by the 2 h + 5 min child kill. This is consistent with the frozen failure-reason list (S-60). & 2026-10-22 & S-67 \\
+B-spline replication: added stop reason (watchdog) & \textbf{Recorded as} "solver error (hang); ended by the staleness watchdog", with the same classification as a hard kill. & 2026-10-23 & S-73 \\
+Synthetic study: X6, pre-registered reading did not fit & \textbf{X6's rule maps failure to "non-identifiability persists beyond the runaway". The data contradict that reading.} X6 failed only because the \emph{runaway} cells matched the original teacher \emph{better} than predicted (0.774 and 0.883 against < 0.7). Every cell without a runaway recovered the reference's internals exactly (unit and edge match 1.000, d\_AB about $10^{-4}$). The verdict stays \textbf{failed}, as recorded. & 2026-10-03 & S-36 \\
+Freeze test: Z2, branch taken and run resumed & By the fixed interpretation, Z2 failing selects the branch "a runaway without composition: the mechanism needs revision; stop and report before anything else". The run was stopped and reported. On 2026-10-17 the author decided, after seeing Arm A's results, to resume Arms D, E and B (option 2). & 2026-10-17 & S-50 \\
+Freeze test: Z2, pre-registered reading did not fit & \textbf{Z2's branch premise did not occur.} That premise is "a runaway without composition". Every Arm A model reached a certified, finite minimum with non-negative curvature (Z3). The failure reflects the growth threshold, which did not separate a distant finite minimum from unbounded growth. The pre-registered rules did not anticipate this. & 2026-10-17 & S-50 \\
+Applicability analysis: predictive follow-up dropped & The parked predictive study is DROPPED: its pre-stated precondition (off-pattern distance bearing on the fold A polish damage) is not met. Within fold A, the co-solvent off-pattern distance is constant, and every per-row distance is collinear with x\_co, through which the damage scales by the model's x\_co * h structure. No successor study. & 2026-10-25 & S-87 \\
 \bottomrule
 \end{longtable}}

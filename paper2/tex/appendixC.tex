@@ -11,9 +11,13 @@ Figure & Script & Data files (commit) & Archived weights \\
 \endhead
 Figure~\ref{fig:mechanism} \figname{fig1\_\allowbreak{}mechanism} & \texttt{make\_\allowbreak{}fig1.py} & none (computed from committed code: kan.py, paper2/synth.py) & --- \\
 Figure~\ref{fig:synthetic} \figname{fig2\_\allowbreak{}synthetic} & \texttt{make\_\allowbreak{}fig2.py} & \texttt{paper2/\allowbreak{}synth\_\allowbreak{}results.json} (34cc321) & --- \\
-Figure~\ref{fig:dose} \figname{fig3\_\allowbreak{}dose\_\allowbreak{}response} & \texttt{make\_\allowbreak{}fig3.py} & \texttt{stage2\_\allowbreak{}results.json} (b8d6488); \texttt{close\_\allowbreak{}results.json} (65ed55f); \texttt{certify\_\allowbreak{}results.json} (36f295b) & --- \\
-Figure~\ref{fig:where} \figname{fig4\_\allowbreak{}where} & \texttt{make\_\allowbreak{}fig4.py} & \texttt{weights\_\allowbreak{}manifest.txt} (d6e9f52); \texttt{paper2/\allowbreak{}anatomy\_\allowbreak{}synth\_\allowbreak{}results.json} (ea22a56); \texttt{paper2/\allowbreak{}checks/\allowbreak{}checks\_\allowbreak{}results.json} (6e1df32) & 18 files, archives gauge\_weights\_2026-09-29.tar.gz, gauge\_weights\_2026-09-29b.tar.gz, gauge\_weights\_2026-10-02e.tar.gz \\
-Figure~\ref{fig:uniqueness} \figname{fig5\_\allowbreak{}uniqueness} & \texttt{make\_\allowbreak{}fig5.py} & \texttt{arch/\allowbreak{}sc\_\allowbreak{}results.json} (e00e37f); \texttt{certify\_\allowbreak{}results.json} (36f295b); \texttt{weights\_\allowbreak{}manifest.txt} (d6e9f52) & 40 files, archives gauge\_weights\_2026-10-04i.tar.gz \\
+Figure~\ref{fig:where} \figname{fig3\_\allowbreak{}where} & \texttt{make\_\allowbreak{}fig3.py} & \texttt{weights\_\allowbreak{}manifest.txt} (179ac24); \texttt{paper2/\allowbreak{}anatomy\_\allowbreak{}synth\_\allowbreak{}results.json} (ea22a56); \texttt{paper2/\allowbreak{}checks/\allowbreak{}checks\_\allowbreak{}results.json} (6e1df32) & 18 files, archives gauge\_weights\_2026-09-29.tar.gz, gauge\_weights\_2026-09-29b.tar.gz, gauge\_weights\_2026-10-02e.tar.gz \\
+Figure~\ref{fig:applicability} \figname{fig4\_\allowbreak{}applicability} & \texttt{make\_\allowbreak{}fig4.py} & \texttt{paper2/\allowbreak{}revision/\allowbreak{}appdomain\_\allowbreak{}results.json} (b19fa2f); \texttt{weights\_\allowbreak{}manifest.txt} (179ac24) & 15 files, archives gauge\_weights\_2026-10-03f.tar.gz, gauge\_weights\_2026-10-04i.tar.gz, gauge\_weights\_2026-10-25s.tar.gz \\
+Figure~\ref{fig:paths} \figname{fig5\_\allowbreak{}paths} & \texttt{make\_\allowbreak{}fig5.py} & \texttt{paper2/\allowbreak{}revision/\allowbreak{}infimum\_\allowbreak{}results.json} (4003b21) & --- \\
+Figure~\ref{fig:corrdose} \figname{fig6\_\allowbreak{}correlation\_\allowbreak{}dose} & \texttt{make\_\allowbreak{}fig6.py} & \texttt{paper2/\allowbreak{}revision/\allowbreak{}dose\_\allowbreak{}results.json} (541355a) & --- \\
+Figure~\ref{fig:bspline} \figname{fig7\_\allowbreak{}bspline} & \texttt{make\_\allowbreak{}fig7.py} & \texttt{paper2/\allowbreak{}synth\_\allowbreak{}results.json} (34cc321); \texttt{paper2/\allowbreak{}revision/\allowbreak{}bspline\_\allowbreak{}results.json} (ffa6e64); \texttt{paper2/\allowbreak{}revision/\allowbreak{}bspline\_\allowbreak{}posthoc\_\allowbreak{}results.json} (9167740) & --- \\
+Figure~\ref{fig:dose} \figname{fig8\_\allowbreak{}dose\_\allowbreak{}response} & \texttt{make\_\allowbreak{}fig8.py} & \texttt{stage2\_\allowbreak{}results.json} (b8d6488); \texttt{close\_\allowbreak{}results.json} (65ed55f); \texttt{certify\_\allowbreak{}results.json} (36f295b) & --- \\
+Figure~\ref{fig:uniqueness} \figname{fig9\_\allowbreak{}uniqueness} & \texttt{make\_\allowbreak{}fig9.py} & \texttt{arch/\allowbreak{}sc\_\allowbreak{}results.json} (e00e37f); \texttt{certify\_\allowbreak{}results.json} (36f295b); \texttt{weights\_\allowbreak{}manifest.txt} (179ac24) & 40 files, archives gauge\_weights\_2026-10-04i.tar.gz \\
 Figure~\ref{fig:S1} \figname{figS1\_\allowbreak{}lossdecomp} & \texttt{make\_\allowbreak{}supp.py} & \texttt{paper2/\allowbreak{}lossdecomp\_\allowbreak{}results.json} (4ec6fce) & --- \\
 Figure~\ref{fig:S2} \figname{figS2\_\allowbreak{}gaugecheck} & \texttt{make\_\allowbreak{}supp.py} & \texttt{gaugecheck\_\allowbreak{}results.json} (0b29351) & --- \\
 Figure~\ref{fig:S3} \figname{figS3\_\allowbreak{}loco} & \texttt{make\_\allowbreak{}supp.py} & \texttt{arch/\allowbreak{}sc\_\allowbreak{}results.json} (e00e37f); \texttt{arch/\allowbreak{}ex\_\allowbreak{}results.json} (579b58f) & --- \\
@@ -29,14 +33,16 @@ Table & Source & Data files & Commits \\
 \endhead
 Table~\ref{tab:synthetic} & typed in the draft from & \texttt{paper2/synth\_results.json}, \texttt{paper2/synth\_output.txt} & 34cc321 \\
 Table~\ref{tab:dose} & typed in the draft from & \texttt{close\_results.json}, \texttt{certify\_results.json}, \texttt{stage2\_results.json} & 65ed55f, 36f295b, b8d6488 \\
-Table~\ref{tab:alternatives} & typed in the draft from & \texttt{arch/sc\_results.json}, \texttt{arch/ex\_results.json}, \texttt{paper2/figures/fig5\_uniqueness.json} & e00e37f, 579b58f, 9c38c29 \\
+Table~\ref{tab:alternatives} & typed in the draft from & \texttt{arch/sc\_results.json}, \texttt{arch/ex\_results.json}, \texttt{paper2/figures/fig9\_uniqueness.json} & e00e37f, 579b58f, 9c38c29 \\
 \bottomrule
 \end{longtable}}
 \noindent Panels evaluated post hoc from archived weights (from \texttt{MANIFEST.md}):
 
 \begin{itemize}
-  \item \textbf{fig4a, real data:} the split of the parameter change into affine and curved RBF parts per layer, for 107 epochs $\to$\allowbreak{} fiber2 capped $\to$\allowbreak{} stage2 Part A.
+  \item \textbf{fig3a, real data:} the split of the parameter change into affine and curved RBF parts per layer, for 107 epochs $\to$\allowbreak{} fiber2 capped $\to$\allowbreak{} stage2 Part A.
   \item \texttt{stage2\_\allowbreak{}results.json} stores only per-block norms, without an affine/curved split and without the 107 $\to$\allowbreak{} capped change.
-  \item \textbf{fig5b, polished fold A d\_AB} for SC-KAN-$\delta$ and the baseline (marked *).
+  \item \textbf{fig9b, polished fold A d\_AB} for SC-KAN-$\delta$ and the baseline (marked *).
   \item arch/sc committed d\_AB only at the early state.
+  \item \textbf{fig4a, b, fold A per-row error change} (early-stopped -> mu = $10^{-6}$ and mu = $10^{-4}$ ensembles).
+  \item appdomain\_results.json stores only the per-row Spearman correlations and medians; the per-row values are re-evaluated with the
 \end{itemize}

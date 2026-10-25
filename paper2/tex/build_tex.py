@@ -22,7 +22,8 @@ def git(*a):
 
 
 def first_commit(path):
-    return git("log", "--diff-filter=A", "--format=%h", "--", path).splitlines()[-1]
+    """commit that added `path` (follows renames, e.g. the figure renumbering)"""
+    return git("log", "--follow", "--diff-filter=A", "--format=%h", "--", path).splitlines()[-1]
 
 
 def commit_with(path, text):
@@ -46,6 +47,11 @@ FORMULAS = [  # exact draft substrings -> LaTeX math (applied before escaping)
     ("x(1 − x)", r"$x(1 - x)$"),
     ("μQ", r"$\mu Q$"),
     ("\\[4, 3, 1\\]", "[4, 3, 1]"), ("\\[10, 6, 1\\]", "[10, 6, 1]"),
+    # revision draft (rev 55) and revision appendix text
+    ("θ\\*", r"$\theta^{*}$"), ("θ*", r"$\theta^{*}$"), ("L\\*", r"$L^{*}$"), ("L*", r"$L^{*}$"), ("ρ\\*", r"$\rho^{*}$"), ("ρ*", r"$\rho^{*}$"),
+    ("D = ((λ + 2γ₁)/(λ + 2γ₂))²", r"$D = \bigl((\lambda + 2\gamma_1)/(\lambda + 2\gamma_2)\bigr)^{2}$"),
+    ("x\\_co·h(z)", r"$x_{\mathrm{co}}\, h(z)$"), ("x\\_co·h", r"$x_{\mathrm{co}}\, h$"), ("x\\_co", r"$x_{\mathrm{co}}$"),
+    ("L + γR", r"$L + \gamma R$"), ("γ → 0", r"$\gamma \to 0$"),
 ]
 CITES = [  # draft author-year text -> natbib
     ("(Liu et al., 2025)", r"\citep{liu2025kan}"),
@@ -59,14 +65,17 @@ CITES = [  # draft author-year text -> natbib
     ("(Sussmann, 1992; Kůrková and Neruda, 1994)", r"\citep{sussmann1992uniqueness,kurkova1994uniqueness}"),
     ("(de Blasio et al., 2024)", r"\citep{deblasio2024calisol}"),
     ("(Agarwal et al., 2021)", r"\citep{agarwal2021nam}"),
+    ("Wood (2017)", r"\citet{wood2017gam}"),
+    ("(Ramakrishnan et al., 2015)", r"\citep{ramakrishnan2015delta}"),
+    ("(Yao et al., 2007; Ali et al., 2019)", r"\citep{yao2007early,ali2019continuous}"),
 ]
 SUP = str.maketrans("⁻⁰¹²³⁴⁵⁶⁷⁸⁹", "-0123456789")
 SUB = str.maketrans("₀₁₂₃₄₅₆₇₈₉", "0123456789")
-GREEK = {"φ": r"\varphi", "θ": r"\theta", "μ": r"\mu", "λ": r"\lambda", "α": r"\alpha", "ρ": r"\rho", "β": r"\beta", "η": r"\eta",
+GREEK = {"γ": r"\gamma", "φ": r"\varphi", "θ": r"\theta", "μ": r"\mu", "λ": r"\lambda", "α": r"\alpha", "ρ": r"\rho", "β": r"\beta", "η": r"\eta",
          "ε": r"\varepsilon", "δ": r"\delta", "Δ": r"\Delta", "ψ": r"\psi", "σ": r"\sigma", "ℓ": r"\ell"}
 UNI = {"≥": r"$\geq$", "≤": r"$\leq$", "×": r"$\times$", "−": r"$-$", "→": r"$\to$", "≈": r"$\approx$", "·": r"$\cdot$",
        "–": "--", "—": "---", "’": "'", "‘": "`", "“": "``", "”": "''", "‖": r"$\|$", "²": r"$^{2}$", "³": r"$^{3}$",
-       "ů": r"\r{u}", "á": r"\'a", "é": r"\'e", "č": r"\v{c}", "ć": r"\'c", "±": r"$\pm$", "…": r"\ldots{}", "✓": r"$\checkmark$"}
+       "ů": r"\r{u}", "á": r"\'a", "é": r"\'e", "č": r"\v{c}", "ć": r"\'c", "±": r"$\pm$", "∈": r"$\in$", "∞": r"$\infty$", "≠": r"$\neq$", "√": r"$\surd$", "…": r"\ldots{}", "✓": r"$\checkmark$"}
 
 
 def inline(s, extra=()):
@@ -83,7 +92,7 @@ def inline(s, extra=()):
     s = re.sub(r"\*\*(.+?)\*\*", r"\\textbf{\1}", s)
     s = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"\\emph{\1}", s)
     s = re.sub(r"(\d+)([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+)", lambda m: f"${m.group(1)}^{{{m.group(2).translate(SUP)}}}$", s)
-    s = re.sub(r"([A-Za-zφθμλαρβηεδψσℓ])([₀₁₂₃₄₅₆₇₈₉]+)", lambda m: f"${GREEK.get(m.group(1), m.group(1))}_{{{m.group(2).translate(SUB)}}}$", s)
+    s = re.sub(r"([A-Za-zγφθμλαρβηεδψσℓ])([₀₁₂₃₄₅₆₇₈₉]+)", lambda m: f"${GREEK.get(m.group(1), m.group(1))}_{{{m.group(2).translate(SUB)}}}$", s)
     for k, v in GREEK.items():
         s = s.replace(k, f"${v}$")
     for k, v in UNI.items():
@@ -94,6 +103,7 @@ def inline(s, extra=()):
     s = re.sub(r"(?<![\w.])(\d+(?:\.\d+)?)e-0*(\d+)(?![\w])", lambda m: (r"$10^{-" + m.group(2) + "}$") if m.group(1) == "1" else (f"${m.group(1)}" + r"\times10^{-" + m.group(2) + "}$"), s)
     for i, x in enumerate(ph):
         s = s.replace(f"\x00{i}\x00", x)
+    s = s.replace("$$", "")  # merge inline-math pieces that meet a restored formula (e.g. "‖" + "θ*")
     bad = [c for c in s if ord(c) > 127]
     if bad:
         raise SystemExit(f"unmapped unicode {sorted(set(bad))} in: {s[:120]}")
@@ -131,8 +141,14 @@ def pow10(x):
     return f"$10^{{{e}}}$" if m == "1" else f"${m}\\times10^{{{e}}}$"
 
 
+def rng2(v, nd=2):
+    lo, hi = f"{min(v):.{nd}f}", f"{max(v):.{nd}f}"
+    return lo if lo == hi else f"{lo}--{hi}"
+
+
 def captions():
-    f1, f2, f3, f4, f5 = (side(n) for n in ["fig1_mechanism", "fig2_synthetic", "fig3_dose_response", "fig4_where", "fig5_uniqueness"])
+    f1, f2, f3, f4, f5 = (side(n) for n in ["fig1_mechanism", "fig2_synthetic", "fig8_dose_response", "fig3_where", "fig9_uniqueness"])
+    fa, fp, fd, fb = (side(n) for n in ["fig4_applicability", "fig5_paths", "fig6_correlation_dose", "fig7_bspline"])
     d = f1["a_deviation_relative_to_range"]; c = f1["c_rms_per_unit_t"]
     cap = {}
     cap["fig:mechanism"] = (
@@ -153,7 +169,7 @@ def captions():
         f"Per panel, certified seeds and median growth (polished over early-stopped): {g}.")
     b = f3["b_growth"]; cc = f3["c_data_rel_runaway"]; dd = f3["d_foldA"]
     cap["fig:dose"] = (
-        "fig3_dose_response",
+        "fig8_dose_response",
         "Real-data dose-response in the null-space weight $\\mu$ (6 KAN-$\\delta$ seeds; $\\mu = 0$: polished without a null-space penalty). "
         "\\textbf{(a)} Seeds at a numerical minimum (all of them certified): "
         + "; ".join(f"{MU[m]}, {f3['a_numerical_minimum'][m]} of 6" for m in ['0', '1e-06', '1e-05', '0.0001']) + ". "
@@ -167,7 +183,7 @@ def captions():
     def sh(g, k): return f"{a[g][k]:.2f}"
     hb = f4["b_max_hidden_corr"]
     cap["fig:where"] = (
-        "fig4_where",
+        "fig3_where",
         "Where the runaway lives. \\textbf{(a)} Mean share of $\\|\\Delta\\theta\\|^2$ by parameter block. Real data, 107 epochs$\\to$capped: layer-1 affine RBF "
         f"{sh(ks[0], 'layer-1 affine RBF')}, layer-2 affine RBF {sh(ks[0], 'layer-2 affine RBF')}, SiLU weights {sh(ks[0], 'SiLU weights')}; capped$\\to$further trust-region polishing: "
         f"{sh(ks[1], 'layer-1 affine RBF')}, {sh(ks[1], 'layer-2 affine RBF')}, {sh(ks[1], 'SiLU weights')}; synthetic correlated P0: layer-2 affine RBF "
@@ -182,7 +198,7 @@ def captions():
         assert all(x == 0 for x in v), v
         return f"0 in all {len(v)} models"
     cap["fig:uniqueness"] = (
-        "fig5_uniqueness",
+        "fig9_uniqueness",
         "Convergence is not uniqueness. \\textbf{(a)} Near-null Hessian eigenvalues ($|\\lambda| < 10^{-8}\\lambda_{\\max}$) at the end of polishing: "
         f"KAN-$\\delta$ baseline on fold A, median {nn[nnk[0]]['median']:.0f} (range {rng(nn[nnk[0]]['values'])}); null-space penalty $\\mu = 10^{{-4}}$ on all rows, "
         f"median {nn[nnk[1]]['median']:.0f} (range {rng(nn[nnk[1]]['values'])}); SC-KAN-$\\delta$ on fold A, {zero_all(nn[nnk[2]]['values'])}. "
@@ -192,6 +208,44 @@ def captions():
         "Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. "
         "Groups marked $^*$ (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights "
         "(SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.")
+    r = fa["ensemble_rmse_reproduced"]; cpt = fa["c_points"]
+    cap["fig:applicability"] = (
+        "fig4_applicability",
+        "Applicability (descriptive; analysis plan committed before computing). \\textbf{(a, b)} Fold A (ethyl acetate held out, "
+        f"{fa['a_1e-06']['n']} rows): change in each row's absolute error from the early-stopped 5-seed ensemble to the polished ensemble, against the "
+        f"co-solvent fraction $x_{{\\mathrm{{co}}}}$ ({fa['a_1e-06']['n_distinct_xco']} distinct values); fold A RMSE {r['early']:.4f}$\\to${r['1e-06']:.4f} at "
+        f"$\\mu = 10^{{-6}}$ (a) and {r['early']:.4f}$\\to${r['0.0001']:.4f} at $\\mu = 10^{{-4}}$ (b). Per-row values are evaluated post hoc from "
+        "SHA-verified archived weights, with the logged RMSEs reproduced (Appendix~\\ref{app:repro}). "
+        "\\textbf{(c)} Co-solvent descriptors $\\varepsilon_{\\mathrm{co}}$ and $\\ln\\eta_{\\mathrm{co}}$ in the committed min--max scaling: "
+        f"the {cpt['n_train_rows']} anchored training rows ({cpt['n_train_distinct']} distinct points), fold A's co-solvent (off-pattern distance "
+        f"{cpt['foldA_offpattern']:.3f}) and the {cpt['n_dec_rows']} anchored DEC test rows ({cpt['dec_offpattern']:.3f}); each held-out set occupies a single point.")
+    a0 = [x["alpha"] for x in fp["synthetic_P0"]["alpha"]]; a1 = [x["alpha"] for x in fp["synthetic_P1"]["alpha"]]; a2 = [x["alpha"] for x in fp["synthetic_P2"]["alpha"]]
+    ar = [v["alpha"] for v in fp["real_open"]["alpha"].values()]; cr = fp["real_closed_mu1e-4"]["rows"]
+    cap["fig:paths"] = (
+        "fig5_paths",
+        "Certified $L_2$ regularisation paths, $\\gamma = 10^{-2}$ to $10^{-7}$ in half-decade steps (warm-started), one line per seed. "
+        "\\textbf{(a, c)} Synthetic correlated inputs, 8 seeds per penalty level: $\\|\\theta^*\\|^2$ grows as a power of $1/\\gamma$ with exponent "
+        f"{rng2(a0)} (P0) and {rng2(a1)} (P1), and {rng2(a2, 3)} with the null space closed (P2). "
+        f"\\textbf{{(b, d)}} Real data: the 6 KAN-$\\delta$ seeds with the blind spot open (exponents {rng2(ar)}) and seeds ind0 and ind1 with the null-space "
+        "penalty at $\\mu = 10^{-4}$ (post-hoc control, outcomes fixed in advance; ratio between the two smallest $\\gamma$ "
+        + " and ".join(f"{cr[k]['ratio']:.2f}" for k in sorted(cr)) + "). "
+        "$L^*$ is the loss without the $\\gamma$ term (for the closed paths, including $\\mu Q$). Filled markers: points included in the pre-registered fits; "
+        "open markers: reached but not included; absent: not reached.")
+    P2d = fd["P2"]
+    cap["fig:corrdose"] = (
+        "fig6_correlation_dose",
+        "Correlation dose-response (synthetic [4, 3, 1], Gaussian inputs; 8 seeds per cell; the thresholds are synthetic, not real-data thresholds). "
+        "Horizontal axis: $\\rho$ on a $\\log 1/(1-\\rho)$ scale. \\textbf{(a)} Share of models not certified (dashed: one half). "
+        "\\textbf{(b)} Median short-path $D = \\|\\theta^*(10^{-7})\\|^2/\\|\\theta^*(10^{-5})\\|^2$ (log scale; dashed: 1.5). "
+        "\\textbf{(c)} Largest hidden-unit correlation, cell median. Diamonds: P2 at $\\rho = 0.99$, "
+        f"{list(P2d['certified'].values())[0]} of 8 certified, median $D = {P2d['D_med'][0]:.2f}$.")
+    bb, bc = fb["b_independent"], fb["c_correlated"]
+    cap["fig:bspline"] = (
+        "fig7_bspline",
+        "B-spline replication. \\textbf{(a)} Certified models (of 8) per cell: the Gaussian-RBF study (frozen $\\mu = 10^{-5}$) and the cubic B-spline "
+        "replication (frozen $\\mu = 10^{-6}$). \\textbf{(b, c)} P2 regularisation paths at $\\mu = 10^{-6}$, continued to $\\gamma = 10^{-9}$ (post hoc, "
+        "predictions fixed in advance): $\\|\\theta^*(\\gamma)\\|$ relative to each seed's certified polish minimum; shaded: the pre-fixed band [0.9, 1.1]. "
+        f"Median ratio at $\\gamma = 10^{{-9}}$: {bb['median_norm_ratio_1e9']:.3f} (independent) and {bc['median_norm_ratio_1e9']:.3f} (correlated).")
     cap["fig:S1"] = ("figS1_lossdecomp", supp_caption("figS1_lossdecomp"))
     cap["fig:S2"] = ("figS2_gaugecheck", supp_caption("figS2_gaugecheck"))
     cap["fig:S3"] = ("figS3_loco", supp_caption("figS3_loco"))
@@ -240,11 +294,23 @@ FIG_REFS = [  # (exact draft substring, replacement); each inserted reference is
     ("all six seeds at μ = 10⁻⁴ were certified.", "all six seeds at μ = 10⁻⁴ were certified \x01fig:dose|\x01."),
     ("their median prediction difference fell by only 26%.", "their median prediction difference fell by only 26% \x01fig:uniqueness|b\x01."),
     ("at non-stationary points), and it was less accurate.", "at non-stationary points; \x02fig:uniqueness|a\x02), and it was less accurate."),
+    # revision figures (draft rev 55): two placeholders replaced by a reference; Sections 5 and 8 have no placeholder, so a reference is inserted
+    ("so any change polishing makes to h is magnified where x\\_co is large (descriptive).",
+     "so any change polishing makes to h is magnified where x\\_co is large (descriptive; \x02fig:applicability|a, b\x02)."),
+    ("Fold A's co-solvent lies outside the training data's descriptor hull,", "Fold A's co-solvent lies outside the training data's descriptor hull \x01fig:applicability|c\x01,"),
+    ("\\[Figure: regularisation paths, open vs closed, synthetic and real.\\]", "\x01fig:paths|\x01"),
+    ("\\[Figure: share uncertified and median D against ρ.\\]", "\x01fig:corrdose|\x01"),
+    ("none of the 16 P0 and P1 models certified (prediction held).", "none of the 16 P0 and P1 models certified (prediction held; \x02fig:bspline|a\x02)."),
+    ("Extended to γ = 10⁻⁹, the paths were bounded,", "Extended to γ = 10⁻⁹, the paths were bounded \x01fig:bspline|b, c\x01,"),
 ]
-FIG_AFTER = {  # place the figure after the paragraph that starts with
+FIG_AFTER = {  # place the figure after the paragraph that starts with (order = order of first reference = figure number)
     "fig:mechanism": "**Step 2: a direction the data cannot see.**",
     "fig:synthetic": "- **Independent inputs are not fully safe.**",
     "fig:where": "**Where the runaway lives.**",
+    "fig:applicability": "**Extrapolation suffered.**",
+    "fig:paths": "**A certified regularisation path.**",
+    "fig:corrdose": "**Correlation drives non-convergence.**",
+    "fig:bspline": "**The fix carries over, with a lesson about calibration.**",
     "fig:dose": "Under a second-order certificate",
     "fig:uniqueness": "**Convergence is not uniqueness.**",
 }
@@ -281,11 +347,11 @@ def gen_tables():
         gr = [r["theta2"] / r["theta2_start"] for r in runs]
         fit = [100 * (r["data"] / cl["ref_A"][str(i)] - 1) for i, r in enumerate(runs)]
         fmt = lambda x: f"{x:.1f}" if x < 2 else f"{x:.0f}"
-        fit_s = (f"{min(fit):.0f}–{max(fit):.0f}% worse" if min(fit) >= 0 else f"{min(fit):+.0f}% to {max(fit):+.0f}%")
+        fit_s = (f"{min(fit):.0f}–{max(fit):.0f}% worse" if min(fit) >= 0 else f"{min(fit):+.0f}% to {max(fit):+.0f}%".replace("-", "−"))
         rows.append([lab, f"{nmin} of 6", ("none" if neg == 0 else f"up to {neg} eigenvalues"), f"{fmt(min(gr))}–{fmt(max(gr))}×", fit_s])
     out["tab:dose"] = rows
     sc, ex = jload("arch/sc_results.json"), jload("arch/ex_results.json")
-    f5 = json.loads((FIGS / "fig5_uniqueness.json").read_text())["values"]["b_dAB"]
+    f5 = json.loads((FIGS / "fig9_uniqueness.json").read_text())["values"]["b_dAB"]
     cert = lambda k: sum(p["cert"]["certified"] for p in sc["polish"][k])
     out["tab:alternatives"] = [
         ["Baseline KAN-delta", None, f"{sc['accuracy']['base']['loco_unweighted']:.3f}", f"{cert('base')}/10", f"{sc['dab']['base']['median']:.3f}"],
@@ -421,11 +487,70 @@ def longtable(rows, colspec, header):
     return "\n".join(out)
 
 
+def md_section(path, heading, level="## "):
+    """committed text under a markdown heading (up to the next heading of the same level)"""
+    out, on = [], False
+    for ln in (REPO / path).read_text().splitlines():
+        if ln.startswith(level):
+            if on:
+                break
+            on = ln[len(level):].startswith(heading)
+            continue
+        if on:
+            out.append(ln)
+    return "\n".join(out).strip()
+
+
+def h1(path):
+    return (REPO / path).read_text().splitlines()[0].lstrip("# ").strip()
+
+
+def described(title, path, paras):
+    """study description: the pre-registration's own title and the committed paragraph(s) given (question, theory, model)"""
+    txt = " ".join(" ".join(x.strip().lstrip("- ") for x in p.splitlines() if x.strip()) for p in paras if p)
+    return (f"\\subsection{{{title}}}\n\\noindent\\textit{{Pre-registration:}} ``{inline(h1(path))}''. " + inline(txt) + "\n")
+
+
+def pred_bullets(path, heading="## Pre-registered predictions"):
+    """{ID: committed prediction wording} from '- **ID.** text' bullets"""
+    sec = md_section(path, heading.lstrip("# "))
+    out, cur = {}, None
+    for ln in sec.splitlines():
+        m = re.match(r"- \*\*([A-Z]\d)\.\*\* (.*)", ln)
+        if m:
+            cur = m.group(1); out[cur] = m.group(2).strip()
+        elif cur and ln.startswith("  ") and not ln.strip().startswith("-"):
+            out[cur] += " " + ln.strip()
+        elif not ln.startswith("  "):
+            cur = None
+    return out
+
+
+def verdict_word(s):
+    s = s.replace("*", "")
+    for w in ("HELD", "FAILED", "held", "failed", "inconclusive", "pending"):
+        if w in s:
+            return w.lower()
+    return s
+
+
+A_COLS = "R{0.07\\linewidth} R{0.28\\linewidth} R{0.35\\linewidth} R{0.09\\linewidth} R{0.11\\linewidth}"
+A_HEAD = ["ID", "Prediction (threshold)", "Result", "Verdict", "Commits"]
+STUDY = {"rule_prereg.md": "Rule", "rank_prereg.md": "Rank", "trust_prereg.md": "Trust", "stage2_prereg.md": "Stage 2",
+         "close_prereg.md": "Close", "certify_prereg.md": "Certify"}   # the case-study summary's own study names
+
+
+def readable(s):
+    return re.sub(r"\s*\(`[^`]+`\)", "", s)
+
+
 def appendix_a():
     o = ["\\section{All pre-registered predictions}\\label{app:prereg}\n",
          "Generated by \\texttt{paper2/tex/build\\_tex.py} from the committed verdict sections; the cell text is the committed wording. "
+         "Each study opens with its pre-registration's title and its committed question (or theory). "
          "Commits are given as pre-registration $\\to$ results (in the anonymous version, as neutral labels S-NN). Thresholds are part of each prediction's wording.\n"]
-    # synthetic
+    cm = lambda a, b: f"{a}$\\to$\\allowbreak {b}"
+    # ---- synthetic
     p = "paper2/synth_prereg.md"; txt = (REPO / p).read_text()
     vt = [t for t in md_tables(txt.split("## Verdicts")[1]) if t[0].startswith("| Prediction")][0]
     pre, res = first_commit(p), commit_with(p, "**X2** certified")
@@ -433,11 +558,12 @@ def appendix_a():
     for r in vt[2:]:
         c = cells(r)
         mid = re.match(r"\*\*(X\d)\*\* (.*)", c[0])
-        rows.append([inline(mid.group(1)), inline(mid.group(2)), inline(c[2]), inline(c[1]), f"{pre}$\\to$\\allowbreak {res}"])
-    o.append("\\subsection{Synthetic study (\\texttt{paper2/synth\\_prereg.md})}\n")
-    o.append(longtable(rows, "R{0.05\\linewidth} R{0.29\\linewidth} R{0.36\\linewidth} R{0.09\\linewidth} R{0.11\\linewidth}", ["ID", "Prediction (threshold)", "Result", "Verdict", "Commits"]))
-    # real data: case-study summary tables
+        rows.append([inline(mid.group(1)), inline(mid.group(2)), inline(c[2]), inline(c[1]), cm(pre, res)])
+    o.append(described("Synthetic controlled study", p, [md_section(p, "Design").split("\n- **Penalty")[0]]))
+    o.append(longtable(rows, A_COLS, A_HEAD))
+    # ---- real data: case-study summary tables
     p = "electrolyte_case_study_summary.md"; txt = (REPO / p).read_text()
+    setting = re.search(r"\*\*Setting\.\*\* (.*?)\n\n", txt, re.S).group(1)
     tabs = md_tables(txt)
     rows = []
     t1 = [t for t in tabs if t[0].startswith("| Study | Prediction")][0]
@@ -445,69 +571,177 @@ def appendix_a():
     for r in t1[2:]:
         c = cells(r)
         study = c[0] or study
-        rows.append([inline(study), inline(c[1]), inline(c[3]), inline(c[2]), inline(c[4].replace(" → ", "→"))])
+        rows.append([inline(readable(study)), inline(c[1]), inline(c[3]), inline(c[2]), inline(c[4].replace(" → ", "→"))])
     rule = re.search(r"\*\*0 columns were removed and the gate stopped;\*\* (I1–I5) are inconclusive\s*\(prereg (\w+) → results (\w+)\)", txt)
-    rows.append([inline("Rule (`rule_prereg.md`)"), inline(rule.group(1) + " (gate)"), inline("0 columns removed; gate stopped"), "inconclusive",
-                 f"{rule.group(2)}$\\to$\\allowbreak {rule.group(3)}"])
+    rows.append([inline(STUDY["rule_prereg.md"]), inline(rule.group(1) + " (gate)"), inline("0 columns removed; gate stopped"), "inconclusive",
+                 cm(rule.group(2), rule.group(3))])
     rk = [t for t in tabs if t[0].startswith("| Prediction | Arm G")][0]
-    rc = f"{first_commit('rank_prereg.md')}$\\to$\\allowbreak {first_commit('rank_results.json')}"
+    rc = cm(first_commit("rank_prereg.md"), first_commit("rank_results.json"))
     for r in rk[2:]:
         c = cells(r)
-        rows.append([inline("Rank (`rank_prereg.md`)"), inline(c[0]), inline("arm G: " + c[1] + ("; arm F: " + c[2] if c[2] else "")), "see result", rc])
+        rows.append([inline(STUDY["rank_prereg.md"]), inline(c[0]), inline("arm G: " + c[1] + ("; arm F: " + c[2] if c[2] else "")), "see result", rc])
     ts = [t for t in tabs if t[0].startswith("| Prediction | Verdict | Key number |")][0]
     for r in ts[2:]:
         c = cells(r)
         which = "trust_prereg.md" if c[0].startswith("T") else "stage2_prereg.md"
         res_file = "trust_results.json" if which.startswith("trust") else "stage2_results.json"
-        rows.append([inline(f"`{which}`"), inline(c[0]), inline(c[2]), inline(c[1]), f"{first_commit(which)}$\\to$\\allowbreak {first_commit(res_file)}"])
+        rows.append([inline(STUDY[which]), inline(c[0]), inline(c[2]), inline(c[1]), cm(first_commit(which), first_commit(res_file))])
     cv = [t for t in tabs if t[0].startswith("| Prediction | Verdict | Key number | Prereg")][0]
     for r in cv[2:]:
         c = cells(r)
-        which = "`close_prereg.md`" if c[0].startswith("V") else "`certify_prereg.md`"
-        rows.append([inline(which), inline(c[0]), inline(c[2]), inline(c[1]), inline(c[3].replace(" → ", "→"))])
-    o.append("\\subsection{Real-data case study (\\texttt{electrolyte\\_case\\_study\\_summary.md})}\n")
+        which = "close_prereg.md" if c[0].startswith("V") else "certify_prereg.md"
+        rows.append([inline(STUDY[which]), inline(c[0]), inline(c[2]), inline(c[1]), inline(c[3].replace(" → ", "→"))])
+    o.append(f"\\subsection{{Real-data case study}}\n\\noindent\\textit{{From the case-study close-out:}} {inline(setting)}\n")
     o.append("Rows are as committed in the case-study summary (one row may cover several predictions, e.g.\\ F2--F5). "
              "The rank intervention's verdicts are given per arm in the result column.\n")
     o.append(longtable(rows, "R{0.14\\linewidth} R{0.26\\linewidth} R{0.29\\linewidth} R{0.10\\linewidth} R{0.11\\linewidth}",
                        ["Study", "Prediction (threshold)", "Result", "Verdict", "Commits"]))
     tally = [t for t in tabs if t[0].startswith("| Study | Held")][0]
-    trow = [[inline(x) for x in cells(r)] for r in tally[2:]]
+    trow = [[inline(readable(x)) for x in cells(r)] for r in tally[2:]]
     o.append("\\noindent Committed tally of the case study:\n")
     o.append(longtable(trow, "R{0.55\\linewidth} r r r", ["Study", "Held", "Failed", "Inconclusive"]))
-    # structured alternatives (arch)
-    for p, nm in [("arch/sc_prereg.md", "Shared-curve KAN (\\texttt{arch/sc\\_prereg.md})"), ("arch/ex_prereg.md", "Two-anchor excess model (\\texttt{arch/ex\\_prereg.md})")]:
+    # ---- structured alternatives
+    for p, nm, model in [("arch/sc_prereg.md", "Shared-curve KAN", "Model: SC"), ("arch/ex_prereg.md", "Two-anchor excess model", "Model: EX")]:
         txt = (REPO / p).read_text()
         vt = [t for t in md_tables(txt.split("## Verdicts")[-1]) if t[0].startswith("| | Prediction")][0]
         key = cells(vt[2])[0]
         res = commit_with(p, f"| {key} |")
-        rows = [[inline(c[0]), inline(c[1]), inline(c[3]), inline(c[2].replace("*", "").lower()), f"{first_commit(p)}$\\to$\\allowbreak {res}"] for c in map(cells, vt[2:])]
-        o.append(f"\\subsection{{{nm}}}\n")
+        rows = [[inline(c[0]), inline(c[1]), inline(c[3]), inline(c[2].replace("*", "").lower()), cm(first_commit(p), res)] for c in map(cells, vt[2:])]
+        msec = [x for x in md_section(p, model).splitlines() if x.strip()]
+        o.append(described(nm, p, ["\n".join(msec[:2])]))
         o.append("Run after the case-study close-out; not part of the 65 predictions above.\n")
-        o.append(longtable(rows, "R{0.05\\linewidth} R{0.26\\linewidth} R{0.39\\linewidth} R{0.09\\linewidth} R{0.11\\linewidth}", ["ID", "Prediction (threshold)", "Result", "Verdict", "Commits"]))
+        o.append(longtable(rows, A_COLS, A_HEAD))
+    o.append("\\paragraph{Revision studies.} The studies below were run for the revision, each with its own pre-registration.\n")
+    # ---- freeze test
+    p = "paper2/revision/freeze_prereg.md"; txt = (REPO / p).read_text()
+    pre = first_commit(p)
+    rows = []
+    for t, anchor in ((md_tables(txt.split("### Verdicts, part 1")[1].split("###")[0])[0], "| Z1 | Arm A certified"),
+                      (md_tables(txt.split("### Verdicts, part 2")[1].split("###")[0])[0], "| Z5 | Arm D branch")):
+        res = commit_with(p, anchor)
+        for r in t[2:]:
+            c = cells(r)
+            if verdict_word(c[2]) == "pending":
+                continue                                 # superseded by part 2
+            rows.append([inline(c[0]), inline(c[1]), inline(c[3]), inline(c[2].replace("**", "")), cm(pre, res)])
+    o.append(described("Freeze test: is composition necessary? (and weight decay)", p, [md_section(p, "Theory being tested")]))
+    o.append(longtable(rows, A_COLS, A_HEAD))
+    # ---- infimum test
+    p = "paper2/revision/infimum_prereg.md"; txt = (REPO / p).read_text()
+    pre = first_commit(p)
+    rows = []
+    for ph, anchor in (("### PHASE 1", "### PHASE 1 (recorded"), ("### PHASE 2", "### PHASE 2 (recorded")):
+        t = md_tables(txt.split(ph)[1].split("\n### ")[0])[0]
+        res = commit_with(p, anchor)
+        for r in t[2:]:
+            c = cells(r)
+            rows.append([inline(c[0]), inline(f"{ph[4:].title()}: " + c[1]), inline(c[3]), inline(c[2].replace("**", "")), cm(pre, res)])
+    amend = txt.split("### POST-HOC AMENDMENT (2026-10-19")[1].split("\n### ")[0]
+    plateau = re.search(r"- \*\*Plateau \(expected\):\*\* (.*)", amend).group(1)
+    ctrl = txt.split("### POST-HOC REAL-DATA CONTROL ARM")[1].split("\n### ")[0]
+    outcome = re.search(r"- \*\*Outcome: PLATEAU, by the fixed rule\.\*\* (.*)", ctrl).group(1)
+    rows.append([inline("Control"), inline("Post hoc, outcomes fixed before running. Plateau: " + plateau), inline(outcome), "plateau",
+                 cm(commit_with(p, "### POST-HOC AMENDMENT (2026-10-19"), commit_with(p, "### POST-HOC REAL-DATA CONTROL ARM"))])
+    o.append(described("Infimum test: a certified regularisation path", p, [md_section(p, "Question")]))
+    o.append("Predictions I1--I4 apply per phase (Phase 1 synthetic, Phase 2 real data); the real-data control arm was added after Phase 2 "
+             "with its outcomes fixed before it ran.\n")
+    o.append(longtable(rows, A_COLS, A_HEAD))
+    # ---- dose-response
+    p = "paper2/revision/dose_prereg.md"; txt = (REPO / p).read_text()
+    pre, wording = first_commit(p), pred_bullets(p)
+    vsec = txt.split("### Verdicts (recorded")[1].split("\n### ")[0]
+    res = commit_with(p, "### Verdicts (recorded 2026-10-21")
+    rows = []
+    for r in md_tables(vsec)[0][2:]:
+        c = cells(r)
+        m = re.match(r"\*\*(R\d)\*\*", c[0])
+        if not m:
+            rows.append(["", inline(c[0]), inline(f"P0: {c[1]}; P1: {c[2]}"), inline(verdict_word(c[1]) + " / " + verdict_word(c[2])), cm(pre, res)])
+            continue
+        rows.append([m.group(1), inline(wording[m.group(1)]), inline(f"P0: {c[1]}; P1: {c[2]}".replace("**", "")),
+                     inline(verdict_word(c[1]) + " / " + verdict_word(c[2])), cm(pre, res)])
+    r2 = re.search(r"- \*\*R2 HELD\.\*\* (.*)", vsec).group(1)
+    rows.insert(1, ["R2", inline(wording["R2"]), inline(r2), "held", cm(pre, res)])
+    o.append(described("Correlation dose-response", p, [md_section(p, "Question")]))
+    o.append("Verdict column: P0 / P1. The thresholds are synthetic ([4, 3, 1], Gaussian inputs), not real-data thresholds.\n")
+    o.append(longtable(rows, A_COLS, A_HEAD))
+    # ---- B-spline replication and its post-hoc follow-up
+    p = "paper2/revision/bspline_prereg.md"; txt = (REPO / p).read_text()
+    pre, wording = first_commit(p), pred_bullets(p)
+    vsec = txt.split("### Verdicts, Step 1")[1].split("\n### ")[0]
+    res = commit_with(p, "### Verdicts, Step 1")
+    rows, cur = [], ""
+    for r in md_tables(vsec)[0][2:]:
+        c = cells(r)
+        m = re.match(r"\*\*(B\d)\*\*", c[0])
+        if m:
+            cur = m.group(1)
+        rows.append([cur if m else "", inline(wording[cur]) if m else "", inline(f"{c[1]}: {c[2]}"), inline(c[3].replace("**", "")), cm(pre, res)])
+    add = txt.split("### POST-HOC ADDENDUM (2026-10-24")[1].split("\n### ")[0]
+    out = txt.split("### POST-HOC results (recorded 2026-10-24")[1].split("\n### ")[0]
+    apre, ares = commit_with(p, "### POST-HOC ADDENDUM (2026-10-24"), commit_with(p, "### POST-HOC results (recorded 2026-10-24")
+    p1 = re.search(r"\*\*Predictions \(fixed now\):\*\*\n((?:  - .*\n)+)", add).group(1)
+    p1 = "; ".join(x.strip()[2:] for x in p1.splitlines())
+    t1 = md_tables(out.split("**Check 1")[1].split("**Check 2")[0])[0]
+    r1 = "; ".join(f"{cells(x)[0]}: D' {cells(x)[1]}, norm ratio {cells(x)[2]}" for x in t1[2:])
+    rd1 = re.search(r"- \*\*Reading: (BOTH HOLD)\.\*\*", out).group(1).lower()
+    rows.append(["Check 1", inline("Post hoc, predictions fixed in advance; P2 path extended to γ = 10⁻⁹: " + p1), inline(r1), inline(rd1), cm(apre, ares)])
+    p2 = re.search(r"2\. P2 at the RBF study's μ = 1e-5.*?- \*\*Prediction \(fixed now\):\*\* (.*?)\n", add, re.S).group(1)
+    t2 = md_tables(out.split("**Check 2")[1].split("**Check 3")[0])[0]
+    r2 = "; ".join(f"{cells(x)[0]}: {cells(x)[1]} certified, median D {cells(x)[2]}" for x in t2[2:])
+    rows.append(["Check 2", inline("Post hoc, prediction fixed in advance; P2 at μ = 10⁻⁵: " + p2), inline(r2),
+                 inline(cells(t2[2])[3] + " / " + cells(t2[3])[3]), cm(apre, ares)])
+    o.append(described("B-spline replication", p, [md_section(p, "Question")]))
+    o.append("Step 1 verdicts at the frozen $\\mu = 10^{-6}$, then the post-hoc follow-up checks whose predictions and readings were fixed before computing "
+             "(check 3 is descriptive; Appendix~\\ref{app:posthoc}).\n")
+    o.append(longtable(rows, A_COLS, A_HEAD))
     return "\n".join(o)
 
 
 # ------------------------------------------------------------------ appendix B: post-hoc analyses (generated from files + git)
-POSTHOC = [  # (name, files, how located)
-    ("Anatomy of the real-data runaway", ["anatomy_plan.md", "anatomy.py", "anatomy_output.txt"]),
-    ("Gauge check and regularised teacher (exploratory)", ["gaugecheck.py", "gaugecheck_notes.md", "gaugecheck_output.txt"]),
-    ("Anatomy of the synthetic runaway", ["paper2/anatomy_synth.py", "paper2/anatomy_synth_output.txt"]),
-    ("Loss decomposition along the runaway", ["paper2/lossdecomp.py", "paper2/lossdecomp_output.txt"]),
-    ("Descriptive checks (hidden-unit correlation, tilt affinity, references)", ["paper2/checks/plan.md", "paper2/checks/checks.py", "paper2/checks/checks_output.txt"]),
+IP, DP, BP = "paper2/revision/infimum_prereg.md", "paper2/revision/dose_prereg.md", "paper2/revision/bspline_prereg.md"
+POSTHOC = [  # (label, name, files shown, commits: list of (path, committed text) or None = the commits that added the files)
+    ("Post hoc", "Anatomy of the real-data runaway", ["anatomy_plan.md", "anatomy.py", "anatomy_output.txt"], None),
+    ("Post hoc", "Gauge check and regularised teacher (exploratory)", ["gaugecheck.py", "gaugecheck_notes.md", "gaugecheck_output.txt"], None),
+    ("Post hoc", "Anatomy of the synthetic runaway", ["paper2/anatomy_synth.py", "paper2/anatomy_synth_output.txt"], None),
+    ("Post hoc", "Loss decomposition along the runaway", ["paper2/lossdecomp.py", "paper2/lossdecomp_output.txt"], None),
+    ("Post hoc", "Descriptive checks (hidden-unit correlation, tilt affinity, references)", ["paper2/checks/plan.md", "paper2/checks/checks.py", "paper2/checks/checks_output.txt"], None),
+    ("Post hoc", "Degeneracy follow-up: restart, scaling and flat-direction probes of the freeze test's endpoints",
+     ["paper2/revision/degeneracy.py", "paper2/revision/degeneracy_output.txt"], None),
+    ("Post hoc", "Infimum test, Phase 0: re-classification of the freeze test's degenerate endpoints", [IP], [(IP, "### PHASE 0 (POST-HOC")]),
+    ("Post hoc", "Infimum test: cold-start basin check", [IP], [(IP, "### POST-HOC cold-start results")]),
+    ("Post hoc, outcomes fixed in advance", "Infimum test: real-data control arm (null-space penalty at $\\mu = 10^{-4}$)", [IP],
+     [(IP, "### POST-HOC AMENDMENT (2026-10-19"), (IP, "### POST-HOC REAL-DATA CONTROL ARM")]),
+    ("Post hoc, rule fixed in advance", "Dose-response settling check (short path against the certified polished minimum)",
+     ["paper2/revision/dose_posthoc.py", "paper2/revision/dose_posthoc_results.json"], None),
+    ("Post-outcome diagnostic, criteria fixed in advance", "B-spline null-space diagnostic (constant-shift symmetry)",
+     ["paper2/revision/bspline_nullspace_diag.py", "paper2/revision/bspline_nullspace_diag.json"], None),
+    ("Post hoc, predictions fixed in advance", "B-spline follow-up: path extension, $\\mu = 10^{-5}$, the non-certifying independent models",
+     [BP, "paper2/revision/bspline_posthoc.py", "paper2/revision/bspline_posthoc_results.json"],
+     [(BP, "### POST-HOC ADDENDUM (2026-10-24"), (BP, "### POST-HOC results (recorded 2026-10-24")]),
+    ("Descriptive, plan committed first", "Applicability analysis (no predictions)",
+     ["paper2/revision/appdomain_plan.md", "paper2/revision/appdomain.py", "paper2/revision/appdomain_output.txt"], None),
+    ("Post hoc", "Applicability: artefact check (the ensembles' own errors against distance)", ["paper2/revision/appdomain_results.json"],
+     [("paper2/revision/appdomain_results.json", "analysis2_posthoc_artefact_check")]),
 ]
 
 
 def appendix_b():
     o = ["\\section{Post-hoc analyses}\\label{app:posthoc}\n",
-         "Every analysis below was defined after seeing results. Each is labelled \\textbf{post hoc} in its own files, changes no pre-registered verdict, "
-         "and is reported as exploratory. The description is the subject line of the commit that added the analysis.\n",
+         "Every analysis below except one was defined after seeing results; the exception, the applicability analysis, is descriptive, with its plan "
+         "committed before computing. Each row's label states how the analysis was defined, as recorded in its own files; none changes a pre-registered "
+         "verdict, and all are reported as exploratory. The description is the subject line of the commit that added the analysis (plan and results "
+         "commits where both exist).\n",
          "{\\footnotesize\\setlength{\\tabcolsep}{3pt}\\begin{longtable}{R{0.28\\linewidth} R{0.52\\linewidth} R{0.10\\linewidth}}\n\\toprule\nAnalysis & Commit subject (as committed) & Commit \\\\\n\\midrule\n\\endhead"]
-    for name, files in POSTHOC:
-        c = first_commit(files[-1] if "plan" not in files[0] else files[0])
-        subj = git("log", "-1", "--format=%s", c)
-        o.append(f"\\textbf{{Post hoc.}} {inline(name)} \\newline \\footnotesize{{\\texttt{{{tex_escape(', '.join(files))}}}}} & {inline(subj)} & {c} \\\\")
-        if "plan" in files[0] and len(files) > 1:
-            c2 = first_commit(files[-1]); o.append(f" & {inline(git('log', '-1', '--format=%s', c2))} & {c2} \\\\")
+    for label, name, files, how in POSTHOC:
+        if how is None:
+            cs = [first_commit(files[0])] + ([first_commit(files[-1])] if len(files) > 1 else [])
+        else:
+            cs = [commit_with(p, t) for p, t in how]
+        cs = list(dict.fromkeys(cs))
+        head = f"\\textbf{{{label}.}} {inline(name) if '$' not in name else name} \\newline \\footnotesize{{\\texttt{{{tex_escape(', '.join(files)).replace(chr(92) + '_', chr(92) + '_' + chr(92) + 'allowbreak{}').replace('/', '/' + chr(92) + 'allowbreak{}')}}}}}"
+        for j, c in enumerate(cs):
+            o.append(f"{head if j == 0 else ''} & {inline(git('log', '-1', '--format=%s', c))} & {c} \\\\")
     rt = git("log", "--format=%h %s", "--grep", "regularised-teacher").splitlines()
     for ln in rt:
         h, s = ln.split(" ", 1)
@@ -523,7 +757,8 @@ def appendix_c():
     rows = []
     for r in t[2:]:
         c = cells(r)
-        lab = {"fig1": "fig:mechanism", "fig2": "fig:synthetic", "fig3": "fig:dose", "fig4": "fig:where", "fig5": "fig:uniqueness",
+        lab = {"fig1": "fig:mechanism", "fig2": "fig:synthetic", "fig3": "fig:where", "fig4": "fig:applicability", "fig5": "fig:paths",
+               "fig6": "fig:corrdose", "fig7": "fig:bspline", "fig8": "fig:dose", "fig9": "fig:uniqueness",
                "figS1": "fig:S1", "figS2": "fig:S2", "figS3": "fig:S3"}[c[0].split("_")[0]]
         fname = tex_escape(c[0]).replace("\\_", "\\_\\allowbreak{}")
         rows.append([f"Figure~\\ref{{{lab}}} \\figname{{{fname}}}", inline(c[1]), inline(c[2]), inline(c[3])])
@@ -535,8 +770,8 @@ def appendix_c():
     tabs = [("Table~\\ref{tab:synthetic}", "typed in the draft from", "\\texttt{paper2/synth\\_results.json}, \\texttt{paper2/synth\\_output.txt}", first_commit("paper2/synth_results.json")),
             ("Table~\\ref{tab:dose}", "typed in the draft from", "\\texttt{close\\_results.json}, \\texttt{certify\\_results.json}, \\texttt{stage2\\_results.json}",
              ", ".join(first_commit(f) for f in ["close_results.json", "certify_results.json", "stage2_results.json"])),
-            ("Table~\\ref{tab:alternatives}", "typed in the draft from", "\\texttt{arch/sc\\_results.json}, \\texttt{arch/ex\\_results.json}, \\texttt{paper2/figures/fig5\\_uniqueness.json}",
-             ", ".join(first_commit(f) for f in ["arch/sc_results.json", "arch/ex_results.json", "paper2/figures/fig5_uniqueness.json"]))]
+            ("Table~\\ref{tab:alternatives}", "typed in the draft from", "\\texttt{arch/sc\\_results.json}, \\texttt{arch/ex\\_results.json}, \\texttt{paper2/figures/fig9\\_uniqueness.json}",
+             ", ".join(first_commit(f) for f in ["arch/sc_results.json", "arch/ex_results.json", "paper2/figures/fig9_uniqueness.json"]))]
     o.append("\\noindent Tables in the main text (no script; values typed in the draft):\n")
     o.append(longtable([[a, b, c, d] for a, b, c, d in tabs], "R{0.14\\linewidth} R{0.14\\linewidth} R{0.45\\linewidth} R{0.16\\linewidth}",
                        ["Table", "Source", "Data files", "Commits"]))
@@ -573,7 +808,56 @@ def appendix_d():
             kind = "amendment" if "amendment" in low else "crash record / fix" if any(k in low for k in ["crash", "implementation only", "as first run"]) else "pre-registration"
             rows.append([h, d, kind, inline(subj)])
     o.append(longtable(rows, "R{0.08\\linewidth} R{0.10\\linewidth} R{0.14\\linewidth} R{0.58\\linewidth}", ["Commit", "Date", "Kind", "Commit subject"]))
+    o.append(after_outcome())
     return "\n".join(o)
+
+
+def grab(path, start, kind="bullet"):
+    """committed text that starts with `start`: a bullet with its continuation lines, or a paragraph up to the next blank line"""
+    lines = (REPO / path).read_text().splitlines()
+    i = next(k for k, ln in enumerate(lines) if ln.lstrip().startswith(start))
+    ind = len(lines[i]) - len(lines[i].lstrip())
+    out = [lines[i].strip()]
+    for ln in lines[i + 1:]:
+        if not ln.strip():
+            break
+        if kind == "bullet" and (len(ln) - len(ln.lstrip()) <= ind or ln.lstrip().startswith("- ")):
+            break
+        out.append(ln.strip())
+    t = " ".join(out)
+    return t[2:] if t.startswith("- ") else t
+
+
+def cdate(c):
+    return git("log", "-1", "--format=%ad", "--date=short", c)
+
+
+def after_outcome():
+    """every change made after an outcome was known, quoted from the committed files (date and commit of the quoted text)"""
+    SP, FP, AP = "paper2/synth_prereg.md", "paper2/revision/freeze_prereg.md", "paper2/revision/appdomain_plan.md"
+    rows = []
+    def add(what, path, start, kind="bullet"):
+        c = commit_with(path, start)
+        rows.append([inline(what), inline(grab(path, start, kind)), cdate(c), c])
+    # B-spline calibration step: the committed list of amendments made after outcomes were known
+    txt = (REPO / BP).read_text().split("### Verdicts, Step 1")[1]
+    lst = re.search(r"- \*\*Amendments to Step 0 made after outcomes were known:\*\*\n((?:  - .*\n)+)", txt).group(1)
+    for ln in lst.splitlines():
+        item = ln.strip()[2:].rstrip(";.")
+        h = re.search(r"\((\w{7})\)$", item).group(1)
+        rows.append([inline("B-spline replication, calibration step (Step 0)"), inline(item[:item.rindex("(")].strip()), cdate(h), h])
+    add("Dose-response: runtime correlation tolerance", DP, "- **(a)** The runtime correlation tolerance")
+    add("Dose-response: added stop reason", DP, "- **(b)** \"Solver error (trust-exact subproblem)\"")
+    add("B-spline replication: added stop reason (hang)", BP, "- A polish killed after hanging records")
+    add("B-spline replication: added stop reason (watchdog)", BP, "- **Recorded as** \"solver error (hang); ended by the staleness watchdog\"")
+    add("Synthetic study: X6, pre-registered reading did not fit", SP, "- **X6's rule maps failure")
+    add("Freeze test: Z2, branch taken and run resumed", FP, "By the fixed interpretation, Z2 failing", kind="para")
+    add("Freeze test: Z2, pre-registered reading did not fit", FP, "- **Z2's branch premise did not occur.**")
+    add("Applicability analysis: predictive follow-up dropped", AP, "The parked predictive study is DROPPED", kind="para")
+    return ("\\subsection*{Changes made after an outcome was known}\n"
+            "% DRAFT-TEXT: review (one provenance sentence; the table is generated)\n"
+            "Generated from the committed files: each entry quotes the committed wording, with the date and commit of the quoted text.\n"
+            + longtable(rows, "R{0.18\\linewidth} R{0.54\\linewidth} R{0.10\\linewidth} R{0.08\\linewidth}", ["Change", "Committed wording", "Date", "Commit"]))
 
 
 def appendix_e(cap):

@@ -19,26 +19,54 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 
 **Caption:** Synthetic 2×3 study: ‖θ‖^2 over exact-Hessian trust-region polishing iterations (log scale), one line per seed, coloured certified (blue) or not certified (vermillion). Rows: independent and correlated inputs; columns: P0, P1, P2. Per panel, certified seeds and median growth (polished over early-stopped): independent P0: 6/8 certified, ×12.5; independent P1: 6/8 certified, ×7.9; independent P2: 8/8 certified, ×1.1; correlated P0: 0/8 certified, ×65.7; correlated P1: 0/8 certified, ×32.1; correlated P2: 8/8 certified, ×1.0.
 
-### Figure 3 (`\label{fig:dose}`, file `fig3_dose_response.pdf`)
+### Figure 8 (`\label{fig:dose}`, file `fig8_dose_response.pdf`)
 
 - **Location:** main text, Closing the blind spot, and what remains; built by `build_tex.py`, `captions()`.
-- **Numbers from:** `paper2/figures/fig3_dose_response.json`.
+- **Numbers from:** `paper2/figures/fig8_dose_response.json`.
 
 **Caption:** Real-data dose-response in the null-space weight μ (6 KAN-δ seeds; μ = 0: polished without a null-space penalty). (a) Seeds at a numerical minimum (all of them certified): μ = 0, 0 of 6; 10^-6, 0 of 6; 10^-5, 4 of 6; 10^-4, 6 of 6. (b) ‖θ‖^2 relative to the 107-epoch state, median (range): μ = 0, 690 (170–4146); 10^-6, 29 (21–31); 10^-5, 14 (9–43); 10^-4, 7 (2–16). (c) Training data term relative to the runaway, median: 10^-6, 1.092; 10^-5, 1.146; 10^-4, 1.269. (d) Fold A RMSE: early-stopped 0.142 (dashed line); polished 5-seed ensemble 1.026 at μ = 10^-6 and 0.334 at μ = 10^-4; grey points are single seeds.
 
-### Figure 4 (`\label{fig:where}`, file `fig4_where.pdf`)
+### Figure 3 (`\label{fig:where}`, file `fig3_where.pdf`)
 
 - **Location:** main text, Controlled study; built by `build_tex.py`, `captions()`.
-- **Numbers from:** `paper2/figures/fig4_where.json`.
+- **Numbers from:** `paper2/figures/fig3_where.json`.
 
 **Caption:** Where the runaway lives. (a) Mean share of ‖Δθ‖^2 by parameter block. Real data, 107 epochs→capped: layer-1 affine RBF 0.30, layer-2 affine RBF 0.31, SiLU weights 0.37; capped→further trust-region polishing: 0.40, 0.19, 0.38; synthetic correlated P0: layer-2 affine RBF 0.39, SiLU weights 0.47; correlated P1: layer-2 affine RBF 0.89. The real-data split was evaluated post hoc from archived weights (Appendix [app:repro]). (b) Largest absolute correlation between hidden-unit activations on the training rows, median: synthetic, certified 0.054 (n=28); synthetic, not certified 0.935 (n=20); real, capped 0.968 (n=6); real, further polishing 0.983 (n=6); SC-KAN-δ polished 0.818 (n=10); KAN-δ polished 0.946 (n=10). Blue: certified; vermillion: not certified or runaway.
 
-### Figure 5 (`\label{fig:uniqueness}`, file `fig5_uniqueness.pdf`)
+### Figure 9 (`\label{fig:uniqueness}`, file `fig9_uniqueness.pdf`)
 
 - **Location:** main text, Closing the blind spot, and what remains; built by `build_tex.py`, `captions()`.
-- **Numbers from:** `paper2/figures/fig5_uniqueness.json`.
+- **Numbers from:** `paper2/figures/fig9_uniqueness.json`.
 
 **Caption:** Convergence is not uniqueness. (a) Near-null Hessian eigenvalues (|λ| < 10^-8λ_max) at the end of polishing: KAN-δ baseline on fold A, median 106 (range 86–116); null-space penalty μ = 10^-4 on all rows, median 1 (range 0–3); SC-KAN-δ on fold A, 0 in all 10 models. The baseline counts are taken at non-stationary points: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. (b) Seed disagreement d_AB (median, interquartile range): KAN-δ fold A early 0.112; KAN-δ fold A polished^* 0.077; KAN-δ all rows capped 0.104; μ = 10^-4 all rows certified 0.077; SC-KAN-δ fold A early 0.187; SC-KAN-δ fold A polished^* 0.085. Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. Groups marked ^* (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights (SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.
+
+### Figure 4 (`\label{fig:applicability}`, file `fig4_applicability.pdf`)
+
+- **Location:** main text, Real-data case study: electrolyte conductivity; built by `build_tex.py`, `captions()`.
+- **Numbers from:** `paper2/figures/fig4_applicability.json`.
+
+**Caption:** Applicability (descriptive; analysis plan committed before computing). (a, b) Fold A (ethyl acetate held out, 635 rows): change in each row's absolute error from the early-stopped 5-seed ensemble to the polished ensemble, against the co-solvent fraction x_\mathrmco (7 distinct values); fold A RMSE 0.1420→1.0262 at μ = 10^-6 (a) and 0.1420→0.3345 at μ = 10^-4 (b). Per-row values are evaluated post hoc from SHA-verified archived weights, with the logged RMSEs reproduced (Appendix [app:repro]). (c) Co-solvent descriptors \varepsilon_\mathrmco and \ln\eta_\mathrmco in the committed min–max scaling: the 2069 anchored training rows (30 distinct points), fold A's co-solvent (off-pattern distance 0.047) and the 5313 anchored DEC test rows (0.334); each held-out set occupies a single point.
+
+### Figure 5 (`\label{fig:paths}`, file `fig5_paths.pdf`)
+
+- **Location:** main text, Is the minimum at infinity?; built by `build_tex.py`, `captions()`.
+- **Numbers from:** `paper2/figures/fig5_paths.json`.
+
+**Caption:** Certified L_2 regularisation paths, \gamma = 10^-2 to 10^-7 in half-decade steps (warm-started), one line per seed. (a, c) Synthetic correlated inputs, 8 seeds per penalty level: ‖θ^*‖^2 grows as a power of 1/\gamma with exponent 0.63–0.76 (P0) and 0.36 (P1), and 0.014 with the null space closed (P2). (b, d) Real data: the 6 KAN-δ seeds with the blind spot open (exponents 0.74–0.88) and seeds ind0 and ind1 with the null-space penalty at μ = 10^-4 (post-hoc control, outcomes fixed in advance; ratio between the two smallest \gamma 1.09 and 1.10). L^* is the loss without the \gamma term (for the closed paths, including μ Q). Filled markers: points included in the pre-registered fits; open markers: reached but not included; absent: not reached.
+
+### Figure 6 (`\label{fig:corrdose}`, file `fig6_correlation_dose.pdf`)
+
+- **Location:** main text, How much correlation does the blind spot need?; built by `build_tex.py`, `captions()`.
+- **Numbers from:** `paper2/figures/fig6_correlation_dose.json`.
+
+**Caption:** Correlation dose-response (synthetic [4, 3, 1], Gaussian inputs; 8 seeds per cell; the thresholds are synthetic, not real-data thresholds). Horizontal axis: ρ on a \log 1/(1-ρ) scale. (a) Share of models not certified (dashed: one half). (b) Median short-path D = ‖θ^*(10^-7)‖^2/‖θ^*(10^-5)‖^2 (log scale; dashed: 1.5). (c) Largest hidden-unit correlation, cell median. Diamonds: P2 at ρ = 0.99, 8 of 8 certified, median D = 1.13.
+
+### Figure 7 (`\label{fig:bspline}`, file `fig7_bspline.pdf`)
+
+- **Location:** main text, Is it the basis?; built by `build_tex.py`, `captions()`.
+- **Numbers from:** `paper2/figures/fig7_bspline.json`.
+
+**Caption:** B-spline replication. (a) Certified models (of 8) per cell: the Gaussian-RBF study (frozen μ = 10^-5) and the cubic B-spline replication (frozen μ = 10^-6). (b, c) P2 regularisation paths at μ = 10^-6, continued to \gamma = 10^-9 (post hoc, predictions fixed in advance): ‖θ^*(\gamma)‖ relative to each seed's certified polish minimum; shaded: the pre-fixed band [0.9, 1.1]. Median ratio at \gamma = 10^-9: 1.000 (independent) and 0.911 (correlated).
 
 ### Figure S1 (`\label{fig:S1}`, file `figS1_lossdecomp.pdf`)
 
@@ -82,14 +110,20 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 
 **AI assistance.** Code, runs and logs were produced by an AI coding agent working under this protocol. Study designs, briefs and the manuscript were developed with an AI assistant. The author set the research questions, reviewed and approved every brief and amendment, decided each next stage, and takes responsibility for all content. Crashes were recorded in the logs and fixed in separate commits labelled as implementation-only.
 
-## 4. Inserted figure references (the draft has none; `build_tex.py`, `FIG_REFS`)
+## 4. Inserted figure references (the draft has two placeholders, Sections 6 and 7; `build_tex.py`, `FIG_REFS`)
 
 1. **(Figure 1a)**: Section 3 Mechanism, paragraph "Step 1: a direction the penalty cannot see.". Anchor text (reference placed at its end): "it deviates from a straight line by at most 2% of its range"
 2. **(Figure 1b)**: Section 3 Mechanism, paragraph "Step 1: a direction the penalty cannot see.". Anchor text (reference placed at its end): "so the penalty is unchanged for every t."
 3. **(Figure 1c)**: Section 3 Mechanism, paragraph "Step 2: a direction the data cannot see.". Anchor text (reference placed at its end): "so predictions change little even for large t."
 4. **(Figure 2)**: Section 4 Controlled study, paragraph "The published-style penalty does not prevent the runaway.". Anchor text (reference placed at its end): "but left 0 of 8 models certified."
-5. **(Figure 4a)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "was 0.110 (P0) and 0.024 (P1)."
-6. **(Figure 4b)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "(largest pairwise correlation 0.70, against 0.05 for certified models)"
-7. **(Figure 3)**: Section 6 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "all six seeds at μ = 10⁻⁴ were certified."
-8. **(Figure 5b)**: Section 6 Closing the blind spot, and what remains, paragraph "Convergence is not uniqueness.". Anchor text (reference placed at its end): "their median prediction difference fell by only 26%."
-9. **(Figure 5a)**: Section 6 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "at non-stationary points), and it was less accurate."
+5. **(Figure 3a)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "was 0.110 (P0) and 0.024 (P1)."
+6. **(Figure 3b)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "(largest pairwise correlation 0.70, against 0.05 for certified models)"
+7. **(Figure 8)**: Section 9 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "all six seeds at μ = 10⁻⁴ were certified."
+8. **(Figure 9b)**: Section 9 Closing the blind spot, and what remains, paragraph "Convergence is not uniqueness.". Anchor text (reference placed at its end): "their median prediction difference fell by only 26%."
+9. **(Figure 9a)**: Section 9 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "at non-stationary points), and it was less accurate."
+10. **(Figure 4a, b)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "so any change polishing makes to h is magnified where x\_co is large (descriptive)."
+11. **(Figure 4c)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "Fold A's co-solvent lies outside the training data's descriptor hull,"
+12. **(Figure 5)**: Section 6 Is the minimum at infinity?, paragraph "A certified regularisation path.". Anchor text (reference placed at its end): "\[Figure: regularisation paths, open vs closed, synthetic and real.\]"
+13. **(Figure 6)**: Section 7 How much correlation does the blind spot need?, paragraph "Correlation drives non-convergence.". Anchor text (reference placed at its end): "\[Figure: share uncertified and median D against ρ.\]"
+14. **(Figure 7a)**: Section 8 Is it the basis?, paragraph "The runaway carries over.". Anchor text (reference placed at its end): "none of the 16 P0 and P1 models certified (prediction held)."
+15. **(Figure 7b, c)**: Section 8 Is it the basis?, paragraph "The fix carries over, with a lesson about calibration.". Anchor text (reference placed at its end): "Extended to γ = 10⁻⁹, the paths were bounded,"
