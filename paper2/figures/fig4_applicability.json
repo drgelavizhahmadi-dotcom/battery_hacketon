@@ -1,0 +1,136 @@
+{
+ "figure": "fig4_applicability",
+ "data_files": [
+  {
+   "path": "paper2/revision/appdomain_results.json",
+   "commit": "b19fa2f",
+   "sha256": "a9a502d3560b65103c35cbf5ddea27c0b67100c0d96424a8112a4a41a3ee16b8"
+  },
+  {
+   "path": "weights_manifest.txt",
+   "commit": "179ac24",
+   "sha256": "6c310072d02485e50705c00c0c9d2b819dfdcc9011bd3790ff4985770150839f"
+  }
+ ],
+ "weights": {
+  "scbase_A_s0.pt": {
+   "sha256": "7269516e14d1807fe9c460188316a49945cba8c4adb715e0619324ce8f4a29fb",
+   "archive": "gauge_weights_2026-10-04i.tar.gz"
+  },
+  "scbase_A_s1.pt": {
+   "sha256": "047a514d91afbad5e30821b04dbe3cd24e0ec7c81879496366a463ab6b5cdece",
+   "archive": "gauge_weights_2026-10-04i.tar.gz"
+  },
+  "scbase_A_s2.pt": {
+   "sha256": "4779b9123d343a1ad2685fd028eec164146dc7e99e34f06e23451c44f71c6aae",
+   "archive": "gauge_weights_2026-10-04i.tar.gz"
+  },
+  "scbase_A_s3.pt": {
+   "sha256": "aff0e8b3a6909f35af73738c27a1dd6237cd81bac8a1861ce7f028107056c094",
+   "archive": "gauge_weights_2026-10-04i.tar.gz"
+  },
+  "scbase_A_s4.pt": {
+   "sha256": "7fe3d3ed0af3d520eff2611c871cdc260ba886cd0ef5795f4eea78cdbaf60037",
+   "archive": "gauge_weights_2026-10-04i.tar.gz"
+  },
+  "close_foldA_1e-06_s0.pt": {
+   "sha256": "db29b17872427047f9b7550621d79725def17f50a500dd02388d2644b727061e",
+   "archive": "gauge_weights_2026-10-03f.tar.gz"
+  },
+  "close_foldA_1e-06_s1.pt": {
+   "sha256": "0261d2c9c532513e63e4387767bed46c5ae4931b5e1b058bc40302e9887b9b6f",
+   "archive": "gauge_weights_2026-10-03f.tar.gz"
+  },
+  "close_foldA_1e-06_s2.pt": {
+   "sha256": "2b211d69cc2362cdd39fa928a4d0b3ef8e2fc8e2dd4c77e4159e945fbd610cb3",
+   "archive": "gauge_weights_2026-10-03f.tar.gz"
+  },
+  "close_foldA_1e-06_s3.pt": {
+   "sha256": "2942e5512c8835c63df1cc34b5a63e486beec3649f773ac625a4216e8188693a",
+   "archive": "gauge_weights_2026-10-03f.tar.gz"
+  },
+  "close_foldA_1e-06_s4.pt": {
+   "sha256": "f050089e527a877f83f6a6828002bb34414c88d681728a7df98c75f7afed4117",
+   "archive": "gauge_weights_2026-10-03f.tar.gz"
+  },
+  "certify_foldA_0.0001_s0.pt": {
+   "sha256": "407510f9dacd2c22e9c4d5babb6d896f8e8fae23a68b4fe34db9284bc600a4cd",
+   "archive": "gauge_weights_2026-10-25s.tar.gz"
+  },
+  "certify_foldA_0.0001_s1.pt": {
+   "sha256": "ba98f52a1c9e0da914866c45381dc3f18b0ca03f2fbef45095e97139fd7ee0a3",
+   "archive": "gauge_weights_2026-10-25s.tar.gz"
+  },
+  "certify_foldA_0.0001_s2.pt": {
+   "sha256": "e2af2a869be59c49d5c2765df910143004b6b62c0a664628b89e706f7fe33329",
+   "archive": "gauge_weights_2026-10-25s.tar.gz"
+  },
+  "certify_foldA_0.0001_s3.pt": {
+   "sha256": "e3822cb5471eb9c9f619185ac48f07495c91d5825fd5a3364ea922002339b145",
+   "archive": "gauge_weights_2026-10-25s.tar.gz"
+  },
+  "certify_foldA_0.0001_s4.pt": {
+   "sha256": "59aecf8c3f8c7a354c6850ced36433fb75487891765bc8434615f7f249293f86",
+   "archive": "gauge_weights_2026-10-25s.tar.gz"
+  }
+ },
+ "notes": [
+  "a: per-row |error| change from the early-stopped fold A ensemble (archived scbase_A_s0-4) to each polished ensemble (close_foldA_1e-06_s0-4, certify_foldA_0.0001_s0-4; mapped with close.FlatQ.to_kan as in paper2/revision/appdomain.py, ec769ad / 656b06c). Per-row values are in no committed result; they are evaluated here deterministically from SHA-verified archived weights held in memory, with no optimisation, and the ensemble RMSEs must reproduce the logged 0.1420 / 1.0262 / 0.3345",
+  "b: space B co-solvent descriptors (eps_co, ln eta_co) in the committed min-max scaling (kan.Scaler, G5 of appdomain_plan.md); fold A's co-solvent and the DEC test rows each occupy one point (G1)",
+  "DESCRIPTIVE (plan committed first, ec769ad); x_co on the horizontal axis because the correction enters as x_co * h (L2)"
+ ],
+ "values": {
+  "ensemble_rmse_reproduced": {
+   "early": 0.14204300895692148,
+   "1e-06": 1.026195751939179,
+   "0.0001": 0.33446723176171367
+  },
+  "a_1e-06": {
+   "median_change": 0.8566669928368404,
+   "mean_change": 0.8273830355786802,
+   "spearman_xco": {
+    "rho": 0.6551647811508072,
+    "p": 3.991526271336149e-79
+   },
+   "n": 635,
+   "n_distinct_xco": 7,
+   "committed_spearman": {
+    "dM": -0.7009340463892522,
+    "off_mix": -0.6551647811508072
+   }
+  },
+  "a_0.0001": {
+   "median_change": 0.1332118960217128,
+   "mean_change": 0.16354941261153058,
+   "spearman_xco": {
+    "rho": 0.516986732131543,
+    "p": 1.095238875485116e-44
+   },
+   "n": 635,
+   "n_distinct_xco": 7,
+   "committed_spearman": {
+    "dM": -0.5714933072506463,
+    "off_mix": -0.516986732131543
+   }
+  },
+  "c_points": {
+   "n_train_rows": 2069,
+   "n_train_distinct": 30,
+   "foldA_point": [
+    [
+     -0.917181,
+     -0.970452
+    ]
+   ],
+   "dec_point": [
+    [
+     -0.990162,
+     -0.625332
+    ]
+   ],
+   "n_dec_rows": 5313,
+   "foldA_offpattern": 0.04728982582231832,
+   "dec_offpattern": 0.3344324121813334
+  }
+ }
+}

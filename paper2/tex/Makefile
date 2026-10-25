@@ -36,7 +36,7 @@ clean:
 	PATH="$(TEXBIN):$$PATH" latexmk -C anonymous.tex preprint.tex
 
 figures:
-	cd ../.. && for f in make_fig1 make_fig2 make_fig3 make_fig4 make_fig5 make_supp; do $(PYTHON) paper2/figures/$$f.py || exit 1; done
+	cd ../.. && for f in make_fig1 make_fig2 make_fig3 make_fig4 make_fig5 make_fig6 make_fig7 make_fig8 make_fig9 make_supp; do $(PYTHON) paper2/figures/$$f.py || exit 1; done
 
 review: $(GEN)
 	cd ../.. && $(PYTHON) paper2/tex/gen_review_items.py > /dev/null

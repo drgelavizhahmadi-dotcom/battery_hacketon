@@ -1,5 +1,5 @@
 {
- "figure": "fig3_dose_response",
+ "figure": "fig8_dose_response",
  "data_files": [
   {
    "path": "stage2_results.json",

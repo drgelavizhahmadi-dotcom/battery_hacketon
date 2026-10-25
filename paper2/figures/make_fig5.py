@@ -1,80 +1,71 @@
-"""Figure 5: convergence is not uniqueness. Run from the repo root: python3 paper2/figures/make_fig5.py"""
-import io
-import itertools
+"""Figure 5: certified L2 regularisation paths (infimum test). ||theta*||^2 and L* against gamma (log-log), one line per seed:
+synthetic correlated P0/P1/P2 (Phase 1) and real data, blind spot open (Phase 2) vs closed (control arm, mu = 1e-4).
+Run from the repo root: /usr/bin/python3 paper2/figures/make_fig5.py"""
 import numpy as np
-import torch
 import matplotlib.pyplot as plt
-from style import C, FULL, OI, Sidecar, letter
+from matplotlib.lines import Line2D
+from style import C, FULL, Sidecar, letter
 
-sc = Sidecar("fig5_uniqueness")
-scr = sc.json("arch/sc_results.json")
-ce = sc.json("certify_results.json")
-
-# ---- a) near-null Hessian eigenvalues at the end of polishing (|eig| < 1e-8 x max, certify_point)
-nn = {"KAN-δ\nfold A\npolished": ([p["cert"]["n_null"] for p in scr["polish"]["base"]], [p["cert"]["certified"] for p in scr["polish"]["base"]]),
-      "μ = 1e-4\nall rows\nfinal": ([ce["cert"][f"0.0001|ind_{i}"]["n_null"] for i in range(6)], [ce["cert"][f"0.0001|ind_{i}"]["certified"] for i in range(6)]),
-      "SC-KAN-δ\nfold A\npolished": ([p["cert"]["n_null"] for p in scr["polish"]["sc"]], [p["cert"]["certified"] for p in scr["polish"]["sc"]])}
-sc.note("a: n_null = eigenvalues with |eig| < 1e-8 x max at the end of polishing (certify.py's certify_point); KAN-δ baseline and SC from arch/sc (e00e37f), "
-        "mu = 1e-4 from certify.py (36f295b), the 6 real-data seeds. The baseline points are NOT stationary (0/10 certified, 500-iteration cap), so its count is "
-        "at a non-minimum; stage2 Part A finals have no stored near-null count and are not shown")
-
-# ---- b) seed disagreement d_AB
-sc.note("b: committed d_AB: baseline and SC at the fold A early state (arch/sc, 45 pairs); capped baseline and certified mu = 1e-4 on all rows (certify.py, 15 pairs)")
-sc.note("b: POLISHED fold A d_AB (baseline and SC) is not in any committed result; evaluated here deterministically from the archived polished weights "
-        "(SHA-verified, in memory; predictions on the 1434 fold A training rows / SD of their delta targets, as arch/sc)")
-from kan import KAN, DELTA_IN, subset
-from trust import Flat
-from sc_model import SCKAN, FlatSC, predict_sc
-import sc_run as SR
-names = [f"sc_A_b0.0001_s{s}.pt" for s in range(10)] + [f"sc_A_b0.0001_s{s}_pol.pt" for s in range(10)] + \
-        [f"scbase_A_s{s}.pt" for s in range(10)] + [f"scbase_A_s{s}_pol.pt" for s in range(10)]
-blobs = sc.load_weights(names)
-ld = lambda n: torch.load(io.BytesIO(blobs[n]), weights_only=False)
-S = SR.setup()
-n_salt, d = len(S["salts"]), len(DELTA_IN)
-bA = subset(S["B"], S["folds"]["A"]["train"]); bAd = SR.dbl(bA); usedA = np.unique(bA["s"].numpy()).tolist()
-sd_y = float(bA["y"].std())
+sc = Sidecar("fig5_paths")
+res = sc.json("paper2/revision/infimum_results.json")
+sc.note("path points with status 'reached'; filled markers = included in the verdict fits (certified, or degenerate and accepted after the probes), "
+        "open markers = reached but not included; points not reached (path stopped by the budget) are absent")
+sc.note("synthetic: Phase 1, correlated inputs, 8 seeds per penalty level (ef3b3c2); real: Phase 2, the 6 KAN-delta seeds with the blind spot open "
+        "(349022b / 4003b21), and the POST-HOC control arm with the null-space penalty at mu = 1e-4 fixed, seeds ind0 and ind1 (4003b21)")
+sc.note("L* = the loss without the gamma term (for the closed real paths it includes mu*Q, the loss that path minimises)")
 
 
-def kan_from(sd):
-    k = KAN(d, [6, 1], n_salt)
-    miss, unexp = k.load_state_dict({n: t.float() for n, t in sd.items()}, strict=False)
-    assert not unexp and all(x.endswith(".grid") for x in miss)
-    return k.eval()
+def pts(path):
+    r = [p for p in path if p.get("status") == "reached"]
+    return (np.array([p["coef"] for p in r]), np.array([p["theta2"] for p in r]), np.array([p["Lstar"] for p in r]),
+            np.array([bool(p.get("included")) for p in r]))
 
 
-pol = {"sc": [], "base": []}
-for s in range(10):
-    e = SCKAN(n_salt); e.load_state_dict(ld(f"sc_A_b0.0001_s{s}.pt")["early"]); e = e.double().eval()
-    pol["sc"].append(predict_sc(FlatSC(e, bA, 1e-4).to_net(ld(f"sc_A_b0.0001_s{s}_pol.pt")["x"].numpy()), bAd))
-    b = Flat(kan_from(ld(f"scbase_A_s{s}.pt")["early"]), bAd, usedA).to_kan(ld(f"scbase_A_s{s}_pol.pt")["x"].numpy(), d, n_salt)
-    pol["base"].append(SR.base_pred(b, bAd))
-dab_pol = {k: [float(np.sqrt(np.mean((v[a] - v[b_]) ** 2)) / sd_y) for a, b_ in itertools.combinations(range(10), 2)] for k, v in pol.items()}
-db = {"KAN-δ\nfold A\nearly": (scr["dab"]["base"]["all"], "runaway"), "KAN-δ\nfold A\npolished*": (dab_pol["base"], "runaway"),
-      "KAN-δ\nall rows\ncapped": (ce["after"]["0.0001"]["dAB_capped"], "runaway"), "μ = 1e-4\nall rows\ncertified": (ce["after"]["0.0001"]["dAB"], "certified"),
-      "SC-KAN-δ\nfold A\nearly": (scr["dab"]["sc"]["all"], "early"), "SC-KAN-δ\nfold A\npolished*": (dab_pol["sc"], "certified")}
+def draw(ax_t, ax_l, path, col, lw=0.8):
+    g, t, l, inc = pts(path)
+    for ax, v in ((ax_t, t), (ax_l, l)):
+        ax.plot(g, v, color=col, lw=lw, alpha=0.85)
+        ax.scatter(g[inc], v[inc], s=6, color=col, zorder=3, lw=0)
+        ax.scatter(g[~inc], v[~inc], s=10, facecolors="white", edgecolors=col, zorder=3, lw=0.7)
+    return g, t, l, inc
 
-fig, axs = plt.subplots(1, 2, figsize=(FULL, 2.4), gridspec_kw=dict(width_ratios=[0.8, 1.2]))
-ax = axs[0]
-for j, (lab, (v, cert)) in enumerate(nn.items()):
-    v = np.asarray(v)
-    ax.scatter(j + np.random.default_rng(j).uniform(-0.15, 0.15, len(v)), v, s=9, color=[C["certified"] if c else C["runaway"] for c in cert], lw=0, alpha=0.85)
-    ax.plot([j - 0.25, j + 0.25], [np.median(v)] * 2, color=OI["black"], lw=1)
-ax.set_yscale("symlog", linthresh=1); ax.set_ylim(-0.3, 300)
-ax.set_xticks(range(len(nn))); ax.set_xticklabels(list(nn), fontsize=6); ax.set_ylabel("near-null Hessian eigenvalues")
-letter(ax, "a", dx=-0.22)
-ax = axs[1]
-for j, (lab, (v, kind)) in enumerate(db.items()):
-    v = np.asarray(v)
-    ax.scatter(j + np.random.default_rng(10 + j).uniform(-0.15, 0.15, len(v)), v, s=6, color=C[kind], lw=0, alpha=0.7)
-    q1, q3 = np.percentile(v, [25, 75])
-    ax.plot([j, j], [q1, q3], color=OI["black"], lw=2.2, solid_capstyle="butt")
-    ax.plot([j - 0.25, j + 0.25], [np.median(v)] * 2, color=OI["black"], lw=1)
-ax.set_xticks(range(len(db))); ax.set_xticklabels(list(db), fontsize=6); ax.set_ylabel(r"seed disagreement $d_{AB}$"); ax.set_ylim(0, None)
-letter(ax, "b", dx=-0.13)
-fig.tight_layout(w_pad=1.2)
-sc.put("a_n_null", {k.replace("\n", " "): dict(values=v, certified=c, median=float(np.median(v))) for k, (v, c) in nn.items()})
-sc.put("b_dAB", {k.replace("\n", " "): dict(n_pairs=len(v), median=float(np.median(v)), q1=float(np.percentile(v, 25)), q3=float(np.percentile(v, 75)),
-                                            min=float(min(v)), max=float(max(v)), values=list(map(float, v))) for k, (v, _) in db.items()})
-sc.note("b: '*' = evaluated from archived weights in this script (see above); bar = median, thick line = interquartile range")
+
+fig, axs = plt.subplots(2, 2, figsize=(FULL, 4.0), sharex=True)
+syn = res["phase1"]["models"]
+for lev in ("P0", "P1", "P2"):
+    rec = []
+    for s in range(8):
+        g, t, l, inc = draw(axs[0, 0], axs[1, 0], syn[f"{lev}-s{s}"]["path"], C[lev])
+        rec.append(dict(seed=s, gamma=g, theta2=t, Lstar=l, included=inc))
+    sc.put(f"synthetic_{lev}", dict(alpha=[res["phase1"]["rows"][f"{lev}-s{s}"]["fit"] for s in range(8)],
+                                    ratio=[res["phase1"]["rows"][f"{lev}-s{s}"]["ratio"] for s in range(8)], paths=rec))
+real, ctrl = res["phase2"]["models"], res["control_posthoc"]["models"]
+rec = []
+for k in sorted(real):
+    g, t, l, inc = draw(axs[0, 1], axs[1, 1], real[k]["path"], C["runaway"])
+    rec.append(dict(model=k, gamma=g, theta2=t, Lstar=l, included=inc))
+sc.put("real_open", dict(alpha={k: res["phase2"]["rows"][k]["fit"] for k in sorted(real)}, paths=rec))
+rec = []
+for k in sorted(ctrl):
+    g, t, l, inc = draw(axs[0, 1], axs[1, 1], ctrl[k]["path"], C["P2"], lw=1.2)
+    rec.append(dict(model=k, gamma=g, theta2=t, Lstar=l, included=inc))
+sc.put("real_closed_mu1e-4", dict(rows={k: {q: res["control_posthoc"]["rows"][k][q] for q in ("ratio", "fit") if q in res["control_posthoc"]["rows"][k]}
+                                        for k in sorted(ctrl)}, paths=rec))
+
+for ax in axs.flat:
+    ax.set_xscale("log"); ax.set_yscale("log")
+    ax.set_xlim(2e-2, 5e-8)                        # gamma decreases left to right, the direction of the path
+for ax in axs[1]:
+    ax.set_xlabel(r"regularisation weight $\gamma$")
+axs[0, 0].set_ylabel(r"$\|\theta^*(\gamma)\|^2$"); axs[1, 0].set_ylabel(r"$L^*(\gamma)$ (loss without $\gamma$ term)")
+axs[0, 0].text(0.5, 1.03, "synthetic, correlated inputs", transform=axs[0, 0].transAxes, ha="center", fontsize=8)
+axs[0, 1].text(0.5, 1.03, "real data (KAN-δ)", transform=axs[0, 1].transAxes, ha="center", fontsize=8)
+axs[0, 0].legend(handles=[Line2D([], [], color=C[l], label=l) for l in ("P0", "P1", "P2")], frameon=False, loc="upper left")
+axs[0, 1].legend(handles=[Line2D([], [], color=C["runaway"], label="blind spot open (6 seeds)"),
+                          Line2D([], [], color=C["P2"], lw=1.2, label=r"closed, $\mu = 10^{-4}$ (ind0, ind1)"),
+                          Line2D([], [], color="k", marker="o", ms=3, lw=0, markerfacecolor="white", label="reached, not included")],
+                 frameon=False, loc="upper left")
+for ax, s in zip(axs.flat, "abcd"):
+    letter(ax, s, dx=-0.17)
+fig.tight_layout(h_pad=0.6, w_pad=1.2)
 sc.save(fig)

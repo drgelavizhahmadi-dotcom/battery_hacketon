@@ -1,10 +1,10 @@
 {
- "figure": "fig4_where",
+ "figure": "fig3_where",
  "data_files": [
   {
    "path": "weights_manifest.txt",
-   "commit": "d6e9f52",
-   "sha256": "3aeae6a75b02bb193945befead6aeac36d543a0f56f9e16289b1677e557c0e0c"
+   "commit": "179ac24",
+   "sha256": "6c310072d02485e50705c00c0c9d2b819dfdcc9011bd3790ff4985770150839f"
   },
   {
    "path": "paper2/anatomy_synth_results.json",

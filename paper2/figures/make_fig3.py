@@ -1,75 +1,111 @@
-"""Figure 3: real-data dose-response in mu (null-space penalty). Run from the repo root."""
+"""Figure 3: where the runaway lives. Run from the repo root: python3 paper2/figures/make_fig3.py"""
+import io
 import numpy as np
+import torch
 import matplotlib.pyplot as plt
-from style import C, FULL, OI, Sidecar, letter
+from style import BLOCK_C, C, FULL, OI, Sidecar, letter
 
-sc = Sidecar("fig3_dose_response")
-st = sc.json("stage2_results.json")
-cl = sc.json("close_results.json")
-ce = sc.json("certify_results.json")
-SEEDS = range(6)
-MUS = ["0", "1e-06", "1e-05", "0.0001"]
-LAB = ["0\n(Part A)", r"$10^{-6}$", r"$10^{-5}$", r"$10^{-4}$"]
-sc.note("seeds = the 6 real-data KAN-delta seeds (ind 0-5); students are not plotted")
-sc.note("mu = 0 is stage2 Part A (trust-exact from fiber2 capped, no extra term): the runaway reference")
-sc.note("numerical minimum = recomputed max|grad| < 1e-7 (certify.py Step 1 candidates); certified = certify.py four-part criterion")
-sc.note("norm growth = ||theta||^2 at the end of polishing / ||theta||^2 at the 107-epoch AdamW state; mu = 0 from stage2 partB block norms (sum of squares)")
-sc.note("data term relative to the runaway = training MSE at the end of polishing / close_results ref_A (data term at the stage2 Part A final)")
+sc = Sidecar("fig3_where")
+BLOCKS = ["layer-1 affine RBF", "layer-1 curved RBF", "layer-2 affine RBF", "layer-2 curved RBF", "SiLU weights", "biases", "salt embedding"]
 
-# a) numerical minima and certified
-cand = {(m, t) for m, t in ce["candidates"]}
-nmin = {"0": sum(st["infos"][f"A|ind {i}"]["grad"] < 1e-7 for i in SEEDS)}
-ncert = {"0": 0}
-for m in MUS[1:]:
-    nmin[m] = sum((m, f"ind_{i}") in cand for i in SEEDS)
-    ncert[m] = sum(ce["cert"].get(f"{m}|ind_{i}", {}).get("certified", False) for i in SEEDS)
-# b) growth
-sq = lambda d: sum(v ** 2 for v in d.values())   # partB stores block NORMS; ||theta||^2 = sum of squares (107-epoch: 19.76 = close theta2_start)
-growth = {"0": [sq(st["partB"][f"ind {i}"]["Part A final"]) / sq(st["partB"][f"ind {i}"]["AdamW-107"]) for i in SEEDS]}
-for m in MUS[1:]:
-    growth[m] = [cl["runs"][f"{m}|ind {i}"]["theta2"] / cl["runs"][f"{m}|ind {i}"]["theta2_start"] for i in SEEDS]
-# c) data term relative to runaway
-rel = {"0": [1.0] * 6}
-for m in MUS[1:]:
-    rel[m] = [cl["runs"][f"{m}|ind {i}"]["data"] / cl["ref_A"][str(i)] for i in SEEDS]
-# d) fold A RMSE
-early = 0.142
-ens = {"1e-06": ce["ensemble"]["1e-06"][0], "0.0001": ce["ensemble"]["0.0001"][0]}
-per = {m: [s["rmse"] for s in ce["step3"] if s["mu"] == m] for m in ("1e-06", "0.0001")}
+# ---- a) real data: deterministic evaluation of archived weights (no committed affine/curved split exists)
+from kan import KAN, DELTA_IN, N_RBF, subset
+from trust import Flat
+import sc_run as SR
+sc.note("a, real data: shares of ||delta theta||^2 by block computed here from the archived weights (SHA-verified, in memory): "
+        "delta_s* (107 epochs), fiber2_ind_* (capped), stage2_A_ind_* (Part A final, flat vectors rebuilt on their fiber2 start); "
+        "no committed result splits the real-data change into affine/curved RBF parts")
+sc.note("affine RBF = projection of each edge's 8 RBF coefficients onto span{1, k}; curved = the rest; layer-1 RBF includes the salt-embedding edges; "
+        "'salt embedding' (the embedding table itself) exists only in the real model")
+names = [f"{p}{i}.pt" for p in ("delta_s", "fiber2_ind_", "stage2_A_ind_") for i in range(6)]
+blobs = sc.load_weights(names)
+ld = lambda n: torch.load(io.BytesIO(blobs[n]), weights_only=False)
+S = SR.setup()
+n_salt, d = len(S["salts"]), len(DELTA_IN)
+ball = SR.dbl(subset(S["B"], S["use"])); used = np.unique(ball["s"].numpy()).tolist()
+NB = torch.tensor(np.linalg.qr(np.column_stack([np.ones(N_RBF), np.arange(N_RBF, dtype=float)]))[0])
 
-x = np.arange(4)
-fig, axs = plt.subplots(2, 2, figsize=(FULL, 3.7)); axs = axs.ravel()
+
+def kan_from(sd):
+    k = KAN(d, [6, 1], n_salt)
+    miss, unexp = k.load_state_dict({n: t.float() for n, t in sd.items()}, strict=False)
+    assert not unexp and all(x.endswith(".grid") for x in miss)
+    return k.double().eval()
+
+
+def params(net):
+    return {k: v.detach().double() for k, v in net.named_parameters()}
+
+
+def shares(a, b):
+    dl = {k: b[k] - a[k] for k in a}
+    e = {}
+    for L in (0, 1):
+        c = dl[f"layers.{L}.coef"]; aff = float(((c @ NB) ** 2).sum()); tot = float((c ** 2).sum())
+        e[f"layer-{L + 1} affine RBF"], e[f"layer-{L + 1} curved RBF"] = aff, tot - aff
+    e["SiLU weights"] = float((dl["layers.0.base.weight"] ** 2).sum() + (dl["layers.1.base.weight"] ** 2).sum())
+    e["biases"] = float((dl["layers.0.base.bias"] ** 2).sum() + (dl["layers.1.base.bias"] ** 2).sum())
+    e["salt embedding"] = float((dl["emb.weight"] ** 2).sum())
+    T = sum(e.values())
+    return {k: v / T for k, v in e.items()}
+
+
+real = {"107 epochs → capped": [], "capped → Part A": []}
+for i in range(6):
+    p107 = params(kan_from(ld(f"delta_s{i}.pt")))
+    fcap = kan_from(ld(f"fiber2_ind_{i}.pt")); pcap = params(fcap)
+    pA = params(Flat(kan_from(ld(f"fiber2_ind_{i}.pt")), ball, used).to_kan(ld(f"stage2_A_ind_{i}.pt").numpy(), d, n_salt))
+    real["107 epochs → capped"].append(shares(p107, pcap)); real["capped → Part A"].append(shares(pcap, pA))
+
+# ---- synthetic: committed anatomy_synth results (per-model shares; SiLU and biases summed over layers)
+an = sc.json("paper2/anatomy_synth_results.json")
+syn = {}
+for lev in ("P0", "P1"):
+    rr = []
+    for s in range(8):
+        sh = an["rows"][f"correlated_{lev}_s{s}"]["d"]["shares"]
+        rr.append({"layer-1 affine RBF": sh["L1 affine RBF"], "layer-1 curved RBF": sh["L1 curved RBF"], "layer-2 affine RBF": sh["L2 affine RBF"],
+                   "layer-2 curved RBF": sh["L2 curved RBF"], "SiLU weights": sh["L1 SiLU"] + sh["L2 SiLU"], "biases": sh["L1 bias"] + sh["L2 bias"],
+                   "salt embedding": 0.0})
+    syn[f"synthetic correlated {lev}\n(early → polished)"] = rr
+sc.note("a, synthetic: anatomy_synth_results.json (ea22a56) per-model shares, correlated P0/P1, 8 seeds each; bars = mean over models (sums to 1)")
+
+groups = {"real\n107 ep→cap.": real["107 epochs → capped"], "real\ncap.→Part A": real["capped → Part A"],
+          "synth.\ncorr. P0": syn["synthetic correlated P0\n(early → polished)"], "synth.\ncorr. P1": syn["synthetic correlated P1\n(early → polished)"]}
+fig, axs = plt.subplots(1, 2, figsize=(FULL, 3.1), gridspec_kw=dict(width_ratios=[1, 1.05]))
 ax = axs[0]
-ax.bar(x - 0.18, [nmin[m] for m in MUS], 0.36, color=OI["sky"], label="numerical minimum")
-ax.bar(x + 0.18, [ncert[m] for m in MUS], 0.36, color=C["certified"], label="certified")
-ax.set_ylim(0, 7.5); ax.set_ylabel("seeds (of 6)"); ax.legend(frameon=False, loc="upper left", fontsize=6.5, ncol=2)
-letter(ax, "a", dx=-0.13)
+x = np.arange(len(groups)); bottom = np.zeros(len(groups))
+mean = {g: {b: float(np.mean([r[b] for r in rr])) for b in BLOCKS} for g, rr in groups.items()}
+for b in BLOCKS:
+    v = np.array([mean[g][b] for g in groups])
+    ax.bar(x, v, 0.65, bottom=bottom, color=BLOCK_C[b], label=b, edgecolor="white", lw=0.3); bottom += v
+TICK = {"real\n107 ep→cap.": "real\n107 ep→\ncapped", "real\ncap.→Part A": "real\ncapped→\nfurther TR\npolishing"}  # display only; sidecar keys unchanged
+ax.set_xticks(x); ax.set_xticklabels([TICK.get(g, g) for g in groups], fontsize=6.5); ax.set_ylabel(r"share of $\|\Delta\theta\|^2$"); ax.set_ylim(0, 1)
+ax.legend(frameon=False, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.36), ncol=3, columnspacing=0.8, handlelength=1.2)
+letter(ax, "a", dx=-0.12)
+sc.put("a_mean_shares", mean)
+sc.put("a_per_model", {g: rr for g, rr in groups.items()})
+sc.note("a: real = mean over 6 seeds; real 107 ep -> capped and capped -> Part A (shown as further trust-region (TR) polishing) are the two unregularised segments")
+
+# ---- b) largest hidden-unit correlation (paper2/checks)
+ck = sc.json("paper2/checks/checks_results.json")["item1"]["rows"]
+cats = [("synth.\ncertified", [r for r in ck if r["group"] == "synth" and r["state"] == "polished" and r["certified"]], "certified"),
+        ("synth.\nnot cert.", [r for r in ck if r["group"] == "synth" and r["state"] == "polished" and not r["certified"]], "runaway"),
+        ("real\ncapped", [r for r in ck if r["group"] == "real" and r["state"] == "fiber2 capped"], "runaway"),
+        ("real\nPart A", [r for r in ck if r["group"] == "real" and r["state"] == "stage2 Part A final"], "runaway"),
+        ("SC-KAN-δ\npolished", [r for r in ck if r["group"] == "sc" and r["state"] == "polished"], "certified"),
+        ("KAN-δ\npolished", [r for r in ck if r["group"] == "scbase (extra)" and r["state"] == "polished"], "runaway")]
 ax = axs[1]
-for j, m in enumerate(MUS):
-    v = np.asarray(growth[m])
-    ax.errorbar(j, np.median(v), yerr=[[np.median(v) - v.min()], [v.max() - np.median(v)]], fmt="o", color=C["runaway"] if j == 0 else C["certify"], ms=3.5, capsize=2, lw=0.8)
-ax.set_yscale("log"); ax.set_ylabel(r"$\|\theta\|^2$ / 107-epoch")
-letter(ax, "b", dx=-0.13)
-ax = axs[2]
-for j, m in enumerate(MUS):
-    v = np.asarray(rel[m])
-    ax.errorbar(j, np.median(v), yerr=[[np.median(v) - v.min()], [v.max() - np.median(v)]], fmt="o", color=C["runaway"] if j == 0 else C["certify"], ms=3.5, capsize=2, lw=0.8)
-ax.axhline(1, color=OI["grey"], lw=0.6, ls=":")
-ax.set_ylabel("data term / runaway")
-letter(ax, "c", dx=-0.13)
-ax = axs[3]
-ax.axhline(early, color=OI["black"], lw=0.8, ls="--", label="early-stopped (0.142)")
-for m, j in [("1e-06", 1), ("0.0001", 3)]:
-    ax.scatter(np.full(len(per[m]), j) + np.linspace(-0.12, 0.12, len(per[m])), per[m], s=8, color=OI["grey"], label="single seed" if j == 1 else None, zorder=2)
-    ax.scatter(j, ens[m], s=22, color=C["certify"], marker="D", label="5-seed ensemble" if j == 1 else None, zorder=3)
-ax.set_yscale("log"); ax.set_ylim(0.1, 30); ax.set_ylabel("fold A RMSE (log k)"); ax.legend(frameon=False, fontsize=6.5, loc="upper right", ncol=1)
-letter(ax, "d", dx=-0.13)
-for ax in axs:
-    ax.set_xticks(x); ax.set_xticklabels(LAB, fontsize=7); ax.set_xlabel(r"$\mu$")
-fig.tight_layout(h_pad=1.0, w_pad=1.5)
-sc.put("a_numerical_minimum", nmin); sc.put("a_certified", ncert)
-sc.put("b_growth", {m: dict(values=growth[m], median=float(np.median(growth[m])), min=float(min(growth[m])), max=float(max(growth[m]))) for m in MUS})
-sc.put("c_data_rel_runaway", {m: dict(values=rel[m], median=float(np.median(rel[m])), min=float(min(rel[m])), max=float(max(rel[m]))) for m in MUS})
-sc.put("d_foldA", dict(early_stopped=early, ensemble=ens, per_seed=per))
-sc.note("d: polished fold A RMSE at mu 1e-6 (close.py fold A run) and 1e-4 (certify.py Step 3), 5 seeds and their ensemble; the early-stopped value is final.py's 0.142 (kan_output.txt, 3081cc0)")
+vals = {}
+for j, (lab, rr, kind) in enumerate(cats):
+    y = np.array([r["max"] for r in rr]); vals[lab.replace("\n", " ")] = dict(values=y.tolist(), median=float(np.median(y)), n=len(y), kind=kind)
+    ax.scatter(j + np.random.default_rng(j).uniform(-0.18, 0.18, len(y)), y, s=7, color=C[kind], alpha=0.8, lw=0)
+    ax.plot([j - 0.28, j + 0.28], [np.median(y)] * 2, color=OI["black"], lw=1)
+TICKB = {"real\nPart A": "real\nfurther\npolishing"}  # display only; sidecar keys unchanged
+ax.set_xticks(range(len(cats))); ax.set_xticklabels([TICKB.get(c[0], c[0]) for c in cats], fontsize=6)
+ax.set_ylabel("largest |hidden-unit corr.|"); ax.set_ylim(0, 1.02)
+letter(ax, "b", dx=-0.2)
+sc.put("b_max_hidden_corr", vals)
+sc.note("b: paper2/checks (6e1df32), training rows; SC-KAN-δ and KAN-δ are the fold A models of arch/sc; colour = certified (blue) vs not certified / runaway (vermillion); bar = median")
+fig.tight_layout(w_pad=1.0)
 sc.save(fig)
