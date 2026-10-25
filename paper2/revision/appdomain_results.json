@@ -834,5 +834,40 @@
    }
   ],
   "shrinkage": 0.0009393435450866067
+ },
+ "analysis2_posthoc_artefact_check": {
+  "label": "POST-HOC (added 2026-10-25 after Analysis 2's results were seen; not in plan ec769ad)",
+  "purpose": "read the sign of the error-change correlations: the ensembles' own |error| against distance",
+  "spearman_abs_error": {
+   "early": {
+    "dM": -0.293,
+    "nn": -0.25,
+    "off_mix": -0.208,
+    "mean_signed_error": 0.0067,
+    "median_abs_error": 0.046,
+    "signed_vs_dM": 0.054
+   },
+   "mu_1e_06": {
+    "dM": -0.719,
+    "nn": -0.448,
+    "off_mix": -0.669,
+    "mean_signed_error": 0.9028,
+    "median_abs_error": 0.8896,
+    "signed_vs_dM": -0.719
+   },
+   "mu_1e_04": {
+    "dM": -0.595,
+    "nn": -0.616,
+    "off_mix": -0.527,
+    "mean_signed_error": 0.2256,
+    "median_abs_error": 0.1727,
+    "signed_vs_dM": -0.643
+   }
+  },
+  "spearman_distance_vs_x_co": {
+   "dM": -0.972,
+   "off_mix": -1.0
+  },
+  "source": "appdomain_output.txt, SUPPLEMENT TO ANALYSIS 2"
  }
 }

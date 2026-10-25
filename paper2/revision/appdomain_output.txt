@@ -103,3 +103,8 @@ wrote appdomain_results.json and figs/appdomain_*.png
   x_co. The parked predictive study's stated precondition is therefore not met by this report; the decision is the author's.
   Dose thresholds quoted beside the real correlations (eps_co / ln eta_co r = 0.966) are SYNTHETIC ([4, 3, 1], Gaussian inputs), not
   real-data thresholds.
+
+  LABEL NOTE (dated 2026-10-25, added after the analysis): the "SUPPLEMENT TO ANALYSIS 2" above (the polished and early ensembles'
+  own |error| against distance, and the distances against x_co) is POST-HOC: it was not in the committed plan (ec769ad) and was
+  added after Analysis 2's results had been seen, to read the sign of the error-change correlations. It is recorded in
+  appdomain_results.json under "analysis2_posthoc_artefact_check" with the same label.

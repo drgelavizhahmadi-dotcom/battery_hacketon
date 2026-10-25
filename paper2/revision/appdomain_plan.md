@@ -125,3 +125,28 @@ results show off-pattern distance bearing on the fold A degradation. The decisio
 - One paragraph on whether off-pattern distance, rather than general distance, explains where polishing hurt. Every claim is
   labelled DESCRIPTIVE, with G1 stated next to it.
 - Commit locally and make a backup bundle. Do not start the writing stage.
+
+---
+## Results and close-out (appended after the run; nothing above this line edited)
+
+### Note (dated 2026-10-25): the parked study
+
+The parked predictive study is DROPPED: its pre-stated precondition (off-pattern distance bearing on the fold A polish damage) is not
+met. Within fold A, the co-solvent off-pattern distance is constant, and every per-row distance is collinear with x_co, through which
+the damage scales by the model's x_co * h structure. No successor study.
+
+The artefact check added during Analysis 2 (the ensembles' own errors against distance) is POST-HOC. It is labelled as such in
+`appdomain_output.txt` (dated label note) and in `appdomain_results.json` ("analysis2_posthoc_artefact_check").
+
+### Facts for the paper (for the writing stage)
+
+- **Where the polish degradation is.** The 0.142 → 1.03 polish degradation is fold A (ethyl acetate held out), not DEC and not
+  all-data. At μ = 1e-4 it is 0.3345.
+- **Where fold A sits.**
+  - Fold A lies on the eps_co / ln eta_co correlation pattern (off-pattern distance 0.047, scaled units), but outside the training
+    convex hull in the three-descriptor space.
+  - Within fold A the damage scales with x_co.
+- **Two anchored row sets, named distinctly:** the 2069 anchored training rows, and the 5313 anchored DEC test rows.
+- **The DEC gain** (233 K and 313 K, x_DEC = 0.7, 1 mol/kg) is quoted only from `dec_gain_output.txt`, and always with its per-seed
+  spread.
+- **Units.** The distances are in the committed min–max scaled units (G5).
