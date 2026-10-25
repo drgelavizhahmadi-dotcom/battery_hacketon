@@ -1,0 +1,105 @@
+####################################################################################################
+paper2/revision/appdomain.py 2026-10-24 23:21:08: applicability domain, DESCRIPTIVE (plan ec769ad); no training
+####################################################################################################
+DISCREPANCIES / choices (files win; G1-G4 as in the plan):
+  G1 co-solvent descriptors are constant within a single-co-solvent fold (fold A, DEC): co-solvent off-pattern distance and hull
+     membership are reported per fold; per-row analyses use the MIXTURE-LEVEL off-pattern distance (mix_eps, mix_lneta)
+  G2 certify_foldA_0.0001_s0-4 archived late (archive 19, 179ac24); integrity = reproduce the logged ensemble RMSE 0.3345
+  G3 early fold A nets = archived scbase_A_s0-4; polished vectors mapped with close.FlatQ.to_kan; logged RMSEs must reproduce
+  G5 the committed scaler is a min-max map to [-1, 1] over the anchored train + anchored test rows (kan.Scaler), not a z-score:
+     'standardised' means that map here; Mahalanobis distance and leverage are scale-invariant, the nearest-neighbour and off-
+     pattern distances are in these units
+
+==================== inputs (SHA-256 verified against weights_manifest.txt, held in memory) ====================
+  verified gauge_weights/scbase_A_s0.pt (gauge_weights_2026-10-04i.tar.gz) sha256 7269516e14d1
+  verified gauge_weights/scbase_A_s1.pt (gauge_weights_2026-10-04i.tar.gz) sha256 047a514d91af
+  verified gauge_weights/scbase_A_s2.pt (gauge_weights_2026-10-04i.tar.gz) sha256 4779b9123d34
+  verified gauge_weights/scbase_A_s3.pt (gauge_weights_2026-10-04i.tar.gz) sha256 aff0e8b3a690
+  verified gauge_weights/scbase_A_s4.pt (gauge_weights_2026-10-04i.tar.gz) sha256 7fe3d3ed0af3
+  verified gauge_weights/close_foldA_1e-06_s0.pt (gauge_weights_2026-10-03f.tar.gz) sha256 db29b1787242
+  verified gauge_weights/close_foldA_1e-06_s1.pt (gauge_weights_2026-10-03f.tar.gz) sha256 0261d2c9c532
+  verified gauge_weights/close_foldA_1e-06_s2.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2b211d69cc23
+  verified gauge_weights/close_foldA_1e-06_s3.pt (gauge_weights_2026-10-03f.tar.gz) sha256 2942e5512c88
+  verified gauge_weights/close_foldA_1e-06_s4.pt (gauge_weights_2026-10-03f.tar.gz) sha256 f050089e527a
+  verified gauge_weights/certify_foldA_0.0001_s0.pt (gauge_weights_2026-10-25s.tar.gz) sha256 407510f9dacd
+  verified gauge_weights/certify_foldA_0.0001_s1.pt (gauge_weights_2026-10-25s.tar.gz) sha256 ba98f52a1c9e
+  verified gauge_weights/certify_foldA_0.0001_s2.pt (gauge_weights_2026-10-25s.tar.gz) sha256 e2af2a869be5
+  verified gauge_weights/certify_foldA_0.0001_s3.pt (gauge_weights_2026-10-25s.tar.gz) sha256 e3822cb5471e
+  verified gauge_weights/certify_foldA_0.0001_s4.pt (gauge_weights_2026-10-25s.tar.gz) sha256 59aecf8c3f8c
+  15 inputs held in memory (SHA-256 re-checked from memory); extraction directory removed
+  fold A ensemble RMSE reconstructed: early 0.1420 (logged 0.1420), 1e-06 1.0262 (logged 1.0262), 0.0001 0.3345 (logged 0.3345) -> REPRODUCED
+
+==================== 1. per fold (held-out rows vs the fold's training rows) ====================
+  A                    n  635 | LOCO RMSE 0.1420 | d_M median 6.57 max 11.82 | leverage median 0.0308 | NN median 0.485 max 0.992 | outside hull 1.00 | off-pattern median 0.047 max 0.047 | mixture off-pattern median 0.112 | cov cond 599.6 (LW shrinkage 0.005) | distinct space-B points 1
+  2-Glyme              n    5 | LOCO RMSE 0.0830 | d_M median 6.91 max 6.97 | leverage median 0.0236 | NN median 0.599 max 0.599 | outside hull 0.00 | off-pattern median 0.209 max 0.209 | mixture off-pattern median 0.074 | cov cond 2364.3 (LW shrinkage 0.001) | distinct space-B points 1
+  2-MeTHF              n  126 | LOCO RMSE 0.1738 | d_M median 3.45 max 7.94 | leverage median 0.0066 | NN median 0.263 max 0.610 | outside hull 0.24 | off-pattern median 0.013 max 0.060 | mixture off-pattern median 0.155 | cov cond 2251.0 (LW shrinkage 0.001) | distinct space-B points 13
+  3-Glyme              n   15 | LOCO RMSE 0.4636 | d_M median 19.89 max 38.40 | leverage median 0.1931 | NN median 0.833 max 1.329 | outside hull 1.00 | off-pattern median 0.349 max 1.204 | mixture off-pattern median 0.198 | cov cond 5551.3 (LW shrinkage 0.001) | distinct space-B points 2
+  DME                  n   47 | LOCO RMSE 0.1662 | d_M median 2.57 max 3.69 | leverage median 0.0038 | NN median 0.077 max 0.259 | outside hull 0.15 | off-pattern median 0.012 max 0.018 | mixture off-pattern median 0.125 | cov cond 2291.7 (LW shrinkage 0.001) | distinct space-B points 5
+  EA                   n  635 | LOCO RMSE 0.1420 | d_M median 6.57 max 11.82 | leverage median 0.0308 | NN median 0.485 max 0.992 | outside hull 1.00 | off-pattern median 0.047 max 0.047 | mixture off-pattern median 0.112 | cov cond 599.6 (LW shrinkage 0.005) | distinct space-B points 1
+  EC                   n 1385 | LOCO RMSE 0.2555 | d_M median 36.91 max 47.08 | leverage median 1.9961 | NN median 2.077 max 2.295 | outside hull 1.00 | off-pattern median 1.439 max 1.439 | mixture off-pattern median 0.313 | cov cond 342.5 (LW shrinkage 0.012) | distinct space-B points 24
+  Methylene chloride   n   96 | LOCO RMSE 0.2691 | d_M median 3.25 max 4.53 | leverage median 0.0059 | NN median 0.288 max 0.661 | outside hull 1.00 | off-pattern median 0.052 max 0.069 | mixture off-pattern median 0.200 | cov cond 2186.4 (LW shrinkage 0.001) | distinct space-B points 10
+  Sulfolane            n   12 | LOCO RMSE 0.5420 | d_M median 53.56 max 53.74 | leverage median 1.3958 | NN median 1.451 max 1.483 | outside hull 1.00 | off-pattern median 1.305 max 1.404 | mixture off-pattern median 1.056 | cov cond 5771.5 (LW shrinkage 0.001) | distinct space-B points 2
+  THF                  n   54 | LOCO RMSE 0.2489 | d_M median 4.55 max 7.85 | leverage median 0.0108 | NN median 0.213 max 0.557 | outside hull 1.00 | off-pattern median 0.013 max 0.050 | mixture off-pattern median 0.149 | cov cond 2325.8 (LW shrinkage 0.001) | distinct space-B points 6
+  Toluene              n   20 | LOCO RMSE 0.2095 | d_M median 2.47 max 4.69 | leverage median 0.0035 | NN median 0.188 max 0.322 | outside hull 0.30 | off-pattern median 0.061 max 0.177 | mixture off-pattern median 0.078 | cov cond 2395.6 (LW shrinkage 0.001) | distinct space-B points 3
+  Spearman(fold median distance, LOCO RMSE) over the 7 LOCO folds with >= 20 test rows (2-MeTHF, DME, EA, EC, Methylene chloride, THF, Toluene; fold A excluded as EA's duplicate):
+    dM           rho +0.071, p 0.879 (n = 7)
+    lev          rho +0.071, p 0.879 (n = 7)
+    nn           rho +0.286, p 0.535 (n = 7)
+    off          rho +0.500, p 0.253 (n = 7)
+    off_mix      rho +0.679, p 0.094 (n = 7)
+    frac_outside rho +0.493, p 0.261 (n = 7)
+
+==================== 2. fold A per row (635 rows): absolute-error change early -> polished ====================
+  mu 1e-06: median |error| change +0.8567 (mean +0.8274) | Spearman vs d_M -0.701 (p 5.6e-95), leverage -0.701 (p 5.6e-95), NN -0.424 (p 4.9e-29), mixture off-pattern -0.655 (p 4.0e-79)
+           co-solvent off-pattern constant over fold A: True (value 0.047); hull membership constant: True (inside: False) -> per-row co-solvent analyses degenerate (G1); mixture off-pattern median split: above +0.3812 (n 260), below +0.9798 (n 375)
+  mu 0.0001: median |error| change +0.1332 (mean +0.1635) | Spearman vs d_M -0.571 (p 2.5e-56), leverage -0.571 (p 2.5e-56), NN -0.595 (p 4.2e-62), mixture off-pattern -0.517 (p 1.1e-44)
+           co-solvent off-pattern constant over fold A: True (value 0.047); hull membership constant: True (inside: False) -> per-row co-solvent analyses degenerate (G1); mixture off-pattern median split: above +0.0432 (n 260), below +0.1897 (n 375)
+
+==================== 3. DEC test rows (no labels) vs the full anchored training set ====================
+  DEC anchored test rows n 5313 | d_M median 11.06 max 15.95 | NN median 1.010 | outside the training hull (space B) 1.00 | co-solvent off-pattern median 0.334 (fold A 0.047) | mixture off-pattern median 0.254 (fold A 0.112) | distinct space-B points 1
+
+==================== 4. correlation structure of the 8 continuous inputs (2069 anchored rows) ====================
+  Ledoit-Wolf shrinkage 0.0009; correlation eigenvalues 3.810, 1.283, 1.050, 0.947, 0.741, 0.145, 0.020, 0.003 (condition 1506.2)
+  PCA-shrunk sensitivity: 6 of 8 components explain >= 99% of the variance (cumulative 0.9985)
+  strongest input pairs (sorted by |r|, Ledoit-Wolf):   pair                     r (LW)   r (PCA)  partial (LW)  partial (PCA)
+    eps_co / lneta_co          +0.965   +0.967   +0.975        +0.981
+    mix_eps / mix_lneta        +0.906   +0.908   +0.961        +0.968
+    eps_co / mix_eps           +0.894   +0.894   +0.796        +0.540
+    lneta_co / mix_eps         +0.859   +0.861   -0.772        -0.531
+    lneta_co / mix_lneta       +0.805   +0.804   +0.788        +0.510
+    eps_co / mix_lneta         +0.772   +0.773   -0.756        -0.475
+    x_co / mix_lneta           -0.617   -0.618   -0.963        -0.971
+    x_co / mix_eps             -0.350   -0.351   +0.899        +0.920
+    M_co / mix_lneta           +0.278   +0.293   +0.431        +0.554
+    x_co / molal               +0.238   +0.238   +0.074        +0.131
+    lneta_co / M_co            +0.232   +0.250   +0.113        +0.380
+    x_co / eps_co              -0.203   -0.203   -0.723        -0.465
+  co-solvent block numerical rank: 14 of 27 (committed, rank_prereg.md step 0; cited, not recomputed)
+  dose thresholds beside these correlations are SYNTHETIC ([4, 3, 1], Gaussian inputs): P0 rho* 0.5, P1 rho* 0.9, both fail to
+  certify from rho 0.95 (dose study); they are not real-data thresholds
+
+wrote appdomain_results.json and figs/appdomain_*.png
+  SUPPLEMENT TO ANALYSIS 2 (DESCRIPTIVE; added after seeing analysis 2, to read the sign of the error-change correlations):
+    early   ensemble: mean signed error +0.0067, median |error| 0.0460; Spearman(|error|, d_M) -0.293, (|error|, NN) -0.250, (|error|, mixture off-pattern) -0.208; Spearman(signed error, d_M) +0.054
+    1e-06   ensemble: mean signed error +0.9028, median |error| 0.8896; Spearman(|error|, d_M) -0.719, (|error|, NN) -0.448, (|error|, mixture off-pattern) -0.669; Spearman(signed error, d_M) -0.719
+    0.0001  ensemble: mean signed error +0.2256, median |error| 0.1727; Spearman(|error|, d_M) -0.595, (|error|, NN) -0.616, (|error|, mixture off-pattern) -0.527; Spearman(signed error, d_M) -0.643
+    Spearman(d_M, x_co scaled) over fold A rows -0.972; Spearman(mixture off-pattern, x_co) -1.000
+
+  PARAGRAPH (DESCRIPTIVE, 2026-10-25). Off-pattern versus general distance. Across the 7 LOCO folds with >= 20 test rows, the fold's
+  median off-pattern distance tracks its LOCO RMSE more closely than general distance does (Spearman: co-solvent off-pattern +0.50,
+  p 0.25; mixture-level off-pattern +0.68, p 0.094; Mahalanobis +0.07, nearest-neighbour +0.29, fraction outside the hull +0.49),
+  but with n = 7 none of these is distinguishable from zero. Within fold A, where polishing hurt (RMSE 0.142 -> 1.026 at mu 1e-6,
+  0.335 at 1e-4), the degradation is LARGEST on the rows NEAREST the training data (Spearman of the |error| change with Mahalanobis
+  distance -0.70 / -0.57, mixture off-pattern -0.66 / -0.52 at mu 1e-6 / 1e-4). This is not an artefact of the difference measure:
+  the polished ensembles' own |error| falls with distance in the same way (-0.72 / -0.60), while the early ensemble's barely does
+  (-0.29). Inside fold A every distance is almost collinear with the EA fraction x_co (Spearman -0.97 for Mahalanobis, -1.00 for the
+  mixture off-pattern), and KAN-delta predicts x_co * h, so a polish-induced shift in h is magnified where x_co is large; per row,
+  distance cannot be separated from that multiplier, and the co-solvent off-pattern distance is constant over fold A (G1) and cannot
+  be tested per row at all. Where the held-out sets sit: fold A lies outside the training hull in space B but ON the training
+  correlation pattern (co-solvent off-pattern 0.047, among the smallest of all folds); the DEC test rows lie outside the hull and
+  about 7 x further off the pattern (0.334; mixture-level 0.254 vs 0.112) and farther in Mahalanobis distance (11.1 vs 6.6; DEC is
+  measured against the full anchored set, fold A against its fold's training rows). So these descriptive results do NOT show off-
+  pattern distance bearing on the fold A degradation: fold A is an on-pattern fold, and within it the per-row pattern is carried by
+  x_co. The parked predictive study's stated precondition is therefore not met by this report; the decision is the author's.
+  Dose thresholds quoted beside the real correlations (eps_co / ln eta_co r = 0.966) are SYNTHETIC ([4, 3, 1], Gaussian inputs), not
+  real-data thresholds.
