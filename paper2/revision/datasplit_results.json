@@ -1,0 +1,369 @@
+{
+ "target": {
+  "train_cols": [
+   "id",
+   "salt_name",
+   "salt_smiles",
+   "solvents",
+   "solvent_smiles",
+   "solvent_fracs",
+   "solvent_fracs_mol",
+   "frac_basis",
+   "mixture_density_g_cm3",
+   "conc_native",
+   "conc_unit",
+   "conc_molL_est",
+   "temperature_K",
+   "source_doi",
+   "subset",
+   "k",
+   "log_k"
+  ],
+  "test_cols": [
+   "id",
+   "salt_name",
+   "salt_smiles",
+   "solvents",
+   "solvent_smiles",
+   "solvent_fracs",
+   "solvent_fracs_mol",
+   "frac_basis",
+   "mixture_density_g_cm3",
+   "conc_native",
+   "conc_unit",
+   "conc_molL_est",
+   "temperature_K"
+  ],
+  "log10_identity": true,
+  "k_min": 1.78e-15,
+  "n_k_nonpositive": 0,
+  "n_below_0p01": 45,
+  "filter": "tr = tr[tr.k >= 0.01] (anchor.py, prepare)",
+  "logk_min_clip": -2.0
+ },
+ "counts": {
+  "train_rows": 6759,
+  "test_rows": 5959,
+  "after_k_filter": 6714,
+  "known_solvents": 6520,
+  "pure_pc_rows": 1321,
+  "pc_mixture_rows": 3214,
+  "no_pc_rows": 1985,
+  "with_same_source_pc_series": 2399,
+  "anchored": 2069,
+  "not_anchored_outside_range": 330,
+  "pure_pc_series": 13,
+  "test_with_pc": 5921,
+  "test_anchored": 5313
+ },
+ "anchor": {
+  "T": {
+   "T level": 2069
+  },
+  "c": {
+   "c interpolated (linear)": 1800,
+   "c on grid": 269
+  },
+  "T_TOL": 0.3,
+  "test_rule": "same-salt pure-PC series from SAME_SOURCE articles, mol/kg test rows only; mean over covering series",
+  "test_sources": [
+   "10.1021/JE020219O",
+   "10.1021/je0498863",
+   "10.1149/1.1566019",
+   "10.1149/1.1630593",
+   "10.1149/1.1833611",
+   "10.1149/1.1914757"
+  ]
+ },
+ "composition": {
+  "frac_basis_anchored": {
+   "w": 1779,
+   "v": 290
+  },
+  "conc_unit_anchored": {
+   "mol/kg": 1779,
+   "mol/L": 290
+  },
+  "n_solvents_anchored": {
+   "2": 1859,
+   "3": 94,
+   "4": 116
+  },
+  "n_solvents_test_anchored": {
+   "2": 5313
+  },
+  "conc_unit_test_anchored": {
+   "mol/kg": 5313
+  }
+ },
+ "folds": {
+  "A": {
+   "n_test": 635,
+   "n_train": 1434
+  },
+  "2-Glyme": {
+   "n_test": 5,
+   "n_train": 2064
+  },
+  "2-MeTHF": {
+   "n_test": 126,
+   "n_train": 1943
+  },
+  "3-Glyme": {
+   "n_test": 15,
+   "n_train": 2054
+  },
+  "DME": {
+   "n_test": 47,
+   "n_train": 2022
+  },
+  "EA": {
+   "n_test": 635,
+   "n_train": 1434
+  },
+  "EC": {
+   "n_test": 1385,
+   "n_train": 684
+  },
+  "Methylene chloride": {
+   "n_test": 96,
+   "n_train": 1973
+  },
+  "Sulfolane": {
+   "n_test": 12,
+   "n_train": 2057
+  },
+  "THF": {
+   "n_test": 54,
+   "n_train": 2015
+  },
+  "Toluene": {
+   "n_test": 20,
+   "n_train": 2049
+  }
+ },
+ "foldA": {
+  "n": 635,
+  "combos": {
+   "EA+PC": 635
+  },
+  "salts": {
+   "LiBOB": 635
+  },
+  "sources": {
+   "10.1149/1.1914757": 635
+  },
+  "source_salt_pairs": {
+   "10.1149/1.1914757 | LiBOB": 635
+  },
+  "T_range": [
+   233.75,
+   332.15
+  ],
+  "n_T_levels": 11,
+  "x_co_range": [
+   0.11406044178899999,
+   0.729995985458
+  ],
+  "n_x_co": 7,
+  "frac_basis": {
+   "w": 635
+  },
+  "conc_unit": {
+   "mol/kg": 635
+  },
+  "conc_range": [
+   0.108353835,
+   1.015652174
+  ],
+  "training_rows_from_same_sources": {
+   "10.1149/1.1914757": 0
+  },
+  "pure_pc_rows_same_sources": 100
+ },
+ "scaler": "kan.Scaler min-max to [-1, 1] over the anchored train rows AND the anchored DEC test rows' inputs (arch/sc_run.setup, as final.py); no labels",
+ "dec": {
+  "test_has_k": false,
+  "test_has_log_k": false,
+  "n_test": 5959,
+  "dec_in_train": 0,
+  "dec_in_test": 5959
+ },
+ "foldA_chronology": [
+  {
+   "file": "anchor_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 6
+  },
+  {
+   "file": "compare_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 11
+  },
+  {
+   "file": "extend_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 5
+  },
+  {
+   "file": "kan_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 10
+  },
+  {
+   "file": "kanfull_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 9
+  },
+  {
+   "file": "pipeline_output.txt",
+   "commit": "3081cc0",
+   "date": "2026-09-23",
+   "subject": "CALiSol-23 DEC holdout: EDA, GBM baseline, anchor + KAN-delta model, final submission",
+   "n_mentions": 2
+  },
+  {
+   "file": "gauge_prereg.md",
+   "commit": "c11dd92",
+   "date": "2026-09-23",
+   "subject": "Pre-register KAN identifiability study (before any experiment)",
+   "n_mentions": 3
+  },
+  {
+   "file": "gauge_output.txt",
+   "commit": "e68e2eb",
+   "date": "2026-09-23",
+   "subject": "Identifiability study: gauge.py, control result (failed), verdicts",
+   "n_mentions": 2
+  },
+  {
+   "file": "electrolyte_case_study_summary.md",
+   "commit": "175478a",
+   "date": "2026-09-29",
+   "subject": "Close-out: electrolyte case study summary (all pre-registered predictions)",
+   "n_mentions": 7
+  },
+  {
+   "file": "rule_prereg.md",
+   "commit": "6c93bf4",
+   "date": "2026-09-29",
+   "subject": "Pre-register basis-size rule intervention (before rule.py exists)",
+   "n_mentions": 3
+  },
+  {
+   "file": "rank_prereg.md",
+   "commit": "df44ead",
+   "date": "2026-09-29",
+   "subject": "Pre-register rank-constrained layer-1 intervention (before rank.py exists)",
+   "n_mentions": 9
+  },
+  {
+   "file": "rank_output.txt",
+   "commit": "aeb6f87",
+   "date": "2026-09-30",
+   "subject": "Rank intervention: results (I1, I2 failed both arms; I3 passed; I5 held)",
+   "n_mentions": 5
+  },
+  {
+   "file": "close_prereg.md",
+   "commit": "e5105d7",
+   "date": "2026-10-02",
+   "subject": "Pre-register targeted null-space penalty intervention (before close.py exists)",
+   "n_mentions": 7
+  },
+  {
+   "file": "arch/sc_prereg.md",
+   "commit": "0053d01",
+   "date": "2026-10-03",
+   "subject": "arch: pre-register SC-KAN-delta (shared-curve KAN-delta) before any script exists; decisions C (centring), mu null-space term, tanh salt embedding, full beta term",
+   "n_mentions": 22
+  },
+  {
+   "file": "certify_output.txt",
+   "commit": "36f295b",
+   "date": "2026-10-03",
+   "subject": "Certify: W1, W5 held; W2, W3, W4, W6 failed; certified minima are isolated, non-convexity remains",
+   "n_mentions": 3
+  },
+  {
+   "file": "certify_prereg.md",
+   "commit": "5f4520a",
+   "date": "2026-10-03",
+   "subject": "Pre-register second-order certification and regularised fold A accuracy (before certify.py exists)",
+   "n_mentions": 18
+  },
+  {
+   "file": "close_output.txt",
+   "commit": "65ed55f",
+   "date": "2026-10-03",
+   "subject": "Close (null-space penalty): V1, V6 failed; V2-V5 inconclusive; numerical stationarity and fold A overfitting noted",
+   "n_mentions": 8
+  },
+  {
+   "file": "arch/sc_output.txt",
+   "commit": "d898d73",
+   "date": "2026-10-03",
+   "subject": "arch SC-KAN-delta Step 0: unit tests ok, LOCO table, beta frozen at 1e-4 (1e-5 failed: median x7.66), certification gauge set frozen empty",
+   "n_mentions": 17
+  },
+  {
+   "file": "arch/ex_prereg.md",
+   "commit": "3938f8f",
+   "date": "2026-10-04",
+   "subject": "arch: pre-register EX-KAN (two-anchor excess model) before any script exists; decision B (x_co-independent g, [7,6,1]), full set for E3-E5, E4 mean rule",
+   "n_mentions": 7
+  },
+  {
+   "file": "arch/ex_output.txt",
+   "commit": "4c268c1",
+   "date": "2026-10-04",
+   "subject": "arch EX-KAN Step 0 data checks (no training): 3 co-solvents flagged (2-Glyme, 3-Glyme, Sulfolane), 7 unflagged; x_co varies at fixed composition only for EA, EC and Methylene chloride",
+   "n_mentions": 6
+  },
+  {
+   "file": "paper2/checks/checks_output.txt",
+   "commit": "6e1df32",
+   "date": "2026-10-04",
+   "subject": "paper2/checks (POST-HOC, descriptive): hidden-unit correlation marks the runaway (independent cells 0.70 vs 0.05) but is not sufficient; RBF tilt affine to 2% centrally, 13% at the ends; A1 commit 3081cc0; CALiSol-23 citation not in competition material",
+   "n_mentions": 6
+  },
+  {
+   "file": "paper2/revision/freeze_prereg.md",
+   "commit": "a6d752b",
+   "date": "2026-10-16",
+   "subject": "Revision step 2: pre-register the composition test (frozen layer 1, one-layer control) and the weight-decay arms D/E, before freeze.py exists; draft rev 37",
+   "n_mentions": 5
+  },
+  {
+   "file": "paper2/revision/checks_output.txt",
+   "commit": "fcda1c1",
+   "date": "2026-10-16",
+   "subject": "Revision step 1 (descriptive checks and code hygiene): DEC-gain claim source, AdamW decay sizing, penalty normalisation, null-space property tests (6 passed), Tables 1-3 generated from committed results (1 difference), requirements.txt",
+   "n_mentions": 4
+  },
+  {
+   "file": "paper2/revision/freeze_output.txt",
+   "commit": "11bf8bc",
+   "date": "2026-10-17",
+   "subject": "Revision step 2: decision record - freeze.py run stopped by the pre-registered rule (Z2 failed in Arm A); the author decided to resume (option 2)",
+   "n_mentions": 4
+  },
+  {
+   "file": "paper2/revision/appdomain_output.txt",
+   "commit": "656b06c",
+   "date": "2026-10-25",
+   "subject": "Applicability domain (DESCRIPTIVE): fold ensembles reproduced (0.1420 / 1.0262 / 0.3345); off-pattern tracks LOCO RMSE better than general distance but n = 7, not significant; within fold A polishing hurt most near the training data, collinear with x_co; fold A on-pattern, DEC 7x further off-pattern; parked study's precondition not met",
+   "n_mentions": 17
+  }
+ ]
+}

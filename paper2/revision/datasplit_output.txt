@@ -1,0 +1,46 @@
+####################################################################################################
+paper2/revision/datasplit.py: DESCRIPTIVE data, split and chronology facts for Appendix H (no training)
+####################################################################################################
+
+[b] log_k == log10(k) on all train rows: True; k unit mS/cm (metaData.csv); k min 1.78e-15; rows with k <= 0: 0; rows with k < 0.01 mS/cm dropped: 45; submissions clipped at log_k >= -2.0
+
+[d] row inclusion (anchor.prepare): train_rows 6759; test_rows 5959; after_k_filter 6714; known_solvents 6520; pure_pc_rows 1321; pc_mixture_rows 3214; no_pc_rows 1985; with_same_source_pc_series 2399; anchored 2069; not_anchored_outside_range 330; pure_pc_series 13; test_with_pc 5921; test_anchored 5313
+
+[a] anchored train rows by temperature handling: {'T level': 2069}; by concentration handling: {'c interpolated (linear)': 1800, 'c on grid': 269} (T_TOL 0.3 K; no extrapolation)
+
+[c] anchored train rows: frac_basis {'w': 1779, 'v': 290}; conc_unit {'mol/kg': 1779, 'mol/L': 290}; solvents per mixture {2: 1859, 3: 94, 4: 116}; DEC anchored test rows: solvents {2: 5313}, conc_unit {'mol/kg': 5313}
+
+[e] folds (arch/sc_run.setup): A test 635 / train 1434; 2-Glyme test 5 / train 2064; 2-MeTHF test 126 / train 1943; 3-Glyme test 15 / train 2054; DME test 47 / train 2022; EA test 635 / train 1434; EC test 1385 / train 684; Methylene chloride test 96 / train 1973; Sulfolane test 12 / train 2057; THF test 54 / train 2015; Toluene test 20 / train 2049
+
+[e] fold A (EA+PC held out): 635 rows; salts {'LiBOB': 635}; sources {'10.1149/1.1914757': 635}; T 233.75-332.15 K (11 levels); x_co 0.1141-0.7300 (7 values, mole fraction); frac_basis {'w': 635}; conc_unit {'mol/kg': 635} (0.108353835-1.015652174); training rows (fold A train) from the same sources: {'10.1149/1.1914757': 0}; pure-PC rows of those sources (anchor series, not in any fold's test set): 100
+
+[a/e] input scaling: kan.Scaler min-max to [-1, 1] over the anchored train rows AND the anchored DEC test rows' inputs (arch/sc_run.setup, as final.py); no labels
+
+[f] test.csv has k: False, log_k: False; rows containing DEC: train 0, test 5959 of 5959
+
+[g] committed files that report on fold A (first commit), 25:
+  2026-09-23 3081cc0 anchor_output.txt (6 mentions)
+  2026-09-23 3081cc0 compare_output.txt (11 mentions)
+  2026-09-23 3081cc0 extend_output.txt (5 mentions)
+  2026-09-23 3081cc0 kan_output.txt (10 mentions)
+  2026-09-23 3081cc0 kanfull_output.txt (9 mentions)
+  2026-09-23 3081cc0 pipeline_output.txt (2 mentions)
+  2026-09-23 c11dd92 gauge_prereg.md (3 mentions)
+  2026-09-23 e68e2eb gauge_output.txt (2 mentions)
+  2026-09-29 175478a electrolyte_case_study_summary.md (7 mentions)
+  2026-09-29 6c93bf4 rule_prereg.md (3 mentions)
+  2026-09-29 df44ead rank_prereg.md (9 mentions)
+  2026-09-30 aeb6f87 rank_output.txt (5 mentions)
+  2026-10-02 e5105d7 close_prereg.md (7 mentions)
+  2026-10-03 0053d01 arch/sc_prereg.md (22 mentions)
+  2026-10-03 36f295b certify_output.txt (3 mentions)
+  2026-10-03 5f4520a certify_prereg.md (18 mentions)
+  2026-10-03 65ed55f close_output.txt (8 mentions)
+  2026-10-03 d898d73 arch/sc_output.txt (17 mentions)
+  2026-10-04 3938f8f arch/ex_prereg.md (7 mentions)
+  2026-10-04 4c268c1 arch/ex_output.txt (6 mentions)
+  2026-10-04 6e1df32 paper2/checks/checks_output.txt (6 mentions)
+  2026-10-16 a6d752b paper2/revision/freeze_prereg.md (5 mentions)
+  2026-10-16 fcda1c1 paper2/revision/checks_output.txt (4 mentions)
+  2026-10-17 11bf8bc paper2/revision/freeze_output.txt (4 mentions)
+  2026-10-25 656b06c paper2/revision/appdomain_output.txt (17 mentions)
