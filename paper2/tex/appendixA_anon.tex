@@ -34,29 +34,29 @@ Rows are as committed in the case-study summary (one row may cover several predi
 Study & Prediction (threshold) & Result & Verdict & Commits \\
 \midrule
 \endhead
-Gauge study & \textbf{Control 1}: teacher edges recovered, median dense corr $\geq$ 0.8 & 0.301 (sanity: h corr 0.913 < 0.95) & \textbf{failed} & S-02$\to$S-03 \\
-Gauge study & P1: gauge fixing removes $\geq$ 50\% of edge variance & not run & inconclusive (gated by Control 1) & S-02$\to$S-03 \\
-Gauge study & P2: sparse $\geq$ 2$\times$ dense, DEC region highest & not run & inconclusive (gated) & S-02$\to$S-03 \\
-Gauge study & P3: (e) < (d) < (c) < (a) & not run & inconclusive (gated) & S-02$\to$S-03 \\
-Gauge study & P4: every seed has a unit with |corr| < 0.8 & not run & inconclusive (gated) & S-02$\to$S-03 \\
-Gauge study & P5: KAN-full edge variance > KAN-$\delta$ & not run & inconclusive (gated) & S-02$\to$S-03 \\
-Gauge study & P6: seed spread flags errors & Spearman +0.169 (A) / +0.213 (B); fold B RMSE at 80\% coverage 0.153 vs random 0.137 & \textbf{failed} & S-02$\to$S-04 \\
-Control 2 & C1: (I,C) edges $\geq$ 0.9 and units $\geq$ 0.9 & prediction corr 0.947 < 0.99 & inconclusive (gate failed) & S-05$\to$S-06 \\
-Control 2 & C2: (R,C) invT, molal $\geq$ 0.9; co-solvent < 0.7 & prediction corr 0.969 < 0.99 & inconclusive (gate failed) & S-05$\to$S-06 \\
-Control 2 & C3: 107 epochs gives prediction corr < 0.95 & 0.858 (I,S), 0.919 (R,S) & \textbf{held} & S-05$\to$S-06 \\
-Control 3 & C1': (I) passes the gate, edges $\geq$ 0.9, units $\geq$ 0.9 & (I) RMSE/std 0.128 > 0.05; unit match 0.648 & \textbf{failed} & S-07$\to$S-08 \\
-Control 3 & C2': (R) edges $\leq$ (I) edges $-$ 0.10 & (R) edges 0.852, units 0.659 & inconclusive ((I) failed the gate) & S-07$\to$S-08 \\
-Control 3 & C4: every continuous input $\geq$ 0.9 in (I) & -- & inconclusive ((I) failed the gate) & S-07$\to$S-08 \\
-Fiber & F1: $\geq$ 50\% of seed pairs on-fiber & 0/190 (closest d = 0.146) & \textbf{failed} & S-09$\to$S-10 \\
-Fiber & F2--F5 & not run & inconclusive (no on-fiber pairs) & S-09$\to$S-10 \\
-Fiber 2 & G1: $\geq$ 4/6 seeds and $\geq$ 10/20 students certify convergence & 0/6, 0/20 (all at the 20,000-iteration cap) & \textbf{failed} & S-11$\to$S-12 \\
-Fiber 2 & G2--G5 & not run & inconclusive (no converged model) & S-11$\to$S-12 \\
-Support & H1: dim(N) $\geq$ 5 & dim(N) = 36 of 72 & \textbf{held} & S-13$\to$S-14 \\
-Support & H2: $\geq$ 50\% of N is REDISTRIBUTION within the correlated group & 18/36 & \textbf{held, exactly at threshold} & S-13$\to$S-14 \\
-Support & H3: set A fraction in N $\geq$ 0.5 and $\geq$ 3$\times$ random & median 0.942 (random 0.5) & inconclusive (untestable: 3 $\times$ 0.5 > 1) & S-13$\to$S-14 \\
-Support & H4: set B (capped), same criterion & median 0.949 & inconclusive (untestable) & S-13$\to$S-14 \\
-Support & H5: flattest Hessian directions overlap N $\geq$ 0.5 & median 0.885; median layer-1 block share only 0.08 & \textbf{held}, with caveat (see \texttt{F-04}) & S-13$\to$S-14 \\
-Support & H6: fraction in N rises from control-3 to capped state, $\geq$ 15/20 & 20/20 (0.713 $\to$ 0.949) & \textbf{held} & S-13$\to$S-14 \\
+Gauge study & \textbf{Control 1}: teacher edges recovered, median dense corr $\geq$ 0.8 & 0.301 (sanity: h corr 0.913 < 0.95) & \textbf{failed} & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P1: gauge fixing removes $\geq$ 50\% of edge variance & not run & inconclusive (gated by Control 1) & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P2: sparse $\geq$ 2$\times$ dense, DEC region highest & not run & inconclusive (gated) & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P3: (e) < (d) < (c) < (a) & not run & inconclusive (gated) & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P4: every seed has a unit with |corr| < 0.8 & not run & inconclusive (gated) & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P5: KAN-full edge variance > KAN-$\delta$ & not run & inconclusive (gated) & S-02$\to$\allowbreak{}S-03 \\
+Gauge study & P6: seed spread flags errors & Spearman +0.169 (A) / +0.213 (B); fold B RMSE at 80\% coverage 0.153 vs random 0.137 & \textbf{failed} & S-02$\to$\allowbreak{}S-04 \\
+Control 2 & C1: (I,C) edges $\geq$ 0.9 and units $\geq$ 0.9 & prediction corr 0.947 < 0.99 & inconclusive (gate failed) & S-05$\to$\allowbreak{}S-06 \\
+Control 2 & C2: (R,C) invT, molal $\geq$ 0.9; co-solvent < 0.7 & prediction corr 0.969 < 0.99 & inconclusive (gate failed) & S-05$\to$\allowbreak{}S-06 \\
+Control 2 & C3: 107 epochs gives prediction corr < 0.95 & 0.858 (I,S), 0.919 (R,S) & \textbf{held} & S-05$\to$\allowbreak{}S-06 \\
+Control 3 & C1': (I) passes the gate, edges $\geq$ 0.9, units $\geq$ 0.9 & (I) RMSE/std 0.128 > 0.05; unit match 0.648 & \textbf{failed} & S-07$\to$\allowbreak{}S-08 \\
+Control 3 & C2': (R) edges $\leq$ (I) edges $-$ 0.10 & (R) edges 0.852, units 0.659 & inconclusive ((I) failed the gate) & S-07$\to$\allowbreak{}S-08 \\
+Control 3 & C4: every continuous input $\geq$ 0.9 in (I) & -- & inconclusive ((I) failed the gate) & S-07$\to$\allowbreak{}S-08 \\
+Fiber & F1: $\geq$ 50\% of seed pairs on-fiber & 0/190 (closest d = 0.146) & \textbf{failed} & S-09$\to$\allowbreak{}S-10 \\
+Fiber & F2--F5 & not run & inconclusive (no on-fiber pairs) & S-09$\to$\allowbreak{}S-10 \\
+Fiber 2 & G1: $\geq$ 4/6 seeds and $\geq$ 10/20 students certify convergence & 0/6, 0/20 (all at the 20,000-iteration cap) & \textbf{failed} & S-11$\to$\allowbreak{}S-12 \\
+Fiber 2 & G2--G5 & not run & inconclusive (no converged model) & S-11$\to$\allowbreak{}S-12 \\
+Support & H1: dim(N) $\geq$ 5 & dim(N) = 36 of 72 & \textbf{held} & S-13$\to$\allowbreak{}S-14 \\
+Support & H2: $\geq$ 50\% of N is REDISTRIBUTION within the correlated group & 18/36 & \textbf{held, exactly at threshold} & S-13$\to$\allowbreak{}S-14 \\
+Support & H3: set A fraction in N $\geq$ 0.5 and $\geq$ 3$\times$ random & median 0.942 (random 0.5) & inconclusive (untestable: 3 $\times$ 0.5 > 1) & S-13$\to$\allowbreak{}S-14 \\
+Support & H4: set B (capped), same criterion & median 0.949 & inconclusive (untestable) & S-13$\to$\allowbreak{}S-14 \\
+Support & H5: flattest Hessian directions overlap N $\geq$ 0.5 & median 0.885; median layer-1 block share only 0.08 & \textbf{held}, with caveat (see \texttt{F-04}) & S-13$\to$\allowbreak{}S-14 \\
+Support & H6: fraction in N rises from control-3 to capped state, $\geq$ 15/20 & 20/20 (0.713 $\to$\allowbreak{} 0.949) & \textbf{held} & S-13$\to$\allowbreak{}S-14 \\
 Rule & I1--I5 (gate) & 0 columns removed; gate stopped & inconclusive & S-16$\to$\allowbreak S-17 \\
 Rank & I1: median max|grad| $\leq$ 0.1 $\times$ baseline & arm G: \textbf{failed} (4.00$\times$); arm F: \textbf{failed} (29.1$\times$) & see result & S-18$\to$\allowbreak S-19 \\
 Rank & I2: median d\_AB $\leq$ 0.5 $\times$ baseline & arm G: \textbf{failed} (0.945$\times$); arm F: \textbf{failed} (0.808$\times$) & see result & S-18$\to$\allowbreak S-19 \\
@@ -71,18 +71,18 @@ Stage 2 & U2: with L2 $\lambda$ = $10^{-5}$, $\geq$ 4/6 seeds and $\geq$ 2/3 stu
 Stage 2 & U3: more converge at $10^{-5}$ than at $10^{-6}$ & 1 vs 0 & \textbf{held} & S-22$\to$\allowbreak S-26 \\
 Stage 2 & U4: converged L2 models' loss without L2 $\leq$ 1.05 $\times$ capped & 1.2545 & \textbf{failed} & S-22$\to$\allowbreak S-26 \\
 Stage 2 & U5: converged seeds' disagreement $\leq$ 0.5 $\times$ capped & only 1 converged & inconclusive & S-22$\to$\allowbreak S-26 \\
-Close & V1: at some $\mu$, $\geq$ 4/6 seeds and $\geq$ 2/3 students converge (stage2 criterion) & 0 certified at every $\mu$ & \textbf{failed} & S-29$\to$S-30 \\
-Close & V2: converged seeds' data term $\leq$ 1.05 $\times$ stage2 A & nothing certified at the selected $\mu$ = $10^{-6}$ & inconclusive & S-29$\to$S-30 \\
-Close & V3: $\|\theta\|^{2}$ $\leq$ 10 $\times$ start & same & inconclusive & S-29$\to$S-30 \\
-Close & V4: seed disagreement halved & same & inconclusive & S-29$\to$S-30 \\
-Close & V5: students' unit match $\geq$ 0.8 & same & inconclusive & S-29$\to$S-30 \\
-Close & V6: fold A RMSE $\leq$ 0.150 & 1.0262, bias +0.9028 & \textbf{failed} & S-29$\to$S-30 \\
-Certify & W1: at $\mu$ = $10^{-4}$, $\geq$ 5/6 seeds certified (second-order criterion, F-a) & 6/6; all 17 candidates certified & \textbf{held} & S-31$\to$S-32 \\
-Certify & W2: certified seeds' median d\_AB $\leq$ 0.5 $\times$ capped & 0.0771 vs capped 0.1041 ($-$26\%) & \textbf{failed} & S-31$\to$S-32 \\
-Certify & W3: certified students' unit match $\geq$ 0.8 (vs the original teacher) & 0.624 & \textbf{failed} & S-31$\to$S-32 \\
-Certify & W4: $\mu$ = $10^{-4}$ fold A RMSE $\leq$ 0.150 & 0.3345 & \textbf{failed} & S-31$\to$S-32 \\
-Certify & W5: $\mu$ = $10^{-4}$ fold A RMSE $\leq$ 0.5131 & 0.3345 & \textbf{held} & S-31$\to$S-32 \\
-Certify & W6: Spearman(cross-edge ratio, held-out RMSE) $\geq$ 0.6 & $\rho$ = +0.345, p = 0.328 (weak test) & \textbf{failed} & S-31$\to$S-32 \\
+Close & V1: at some $\mu$, $\geq$ 4/6 seeds and $\geq$ 2/3 students converge (stage2 criterion) & 0 certified at every $\mu$ & \textbf{failed} & S-29$\to$\allowbreak{}S-30 \\
+Close & V2: converged seeds' data term $\leq$ 1.05 $\times$ stage2 A & nothing certified at the selected $\mu$ = $10^{-6}$ & inconclusive & S-29$\to$\allowbreak{}S-30 \\
+Close & V3: $\|\theta\|^{2}$ $\leq$ 10 $\times$ start & same & inconclusive & S-29$\to$\allowbreak{}S-30 \\
+Close & V4: seed disagreement halved & same & inconclusive & S-29$\to$\allowbreak{}S-30 \\
+Close & V5: students' unit match $\geq$ 0.8 & same & inconclusive & S-29$\to$\allowbreak{}S-30 \\
+Close & V6: fold A RMSE $\leq$ 0.150 & 1.0262, bias +0.9028 & \textbf{failed} & S-29$\to$\allowbreak{}S-30 \\
+Certify & W1: at $\mu$ = $10^{-4}$, $\geq$ 5/6 seeds certified (second-order criterion, F-a) & 6/6; all 17 candidates certified & \textbf{held} & S-31$\to$\allowbreak{}S-32 \\
+Certify & W2: certified seeds' median d\_AB $\leq$ 0.5 $\times$ capped & 0.0771 vs capped 0.1041 ($-$26\%) & \textbf{failed} & S-31$\to$\allowbreak{}S-32 \\
+Certify & W3: certified students' unit match $\geq$ 0.8 (vs the original teacher) & 0.624 & \textbf{failed} & S-31$\to$\allowbreak{}S-32 \\
+Certify & W4: $\mu$ = $10^{-4}$ fold A RMSE $\leq$ 0.150 & 0.3345 & \textbf{failed} & S-31$\to$\allowbreak{}S-32 \\
+Certify & W5: $\mu$ = $10^{-4}$ fold A RMSE $\leq$ 0.5131 & 0.3345 & \textbf{held} & S-31$\to$\allowbreak{}S-32 \\
+Certify & W6: Spearman(cross-edge ratio, held-out RMSE) $\geq$ 0.6 & $\rho$ = +0.345, p = 0.328 (weak test) & \textbf{failed} & S-31$\to$\allowbreak{}S-32 \\
 \bottomrule
 \end{longtable}}
 \noindent Committed tally of the case study:
@@ -120,7 +120,7 @@ S3 & SC median d\_AB $\leq$ 0.5 $\times$ baseline & SC 0.1865 vs base 0.1120 (th
 S4 & curve corr $\geq$ 0.90 for $\geq$ 6 of 8 inputs & 3 of 8 (M\_co 0.959, mix\_lneta 0.970, invT 0.986); lowest x\_co 0.596; others 0.871--0.891 & failed & S-38$\to$\allowbreak S-41 \\
 S5 & $\geq$ 8/10 SC fold A models certified & SC 10/10 (max|grad| $\leq$ $7\times10^{-10}$, 0 near-null eigenvalues); baseline 0/10 (all hit the 500-iteration cap) & held & S-38$\to$\allowbreak S-41 \\
 S6 & median $\beta$-norm polished/early $\leq$ 3 (calibrated) & median 1.337 (range 0.652--2.356); $\|\theta\|^{2}$ $\times$4.59 (base $\times$67.9, range 30.6--281) & held & S-38$\to$\allowbreak S-41 \\
-S7 & SC polished/early fold A RMSE $\leq$ 1.5 & SC 1.920 (0.1757 $\to$ 0.3373); baseline 5.736 (0.1420 $\to$ 0.8147) & failed & S-38$\to$\allowbreak S-41 \\
+S7 & SC polished/early fold A RMSE $\leq$ 1.5 & SC 1.920 (0.1757 $\to$\allowbreak{} 0.3373); baseline 5.736 (0.1420 $\to$\allowbreak{} 0.8147) & failed & S-38$\to$\allowbreak S-41 \\
 S8 & d log k/d(1000/T) < 0 on $\geq$ 95\% rows in $\geq$ 8/10 seeds & 10/10 (median share 1.000; 1424 rows, 10 excluded per D4) & held & S-38$\to$\allowbreak S-41 \\
 S9 & Spearman(1000/T, |slope|) > 0 in $\geq$ 8/10 seeds & 10/10 (median +0.661, range +0.406 to +0.885) & held & S-38$\to$\allowbreak S-41 \\
 S10 & d log k/d(ln $\eta$\_mix) < 0 on $\geq$ 90\% rows in $\geq$ 8/10 seeds & 7/10 (median share 0.967; s0 0.892, s2 0.892, s8 0.826) & failed & S-38$\to$\allowbreak S-41 \\

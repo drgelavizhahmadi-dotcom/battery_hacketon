@@ -47,6 +47,8 @@
 \bibliographystyle{tmlr}
 
 \appendix
+% appendix tables numbered per appendix (A.1, F.1, ...); captionless longtables do not take a number
+\counterwithin*{table}{section}\renewcommand{\thetable}{\thesection.\arabic{table}}
 \ifdefined\PREPRINT
   \input{appendixA.tex}\input{appendixB.tex}\input{appendixC.tex}\input{appendixD.tex}\input{appendixE.tex}\input{appendixF.tex}\input{appendixG.tex}\input{appendixH.tex}
 \else % commit hashes replaced by neutral labels (commitmap.json is not part of the submission)

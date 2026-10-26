@@ -12,35 +12,35 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 
 **Caption:** Mechanism (computed illustration) for the edge type of Section [sec:2] (8 Gaussian RBFs on [-1, 1]). (a) Edge function produced by a unit linear coefficient pattern and its best straight line; the shaded band is the central 80% of the range, where the maximum deviation is 2.0% of the function's range (12.9% over the full range). (b) Penalty as a function of a tilt t applied as +t to edge 1 and -t to edge 2: the second-difference penalty (P0) and P1 are exactly zero for every t; only P2's term μ Q grows (λ = 10^-3, μ = 10^-5). (c) RMS change in the unit's pre-activation per unit tilt: 0.0996 on correlated inputs (ρ = 0.95) against 0.4403 on independent inputs (4.42×).
 
-### Figure 6 (Appendix E) (`\label{fig:synthetic}`, file `fig2_synthetic.pdf`)
+### Figure 5 (Appendix E) (`\label{fig:synthetic}`, file `fig2_synthetic.pdf`)
 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig2_synthetic.json`.
 
 **Caption:** Synthetic 2×3 study: ‖θ‖^2 over exact-Hessian trust-region polishing iterations (log scale), one line per seed, coloured certified (blue) or not certified (vermillion). Rows: independent and correlated inputs; columns: P0, P1, P2. Per panel, certified seeds and median growth (polished over early-stopped): independent P0: 6/8 certified, ×12.5; independent P1: 6/8 certified, ×7.9; independent P2: 8/8 certified, ×1.1; correlated P0: 0/8 certified, ×65.7; correlated P1: 0/8 certified, ×32.1; correlated P2: 8/8 certified, ×1.0.
 
-### Figure 9 (Appendix E) (`\label{fig:dose}`, file `fig8_dose_response.pdf`)
+### Figure 8 (Appendix E) (`\label{fig:dose}`, file `fig8_dose_response.pdf`)
 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig8_dose_response.json`.
 
 **Caption:** Real-data dose-response in the null-space weight μ (6 KAN-δ seeds; μ = 0: polished without a null-space penalty). (a) Seeds at a numerical minimum (all of them certified): μ = 0, 0 of 6; 10^-6, 0 of 6; 10^-5, 4 of 6; 10^-4, 6 of 6. (b) ‖θ‖^2 relative to the 107-epoch state, median (range): μ = 0, 690 (170–4146); 10^-6, 29 (21–31); 10^-5, 14 (9–43); 10^-4, 7 (2–16). (c) Training data term relative to the runaway, median: 10^-6, 1.092; 10^-5, 1.146; 10^-4, 1.269. (d) Fold A RMSE: early-stopped 0.142 (dashed line); polished 5-seed ensemble 1.026 at μ = 10^-6 and 0.334 at μ = 10^-4; grey points are single seeds.
 
-### Figure 7 (Appendix E) (`\label{fig:where}`, file `fig3_where.pdf`)
+### Figure 6 (Appendix E) (`\label{fig:where}`, file `fig3_where.pdf`)
 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig3_where.json`.
 
 **Caption:** Where the runaway lives. (a) Mean share of ‖Δθ‖^2 by parameter block. Real data, 107 epochs→capped: layer-1 affine RBF 0.30, layer-2 affine RBF 0.31, SiLU weights 0.37; capped→further trust-region polishing: 0.40, 0.19, 0.38; synthetic correlated P0: layer-2 affine RBF 0.39, SiLU weights 0.47; correlated P1: layer-2 affine RBF 0.89. The real-data split was evaluated post hoc from archived weights (Appendix [app:repro]). (b) Largest absolute correlation between hidden-unit activations on the training rows, median: synthetic, certified 0.054 (n=28); synthetic, not certified 0.935 (n=20); real, capped 0.968 (n=6); real, further polishing 0.983 (n=6); SC-KAN-δ polished 0.818 (n=10); KAN-δ polished 0.946 (n=10). Blue: certified; vermillion: not certified or runaway.
 
-### Figure 5 (`\label{fig:uniqueness}`, file `fig9_uniqueness.pdf`)
+### Figure 9 (Appendix E) (`\label{fig:uniqueness}`, file `fig9_uniqueness.pdf`)
 
-- **Location:** main text, Closing the blind spot, and what remains; built by `build_tex.py`, `captions()`.
+- **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig9_uniqueness.json`.
 
 **Caption:** Convergence is not uniqueness. (a) Near-null Hessian eigenvalues (|λ| < 10^-8λ_max) at the end of polishing: KAN-δ baseline on fold A, median 106 (range 86–116); null-space penalty μ = 10^-4 on all rows, median 1 (range 0–3); SC-KAN-δ on fold A, 0 in all 10 models. The baseline counts are taken at non-stationary points: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. (b) Seed disagreement d_AB (median, interquartile range): KAN-δ fold A early 0.112; KAN-δ fold A polished^* 0.077; KAN-δ all rows capped 0.104; μ = 10^-4 all rows certified 0.077; SC-KAN-δ fold A early 0.187; SC-KAN-δ fold A polished^* 0.085. Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. Groups marked ^* (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights (SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.
 
-### Figure 8 (Appendix E) (`\label{fig:applicability}`, file `fig4_applicability.pdf`)
+### Figure 7 (Appendix E) (`\label{fig:applicability}`, file `fig4_applicability.pdf`)
 
 - **Location:** Appendix E (supplementary figures); built by `build_tex.py`, `captions()`.
 - **Numbers from:** `paper2/figures/fig4_applicability.json`.
@@ -115,14 +115,14 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 1. **(Figure 1a)**: Section 3 Mechanism, paragraph "Step 1: a direction the penalty cannot see.". Anchor text (reference placed at its end): "it deviates from a straight line by at most 2% of its range"
 2. **(Figure 1b)**: Section 3 Mechanism, paragraph "Step 1: a direction the penalty cannot see.". Anchor text (reference placed at its end): "so the penalty is unchanged for every t."
 3. **(Figure 1c)**: Section 3 Mechanism, paragraph "Step 2: a direction the data cannot see.". Anchor text (reference placed at its end): "so predictions change little even for large t."
-4. **(Figure 6 (Appendix E))**: Section 4 Controlled study, paragraph "Penalising the SiLU weight does not prevent the runaway.". Anchor text (reference placed at its end): "but left 0 of 8 models certified."
-5. **(Figure 7 (Appendix E)a)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "was 0.110 (P0) and 0.024 (P1)."
-6. **(Figure 7 (Appendix E)b)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "(largest pairwise correlation 0.70, against 0.05 for certified models)"
-7. **(Figure 9 (Appendix E))**: Section 9 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "all six seeds at μ = 10⁻⁴ were certified."
-8. **(Figure 5b)**: Section 9 Closing the blind spot, and what remains, paragraph "Convergence is not uniqueness.". Anchor text (reference placed at its end): "their median prediction difference fell by only 26%."
-9. **(Figure 5a)**: Section Appendix F: Supplementary results. Anchor text (reference placed at its end): "at non-stationary points), and it was less accurate."
-10. **(Figure 8 (Appendix E)a, b)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "so any change polishing makes to h is magnified where x\_co is large (descriptive)."
-11. **(Figure 8 (Appendix E)c)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "Fold A's co-solvent lies outside the training data's descriptor hull,"
+4. **(Figure 5 (Appendix E))**: Section 4 Controlled study, paragraph "Penalising the SiLU weight does not prevent the runaway.". Anchor text (reference placed at its end): "but left 0 of 8 models certified."
+5. **(Figure 6 (Appendix E)a)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "share 0.110 under P0, 0.024 under P1)"
+6. **(Figure 6 (Appendix E)b)**: Section 4 Controlled study, paragraph "Where the runaway lives.". Anchor text (reference placed at its end): "(largest pairwise correlation 0.70, against 0.05 for certified models)"
+7. **(Figure 8 (Appendix E))**: Section 9 Closing the blind spot, and what remains. Anchor text (reference placed at its end): "all six seeds at μ = 10⁻⁴ were certified."
+8. **(Figure 9 (Appendix E)b)**: Section 9 Closing the blind spot, and what remains, paragraph "Convergence is not uniqueness.". Anchor text (reference placed at its end): "their median prediction difference fell by only 26%."
+9. **(Figure 9 (Appendix E)a)**: Section Appendix F: Supplementary results. Anchor text (reference placed at its end): "at non-stationary points), and it was less accurate."
+10. **(Figure 7 (Appendix E)a, b)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "so any change polishing makes to h is magnified where x\_co is large (descriptive)."
+11. **(Figure 7 (Appendix E)c)**: Section 5 Real-data case study: electrolyte conductivity, paragraph "Extrapolation suffered.". Anchor text (reference placed at its end): "Fold A's co-solvent lies outside the training data's descriptor hull,"
 12. **(Figure 2)**: Section 6 Is the minimum at infinity?, paragraph "A certified regularisation path.". Anchor text (reference placed at its end): "\[Figure: regularisation paths, open vs closed, synthetic and real.\]"
 13. **(Figure 3)**: Section 7 How much correlation does the blind spot need?, paragraph "Correlation drives non-convergence.". Anchor text (reference placed at its end): "\[Figure: share uncertified and median D against ρ.\]"
 14. **(Figure 4a)**: Section 8 Is it the basis?, paragraph "The runaway carries over.". Anchor text (reference placed at its end): "up to a scale factor our edges do not have (prediction held)."

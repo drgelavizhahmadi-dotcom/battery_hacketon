@@ -289,7 +289,7 @@ FIG_REFS = [  # (exact draft substring, replacement); each inserted reference is
     ("so the penalty is unchanged for every t.", "so the penalty is unchanged for every t \x01fig:mechanism|b\x01."),
     ("so predictions change little even for large t.", "so predictions change little even for large t \x01fig:mechanism|c\x01."),
     ("but left 0 of 8 models certified.", "but left 0 of 8 models certified \x01fig:synthetic|\x01."),
-    ("was 0.110 (P0) and 0.024 (P1).", "was 0.110 (P0) and 0.024 (P1) \x01fig:where|a\x01."),
+    ("share 0.110 under P0, 0.024 under P1)", "share 0.110 under P0, 0.024 under P1; \x02fig:where|a\x02)"),
     ("(largest pairwise correlation 0.70, against 0.05 for certified models)", "(largest pairwise correlation 0.70, against 0.05 for certified models; \x02fig:where|b\x02)"),
     ("all six seeds at μ = 10⁻⁴ were certified.", "all six seeds at μ = 10⁻⁴ were certified \x01fig:dose|\x01."),
     ("their median prediction difference fell by only 26%.", "their median prediction difference fell by only 26% \x01fig:uniqueness|b\x01."),
@@ -308,7 +308,6 @@ FIG_AFTER = {  # place the figure after the paragraph that starts with (order = 
     "fig:paths": "**A certified regularisation path.**",
     "fig:corrdose": "**Correlation drives non-convergence.**",
     "fig:bspline": "**The fix carries over, with a lesson about calibration.**",
-    "fig:uniqueness": "**Convergence is not uniqueness.**",
 }
 TABLE_CAPTIONS = [  # CAPTION-DRAFT: short titles only; the draft's own notes stay in the text
     ("tab:synthetic", "Synthetic $2\\times3$ study, per cell."),
@@ -379,7 +378,7 @@ def merge_table(label, typed_rows):
     return [head, typed_rows[1]] + merged
 
 
-IN_E = ["fig:synthetic", "fig:where", "fig:applicability", "fig:dose"]   # draft rev 58: moved to Appendix E (supplementary figures), in this order
+IN_E = ["fig:synthetic", "fig:where", "fig:applicability", "fig:dose", "fig:uniqueness"]   # rev 58 (+ uniqueness, rev 100)   # draft rev 58: moved to Appendix E (supplementary figures), in this order
 
 
 def fref(lab, suffix):
@@ -739,6 +738,10 @@ POSTHOC = [  # (label, name, files shown, commits: list of (path, committed text
      ["paper2/revision/appdomain_plan.md", "paper2/revision/appdomain.py", "paper2/revision/appdomain_output.txt"], None),
     ("Post hoc", "Applicability: artefact check (the ensembles' own errors against distance)", ["paper2/revision/appdomain_results.json"],
      [("paper2/revision/appdomain_results.json", "analysis2_posthoc_artefact_check")]),
+    ("Descriptive, no plan", "Uncertainty: Wilson intervals, fold A composition bootstrap, stop reasons",
+     ["paper2/revision/uncertainty.py", "paper2/revision/uncertainty_output.txt"], None),
+    ("Post hoc, plan committed first", "Edge decomposition of the fold A ensembles",
+     ["paper2/revision/edgedecomp_plan.md", "paper2/revision/edgedecomp.py", "paper2/revision/edgedecomp_output.txt"], None),
 ]
 
 
@@ -988,6 +991,42 @@ GDEFS = [  # (term, path, start of the committed bullet/line, kind: bullet | cod
 ]
 
 
+GARCH = [  # (experiment, [(path, start of the committed code line), ...] for structure, biases, nonlinearity), notes from the same code
+    ("Synthetic study (Gaussian RBF), [4, 3, 1]", [("paper2/synth.py", "class SynthKAN"), ("kan.py", "self.base = nn.Linear(d_in, d_out)"), ("paper2/synth.py", "return self.layers[1](torch.tanh(self.layers[0](x)))")],
+     "one bias per unit in each layer (the base Linear); tanh between the layers; no salt embedding; inputs clipped to [-1, 1]"),
+    ("B-spline replication, [4, 3, 1]", [("paper2/revision/bspline_basis.py", "class BSynthKAN"), ("paper2/revision/bspline_basis.py", "self.base = nn.Linear(d_in, d_out)"), ("paper2/revision/bspline_basis.py", "return self.layers[1](torch.tanh(self.layers[0](x)))")],
+     "one bias per unit in each layer; tanh between the layers"),
+    ("Real data, KAN-delta [10, 6, 1]", [("kan.py", "class KAN(nn.Module):"), ("kan.py", "self.base = nn.Linear(d_in, d_out)"), ("kan.py", "z = torch.cat([x, torch.tanh(self.emb(salt))], 1)"), ("kan.py", "z = layer(torch.tanh(z) if i else z)")],
+     "one bias per unit in each layer; 2-dimensional salt embedding passed through tanh; tanh between the layers; output multiplied by x_co (delta_head)"),
+    ("Shared-curve KAN (SC-KAN-delta)", [("arch/sc_model.py", "class SCKAN(nn.Module):"), ("arch/sc_model.py", "self.mix = nn.Linear(d, H)"), ("arch/sc_model.py", "self.salt = nn.Linear(2, H, bias=False)"), ("arch/sc_model.py", "self.head = nn.Linear(H, 1)"), ("arch/sc_model.py", "return self.head(torch.tanh(self.hidden(x, s, fit)))[:, 0]"), ("arch/sc_model.py", "z = g - (g.mean(0) if fit else self.center)")],
+     "biases in the mixing layer and the head, none in the salt map; tanh after the mixing layer; the shared curves are mean-centred (a fixed centre buffer), which is not a normalisation layer"),
+    ("Two-anchor excess model (EX-KAN)", [("arch/ex_model.py", "class EXKAN(nn.Module):"), ("arch/ex_model.py", "self.layers = nn.ModuleList([KANLayer(4, 3), KANLayer(3, 1)])"), ("arch/ex_model.py", "return self.layers[1](torch.tanh(self.layers[0](x)))[:, 0]"), ("arch/ex_model.py", "self.g = KAN(len(G_COLS), [6, 1], n_salt)")],
+     "two KAN subnetworks (s: [4, 3, 1]; g: kan.KAN [7, 6, 1] with salt embedding), each with one bias per unit per layer and tanh between layers"),
+]
+
+
+def no_norm_layers():
+    """True if no tracked Python file uses a normalisation layer (LayerNorm, BatchNorm, GroupNorm, InstanceNorm)"""
+    pat = re.compile(r"LayerNorm|BatchNorm|GroupNorm|InstanceNorm|layer_norm|batch_norm")
+    files = [f for f in git("ls-files", "*.py").splitlines() if f != "paper2/tex/build_tex.py"]
+    hits = [f for f in files if pat.search((REPO / f).read_text(errors="ignore"))]
+    return hits, len(files)
+
+
+def appendix_g_arch():
+    tt = lambda s: "\\texttt{" + tex_escape(s).replace("\\_", "\\_\\allowbreak{}").replace("/", "/\\allowbreak{}") + "}"
+    hits, n = no_norm_layers()
+    norm = "none" if not hits else "see " + ", ".join(hits)
+    rows = []
+    for name, lines, note in GARCH:
+        q = "; ".join(f"{tt(p)}:{code_line(p, st)[0]} " + tt(code_line(p, st)[1]).replace("(", "(\\allowbreak{}").replace(", ", ", \\allowbreak{}") for p, st in lines)
+        rows.append([inline(name), norm, inline(note), q])
+    return ("\n\\noindent Architecture per experiment, from the code (normalisation layers searched in all "
+            f"{n} tracked Python files: {'none found' if not hits else ', '.join(hits)}):\n"
+            + longtable(rows, "R{0.13\\linewidth} R{0.10\\linewidth} R{0.25\\linewidth} R{0.42\\linewidth}",
+                        ["Experiment", "LayerNorm", "Biases and interlayer nonlinearity", "Code (file:line, committed)"]))
+
+
 def appendix_g():
     tt = lambda s: "\\texttt{" + tex_escape(s).replace("\\_", "\\_\\allowbreak{}").replace("/", "/\\allowbreak{}") + "}"
     rows = []
@@ -1006,7 +1045,8 @@ def appendix_g():
             "verbatim. \\emph{Certified} means that all four criteria hold at the point: a numerically certified local minimum under these tolerances, "
             "not a global or unique one. Stop reasons, with solver errors and hangs separated from caps, are tabulated in "
             "\\texttt{paper2/revision/uncertainty\\_output.txt}.\n"
-            + longtable(rows, "R{0.16\\linewidth} R{0.50\\linewidth} R{0.16\\linewidth} R{0.08\\linewidth}", ["Term", "Committed definition", "File", "Commit"]))
+            + longtable(rows, "R{0.16\\linewidth} R{0.50\\linewidth} R{0.16\\linewidth} R{0.08\\linewidth}", ["Term", "Committed definition", "File", "Commit"])
+            + appendix_g_arch())
 
 
 def anonymise(texts):
@@ -1040,7 +1080,8 @@ def anonymise(texts):
             kind = "W" if name.endswith(".tar.gz") else "F"
             fmap[name] = f"{kind}-{sum(1 for v in fmap.values() if v[0] == kind) + 1:02d}"
         return fmap[name]
-    out = {k: fpat.sub(fsub, v.replace("\\allowbreak{}", "")) for k, v in out.items()}   # break hints would split names
+    unbreak = lambda v: v.replace("\\_\\allowbreak{}", "\\_").replace("/\\allowbreak{}", "/")   # break hints inside names would split them
+    out = {k: fpat.sub(fsub, unbreak(v)) for k, v in out.items()}
     (TEX / "commitmap.json").write_text(json.dumps({"commits": {label[f]: f for f in order},
                                                      "files": {v: k.replace("\\_", "_") for k, v in fmap.items()}}, indent=1))
     print(f"anonymised {len(fmap)} file/archive names")

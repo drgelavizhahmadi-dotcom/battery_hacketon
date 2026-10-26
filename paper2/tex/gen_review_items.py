@@ -37,8 +37,8 @@ def main():
     md = (TEX.parent / "draft" / "paper2_draft.md").read_text(encoding="utf-8")
     cap = B.captions()
     figno = {"fig:mechanism": "Figure 1", "fig:paths": "Figure 2", "fig:corrdose": "Figure 3", "fig:bspline": "Figure 4",
-             "fig:uniqueness": "Figure 5", "fig:synthetic": "Figure 6 (Appendix E)", "fig:where": "Figure 7 (Appendix E)",
-             "fig:applicability": "Figure 8 (Appendix E)", "fig:dose": "Figure 9 (Appendix E)",
+             "fig:synthetic": "Figure 5 (Appendix E)", "fig:where": "Figure 6 (Appendix E)", "fig:applicability": "Figure 7 (Appendix E)",
+             "fig:dose": "Figure 8 (Appendix E)", "fig:uniqueness": "Figure 9 (Appendix E)",
              "fig:S1": "Figure S1", "fig:S2": "Figure S2", "fig:S3": "Figure S3"}
     out = ["# Review items for the paper 2 manuscript",
            "",

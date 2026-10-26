@@ -38,6 +38,15 @@
 \end{figure}
 
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig9_uniqueness.pdf}
+  % CAPTION-DRAFT: review (numbers from paper2/figures/fig9_uniqueness.json)
+  \caption{Convergence is not uniqueness. \textbf{(a)} Near-null Hessian eigenvalues ($|\lambda| < 10^{-8}\lambda_{\max}$) at the end of polishing: KAN-$\delta$ baseline on fold A, median 106 (range 86--116); null-space penalty $\mu = 10^{-4}$ on all rows, median 1 (range 0--3); SC-KAN-$\delta$ on fold A, 0 in all 10 models. \textbf{The baseline counts are taken at non-stationary points}: none of the 10 baseline models was certified, and all stopped at the 500-iteration cap. \textbf{(b)} Seed disagreement $d_{AB}$ (median, interquartile range): KAN-$\delta$ fold A early 0.112; KAN-$\delta$ fold A polished$^*$ 0.077; KAN-$\delta$ all rows capped 0.104; $\mu$ = $10^{-4}$ all rows certified 0.077; SC-KAN-$\delta$ fold A early 0.187; SC-KAN-$\delta$ fold A polished$^*$ 0.085. Groups are evaluated on different row sets (fold A training rows or all rows), so values are not strictly comparable across row sets. Groups marked $^*$ (polished fold A) are not in any committed result: they were evaluated post hoc from the archived polished weights (SHA-verified; predictions on the 1434 fold A training rows), without any re-optimisation.}
+  \label{fig:uniqueness}
+\end{figure}
+
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=\linewidth]{figS1_lossdecomp.pdf}
