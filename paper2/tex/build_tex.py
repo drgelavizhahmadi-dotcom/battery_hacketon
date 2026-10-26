@@ -300,7 +300,7 @@ FIG_REFS = [  # (exact draft substring, replacement); each inserted reference is
     ("Fold A's co-solvent lies outside the training data's descriptor hull,", "Fold A's co-solvent lies outside the training data's descriptor hull \x01fig:applicability|c\x01,"),
     ("\\[Figure: regularisation paths, open vs closed, synthetic and real.\\]", "\x01fig:paths|\x01"),
     ("\\[Figure: share uncertified and median D against ρ.\\]", "\x01fig:corrdose|\x01"),
-    ("none of the 16 P0 and P1 models certified (prediction held).", "none of the 16 P0 and P1 models certified (prediction held; \x02fig:bspline|a\x02)."),
+    ("up to a scale factor our edges do not have (prediction held).", "up to a scale factor our edges do not have (prediction held; \x02fig:bspline|a\x02)."),
     ("Extended to γ = 10⁻⁹, the paths were bounded,", "Extended to γ = 10⁻⁹, the paths were bounded \x01fig:bspline|b, c\x01,"),
 ]
 FIG_AFTER = {  # place the figure after the paragraph that starts with (order = order of first reference = figure number)
@@ -1040,7 +1040,7 @@ def anonymise(texts):
             kind = "W" if name.endswith(".tar.gz") else "F"
             fmap[name] = f"{kind}-{sum(1 for v in fmap.values() if v[0] == kind) + 1:02d}"
         return fmap[name]
-    out = {k: fpat.sub(fsub, v) for k, v in out.items()}
+    out = {k: fpat.sub(fsub, v.replace("\\allowbreak{}", "")) for k, v in out.items()}   # break hints would split names
     (TEX / "commitmap.json").write_text(json.dumps({"commits": {label[f]: f for f in order},
                                                      "files": {v: k.replace("\\_", "_") for k, v in fmap.items()}}, indent=1))
     print(f"anonymised {len(fmap)} file/archive names")
