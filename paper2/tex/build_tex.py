@@ -75,7 +75,7 @@ GREEK = {"γ": r"\gamma", "φ": r"\varphi", "θ": r"\theta", "μ": r"\mu", "λ":
          "ε": r"\varepsilon", "δ": r"\delta", "Δ": r"\Delta", "ψ": r"\psi", "σ": r"\sigma", "ℓ": r"\ell"}
 UNI = {"≥": r"$\geq$", "≤": r"$\leq$", "×": r"$\times$", "−": r"$-$", "→": r"$\to$", "≈": r"$\approx$", "·": r"$\cdot$",
        "–": "--", "—": "---", "’": "'", "‘": "`", "“": "``", "”": "''", "‖": r"$\|$", "²": r"$^{2}$", "³": r"$^{3}$",
-       "ů": r"\r{u}", "á": r"\'a", "é": r"\'e", "č": r"\v{c}", "ć": r"\'c", "±": r"$\pm$", "∈": r"$\in$", "∞": r"$\infty$", "≠": r"$\neq$", "√": r"$\surd$", "…": r"\ldots{}", "✓": r"$\checkmark$"}
+       "ů": r"\r{u}", "á": r"\'a", "é": r"\'e", "č": r"\v{c}", "ć": r"\'c", "±": r"$\pm$", "∈": r"$\in$", "Σ": r"$\Sigma$", "∑": r"$\sum$", "̄": "", "π": r"$\pi$", "τ": r"$\tau$", "ω": r"$\omega$", "∂": r"$\partial$", "∇": r"$\nabla$", "∀": r"$\forall$", "≫": r"$\gg$", "≪": r"$\ll$", "′": "'", "∞": r"$\infty$", "≠": r"$\neq$", "√": r"$\surd$", "…": r"\ldots{}", "✓": r"$\checkmark$"}
 
 
 def inline(s, extra=()):
@@ -888,6 +888,200 @@ def appendix_e(cap):
     return "\n".join(o)
 
 
+# ------------------------------------------------------------------ appendix H: data, splits and chronology (from datasplit_results.json + committed code and logs)
+def code_line(path, start):
+    """the committed source line that starts with `start` (stripped), with its line number"""
+    for i, ln in enumerate((REPO / path).read_text().splitlines(), 1):
+        if ln.strip().startswith(start):
+            return i, ln.strip()
+    raise SystemExit(f"code line not found: {path}: {start}")
+
+
+def appendix_h():
+    DP_ = "paper2/revision/datasplit_results.json"
+    d = jload(DP_); c = d["counts"]; a = d["anchor"]; cm = d["composition"]; fa = d["foldA"]; t = d["target"]
+    dc = first_commit(DP_)
+    tt = lambda s: "\\texttt{" + tex_escape(s).replace("\\_", "\\_\\allowbreak{}").replace("/", "/\\allowbreak{}") + "}"
+    q = lambda path, start: (lambda n, s: f"{tt(path)}:{n} ({first_commit(path)}): {tt(s)}")(*code_line(path, start))
+    fmt = lambda dct: ", ".join(f"{inline(str(k))} {v}" for k, v in dct.items())
+    o = ["\\section{Data, splits and chronology}\\label{app:data}\n",
+         "% DRAFT-TEXT: review (connecting prose; every value is generated from the committed files named, mainly "
+         "paper2/revision/datasplit_results.json, written by paper2/revision/datasplit.py without training)",
+         f"Values below come from {tt('paper2/revision/datasplit.py')} ({dc}; descriptive, no training), which reads the competition files "
+         "through the committed data path, and from the committed code lines quoted. The competition files themselves are not redistributed.\n",
+         "\\paragraph{(a) The PC anchor.} The anchor is the measured conductivity of a pure-PC electrolyte with the same salt, from the same source "
+         "article, at the row's concentration and temperature; it is not neat PC solvent. "
+         f"Per row it is looked up by (source article, salt) among the {c['pure_pc_series']} pure-PC series of the training file, then "
+         f"interpolated: temperature at the series' grid level within {a['T_TOL']} K, otherwise linearly in $1/T$ between levels "
+         f"(anchored rows: {fmt(a['T'])}); concentration linearly in the article's native unit ({fmt(a['c'])}); never extrapolated. "
+         f"Code: {q('anchor.py', 'def anchor_value')}; {q('anchor.py', 'T_TOL = ')}. "
+         "Anchor information and held-out rows: the pure-PC rows only supply anchors and are in no fold's training or test set. "
+         f"For fold A, the {fa['pure_pc_rows_same_sources']} pure-PC rows of fold A's own source article supply its anchors, so a held-out row's anchor "
+         "comes from the same article as the row. DEC test anchors use same-salt pure-PC series from a fixed list of six training articles, for mol/kg "
+         f"test rows only, averaged where several cover ({q('anchor.py', 'te_series = ')}). The input scaler is a min--max map fitted on the anchored "
+         "training rows and the anchored DEC test rows' inputs (no labels).\n",
+         f"\\paragraph{{(b) Target.}} $\\log_{{10}}$ of the conductivity $k$ in mS/cm (\\texttt{{log\\_k}} equals $\\log_{{10}} k$ on every training row: "
+         f"{t['log10_identity']}). No conductivity is zero or negative (minimum {t['k_min']:.3g} mS/cm); the {t['n_below_0p01']} training rows below "
+         f"0.01 mS/cm are dropped ({q('anchor.py', 'tr = tr[tr.k >= 0.01]')}), and submitted predictions are clipped at $\\log_{{10}} k \\geq {t['logk_min_clip']}$.\n",
+         "\\paragraph{(c) Composition.} $x_{\\mathrm{co}}$ is one minus the PC mole fraction, from the file's mole-fraction column; the competition file "
+         f"converts weight- and volume-basis sources to mole fractions (anchored training rows by source basis: {fmt(cm['frac_basis_anchored'])}). "
+         "Mixtures with more than one co-solvent enter through mole-weighted co-solvent descriptors (dielectric constant, log viscosity, molar mass of the "
+         f"non-PC part) and mole-weighted mixture descriptors (anchored rows by number of solvents: {fmt(cm['n_solvents_anchored'])}). Molality is native "
+         f"for mol/kg sources and $c/\\rho_{{\\mathrm{{mix}}}}$ for mol/L sources, with an ideal-mixing density that neglects the salt "
+         f"({q('pipeline.py', '# molality')}); anchored training rows by unit: {fmt(cm['conc_unit_anchored'])}; anchored DEC test rows: "
+         f"{fmt(cm['conc_unit_test_anchored'])}, all binary.\n",
+         "\\paragraph{(d) Row inclusion.}\n",
+         longtable([[inline(k.replace("_", " ")), str(v)] for k, v in c.items()], "R{0.6\\linewidth} r", ["Step (anchor.prepare)", "Rows"]),
+         "\\paragraph{(e) Folds.} Fold A holds out the ethyl-acetate mixtures (EA+PC); the ten co-solvent folds each hold out every anchored row "
+         "containing that co-solvent, so a row with several co-solvents is in several folds.\n",
+         longtable([[inline(k), str(v["n_test"]), str(v["n_train"])] for k, v in d["folds"].items()], "R{0.4\\linewidth} r r", ["Fold", "Test rows", "Training rows"]),
+         f"Fold A: {fa['n']} rows; salts {fmt(fa['salts'])}; source articles {fmt(fa['sources'])}; temperature {fa['T_range'][0]}--{fa['T_range'][1]} K "
+         f"({fa['n_T_levels']} levels); $x_{{\\mathrm{{co}}}}$ {fa['x_co_range'][0]:.4f}--{fa['x_co_range'][1]:.4f} ({fa['n_x_co']} values); "
+         f"concentration {fa['conc_range'][0]:.3f}--{fa['conc_range'][1]:.3f} {inline(list(fa['conc_unit'])[0])}; training rows from the same article: "
+         f"{sum(fa['training_rows_from_same_sources'].values())}. "
+         + ("\\textbf{Fold A is a single salt from a single source article, so salt, source and co-solvent are confounded in it.}\n"
+            if len(fa["salts"]) == 1 and len(fa["sources"]) == 1 else "\n"),
+         f"\\paragraph{{(f) DEC.}} The test file has no conductivity column (\\texttt{{k}}: {d['dec']['test_has_k']}, \\texttt{{log\\_k}}: {d['dec']['test_has_log_k']}); "
+         f"all {d['dec']['n_test']} test rows contain DEC and no training row does. The labels are held by the challenge and were never available to us; this is "
+         f"recorded in the competition's metadata file (\\texttt{{k}}: ``Absent from test.csv'') and in {tt('paper2/revision/appdomain_plan.md')} "
+         f"({first_commit('paper2/revision/appdomain_plan.md')}): ``The DEC test labels are hidden''. No DEC number in this paper is an accuracy.\n"]
+    # (g) selection chronology
+    ko = (REPO / "kan_output.txt").read_text().splitlines()
+    eps = [ln.strip() for ln in ko if "best epochs" in ln]
+    ln_es = code_line("kan.py", "for s in SEEDS:  # early stop on this fold")
+    o.append("\\paragraph{(g) Selection chronology.} The 107 epochs used by every KAN-$\\delta$ model were chosen on held-out folds: in "
+             f"{tt('kan.py')} ({first_commit('kan.py')}) each of 5 seeds was early-stopped on fold A and on a second fold (EC+PC) using that fold's own "
+             f"held-out rows ({tt('kan.py')}:{ln_es[0]}: {tt(ln_es[1])}), and the median of the 10 best epochs was fixed for refits. The committed log "
+             f"({tt('kan_output.txt')}, {first_commit('kan_output.txt')}): " + "; ".join(tt(e) for e in eps) + ". "
+             "\\textbf{Fold A was therefore reused during development: it informed the epoch count, and the committed studies below evaluated on it "
+             "before the paper's final comparisons.} The list is every committed output or pre-registration that reports on fold A, by the commit that "
+             "added it.\n")
+    rows = [[r["date"], r["commit"], tt(r["file"]), inline(r["subject"][:110] + ("…" if len(r["subject"]) > 110 else ""))] for r in d["foldA_chronology"]]
+    o.append(longtable(rows, "R{0.10\\linewidth} R{0.08\\linewidth} R{0.26\\linewidth} R{0.46\\linewidth}", ["Date", "Commit", "File", "Commit subject"]))
+    return "\n".join(o)
+
+
+# ------------------------------------------------------------------ appendix H: data, splits and chronology (from datasplit_results.json + committed code and logs)
+def code_line(path, start):
+    """the committed source line that starts with `start` (stripped), with its line number"""
+    for i, ln in enumerate((REPO / path).read_text().splitlines(), 1):
+        if ln.strip().startswith(start):
+            return i, ln.strip()
+    raise SystemExit(f"code line not found: {path}: {start}")
+
+
+def appendix_h():
+    DP_ = "paper2/revision/datasplit_results.json"
+    d = jload(DP_); c = d["counts"]; a = d["anchor"]; cm = d["composition"]; fa = d["foldA"]; t = d["target"]
+    dc = first_commit(DP_)
+    tt = lambda s: "\\texttt{" + tex_escape(s).replace("\\_", "\\_\\allowbreak{}").replace("/", "/\\allowbreak{}") + "}"
+    q = lambda path, start: (lambda n, s: f"{tt(path)}:{n} ({first_commit(path)}): {tt(s)}")(*code_line(path, start))
+    fmt = lambda dct: ", ".join(f"{inline(str(k))} {v}" for k, v in dct.items())
+    o = ["\\section{Data, splits and chronology}\\label{app:data}\n",
+         "% DRAFT-TEXT: review (connecting prose; every value is generated from the committed files named, mainly "
+         "paper2/revision/datasplit_results.json, written by paper2/revision/datasplit.py without training)",
+         f"Values below come from {tt('paper2/revision/datasplit.py')} ({dc}; descriptive, no training), which reads the competition files "
+         "through the committed data path, and from the committed code lines quoted. The competition files themselves are not redistributed.\n",
+         "\\paragraph{(a) The PC anchor.} The anchor is the measured conductivity of a pure-PC electrolyte with the same salt, from the same source "
+         "article, at the row's concentration and temperature; it is not neat PC solvent. "
+         f"Per row it is looked up by (source article, salt) among the {c['pure_pc_series']} pure-PC series of the training file, then "
+         f"interpolated: temperature at the series' grid level within {a['T_TOL']} K, otherwise linearly in $1/T$ between levels "
+         f"(anchored rows: {fmt(a['T'])}); concentration linearly in the article's native unit ({fmt(a['c'])}); never extrapolated. "
+         f"Code: {q('anchor.py', 'def anchor_value')}; {q('anchor.py', 'T_TOL = ')}. "
+         "Anchor information and held-out rows: the pure-PC rows only supply anchors and are in no fold's training or test set. "
+         f"For fold A, the {fa['pure_pc_rows_same_sources']} pure-PC rows of fold A's own source article supply its anchors, so a held-out row's anchor "
+         "comes from the same article as the row. DEC test anchors use same-salt pure-PC series from a fixed list of six training articles, for mol/kg "
+         f"test rows only, averaged where several cover ({q('anchor.py', 'te_series = ')}). The input scaler is a min--max map fitted on the anchored "
+         "training rows and the anchored DEC test rows' inputs (no labels).\n",
+         f"\\paragraph{{(b) Target.}} $\\log_{{10}}$ of the conductivity $k$ in mS/cm (\\texttt{{log\\_k}} equals $\\log_{{10}} k$ on every training row: "
+         f"{t['log10_identity']}). No conductivity is zero or negative (minimum {t['k_min']:.3g} mS/cm); the {t['n_below_0p01']} training rows below "
+         f"0.01 mS/cm are dropped ({q('anchor.py', 'tr = tr[tr.k >= 0.01]')}), and submitted predictions are clipped at $\\log_{{10}} k \\geq {t['logk_min_clip']}$.\n",
+         "\\paragraph{(c) Composition.} $x_{\\mathrm{co}}$ is one minus the PC mole fraction, from the file's mole-fraction column; the competition file "
+         f"converts weight- and volume-basis sources to mole fractions (anchored training rows by source basis: {fmt(cm['frac_basis_anchored'])}). "
+         "Mixtures with more than one co-solvent enter through mole-weighted co-solvent descriptors (dielectric constant, log viscosity, molar mass of the "
+         f"non-PC part) and mole-weighted mixture descriptors (anchored rows by number of solvents: {fmt(cm['n_solvents_anchored'])}). Molality is native "
+         f"for mol/kg sources and $c/\\rho_{{\\mathrm{{mix}}}}$ for mol/L sources, with an ideal-mixing density that neglects the salt "
+         f"({q('pipeline.py', '# molality')}); anchored training rows by unit: {fmt(cm['conc_unit_anchored'])}; anchored DEC test rows: "
+         f"{fmt(cm['conc_unit_test_anchored'])}, all binary.\n",
+         "\\paragraph{(d) Row inclusion.}\n",
+         longtable([[inline(k.replace("_", " ")), str(v)] for k, v in c.items()], "R{0.6\\linewidth} r", ["Step (anchor.prepare)", "Rows"]),
+         "\\paragraph{(e) Folds.} Fold A holds out the ethyl-acetate mixtures (EA+PC); the ten co-solvent folds each hold out every anchored row "
+         "containing that co-solvent, so a row with several co-solvents is in several folds.\n",
+         longtable([[inline(k), str(v["n_test"]), str(v["n_train"])] for k, v in d["folds"].items()], "R{0.4\\linewidth} r r", ["Fold", "Test rows", "Training rows"]),
+         f"Fold A: {fa['n']} rows; salts {fmt(fa['salts'])}; source articles {fmt(fa['sources'])}; temperature {fa['T_range'][0]}--{fa['T_range'][1]} K "
+         f"({fa['n_T_levels']} levels); $x_{{\\mathrm{{co}}}}$ {fa['x_co_range'][0]:.4f}--{fa['x_co_range'][1]:.4f} ({fa['n_x_co']} values); "
+         f"concentration {fa['conc_range'][0]:.3f}--{fa['conc_range'][1]:.3f} {inline(list(fa['conc_unit'])[0])}; training rows from the same article: "
+         f"{sum(fa['training_rows_from_same_sources'].values())}. "
+         + ("\\textbf{Fold A is a single salt from a single source article, so salt, source and co-solvent are confounded in it.}\n"
+            if len(fa["salts"]) == 1 and len(fa["sources"]) == 1 else "\n"),
+         f"\\paragraph{{(f) DEC.}} The test file has no conductivity column (\\texttt{{k}}: {d['dec']['test_has_k']}, \\texttt{{log\\_k}}: {d['dec']['test_has_log_k']}); "
+         f"all {d['dec']['n_test']} test rows contain DEC and no training row does. The labels are held by the challenge and were never available to us; this is "
+         f"recorded in the competition's metadata file (\\texttt{{k}}: ``Absent from test.csv'') and in {tt('paper2/revision/appdomain_plan.md')} "
+         f"({first_commit('paper2/revision/appdomain_plan.md')}): ``The DEC test labels are hidden''. No DEC number in this paper is an accuracy.\n"]
+    # (g) selection chronology
+    ko = (REPO / "kan_output.txt").read_text().splitlines()
+    eps = [ln.strip() for ln in ko if "best epochs" in ln]
+    ln_es = code_line("kan.py", "for s in SEEDS:  # early stop on this fold")
+    o.append("\\paragraph{(g) Selection chronology.} The 107 epochs used by every KAN-$\\delta$ model were chosen on held-out folds: in "
+             f"{tt('kan.py')} ({first_commit('kan.py')}) each of 5 seeds was early-stopped on fold A and on a second fold (EC+PC) using that fold's own "
+             f"held-out rows ({tt('kan.py')}:{ln_es[0]}: {tt(ln_es[1])}), and the median of the 10 best epochs was fixed for refits. The committed log "
+             f"({tt('kan_output.txt')}, {first_commit('kan_output.txt')}): " + "; ".join(tt(e) for e in eps) + ". "
+             "\\textbf{Fold A was therefore reused during development: it informed the epoch count, and the committed studies below evaluated on it "
+             "before the paper's final comparisons.} The list is every committed output or pre-registration that reports on fold A, by the commit that "
+             "added it.\n")
+    rows = [[r["date"], r["commit"], tt(r["file"]), inline(r["subject"][:110] + ("…" if len(r["subject"]) > 110 else ""))] for r in d["foldA_chronology"]]
+    o.append(longtable(rows, "R{0.10\\linewidth} R{0.08\\linewidth} R{0.26\\linewidth} R{0.46\\linewidth}", ["Date", "Commit", "File", "Commit subject"]))
+    return "\n".join(o)
+
+
+# ------------------------------------------------------------------ appendix G: methods and definitions (quoted from the committed files)
+GDEFS = [  # (term, path, start of the committed bullet/line, kind: bullet | code)
+    ("Edge function (Gaussian RBF + SiLU)", "paper2/synth_prereg.md", "- Same edge type:", "bullet"),
+    ("P0 (second differences)", "paper2/synth_prereg.md", "- **P0, \"D2 only\":**", "bullet"),
+    ("P1 (adds the SiLU-weight term)", "paper2/synth_prereg.md", "- **P1, \"curvature penalty, Bagrow-style\":**", "bullet"),
+    ("P2 (null-space penalty)", "paper2/synth_prereg.md", "- **P2, \"null space closed\":**", "bullet"),
+    ("Null-space penalty on real data", "paper2/revision/infimum_prereg.md", "- Loss: the final.py loss + 1e-4", "bullet"),
+    ("Polishing", "paper2/synth_prereg.md", "- **\"polished\":**", "bullet"),
+    ("Certified (definition)", "paper2/synth_prereg.md", "- **CERTIFIED**", "bullet"),
+    ("Certification tolerances (code)", "certify.py", "GTOL, EIGREL, NEWTON, GNULL =", "code"),
+    ("Certification criteria (code)", "certify.py", "crit = dict(", "code"),
+    ("Near-null directions (code)", "certify.py", "null = np.abs(ev) < EIGREL * lmax", "code"),
+    ("Exact symmetries (B-spline null set)", "paper2/revision/bspline_prereg.md", "- The null set is the 15-dimensional constant-shift space", "bullet"),
+    ("Null-set-aware certification", "paper2/revision/bspline_prereg.md", "- **Certification of the γ = 0 training objectives**", "bullet"),
+    ("Degenerate certified point", "paper2/revision/infimum_prereg.md", "- **DEGENERATE.**", "bullet"),
+    ("Probes at degenerate points", "paper2/revision/infimum_prereg.md", "- **Three probes at every degenerate point.**", "bullet"),
+    ("PLATEAU / FLAT MINIMUM", "paper2/revision/infimum_prereg.md", "- **PLATEAU** if either of these holds:", "bullet"),
+    ("Stalled restart", "paper2/revision/infimum_prereg.md", "- **Stalled restart.**", "bullet"),
+    ("Path exponent (I2)", "paper2/revision/infimum_prereg.md", "- **I2.**", "bullet"),
+    ("Plateau ratio (I3)", "paper2/revision/infimum_prereg.md", "- **I3.**", "bullet"),
+    ("Short-path statistic D", "paper2/revision/dose_prereg.md", "- D = ‖θ*(1e-7)‖² / ‖θ*(1e-5)‖²", "bullet"),
+    ("Seed disagreement d_AB", "paper2/synth_prereg.md", "- d_AB between", "bullet"),
+    ("Unit match", "paper2/synth_prereg.md", "- **unit match:**", "bullet"),
+    ("Cross-edge cancellation ratio", "paper2/synth_prereg.md", "- **Logged at both states:**", "bullet"),
+]
+
+
+def appendix_g():
+    tt = lambda s: "\\texttt{" + tex_escape(s).replace("\\_", "\\_\\allowbreak{}").replace("/", "/\\allowbreak{}") + "}"
+    rows = []
+    for term, path, start, kind in GDEFS:
+        if kind == "code":
+            n, txt = code_line(path, start)
+            body, c = tt(txt), first_commit(path)
+            src = f"{tt(path)}:{n}"
+        else:
+            body, c = inline(grab(path, start)), commit_with(path, start)
+            src = tt(path)
+        rows.append([inline(term), body, src, c])
+    return ("\\section{Methods and definitions}\\label{app:methods}\n"
+            "% DRAFT-TEXT: review (one framing sentence; the table quotes the committed definitions)\n"
+            "Each term is given in the wording of the file that fixed it, with that file and the commit of the quoted text; code lines are quoted "
+            "verbatim. \\emph{Certified} means that all four criteria hold at the point: a numerically certified local minimum under these tolerances, "
+            "not a global or unique one. Stop reasons, with solver errors and hangs separated from caps, are tabulated in "
+            "\\texttt{paper2/revision/uncertainty\\_output.txt}.\n"
+            + longtable(rows, "R{0.16\\linewidth} R{0.50\\linewidth} R{0.16\\linewidth} R{0.08\\linewidth}", ["Term", "Committed definition", "File", "Commit"]))
+
+
 def anonymise(texts):
     """replace every commit hash of this repository by a neutral label S-NN (chronological order; same hash -> same label)"""
     chrono = git("log", "--reverse", "--format=%h %H").splitlines()
@@ -931,7 +1125,7 @@ def main():
     title, body, appf = build_body(cap)
     (TEX / "title.tex").write_text(f"\\title{{{inline(title)}}}\n")
     (TEX / "body.tex").write_text("% GENERATED by build_tex.py from paper2/draft/paper2_draft.md -- do not edit by hand\n" + body)
-    apps = {"appendixA": appendix_a(), "appendixB": appendix_b(), "appendixC": appendix_c(), "appendixD": appendix_d(), "appendixE": appendix_e(cap)}
+    apps = {"appendixA": appendix_a(), "appendixB": appendix_b(), "appendixC": appendix_c(), "appendixD": appendix_d(), "appendixE": appendix_e(cap), "appendixH": appendix_h()}
     anon, n = anonymise(apps)
     for k in apps:
         (TEX / f"{k}.tex").write_text("% GENERATED by build_tex.py (preprint: real commit hashes)\n" + apps[k])
