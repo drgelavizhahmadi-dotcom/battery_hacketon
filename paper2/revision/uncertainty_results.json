@@ -1,0 +1,551 @@
+{
+ "wilson": [
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "independent P0",
+   "k": 6,
+   "n": 8,
+   "frac": 0.75,
+   "lo": 0.40927543031016883,
+   "hi": 0.9285207872478909,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "independent P1",
+   "k": 6,
+   "n": 8,
+   "frac": 0.75,
+   "lo": 0.40927543031016883,
+   "hi": 0.9285207872478909,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "independent P2",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "correlated P0",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "correlated P1",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "correlated P2",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "correlated P0+P1",
+   "k": 0,
+   "n": 16,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.1936076805344365,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "P2, both conditions",
+   "k": 16,
+   "n": 16,
+   "frac": 1.0,
+   "lo": 0.8063923194655637,
+   "hi": 1.0,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "synthetic 2x3 (RBF)",
+   "cell": "independent P0+P1",
+   "k": 12,
+   "n": 16,
+   "frac": 0.75,
+   "lo": 0.5050168346449122,
+   "hi": 0.8981793250878696,
+   "source": "paper2/synth_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.00",
+   "k": 7,
+   "n": 8,
+   "frac": 0.875,
+   "lo": 0.5291118177871464,
+   "hi": 0.9775825085499433,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.50",
+   "k": 3,
+   "n": 8,
+   "frac": 0.375,
+   "lo": 0.13684428582359742,
+   "hi": 0.6942576053973727,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.80",
+   "k": 4,
+   "n": 8,
+   "frac": 0.5,
+   "lo": 0.21521606221387757,
+   "hi": 0.7847839377861224,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.90",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.95",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P0, rho = 0.99",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.00",
+   "k": 7,
+   "n": 8,
+   "frac": 0.875,
+   "lo": 0.5291118177871464,
+   "hi": 0.9775825085499433,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.50",
+   "k": 4,
+   "n": 8,
+   "frac": 0.5,
+   "lo": 0.21521606221387757,
+   "hi": 0.7847839377861224,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.80",
+   "k": 4,
+   "n": 8,
+   "frac": 0.5,
+   "lo": 0.21521606221387757,
+   "hi": 0.7847839377861224,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.90",
+   "k": 3,
+   "n": 8,
+   "frac": 0.375,
+   "lo": 0.13684428582359742,
+   "hi": 0.6942576053973727,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.95",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P1, rho = 0.99",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "dose-response",
+   "cell": "P2, rho = 0.99",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/dose_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "independent P0",
+   "k": 5,
+   "n": 8,
+   "frac": 0.625,
+   "lo": 0.30574239460262737,
+   "hi": 0.8631557141764026,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "independent P1",
+   "k": 4,
+   "n": 8,
+   "frac": 0.5,
+   "lo": 0.21521606221387757,
+   "hi": 0.7847839377861224,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "independent P2",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "correlated P0",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "correlated P1",
+   "k": 0,
+   "n": 8,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.32440756488388023,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "correlated P2",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline (mu = 1e-6)",
+   "cell": "correlated P0+P1",
+   "k": 0,
+   "n": 16,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.1936076805344365,
+   "source": "paper2/revision/bspline_results.json"
+  },
+  {
+   "study": "B-spline P2 at mu = 1e-5 (post hoc)",
+   "cell": "independent",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/bspline_posthoc_results.json"
+  },
+  {
+   "study": "B-spline P2 at mu = 1e-5 (post hoc)",
+   "cell": "correlated",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/bspline_posthoc_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "layer 1 frozen, real",
+   "k": 6,
+   "n": 6,
+   "frac": 1.0,
+   "lo": 0.6096657120978346,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "layer 1 frozen, synthetic P0",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "layer 1 frozen, synthetic P1",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "one-layer KAN, correlated",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "L2 at polish time (Arm D)",
+   "k": 8,
+   "n": 8,
+   "frac": 1.0,
+   "lo": 0.6755924351161198,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "freeze test",
+   "cell": "layer 2 frozen, synthetic P0+P1",
+   "k": 16,
+   "n": 16,
+   "frac": 1.0,
+   "lo": 0.8063923194655637,
+   "hi": 1.0,
+   "source": "paper2/revision/freeze_results.json"
+  },
+  {
+   "study": "real data, null-space weight (seeds at a numerical minimum)",
+   "cell": "mu = 1e-6",
+   "k": 0,
+   "n": 6,
+   "frac": 0.0,
+   "lo": 2.7755575615628914e-17,
+   "hi": 0.3903342879021653,
+   "source": "certify_results.json (candidates)"
+  },
+  {
+   "study": "real data, null-space weight (seeds at a numerical minimum)",
+   "cell": "mu = 1e-5",
+   "k": 4,
+   "n": 6,
+   "frac": 0.6666666666666666,
+   "lo": 0.299993315138392,
+   "hi": 0.9032285888942195,
+   "source": "certify_results.json (candidates)"
+  },
+  {
+   "study": "real data, null-space weight (seeds at a numerical minimum)",
+   "cell": "mu = 1e-4",
+   "k": 6,
+   "n": 6,
+   "frac": 1.0,
+   "lo": 0.6096657120978346,
+   "hi": 1.0,
+   "source": "certify_results.json (candidates)"
+  },
+  {
+   "study": "real data, null-space weight",
+   "cell": "mu = 1e-4, second-order certificate (W1)",
+   "k": 6,
+   "n": 6,
+   "frac": 1.0,
+   "lo": 0.6096657120978346,
+   "hi": 1.0,
+   "source": "certify_results.json"
+  },
+  {
+   "study": "structured alternatives",
+   "cell": "baseline KAN-delta, fold A",
+   "k": 0,
+   "n": 10,
+   "frac": 0.0,
+   "lo": 0.0,
+   "hi": 0.2775327998628892,
+   "source": "arch/sc_results.json"
+  },
+  {
+   "study": "structured alternatives",
+   "cell": "shared-curve KAN, fold A",
+   "k": 10,
+   "n": 10,
+   "frac": 1.0,
+   "lo": 0.7224672001371107,
+   "hi": 0.9999999999999999,
+   "source": "arch/sc_results.json"
+  }
+ ],
+ "foldA_bootstrap": {
+  "ensembles": {
+   "early": {
+    "rmse": 0.14204300895692148,
+    "logged": 0.142,
+    "lo": 0.11918327714771855,
+    "hi": 0.1648650277814025
+   },
+   "polished mu = 0": {
+    "rmse": 0.814723788558865,
+    "logged": 0.8147,
+    "lo": 0.761343488555895,
+    "hi": 0.8638287100164747
+   },
+   "polished mu = 1e-6": {
+    "rmse": 1.026195751939179,
+    "logged": 1.0262,
+    "lo": 0.9712103447656655,
+    "hi": 1.0760330345307807
+   },
+   "polished mu = 1e-4": {
+    "rmse": 0.33446723176171367,
+    "logged": 0.3345,
+    "lo": 0.3000641964047303,
+    "hi": 0.36902657585181664
+   }
+  },
+  "n_rows": 635,
+  "n_compositions": 404,
+  "n_sources": 1,
+  "resamples": 10000,
+  "seed": 0,
+  "grouping": "solvent_fracs x conc_native x salt_name",
+  "source_bootstrap": "not computed: fold A has a single source article, so a source-grouped bootstrap is degenerate"
+ },
+ "stop_reasons": {
+  "by_study": {
+   "synthetic 2x3": {
+    "file": "paper2/synth_results.json",
+    "n": 48,
+    "counts": {
+     "iteration cap": 20,
+     "optimiser termination (tolerance)": 28
+    }
+   },
+   "dose-response": {
+    "file": "paper2/revision/dose_results.json",
+    "n": 542,
+    "counts": {
+     "optimiser termination (tolerance)": 407,
+     "iteration cap": 134,
+     "solver error": 1
+    }
+   },
+   "B-spline Step 1": {
+    "file": "paper2/revision/bspline_results.json",
+    "n": 253,
+    "counts": {
+     "solver error: hang (killed)": 5,
+     "iteration cap": 46,
+     "certification-based termination": 202
+    }
+   },
+   "B-spline post hoc": {
+    "file": "paper2/revision/bspline_posthoc_results.json",
+    "n": 80,
+    "counts": {
+     "certification-based termination": 80
+    }
+   },
+   "freeze test": {
+    "file": "paper2/revision/freeze_results.json",
+    "n": 60,
+    "counts": {
+     "optimiser termination (tolerance)": 55,
+     "wall-clock cap": 4,
+     "iteration cap": 1
+    }
+   },
+   "infimum test": {
+    "file": "paper2/revision/infimum_results.json",
+    "n": 490,
+    "counts": {
+     "optimiser termination (tolerance)": 472,
+     "iteration cap": 11,
+     "point not reached (path stopped)": 2,
+     "wall-clock cap": 5
+    }
+   },
+   "degeneracy follow-up": {
+    "file": "paper2/revision/degeneracy_results.json",
+    "n": 58,
+    "counts": {
+     "optimiser termination (tolerance)": 49,
+     "wall-clock cap": 7,
+     "iteration cap": 2
+    }
+   },
+   "shared-curve / baseline": {
+    "file": "arch/sc_results.json",
+    "n": 20,
+    "counts": {
+     "optimiser termination (tolerance)": 10,
+     "iteration cap": 10
+    }
+   }
+  },
+  "total": {
+   "iteration cap": 224,
+   "optimiser termination (tolerance)": 1021,
+   "solver error": 1,
+   "solver error: hang (killed)": 5,
+   "certification-based termination": 282,
+   "wall-clock cap": 16,
+   "point not reached (path stopped)": 2
+  }
+ }
+}
