@@ -21,7 +21,8 @@ from pathlib import Path
 TEX = Path(__file__).resolve().parent
 REPO = TEX.parent.parent
 WEIGHTS = REPO.parent / "battery_hacketon_weights"
-EXCLUDE = {"paper2/tex/preprint.tex", "paper2/tex/preprint.pdf", "paper2/tex/commitmap.json"}
+EXCLUDE = {"paper2/tex/preprint.tex", "paper2/tex/preprint.pdf", "paper2/tex/commitmap.json",
+           "paper2/tex/make_review_archive.py"}   # this builder holds the identifiers it removes
 EXCLUDE_PREFIX = ("paper2/tex/submission_tmlr/",)
 TERMS = ["ahmadi", "gelavizh", "drgelavizhahmadi", "battery_hacketon", "hacketon", "github.com", "berlin", "orcid", "/users/",
          "/private/tmp", "claude.ai/", "@gmail", "dr.gelavizh"]
