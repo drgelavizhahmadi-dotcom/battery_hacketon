@@ -93,6 +93,7 @@ Each item is marked in the `.tex` source as noted. Text is shown as plain text, 
 
 - `\label{tab:synthetic}` (Controlled study): Synthetic 2×3 study, per cell.
 - `\label{tab:dose}` (Closing the blind spot, and what remains): Dose-response in μ on real data (seeds).
+- `\label{tab:goals}` (Recommendations for practitioners): Choosing by goal (the draft's own table; no generated values).
 - `\label{tab:alternatives}` (?): Structured alternatives against the early-stopped baseline.
 
 ## 3. Appendix D protocol prose (`% DRAFT-TEXT: review`; new text, not in the draft)

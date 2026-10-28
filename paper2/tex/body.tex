@@ -57,7 +57,7 @@ Consider a unit that sums edges from two inputs, $s = \varphi_1(x_1) + \varphi_2
 
 \textbf{Step 1: a direction the penalty cannot see.} Add a linear pattern $t\,\ell$ to the RBF coefficients of edge 1 and subtract it from edge 2, with $\ell_k$ proportional to the centre index. Linear coefficient patterns have zero second difference, so the penalty is unchanged for every t (Figure~\ref{fig:mechanism}b). With Gaussian bumps on a regular grid, the pattern produces a nearly affine function: over the central 80\% of the input range it deviates from a straight line by at most 2\% of its range (Figure~\ref{fig:mechanism}a), and by up to 13\% near the grid edges. Edge 1 thus gains approximately $t\,a\,x_1$ and edge 2 loses $t\,a\,x_2$.
 
-\textbf{Step 2: a direction the data cannot see.} The unit's pre-activation changes by approximately $t\,a\,(x_1 - x_2)$. If $x_{1}$ and $x_{2}$ are strongly correlated, $x_1 - x_2$ is small wherever the data lie, so predictions change little even for large t (Figure~\ref{fig:mechanism}c). The direction is nearly free in both the penalty and the data.
+\textbf{Step 2: a direction the data cannot see.} The unit's pre-activation changes by approximately $t\,a\,(x_1 - x_2)$. If $x_{1}$ and $x_{2}$ are strongly correlated, $x_1 - x_2$ is small wherever the data lie, so predictions change little even for large t (Figure~\ref{fig:mechanism}c). The direction is nearly free in both the penalty and the data. This is concurvity (Section 2) inside a KAN unit. In an additive model, the same direction between collinear linear terms is flat but not tilted, so the fit stays bounded; what makes the KAN case worse is the trained nonlinear layer, which tilts it (Steps 3 and 4).
 
 
 \begin{figure}[t]
@@ -160,7 +160,7 @@ Medians over 8 seeds; growth is the squared parameter norm, polished over early-
   \item The runaway spread across both layers: 30--40\% of the parameter change went into layer-1 affine RBF coefficients, 37--38\% into SiLU weights and 19--31\% into layer-2 affine coefficients (post-hoc), and 12--39\% of hidden units saturated. In the synthetic runaway the output layer dominated and no unit saturated, so saturation is not needed for the mechanism.
 \end{itemize}
 
-\textbf{Extrapolation suffered.} Polishing beyond early stopping raised fold A's RMSE from 0.142 to 0.81 with no null-space penalty and to 1.03 under a weak one ($\mu$ = $10^{-6}$); a stronger one ($\mu$ = $10^{-4}$) held it at 0.33 (Section 9). Fold A was used repeatedly during development, so it is not an untouched test set: the 107-epoch stopping point was chosen using its own held-out rows (and fold B's), which favours the early-stopped model here, and its 635 rows are one salt from one article (Appendix H). Fold A's co-solvent lies outside the training data's descriptor hull (Appendix~\ref{app:supp}, Figure~\ref{fig:applicability}c), although on the correlation pattern of dielectric constant and viscosity. Within the fold, the damage scales with the co-solvent fraction: the learned correction enters as $x_{\mathrm{co}}\, h$, so any change polishing makes to h is magnified where $x_{\mathrm{co}}$ is large (descriptive; Appendix~\ref{app:supp}, Figure~\ref{fig:applicability}a, b). Decomposing predictions into edge contributions shows the cancellation directly: on fold A a larger share of the opposing output-edge contributions survives than on training rows, already at early stopping (net-to-total ratio 0.59 against 0.31) and after polishing (0.12 against 0.06; post hoc, Appendix B). Across the co-solvent folds with at least 20 test rows, no distance measure distinguishably predicted where errors were large, and a planned predictive follow-up was dropped because its pre-stated precondition was not met. The degradation was much stronger than in the synthetic study, where correlation itself caused most of the off-pattern error (Section 11).
+\textbf{Extrapolation suffered.} Polishing beyond early stopping raised fold A's RMSE from 0.142 to 0.81 with no null-space penalty and to 1.03 under a weak one ($\mu$ = $10^{-6}$); a stronger one ($\mu$ = $10^{-4}$) held it at 0.33 (Section 9). Fold A was used repeatedly during development, so it is not an untouched test set: the 107-epoch stopping point was chosen using its own held-out rows (and fold B's), which favours the early-stopped model here, and its 635 rows are one salt from one article (Appendix H). Fold A's co-solvent lies outside the training data's descriptor hull (Appendix~\ref{app:supp}, Figure~\ref{fig:applicability}c), although on the correlation pattern of dielectric constant and viscosity. Within the fold, the damage scales with the co-solvent fraction: the learned correction enters as $x_{\mathrm{co}}\, h$, so any change polishing makes to h is magnified where $x_{\mathrm{co}}$ is large (descriptive; Appendix~\ref{app:supp}, Figure~\ref{fig:applicability}a, b). Decomposing predictions into edge contributions shows the cancellation directly: on fold A a larger share of the opposing output-edge contributions survives than on training rows, already at early stopping (net-to-total ratio 0.59 against 0.31) and after polishing without the null-space penalty (0.12 against 0.06; post hoc, Appendix B). Split by parameter block, the blind-direction part of the polishing change is not free on its own: applied alone it raises the ensembles' training and fold A RMSE above 2.9, and the rest of the change cancels most of that on training rows but less on fold A, consistent with the curved valley of Section 6. Polishing also turns the temperature dependence the wrong way on 25--33\% of fold A rows, mostly at low temperature and high $x_{\mathrm{co}}$ (0.3\% at early stopping, 5\% at $\mu$ = $10^{-4}$; both post hoc, Appendix F.8). Across the co-solvent folds with at least 20 test rows, no distance measure distinguishably predicted where errors were large, and a planned predictive follow-up was dropped because its pre-stated precondition was not met. The degradation was much stronger than in the synthetic study, where correlation itself caused most of the off-pattern error (Section 11).
 
 \section{Is the minimum at infinity?}\label{sec:6}
 
@@ -250,7 +250,7 @@ Under a second-order certificate, all six seeds at $\mu$ = $10^{-4}$ were certif
 
 Against a regularised teacher, students recover its units and edges well, and the null-space penalty partly acts as gauge fixing (post hoc; Appendix F.3).
 
-\textbf{Convergence is not uniqueness.} Independent seeds at certified minima still disagreed: their median prediction difference fell by only 26\% (Appendix~\ref{app:supp}, Figure~\ref{fig:uniqueness}b). With the runaway removed, the loss has several distinct isolated minima.
+\textbf{Convergence is not uniqueness.} Independent seeds at certified minima still disagreed: their median prediction difference fell by only 26\% (Appendix~\ref{app:supp}, Figure~\ref{fig:uniqueness}b). With the runaway removed, the loss has several distinct isolated minima. At the certified $\mu$ = $10^{-4}$ minima, matched edge functions correlate at a median 0.37, and at 0.43 with their blind-direction parts removed, whereas early-stopped edges agree mainly in their blind parts (0.49, falling to 0.01 once those are removed): the remaining disagreement is functional, not a matter of the affine null space (post hoc; Appendix F.8).
 
 \textbf{Three kinds of flatness.} Exact symmetries are flat by construction and excluded analytically (Section 8). Near-flat directions from poor conditioning are not harmless: certified points with many of them can be degenerate, and one real-data point that passed the certificate kept descending on a longer restart while its squared norm grew 6.7-fold. We therefore report the number of near-flat directions with every certificate and probe degenerate points before counting them as minima. Certified is not unique, and not necessarily good: some certified minima lie at higher loss than points the regularisation path finds at smaller norm.
 
@@ -266,9 +266,27 @@ Against a regularised teacher, students recover its units and edges well, and th
   \item \textbf{Check input correlations, including between hidden units.} Strongly correlated or few-valued inputs make a trained nonlinear layer vulnerable, and hidden units that become correlated expose the next layer.
   \item \textbf{Judge convergence by certification, not by norms or the loss.} Large growth can end at a finite minimum; a runaway is growth that never reaches a certified one. Report the number of near-flat directions with every certificate, and probe degenerate points before calling them minima.
   \item \textbf{Do not read edges from unconverged models.} Compare edges across seeds only after removing exact symmetries, and only for models at certified minima.
-  \item \textbf{Treat seed disagreement as information.} Even at certified minima, distinct solutions remain; disagreement then signals that the data do not determine the function, not merely that training was unfinished.
-  \item \textbf{Validate on genuinely new conditions, and keep early stopping as a baseline.} A held-out fold from the training distribution can understate extrapolation error severalfold; in our real-data case, early stopping gave the best held-out accuracy of every variant tested, though its stopping point was selected on that fold. When extrapolative accuracy matters most, keep it; when the aim is to read edges, close the null space, accept its training-loss cost, and compare certified seeds.
+  \item \textbf{Validate on genuinely new conditions.} A held-out fold from the training distribution can understate extrapolation error severalfold.
 \end{enumerate}
+
+\textbf{Choosing by goal.} Early stopping and the null-space penalty serve different aims:
+
+\begin{table}[t]
+  \centering
+  % CAPTION-DRAFT: review
+  \caption{Choosing by goal (the draft's own table; no generated values).}
+  \label{tab:goals}
+  \small
+  \begin{tabular}{p{0.28\linewidth} p{0.64\linewidth}}
+  \toprule
+  Goal & What to do \\
+  \midrule
+  Best held-out accuracy & Keep early stopping as the baseline: in our real-data case it was the most accurate variant, though its stopping point was selected on that fold \\
+  Reading or comparing edges & Close the null space and penalise biases and embeddings, accept the training-loss cost, certify, and compare edges across certified seeds; remaining disagreement then signals that the data do not determine the function \\
+  Diagnosing a trained model & Certify, count near-flat directions, and check correlations between inputs and between hidden units \\
+  \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Limitations and research process}\label{sec:11}
 
@@ -282,7 +300,7 @@ Against a regularised teacher, students recover its units and edges well, and th
   \item The null-space weight in the shared-curve model was carried over from the synthetic calibration.
 \end{itemize}
 
-\textbf{Post-hoc elements.} The analyses listed in Appendix B were defined after seeing results; we report them as exploratory, never in place of pre-registered verdicts, and say where their rules were fixed before computing.
+\textbf{Post-hoc elements.} The analyses listed in Appendix B were defined after seeing results; we report them as exploratory, never in place of pre-registered verdicts, and say where their rules were fixed before computing. One review-stage decomposition on the development fold did not show the signature its plan expected (Section 5).
 
 \textbf{Open questions.} A theory of the tilted valley (its curvature, its rate of recession, and when a distant finite minimum exists instead) is open. So are combining the null-space penalty with a concurvity regulariser (Siems et al., 2023), quantifying how much of the residual seed disagreement at certified minima matters scientifically, and checking whether runaway edges violate known electrolyte physics.
 

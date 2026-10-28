@@ -52,3 +52,79 @@ Let L be continuous and bounded below, and R $\geq$ 0 continuous and coercive (R
 \subsection{Robustness of the regularisation path (post hoc)}\label{app:F7}
 
 Polishing from independent cold starts found no small-norm basin at any $\gamma$; at $\gamma$ = $10^{-7}$ under P1, 8 of 9 cold starts reached a \emph{lower} regularised objective than the warm path, at a larger norm. The warm path therefore understates the divergence. A straight line along the final drift direction rises almost at once: the minimisers recede along a curved valley, not along a ray. The growth sits in the penalty's blind directions, the affine RBF coefficients and SiLU weights of both layers, while the curved coefficients and the salt embedding shrink.
+
+\subsection{Attribution, sign checks and edge agreement on fold A (post hoc)}\label{app:F8}
+
+Three decompositions on the archived weights, with their plan committed before computing. (i) Splitting each polishing change into its blind-direction part (the edge-wise null-space projection of the RBF-coefficient change plus the SiLU-weight change) and the remainder, and applying each alone to the early-stopped model: the plan expected the blind part to be nearly free on training rows and costly on fold A. It was not: alone it raises both the ensembles' training and fold A RMSE above 2.9 (single seeds vary), and the remainder offsets most of that on training rows and less on fold A. On fold A the interaction is large and negative ($-$3.2 at $\mu$ = 0, $-$2.9 at $\mu$ = $10^{-6}$); on training rows it cannot be read as a share of the damage, because polishing lowers the training error. (ii) The sign of d log k/d(1000/T), row by row with the other inputs at their observed values: the anchor supplies the expected sign on almost every row, while polishing turns it on 25--33\% of fold A rows at the weaker penalties (0.3\% at early stopping, 5\% at $\mu$ = $10^{-4}$), concentrated at low temperature and high $x_{\mathrm{co}}$; the viscosity sign shows no clean ordering across states, although at $\mu$ = $10^{-4}$ its fold A violations sit almost entirely in the highest-$x_{\mathrm{co}}$ third. (iii) Correlations of matched edge functions across seeds, with and without each edge's blind-direction part. The tables are generated from the results file.
+
+\begin{table}[h]
+  \centering
+  % CAPTION-DRAFT: review (generated from paper2/revision/review4\_results.json)
+  \caption{Post hoc: attribution of the fold A damage. RMSE (log k) of the 5-seed ensemble and of each seed, applying the blind-direction part or the remainder of the polishing change alone to the early-stopped model. On training rows the total change is negative, so no shares are given there.}
+  \label{tab:r4attr}
+  \footnotesize\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{l l r p{0.27\linewidth} r p{0.27\linewidth}}
+  \toprule
+   & State & Fold A & Fold A, seeds 0--4 & Training & Training, seeds 0--4 \\
+  \midrule
+  $\mu = 0$ & early & 0.1420 & 0.143, 0.137, 0.146, 0.199, 0.155 & 0.1290 & 0.134, 0.133, 0.141, 0.123, 0.129 \\
+   & early + blind & 2.9110 & 1.053, 8.166, 0.760, 6.218, 1.869 & 3.6268 & 1.731, 11.573, 1.949, 8.481, 3.292 \\
+   & early + remainder & 0.2141 & 1.304, 0.209, 0.203, 0.931, 1.044 & 0.2629 & 1.435, 0.298, 0.334, 0.847, 1.027 \\
+   & polished & 0.8147 & 0.773, 0.968, 1.264, 1.337, 1.388 & 0.0801 & 0.084, 0.084, 0.072, 0.087, 0.087 \\
+   & \emph{fold A shares} & blind 4.12 & remainder 0.11, interaction -3.22 &  &  \\
+  $\mu = 10^{-6}$ & early & 0.1420 & 0.143, 0.137, 0.146, 0.199, 0.155 & 0.1290 & 0.134, 0.133, 0.141, 0.123, 0.129 \\
+   & early + blind & 3.4938 & 0.471, 6.622, 6.300, 5.398, 1.746 & 3.0119 & 1.407, 7.487, 3.585, 6.741, 1.501 \\
+   & early + remainder & 0.2344 & 0.980, 0.441, 0.550, 1.074, 0.751 & 0.3054 & 1.089, 0.501, 0.642, 1.264, 0.823 \\
+   & polished & 1.0262 & 0.573, 0.739, 1.028, 0.883, 2.688 & 0.0845 & 0.086, 0.085, 0.085, 0.089, 0.087 \\
+   & \emph{fold A shares} & blind 3.79 & remainder 0.10, interaction -2.90 &  &  \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  % CAPTION-DRAFT: review (generated from paper2/revision/review4\_results.json)
+  \caption{Post hoc: share of rows whose derivative has the unexpected (positive, $> 10^{-9}$) sign, 5-seed ensembles, overall and by thirds of $x_{\mathrm{co}}$ and of temperature (low to high) within each row set.}
+  \label{tab:r4sign}
+  \footnotesize\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{l l l r r r r r r r}
+  \toprule
+  Rows & State & Derivative & Share & $x_{\mathrm{co}}$ low & mid & high & $T$ low & mid & high \\
+  \midrule
+  training & early & $\partial\log k/\partial(1000/T)$ & 0.001 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.318 & 0.11 & 0.39 & 0.60 & 0.21 & 0.38 & 0.38 \\
+   & $\mu = 0$ & $\partial\log k/\partial(1000/T)$ & 0.003 & 0.00 & 0.00 & 0.01 & 0.00 & 0.00 & 0.01 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.158 & 0.05 & 0.25 & 0.19 & 0.23 & 0.13 & 0.11 \\
+   & $\mu = 10^{-6}$ & $\partial\log k/\partial(1000/T)$ & 0.003 & 0.00 & 0.00 & 0.01 & 0.00 & 0.00 & 0.01 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.265 & 0.18 & 0.35 & 0.28 & 0.32 & 0.25 & 0.22 \\
+   & $\mu = 10^{-4}$ & $\partial\log k/\partial(1000/T)$ & 0.003 & 0.00 & 0.00 & 0.01 & 0.01 & 0.00 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.071 & 0.02 & 0.01 & 0.28 & 0.12 & 0.05 & 0.03 \\
+  fold A & early & $\partial\log k/\partial(1000/T)$ & 0.003 & 0.00 & 0.00 & 0.01 & 0.01 & 0.00 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.143 & 0.00 & 0.00 & 0.49 & 0.18 & 0.14 & 0.10 \\
+   & $\mu = 0$ & $\partial\log k/\partial(1000/T)$ & 0.249 & 0.17 & 0.22 & 0.39 & 0.59 & 0.09 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.072 & 0.01 & 0.05 & 0.19 & 0.19 & 0.00 & 0.01 \\
+   & $\mu = 10^{-6}$ & $\partial\log k/\partial(1000/T)$ & 0.334 & 0.13 & 0.38 & 0.58 & 0.65 & 0.25 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.266 & 0.32 & 0.14 & 0.32 & 0.41 & 0.18 & 0.21 \\
+   & $\mu = 10^{-4}$ & $\partial\log k/\partial(1000/T)$ & 0.054 & 0.00 & 0.03 & 0.15 & 0.15 & 0.00 & 0.00 \\
+   &  & $\partial\log k/\partial\ln\eta_{\mathrm{mix}}$ & 0.342 & 0.00 & 0.17 & 0.99 & 0.36 & 0.34 & 0.33 \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  % CAPTION-DRAFT: review (generated from paper2/revision/review4\_results.json)
+  \caption{Post hoc: correlation of matched layer-1 edge functions across the 15 seed pairs (all 2069 training rows), the 8 continuous inputs and the combined salt edge, with and without each edge's blind-direction part; prediction-level $d_{AB}$ beside (certified: committed; early-stopped: computed with the committed definition).}
+  \label{tab:r4edge}
+  \footnotesize\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{l l r l r r r}
+  \toprule
+  Seeds & Version & Median & Range & $n$ & Salt edge & $d_{AB}$ \\
+  \midrule
+  early-stopped & full edges & +0.485 & -1.000 to +1.000 & 720 & +0.271 & 0.1220 \\
+   & blind part removed & +0.013 & -1.000 to +1.000 & 720 & +0.142 &  \\
+  certified $\mu = 10^{-4}$ & full edges & +0.372 & -1.000 to +1.000 & 720 & -0.190 & 0.0771 \\
+   & blind part removed & +0.429 & -1.000 to +1.000 & 720 & -0.278 &  \\
+  \bottomrule
+  \end{tabular}
+\end{table}

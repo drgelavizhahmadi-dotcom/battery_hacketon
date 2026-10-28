@@ -312,6 +312,7 @@ FIG_AFTER = {  # place the figure after the paragraph that starts with (order = 
 TABLE_CAPTIONS = [  # CAPTION-DRAFT: short titles only; the draft's own notes stay in the text
     ("tab:synthetic", "Synthetic $2\\times3$ study, per cell."),
     ("tab:dose", "Dose-response in $\\mu$ on real data (seeds)."),
+    ("tab:goals", "Choosing by goal (the draft's own table; no generated values)."),
     ("tab:alternatives", "Structured alternatives against the early-stopped baseline."),
 ]
 
@@ -362,7 +363,10 @@ TABLE_DIFFS = []
 
 def merge_table(label, typed_rows):
     """generated values replace the typed ones; text columns (None) keep the draft's wording; every difference is recorded"""
-    gen = gen_tables()[label]
+    gt = gen_tables()
+    if label not in gt:                               # a text-only table of the draft: kept as typed
+        return typed_rows
+    gen = gt[label]
     head = typed_rows[0]
     typed = [cells(r) for r in typed_rows[2:]]
     assert len(gen) == len(typed), (label, len(gen), len(typed))
@@ -397,6 +401,8 @@ def table_tex(rows, label, caption):
     spec = "l" + "l" * (n - 1) if n <= 4 else "l" + "p{0.2\\linewidth}" * (n - 1)
     if label == "tab:alternatives":
         spec = "l p{0.24\\linewidth} l l p{0.16\\linewidth}"
+    if label == "tab:goals":
+        spec = "p{0.28\\linewidth} p{0.64\\linewidth}"
     if label == "tab:dose":
         spec = "l l p{0.18\\linewidth} l p{0.16\\linewidth}"
     out = [f"\\begin{{table}}[{'h' if label == 'tab:alternatives' else 't'}]\n  \\centering\n  % CAPTION-DRAFT: review\n  \\caption{{{caption}}}\n  \\label{{{label}}}\n  \\small\n  \\begin{{tabular}}{{{spec}}}\n  \\toprule"]
@@ -405,6 +411,50 @@ def table_tex(rows, label, caption):
         out.append("  " + " & ".join(inline(c) for c in cells(r)) + " \\\\")
     out.append("  \\bottomrule\n  \\end{tabular}\n\\end{table}")
     return "\n".join(out)
+
+
+R4 = "paper2/revision/review4_results.json"
+
+
+def r4_table(label, caption, spec, head, rows):
+    return ("\\begin{table}[h]\n  \\centering\n  % CAPTION-DRAFT: review (generated from " + R4.replace("_", "\\_") + ")\n"
+            f"  \\caption{{{caption}}}\n  \\label{{{label}}}\n  \\footnotesize\\setlength{{\\tabcolsep}}{{3pt}}\n  \\begin{{tabular}}{{{spec}}}\n  \\toprule\n  "
+            + " & ".join(head) + " \\\\\n  \\midrule\n" + "\n".join("  " + " & ".join(r) + " \\\\" for r in rows)
+            + "\n  \\bottomrule\n  \\end{tabular}\n\\end{table}\n")
+
+
+def review4_tables():
+    R = jload(R4); c = first_commit(R4)
+    i1, i2, i3 = R["item1"], R["item2"], R["item3"]
+    mu = {"mu = 0": "$\\mu = 0$", "mu = 1e-6": "$\\mu = 10^{-6}$", "mu = 1e-4": "$\\mu = 10^{-4}$", "early": "early"}
+    rows = []
+    for st in ("mu = 0", "mu = 1e-6"):
+        r = i1[st]["rmse"]
+        for lab in ("early", "early + blind", "early + remainder", "polished"):
+            seeds = lambda k: ", ".join(f"{x:.3f}" for x in r[lab][k]["per_seed"])
+            rows.append([mu[st] if lab == "early" else "", lab, f"{r[lab]['foldA']['ensemble']:.4f}", seeds("foldA"), f"{r[lab]['train']['ensemble']:.4f}", seeds("train")])
+        f = i1[st]["fractions"]
+        rows.append(["", "\\emph{fold A shares}", f"blind {f['foldA']['ensemble']['f_blind']:.2f}", f"remainder {f['foldA']['ensemble']['f_rem']:.2f}, interaction {f['foldA']['ensemble']['interaction']:+.2f}", "", ""])
+    t1 = r4_table("tab:r4attr", f"Post hoc: attribution of the fold A damage. RMSE (log k) of the 5-seed ensemble and of each seed, applying the blind-direction part or the remainder of the polishing change alone to the early-stopped model. On training rows the total change is negative, so no shares are given there.",
+                  "l l r p{0.27\\linewidth} r p{0.27\\linewidth}", ["", "State", "Fold A", "Fold A, seeds 0--4", "Training", "Training, seeds 0--4"], rows)
+    rows = []
+    for rs, rl in (("train", "training"), ("foldA", "fold A")):
+        for st in ("early", "mu = 0", "mu = 1e-6", "mu = 1e-4"):
+            for key, dl in (("dlogk_dinvT_total", "$\\partial\\log k/\\partial(1000/T)$"), ("dlogk_dlneta_mix", "$\\partial\\log k/\\partial\\ln\\eta_{\\mathrm{mix}}$")):
+                v = i2[rs][st][key]
+                rows.append([rl if (st == "early" and key.endswith("total")) else "", mu[st] if key.endswith("total") else "", dl, f"{v['share_violating']:.3f}",
+                             *[f"{x:.2f}" for x in v["by_tercile"]["x_co"]], *[f"{x:.2f}" for x in v["by_tercile"]["T"]]])
+    t2 = r4_table("tab:r4sign", f"Post hoc: share of rows whose derivative has the unexpected (positive, $> 10^{{-9}}$) sign, 5-seed ensembles, overall and by thirds of $x_{{\\mathrm{{co}}}}$ and of temperature (low to high) within each row set.",
+                  "l l l r r r r r r r", ["Rows", "State", "Derivative", "Share", "$x_{\\mathrm{co}}$ low", "mid", "high", "$T$ low", "mid", "high"], rows)
+    rows = []
+    for k, lab in (("early-stopped", "early-stopped"), ("certified mu = 1e-4", "certified $\\mu = 10^{-4}$")):
+        for ver, vl in (("full", "full edges"), ("curved", "blind part removed")):
+            cc = i3[k]["summary"][ver]["continuous"]; sl = i3[k]["summary"][ver]["salt"]
+            rows.append([lab if ver == "full" else "", vl, f"{cc['median']:+.3f}", f"{cc['min']:+.3f} to {cc['max']:+.3f}", str(cc["n"]), f"{sl['median']:+.3f}" if sl else "--",
+                         f"{i3[k]['dAB']['median']:.4f}" if ver == "full" else ""])
+    t3 = r4_table("tab:r4edge", f"Post hoc: correlation of matched layer-1 edge functions across the 15 seed pairs (all 2069 training rows), the 8 continuous inputs and the combined salt edge, with and without each edge's blind-direction part; prediction-level $d_{{AB}}$ beside (certified: committed; early-stopped: computed with the committed definition).",
+                  "l l r l r r r", ["Seeds", "Version", "Median", "Range", "$n$", "Salt edge", "$d_{AB}$"], rows)
+    return t1 + "\n" + t2 + "\n" + t3
 
 
 def build_body(cap):
@@ -446,6 +496,8 @@ def build_body(cap):
             out.append(f"\\subsection{{{inline(mf.group(2))}}}\\label{{app:F{mf.group(1)}}}\n")
             if mf.group(3).strip():
                 out.append(refs(inline(mf.group(3).strip())) + "\n")
+            if mf.group(1) == "8":
+                out.append(review4_tables())                  # generated from paper2/revision/review4_results.json
             continue
         if first.startswith("## Abstract"):
             in_abs = True; continue
