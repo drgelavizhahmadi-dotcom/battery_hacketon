@@ -1,0 +1,90 @@
+####################################################################################################
+paper2/revision/review4.py: review-4 analysis bundle (POST-HOC, DESCRIPTIVE; plan review4_plan.md); no training
+####################################################################################################
+DISCREPANCIES with the plan (files win):
+  D1 item 3: the committed decomposition (gauge.layer0_edges) sums the two salt-embedding edges into one salt edge; the plan's
+     'two salt-embedding coordinates reported separately' is therefore the one combined salt edge, reported apart from the 8 inputs
+  D2 item 1: on training rows the total change (polished minus early) is negative (polishing lowers training RMSE), so the
+     training-row fractions divide by a small negative number and are not interpretable as shares; they are printed as computed
+  D3 item 2: the ensemble's violating share can lie outside the per-seed range (the ensemble derivative is the seed mean)
+  integrity: fold A ensemble RMSE early 0.1420 (logged 0.1420), mu = 0 0.8147 (logged 0.8147), mu = 1e-6 1.0262 (logged 1.0262), mu = 1e-4 0.3345 (logged 0.3345)
+
+==================== 1. attribution of the fold A damage (POST-HOC) ====================
+
+  mu = 0 (early + blind + remainder = polished to 8.9e-16)
+  state                fold A RMSE (ens; seeds)                         training RMSE (ens; seeds)                      
+  early                0.1420 (0.143, 0.137, 0.146, 0.199, 0.155)       0.1290 (0.134, 0.133, 0.141, 0.123, 0.129)      
+  early + blind        2.9110 (1.053, 8.166, 0.760, 6.218, 1.869)       3.6268 (1.731, 11.573, 1.949, 8.481, 3.292)     
+  early + remainder    0.2141 (1.304, 0.209, 0.203, 0.931, 1.044)       0.2629 (1.435, 0.298, 0.334, 0.847, 1.027)      
+  polished             0.8147 (0.773, 0.968, 1.264, 1.337, 1.388)       0.0801 (0.084, 0.084, 0.072, 0.087, 0.087)      
+  foldA  ensemble: total damage +0.6727; blind alone 4.116, remainder alone 0.107, interaction -3.223  -> the effect is not additive | per seed f_blind 1.44, 9.66, 0.55, 5.29, 1.39
+  train  ensemble: total damage -0.0489; blind alone -71.515, remainder alone -2.736, interaction +75.252  -> the effect is not additive | per seed f_blind -32.33, -232.75, -26.33, -229.78, -75.43
+  reading: early + blind changes the training RMSE by +3.4977 and carries f_blind = 4.116 of the fold A damage -> the plan's condition for 'nearly free on training rows and costly on fold A' is not met; reported as found
+
+  mu = 1e-6 (early + blind + remainder = polished to 2.2e-16)
+  state                fold A RMSE (ens; seeds)                         training RMSE (ens; seeds)                      
+  early                0.1420 (0.143, 0.137, 0.146, 0.199, 0.155)       0.1290 (0.134, 0.133, 0.141, 0.123, 0.129)      
+  early + blind        3.4938 (0.471, 6.622, 6.300, 5.398, 1.746)       3.0119 (1.407, 7.487, 3.585, 6.741, 1.501)      
+  early + remainder    0.2344 (0.980, 0.441, 0.550, 1.074, 0.751)       0.3054 (1.089, 0.501, 0.642, 1.264, 0.823)      
+  polished             1.0262 (0.573, 0.739, 1.028, 0.883, 2.688)       0.0845 (0.086, 0.085, 0.085, 0.089, 0.087)      
+  foldA  ensemble: total damage +0.8842; blind alone 3.791, remainder alone 0.105, interaction -2.895  -> the effect is not additive | per seed f_blind 0.76, 10.77, 6.97, 7.60, 0.63
+  train  ensemble: total damage -0.0445; blind alone -64.747, remainder alone -3.961, interaction +69.708  -> the effect is not additive | per seed f_blind -26.70, -152.97, -60.99, -189.61, -32.89
+  reading: early + blind changes the training RMSE by +2.8829 and carries f_blind = 3.791 of the fold A damage -> the plan's condition for 'nearly free on training rows and costly on fold A' is not met; reported as found
+
+==================== 2. physics consistency (POST-HOC; a consistency check, not a test of a transport law) ====================
+  scaler factors (positive, so signs are unit-free): d/d(1000/T) x 1.184, d/d(ln eta_mix) x 0.8715
+  train  early     : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.001 (0.001-0.004) | -1.0536 | x_co terciles 0.00, 0.00, 0.00 | T terciles 0.00, 0.00, 0.00
+     dlogk_dinvT_model_part   0.737 (0.644-0.795) | +0.0473 | x_co terciles 0.79, 0.61, 0.86 | T terciles 0.95, 0.75, 0.45   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.318 (0.106-0.694) | -0.0196 | x_co terciles 0.11, 0.39, 0.60 | T terciles 0.21, 0.38, 0.38
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 1.1e-05
+  train  mu = 0    : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.003 (0.002-0.010) | -1.0487 | x_co terciles 0.00, 0.00, 0.01 | T terciles 0.00, 0.00, 0.01
+     dlogk_dinvT_model_part   0.693 (0.616-0.685) | +0.0165 | x_co terciles 0.65, 0.62, 0.90 | T terciles 0.74, 0.81, 0.47   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.158 (0.172-0.716) | -0.6563 | x_co terciles 0.05, 0.25, 0.19 | T terciles 0.23, 0.13, 0.11
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 5.9e-05
+  train  mu = 1e-6 : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.003 (0.002-0.013) | -1.0510 | x_co terciles 0.00, 0.00, 0.01 | T terciles 0.00, 0.00, 0.01
+     dlogk_dinvT_model_part   0.674 (0.618-0.676) | +0.0182 | x_co terciles 0.69, 0.54, 0.87 | T terciles 0.76, 0.73, 0.49   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.265 (0.165-0.931) | -0.4286 | x_co terciles 0.18, 0.35, 0.28 | T terciles 0.32, 0.25, 0.22
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 3.7e-05
+  train  mu = 1e-4 : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.003 (0.001-0.006) | -1.0334 | x_co terciles 0.00, 0.00, 0.01 | T terciles 0.01, 0.00, 0.00
+     dlogk_dinvT_model_part   0.705 (0.652-0.697) | +0.0249 | x_co terciles 0.72, 0.61, 0.83 | T terciles 0.79, 0.71, 0.59   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.071 (0.073-0.198) | -0.1641 | x_co terciles 0.02, 0.01, 0.28 | T terciles 0.12, 0.05, 0.03
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 1.8e-04
+  train: 1434 rows; anchor slope unavailable for 0; tercile row counts x_co [590, 535, 309], T [510, 531, 393]
+  foldA  early     : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.003 (0.003-0.009) | -0.8003 | x_co terciles 0.00, 0.00, 0.01 | T terciles 0.01, 0.00, 0.00
+     dlogk_dinvT_model_part   0.797 (0.757-0.849) | +0.1787 | x_co terciles 0.79, 0.84, 0.76 | T terciles 1.00, 1.00, 0.12   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.143 (0.181-0.435) | -0.0618 | x_co terciles 0.00, 0.00, 0.49 | T terciles 0.18, 0.14, 0.10
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 3.4e-05
+  foldA  mu = 0    : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.249 (0.071-0.454) | -0.4377 | x_co terciles 0.17, 0.22, 0.39 | T terciles 0.59, 0.09, 0.00
+     dlogk_dinvT_model_part   0.787 (0.682-0.890) | +0.5826 | x_co terciles 0.83, 0.75, 0.77 | T terciles 0.97, 1.00, 0.12   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.072 (0.079-0.901) | -1.6079 | x_co terciles 0.01, 0.05, 0.19 | T terciles 0.19, 0.00, 0.01
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 2.1e-05
+  foldA  mu = 1e-6 : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.334 (0.031-0.537) | -0.3934 | x_co terciles 0.13, 0.38, 0.58 | T terciles 0.65, 0.25, 0.00
+     dlogk_dinvT_model_part   0.770 (0.608-0.803) | +0.6406 | x_co terciles 0.79, 0.75, 0.76 | T terciles 1.00, 1.00, 0.00   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.266 (0.052-0.981) | -0.2476 | x_co terciles 0.32, 0.14, 0.32 | T terciles 0.41, 0.18, 0.21
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 2.5e-05
+  foldA  mu = 1e-4 : share violating (ensemble; seed range) | median:
+     dlogk_dinvT_total        0.054 (0.035-0.148) | -0.7712 | x_co terciles 0.00, 0.03, 0.15 | T terciles 0.15, 0.00, 0.00
+     dlogk_dinvT_model_part   0.809 (0.655-0.816) | +0.1773 | x_co terciles 0.81, 0.80, 0.82 | T terciles 1.00, 1.00, 0.17   (no expected sign for the correction alone)
+     dlogk_dlneta_mix         0.342 (0.244-0.600) | -0.0729 | x_co terciles 0.00, 0.17, 0.99 | T terciles 0.36, 0.34, 0.33
+     autograd vs central difference (50 rows per input and seed): max relative disagreement 1.2e-05
+  foldA: 635 rows; anchor slope unavailable for 0; tercile row counts x_co [260, 189, 186], T [227, 262, 146]
+
+==================== 3. residual edge disagreement (POST-HOC) ====================
+  integrity: certify_point re-certifies 6/6 of the mu = 1e-4 points; their d_AB median 0.0771 (committed 0.0771); early-stopped d_AB median 0.1220 (computed here; no all-rows value is committed)
+  early-stopped        edges             : continuous inputs median +0.485 (range -1.000 to +1.000, n 720, excluded 0); salt edge median +0.271
+      per input: x_co +0.41, eps_co +0.32, lneta_co +0.55, M_co +0.34, mix_eps +0.35, mix_lneta +0.61, invT +0.75, molal +0.39, salt (embedding) +0.27
+  early-stopped        blind part removed: continuous inputs median +0.013 (range -1.000 to +1.000, n 720, excluded 0); salt edge median +0.142
+      per input: x_co +0.02, eps_co -0.11, lneta_co -0.40, M_co -0.05, mix_eps +0.21, mix_lneta +0.36, invT +0.10, molal +0.29, salt (embedding) +0.14
+  early-stopped        prediction-level d_AB median 0.1220 (range 0.1091-0.1491; computed here (committed definition))
+  certified mu = 1e-4  edges             : continuous inputs median +0.372 (range -1.000 to +1.000, n 720, excluded 0); salt edge median -0.190
+      per input: x_co +0.22, eps_co +0.78, lneta_co +0.97, M_co -0.12, mix_eps +0.61, mix_lneta +0.37, invT +0.36, molal -0.45, salt (embedding) -0.19
+  certified mu = 1e-4  blind part removed: continuous inputs median +0.429 (range -1.000 to +1.000, n 720, excluded 0); salt edge median -0.278
+      per input: x_co +0.33, eps_co +0.37, lneta_co +1.00, M_co +0.58, mix_eps +0.61, mix_lneta +0.12, invT +0.16, molal -0.60, salt (embedding) -0.28
+  certified mu = 1e-4  prediction-level d_AB median 0.0771 (range 0.0635-0.0842; certify_output.txt (committed 0.0771))
